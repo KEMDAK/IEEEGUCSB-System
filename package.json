@@ -1,0 +1,31 @@
+{
+  "name": "ieee_guc_sb_online_system",
+  "version": "1.0.0",
+  "description": "Backend API for IEEE GUC SB online system to manage interactions with all related applications and includes the API required to all main application functionalities and Database management.",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/KEMDAK/IEEEGUCSB-System.git"
+  },
+  "author": "IEEE GUC SB Tech Development",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/KEMDAK/IEEEGUCSB-System/issues"
+  },
+  "homepage": "https://github.com/KEMDAK/IEEEGUCSB-System#readme",
+  "dependencies": {
+    "bcrypt-nodejs": "0.0.3",
+    "body-parser": "^1.15.2",
+    "dotenv": "^2.0.0",
+    "express": "^4.14.0",
+    "express-validator": "^2.20.10",
+    "jsonwebtoken": "^7.1.9",
+    "method-override": "^2.3.6",
+    "mysql": "^2.11.1",
+    "sequelize": "^3.24.3"
+  }
+}
