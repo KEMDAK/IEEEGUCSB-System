@@ -1,5 +1,5 @@
-var User = require('../app/models/User').user;
-var Identity = require('../app/models/Identity').identity;
+var User = require('../../app/models/User').User;
+var Identity = require('../../app/models/Identity').Identity;
 
 /* User_Identity relation */
 User.hasMany(Identity, { as: 'Identities', foreignKey: { allowNull: false } });
