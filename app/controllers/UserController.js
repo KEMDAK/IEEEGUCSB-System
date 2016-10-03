@@ -79,8 +79,8 @@ module.exports.show = function(req, res, next) {
 
             var result;
             /** Return the detailed profile only if the requesting user is an upper board or a high board trying to view
-                one of his member's profile or if the rquesting user of trying to view his own profile.
-             */
+            one of his member's profile or if the rquesting user of trying to view his own profile.
+            */
             if ((user.isHighBoard() && myCommittee.id == requestedCommittee.id) || user.isUpperBoard() || user.id == id) {
                // detailed info
             }
@@ -131,4 +131,33 @@ module.exports.show = function(req, res, next) {
       next();
    });
 
+};
+
+/**
+ * This function stores the provided user in the database
+ * @param  {HTTP}   req  The request object
+ * @param  {HTTP}   res  The response object
+ * @param  {Function} next Callback function that is called once done with handling the request
+ */
+module.exports.store = function(req, res, next) {
+   /** validate the user information with the req with forms */
+
+
+   User.findOrCreate({ where : { email : req.body.email, password : req.body.password } }).then(function(user, created) {
+      res.status(200).json({
+         status: 'succeeded'
+      });
+
+      next();
+   }).catch(function(err) {
+      /* failed to save the user in the database */
+      res.status(500).json({
+         status:'failed',
+         message: 'Internal server error'
+      });
+
+      req.err = err;
+
+      next();
+   });
 };
