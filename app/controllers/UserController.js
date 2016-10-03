@@ -134,11 +134,11 @@ module.exports.show = function(req, res, next) {
 };
 
 /**
- * This function stores the provided user in the database
- * @param  {HTTP}   req  The request object
- * @param  {HTTP}   res  The response object
- * @param  {Function} next Callback function that is called once done with handling the request
- */
+* This function stores the provided user in the database
+* @param  {HTTP}   req  The request object
+* @param  {HTTP}   res  The response object
+* @param  {Function} next Callback function that is called once done with handling the request
+*/
 module.exports.store = function(req, res, next) {
    /** validate the user information with the req with forms */
 
@@ -151,6 +151,43 @@ module.exports.store = function(req, res, next) {
       next();
    }).catch(function(err) {
       /* failed to save the user in the database */
+      res.status(500).json({
+         status:'failed',
+         message: 'Internal server error'
+      });
+
+      req.err = err;
+
+      next();
+   });
+};
+
+/**
+* This function updates a user's information in the database
+* @param  {HTTP}   req  The request object
+* @param  {HTTP}   res  The response object
+* @param  {Function} next Callback function that is called once done with handling the request
+*/
+module.exports.update = function(req, res, next) {
+   /** validate the user information with the req with forms */
+
+   User.update({ type : req.body.type, first_name : req.body.first_name, last_name : req.body.last_name, birthday : req.body.birthday, gender : req.body.gender, email : req.body.email, password : req.body.password, IEEE_membership_ID : req.body.IEEE_membership_ID }, { where : { id : req.user.id } }).then(function(affected) {
+      if (affected[0] == 1) {
+         res.status(200).json({
+            status: 'succeeded',
+            message: 'user updated'
+         });
+      }
+      else {
+         res.status(404).json({
+            status:'failed',
+            message: 'The requested route was not found.'
+         });
+      }
+
+      next();
+   }).catch(function(err) {
+      /* failed to update the user in the database */
       res.status(500).json({
          status:'failed',
          message: 'Internal server error'
