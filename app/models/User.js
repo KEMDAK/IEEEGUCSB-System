@@ -15,10 +15,10 @@
 * @param  {sequelize} connection the instance of the sequelize Object
 * @ignore
 */
-
 module.exports.defineUser = function(sequelize) {
      var Sequelize = require("sequelize");
      var bcrypt = require('bcrypt-nodejs');
+
      module.exports.User = sequelize.define('user', {
           type: {
                type: Sequelize.ENUM('Admin', 'Upper Board', 'High Board', 'Member'),
@@ -56,6 +56,10 @@ module.exports.defineUser = function(sequelize) {
                type: Sequelize.STRING,
                unique: true,
                allowNull: true
+          },
+          reset_token: {
+              type: Sequelize.STRING(700),
+              allowNull: true
           }
      },
      {
@@ -103,4 +107,4 @@ module.exports.defineUser = function(sequelize) {
                }
           }
      });
-}
+};

@@ -17,8 +17,8 @@ module.exports.initialize = function(callback) {
 
      /* define the models */
     require('../../app/models/User').defineUser(sequelize);
-
     require('../../app/models/Identity').defineIdentity(sequelize);
+    require('../../app/models/Log').defineLog(sequelize);
 
     /* defining relation */
     require('./Relations');
