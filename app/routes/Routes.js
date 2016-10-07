@@ -2,6 +2,10 @@
 * This function configures the routes of the entire application.
 * @param  {express} app An instance of the express app to be configured.
 */
+
+var AuthController = require('../controllers/AuthController');
+var log            = require('../middlewares/LogMiddleware');
+
 module.exports = function(app) {
 
     /* initializing the log record */
