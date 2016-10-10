@@ -79,6 +79,7 @@ module.exports.save = function(req, res) {
     }
 
     if(req.err){
+        console.log(req.err);
         record.error_message = JSON.stringify(req.err);
     }
     else{

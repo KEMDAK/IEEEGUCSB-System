@@ -104,6 +104,23 @@ module.exports.defineUser = function(sequelize) {
                */
                isMember: function() {
                     return this.type === 'Member';
+               },
+               /**
+                * this function nreturns the user object.
+                * @return {Object} The user object.
+                */
+               toJSON: function() {
+                   var res = {};
+
+                   res.type = this.type;
+                   res.first_name = this.first_name;
+                   res.last_name = this.last_name;
+                   res.email = this.email;
+                   res.gender = this.gender;
+                   res.birthdate = this.birthdate;
+                   res.IEEE_membership_ID = this.IEEE_membership_ID;
+
+                   return res;
                }
           }
      });

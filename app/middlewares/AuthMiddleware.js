@@ -71,9 +71,9 @@ module.exports = function(req, res, next) {
         }).catch(function(err){
 
             /* failed to find the user in the database */
-            res.status(500).json({
+            res.status(401).json({
                 status:'failed',
-                message: 'Internal server error'
+                message: 'Authentication error, please log in again.'
             });
 
             req.err = err;

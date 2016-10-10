@@ -28,6 +28,21 @@ module.exports.login = function(req, res, next) {
     req.checkHeaders('user_agent', 'Enter a valid User Agent').isIn(['Web', 'Android', 'IOS']);
     req.sanitizeHeaders('user_agent').escape();
 
+    var errors = req.validationErrors();
+    if (errors) {
+        /* input validation failed */
+        res.status(400).json({
+            status: 'failed',
+            error: errors
+        });
+
+        req.err = errors;
+
+        next();
+
+        return;
+    }
+
     var email = req.body.email;
     var password = req.body.password;
 
@@ -43,6 +58,8 @@ module.exports.login = function(req, res, next) {
                 status: 'failed',
                 message: 'The provided credentials are not correct'
             });
+
+            req.err = 'User was not found in the database';
 
             next();
         } else {
@@ -152,6 +169,8 @@ module.exports.login = function(req, res, next) {
                     message: 'The provided credentials are not correct'
                 });
 
+                req.err = 'The provided password doesn\'t match the database.';
+
                 next();
             }
         }
@@ -234,6 +253,8 @@ module.exports.forgotPassword = function (req, res, next) {
             error: errors
         });
 
+        req.err = errors;
+
         next();
 
         return;
@@ -287,13 +308,14 @@ module.exports.forgotPassword = function (req, res, next) {
             user.save();
             // });
 
-            /* request handled */
-            res.status(200).json({
-                status: 'succeeded'
-            });
-
-            next();
         }
+
+        /* request handled */
+        res.status(200).json({
+            status: 'succeeded'
+        });
+
+        next();
     }).catch(function(err){
 
         /* failed to find the user in the database */
@@ -326,6 +348,8 @@ module.exports.resetPassword = function (req, res, next) {
             status: 'failed',
             error: errors
         });
+
+        req.err = errors;
 
         next();
 
