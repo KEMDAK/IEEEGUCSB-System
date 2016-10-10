@@ -1,9 +1,9 @@
-var User = require('../models/User').user;
+var User = require('../models/User').User;
 var Committee = require('../models/Committee').Committee;
 
 
 module.exports.index = function(req, res, next){
-   Committee.findall().then(function(committees){
+   Committee.findAll().then(function(committees){
 
 
    	      var result = [];
@@ -42,9 +42,9 @@ module.exports.show = function(req, res, next){
 
 	  var id = req.params.id;
 
-	   Committe.findById(id).then(function(committe){
+	   Committee.findById(id).then(function(committee){
 
-	   	 if(!committe){
+	   	 if(!committee){
                 res.status(400).json({
                 status:'failed'
                 });
@@ -75,7 +75,7 @@ module.exports.show = function(req, res, next){
 
 
 module.exports.store = function(req, res, next){
-	 /*Validate and sanitizing committee Name Input*/
+	 /*Validate and sanitizing committee Name Input*/    
     req.checkBody('name', 'Name is required').notEmpty();
     req.sanitizeBody('name').escape();
     req.sanitizeBody('name').trim();
@@ -158,7 +158,7 @@ module.exports.update = function(req, res, next){
         description: desc
     };
 
-    Committee.update(updatedAttributes, { where: {  id: req.user.id } }).then(function(arr) {
+    Committee.update(updatedAttributes, { where: {  id: req.params.id } }).then(function(arr) {
         var affectedRows = arr[0];
 
         if(affectedRows === 0){

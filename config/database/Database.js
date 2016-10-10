@@ -23,9 +23,9 @@ module.exports.initialize = function(callback) {
 
     require('../../app/models/Committee').defineCommittee(sequelize);
 
-    require('../../app/models/User').defineUser(sequelize);
 
-    require('../../app/models/Identity').defineIdentity(sequelize);
+
+  
 
 
     /* defining relation */

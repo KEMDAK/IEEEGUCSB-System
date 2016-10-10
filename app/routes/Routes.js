@@ -1,6 +1,8 @@
 var CommitteeController = require('../controllers/CommitteeController');
+var UserController = require('../controllers/UserController');
 
-var auth = require('./middlewares/AuthMiddleware');
+
+var auth = require('../middlewares/AuthMiddleware');
 
 /**
 * This function configures the routes of the entire application.
@@ -15,12 +17,47 @@ module.exports = function(app) {
     app.get('/demo', function(req, res, next) {
         res.status(200).send("Welcome to the Hood...!!!!");
     });
+    
 
 
-    app.get('/api/committe/index',CommitteeController.index);
-    app.get('/api/committe/show/:id',CommitteeController.show);
-    app.post('/api/committe/store',auth.committee,CommitteeController.store);
-    app.post('/api/committe/update/:id',auth.committee, CommitteeController.update);
+    /**
+    * A get route responsible for getting all committees
+    * @var /api/committee/index GET
+    */
+    app.get('/api/committee/index',CommitteeController.index);
+    /**
+    * A get route responsible for getting a specific committee
+    */
+    app.get('/api/committee/show/:id',CommitteeController.show);
+    /**
+    * A post route responsible for creating a committee
+    * @var /api/committee/store POST
+    * @name /api/committee/store POST
+    * @example The route expects a body Object in the following format
+    * {
+    *   name: String, [required]
+    *   description: String [required]
+    * }
+    * @example The route returns as a response an object in the following format
+    * {
+    *   status: succeeded/failed,
+    *   message: String showing a descriptive text,
+    */
+    app.post('/api/committee/store',auth.committee,CommitteeController.store);
+    /**
+    * A post route responsible for updating a committee
+    * @var /api/committee/update/:id POST
+    * @name /api/committee/update/:id POST
+    * @example The route expects a body Object in the following format
+    * {
+    *   description: String [required]
+    * }
+    * @example The route returns as a response an object in the following format
+    * {
+    *   status: succeeded/failed,
+    *   message: String showing a descriptive text,
+    */
+    app.post('/api/committee/update/:id',auth.committee, CommitteeController.update);
 
     /**
     * A post route responsible for Logging in an existing user

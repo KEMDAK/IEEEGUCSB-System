@@ -10,7 +10,7 @@ var User = require('../../app/models/User').User;
 * @param  {sequelize} connection the instance of the sequelize Object
 * @ignore
 */
-module.exports.defineCommitte = function(sequelize) {
+module.exports.defineCommittee = function(sequelize) {
      var Sequelize = require("sequelize");
      module.exports.Committee = sequelize.define('committee', {
           name: {
@@ -45,4 +45,7 @@ module.exports.defineCommitte = function(sequelize) {
                });           
           
      }
+}
+
+});
 }

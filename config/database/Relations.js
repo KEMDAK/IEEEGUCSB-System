@@ -1,6 +1,6 @@
 var User = require('../../app/models/User').User;
 var Identity = require('../../app/models/Identity').Identity;
-var Committe = require('../../app/models/Committe').Committe;
+var Committee = require('../../app/models/Committee').Committee;
 
 /* Committe_User relation */
 Committee.hasMany(User, { as: 'User', foreignKey: { allowNull: true } });
