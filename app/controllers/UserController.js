@@ -65,7 +65,31 @@ module.exports.index = function(req, res, next) {
 };
 
 module.exports.show = function(req, res, next) {
-   /** validate the id attached with the req with forms */
+   /*Validate and sanitizing ID Input*/
+   req.checkParams('id', 'ID is required').notEmpty();
+   req.sanitizeParams('id').escape();
+   req.sanitizeParams('id').trim();
+   req.checkParams('id', 'Enter a valid ID').isInt();
+
+   /*Validate and sanitizing User Agent*/
+   req.checkHeaders('user_agent', 'User Agent is required').notEmpty();
+   req.checkHeaders('user_agent', 'Enter a valid User Agent').isIn(['Web', 'Android', 'IOS']);
+   req.sanitizeHeaders('user_agent').escape();
+
+   var errors = req.validationErrors();
+   if (errors) {
+      /* input validation failed */
+      res.status(400).json({
+         status: 'failed',
+         error: errors
+      });
+
+      req.err = errors;
+
+      next();
+
+      return;
+   }
 
    var id = req.params.id;
    var user = req.user;
@@ -140,8 +164,35 @@ module.exports.show = function(req, res, next) {
 * @param  {Function} next Callback function that is called once done with handling the request
 */
 module.exports.store = function(req, res, next) {
-   /** validate the user information with the req with forms */
+   /*Validate and sanitizing email Input*/
+   req.checkBody('email', 'Email is required').notEmpty();
+   req.checkBody('email', 'Enter a Valid Email address').isEmail();
+   req.sanitizeBody('email').escape();
+   req.sanitizeBody('email').trim();
+   req.sanitizeBody('email').normalizeEmail({ lowercase: true });
 
+   /*Validate and sanitizing Password Input*/
+   req.checkBody('password', 'Password is required').notEmpty();
+
+   /*Validate and sanitizing User Agent*/
+   req.checkHeaders('user_agent', 'User Agent is required').notEmpty();
+   req.checkHeaders('user_agent', 'Enter a valid User Agent').isIn(['Web', 'Android', 'IOS']);
+   req.sanitizeHeaders('user_agent').escape();
+
+   var errors = req.validationErrors();
+   if (errors) {
+      /* input validation failed */
+      res.status(400).json({
+         status: 'failed',
+         error: errors
+      });
+
+      req.err = errors;
+
+      next();
+
+      return;
+   }
 
    User.findOrCreate({ where : { email : req.body.email, password : req.body.password } }).then(function(user, created) {
       res.status(200).json({
@@ -169,7 +220,50 @@ module.exports.store = function(req, res, next) {
 * @param  {Function} next Callback function that is called once done with handling the request
 */
 module.exports.update = function(req, res, next) {
-   /** validate the user information with the req with forms */
+   /*Validate and sanitizing email Input*/
+   req.checkBody('email', 'Email is required').notEmpty();
+   req.checkBody('email', 'Enter a Valid Email address').isEmail();
+   req.sanitizeBody('email').escape();
+   req.sanitizeBody('email').trim();
+   req.sanitizeBody('email').normalizeEmail({ lowercase: true });
+
+   /*Validate and sanitizing Password Input*/
+   req.checkBody('password', 'Password is required').notEmpty();
+
+   /*Validate and sanitizing type Input*/
+   req.checkBody('type', 'Type is required').notEmpty();
+   req.sanitizeBody('type').escape();
+   req.sanitizeBody('type').trim();
+
+   /*Validate and sanitizing first name Input*/
+   req.checkBody('first_name', 'First Name is required').notEmpty();
+   req.sanitizeBody('first_name').escape();
+   req.sanitizeBody('first_name').trim();
+
+   /*Validate and sanitizing last name Input*/
+   req.checkBody('last_name', 'Last Name is required').notEmpty();
+   req.sanitizeBody('last_name').escape();
+   req.sanitizeBody('last_name').trim();
+
+   /*Validate and sanitizing birthday Input*/
+   req.checkBody('birthday', 'Birthday is required').notEmpty();
+   req.sanitizeBody('birthday').escape();
+   req.sanitizeBody('birthday').trim();
+
+   /*Validate and sanitizing gender Input*/
+   req.checkBody('gender', 'Gender is required').notEmpty();
+   req.sanitizeBody('gender').escape();
+   req.sanitizeBody('gender').trim();
+
+   /*Validate and sanitizing IEEE membership ID Input*/
+   req.checkBody('IEEE_membership_ID', 'IEEE Membership ID is required').notEmpty();
+   req.sanitizeBody('IEEE_membership_ID').escape();
+   req.sanitizeBody('IEEE_membership_ID').trim();
+
+   /*Validate and sanitizing User Agent*/
+   req.checkHeaders('user_agent', 'User Agent is required').notEmpty();
+   req.checkHeaders('user_agent', 'Enter a valid User Agent').isIn(['Web', 'Android', 'IOS']);
+   req.sanitizeHeaders('user_agent').escape();
 
    User.update({ type : req.body.type, first_name : req.body.first_name, last_name : req.body.last_name, birthday : req.body.birthday, gender : req.body.gender, email : req.body.email, password : req.body.password, IEEE_membership_ID : req.body.IEEE_membership_ID }, { where : { id : req.user.id } }).then(function(affected) {
       if (affected[0] == 1) {
