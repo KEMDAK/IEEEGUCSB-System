@@ -109,7 +109,7 @@ module.exports.show = function(req, res, next) {
             /** Return the detailed profile only if the requesting user is an upper board or a high board trying to view
             one of his member's profile or if the rquesting user of trying to view his own profile.
             */
-            if ((user.isHighBoard() && myCommittee.id == requestedCommittee.id) || user.isUpperBoard() || user.id == id) {
+            if ((user.isHighBoard() && myCommittee.id == requestedCommittee.id) || user.isUpperBoard() || user.id == id || user.isAdmin()) {
                // detailed info
             }
             else {
