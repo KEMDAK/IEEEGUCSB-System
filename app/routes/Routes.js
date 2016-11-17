@@ -5,6 +5,8 @@
 
 var AuthController = require('../controllers/AuthController');
 var log            = require('../middlewares/LogMiddleware');
+var CommitteeController = require('../controllers/CommitteeController');
+
 
 module.exports = function(app) {
 
@@ -17,6 +19,8 @@ module.exports = function(app) {
     *                       *
     ************************/
     require('./AuthResource')(app);
+    require('./CommitteeResource')(app);
+
     /*====================================================================================================================================*/
 
     /* any other request will be treated as not found (404) */

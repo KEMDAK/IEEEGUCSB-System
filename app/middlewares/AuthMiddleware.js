@@ -9,6 +9,8 @@ module.exports = function(req, res, next) {
     var jwt      = require('jsonwebtoken');
     var Identity = require('../models/Identity').Identity;
     var log      = require('./LogMiddleware');
+    var User = require('../models/User').User;
+
 
     /* getting the token from the http headers */
     var token = req.headers.authorization;
@@ -94,3 +96,32 @@ module.exports = function(req, res, next) {
         log.save(req, res);
     }
 };
+
+module.exports.committee = function(req, res, next){
+
+
+     var id = req.user.id;
+
+    // var id  = req.body.uu ;
+   
+
+  User.findById(id).then(function(user) {
+       
+    if(!user.isUpperBoard()){
+     throw "The user is not from UpperBoard";    
+ }
+
+ next();
+
+
+}).catch(function(err){
+     console.log(err);
+    res.status(404).json({
+        status:'failed',
+        message: 'User not found.'
+    });
+
+    log.save(req, res);
+});
+
+}
