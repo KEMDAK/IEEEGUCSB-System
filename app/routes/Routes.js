@@ -17,6 +17,13 @@ module.exports = function(app) {
     *                       *
     ************************/
     require('./AuthResource')(app);
+
+    /**************
+    *             *
+    * User routes *
+    *             *
+    ***************/
+    require('./UserResource')(app);
     /*====================================================================================================================================*/
 
     /* any other request will be treated as not found (404) */
