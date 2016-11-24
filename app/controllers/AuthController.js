@@ -52,6 +52,7 @@ module.exports.login = function(req, res, next) {
             email: email
         }
     }).then(function(user) {
+
         if (!user) {
             /* user was not found */
             res.status(400).json({

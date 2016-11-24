@@ -31,18 +31,24 @@ module.exports.defineCommittee = function(sequelize) {
          
           {
                /**
-               * This function returns the head of this committee.
+               * This function calls the callback function 'cb' with the head of this committee.
                * @return User
                */
-               head: function() {
-                    User.findOne({
+               head:
+                function(cb) {
+                  var res ;
+                   
+                   User.findOne({
                        where: {
-                          committee_id: this.getDataValue('name'),
+                          committee_id: this.getDataValue('id'),
                           type : 'High Board'      
                      }
                 }).then(function (user) {
-                    return user;                  
-               });           
+                   cb(user); 
+               });  
+   
+
+
           
      }
 }

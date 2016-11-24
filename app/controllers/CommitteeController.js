@@ -49,7 +49,8 @@ module.exports.show = function(req, res, next){
                 status:'failed'
                 });
             }
-         else{
+         else{ 
+                 
                 res.status(200).json({
                 status:'succeeded',
                 committee: {
@@ -75,7 +76,20 @@ module.exports.show = function(req, res, next){
 
 
 module.exports.store = function(req, res, next){
-	 /*Validate and sanitizing committee Name Input*/    
+
+
+     var id = req.user.id;
+
+    // var id  = req.body.uu ;
+   
+
+      User.findById(id).then(function(user) {
+       
+    if(!user.isUpperBoard()){
+     throw "The user is not from UpperBoard";    
+     }
+
+          /*Validate and sanitizing committee Name Input*/    
     req.checkBody('name', 'Name is required').notEmpty();
     req.sanitizeBody('name').escape();
     req.sanitizeBody('name').trim();
@@ -125,6 +139,19 @@ module.exports.store = function(req, res, next){
 
         next();
     });
+      next();
+
+
+}).catch(function(err){
+     console.log(err);
+    res.status(404).json({
+        status:'failed',
+        message: 'User not found.'
+    });
+
+    log.save(req, res);
+});
+	
 
 
 }
@@ -132,7 +159,18 @@ module.exports.store = function(req, res, next){
 
 
 module.exports.update = function(req, res, next){
-	   /*Validate and sanitizing committee description Input*/
+
+     var id = req.user.id;
+
+   
+
+  User.findById(id).then(function(user) {
+       
+    if(!user.isUpperBoard()){
+     throw "The user is not from UpperBoard";    
+ }
+
+       /*Validate and sanitizing committee description Input*/
     req.checkBody('description', 'Description is required').notEmpty();
     req.sanitizeBody('description').escape();
     req.sanitizeBody('description').trim();
@@ -186,4 +224,21 @@ module.exports.update = function(req, res, next){
 
         next();
     });
+
+ next();
+
+
+}).catch(function(err){
+     console.log(err);
+    res.status(404).json({
+        status:'failed',
+        message: 'User not found.'
+    });
+
+    log.save(req, res);
+});
+
+
 }
+
+

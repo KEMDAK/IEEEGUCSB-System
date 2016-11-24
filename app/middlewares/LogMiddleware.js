@@ -1,3 +1,4 @@
+
 /**
 * This is a middleware that logs the incoming request
 * @param  {HTTP}   req  The request object

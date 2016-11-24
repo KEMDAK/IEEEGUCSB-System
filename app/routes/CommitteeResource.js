@@ -11,15 +11,47 @@ module.exports = function(app) {
 
 
 
-    /**
-    * A get route responsible for getting all committees
+        /**
+    * A get route responsible for getting all committes in the database
     * @var /api/committee/index GET
+    * @name /api/committee/index GET
+    * @example The route expects a header.user_agent from one of those user agents ['Web', 'IOS', 'Android']
+    * @example The route returns as a response an object in the following format
+    * {
+    *   status: succeeded/failed,
+    *   message: String showing a descriptive text,
+    *   committees:
+    *   [
+    *      {
+    *          name: the committee name;
+    *          description: the committee description;
+
+    *      }, {...}, ...
+    *    ]
+    *   error: Validation errors
+    * }
     */
-    app.get('/api/committee/index',CommitteeController.index);
-    /**
-    * A get route responsible for getting a specific committee
+    app.get('/api/committee/index',auth,CommitteeController.index);
+      /**
+    * A get route to show a specific committee
+    * @var /api/user GET
+    * @name /api/user GET
+    * @example The route expects a committee id for the committee to be returned
+    * @example The route expects a header.user_agent from one of those user agents ['Web', 'IOS', 'Android']
+    * @example The route returns as a response an object in the following format
+    * {
+    *   status: succeeded/failed,
+    *   message: String showing a descriptive text,
+    *   committees:
+    *      {
+    *          name: the committee name;
+    *          description: the committee description;
+    *      }
+
+    *    error: Validation errors
+    * }
     */
-    app.get('/api/committee/show/:id',CommitteeController.show);
+    app.get('/api/committee/show/:id',auth,CommitteeController.show);
     /**
     * A post route responsible for creating a committee
     * @var /api/committee/store POST
@@ -34,7 +66,7 @@ module.exports = function(app) {
     *   status: succeeded/failed,
     *   message: String showing a descriptive text,
     */
-    app.post('/api/committee/store',auth.committee,CommitteeController.store);
+    app.post('/api/committee/store',auth,CommitteeController.store);
     /**
     * A post route responsible for updating a committee
     * @var /api/committee/update/:id POST
@@ -43,40 +75,13 @@ module.exports = function(app) {
     * {
     *   description: String [required]
     * }
-    * @example The route returns as a response an object in the following format
+    * @example The route returns as a rauth,esponse an object in the following format
     * {
     *   status: succeeded/failed,
     *   message: String showing a descriptive text,
     */
-    app.post('/api/committee/update/:id',auth.committee, CommitteeController.update);
+    app.post('/api/committee/update/:id',auth, CommitteeController.update);
 
-    /**
-    * A post route responsible for Logging in an existing user
-    * @var /api/login POST
-    * @name /api/login POST
-    * @example The route expects a body Object in the following format
-    * {
-    *   email: String, [required]
-    *   password: String [required]
-    * }
-    * @example The route expects a header.user_agent from one of those user agents ['Web', 'IOS', 'Android']
-    * @example The route returns as a response an object in the following format
-    * {
-    *   status: succeeded/failed,
-    *   message: String showing a descriptive text,
-    *   token: access token as a response to a successfull login,
-    *   user:
-    *    {
-    *       first_name: the logged in user first name;
-    *       last_name: the logged in user last name;
-    *       email: the logged in user email;
-    *       gender: the logged in user gender;
-    *       birthdate: the logged in user birthdate;
-    *       settings: the logged in user settings;
-    *    }
-    *   error: Validation errors
-    * }
-    */
-    app.post('/api/login', AuthController.login);
+
 
 };

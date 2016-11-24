@@ -20,21 +20,21 @@ module.exports = function(app) {
     ************************/
     require('./AuthResource')(app);
 
-    /***************************
-    *                          *
-    * CommitteeResource routes *
-    *                          *
-    ****************************/
-
-    require('./CommitteeResource')(app);
-
-
     /**************
     *             *
     * User routes *
     *             *
     ***************/
     require('./UserResource')(app);
+
+
+       /***************************
+    *                          *
+    * CommitteeResource routes *
+    *                          *
+    ****************************/
+
+    require('./CommitteeResource')(app);
     /*====================================================================================================================================*/
 
     /* any other request will be treated as not found (404) */
