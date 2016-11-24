@@ -1,7 +1,20 @@
+/**
+* @module Committee Controller
+* @description The controller that is responsible of handling communittees's requests
+*/
+
+/* Models */
+
 var User = require('../models/User').User;
 var Committee = require('../models/Committee').Committee;
 
-
+/**
+* This function gets a list of all committees currently in the database.
+* @param  {HTTP}   req  The request object
+* @param  {HTTP}   res  The response object
+* @param  {Function} next Callback function that is called once done with handling the request
+* @return {Array}  result The committees currently in the database
+*/
 module.exports.index = function(req, res, next){
    Committee.findAll().then(function(committees){
 
@@ -37,7 +50,13 @@ module.exports.index = function(req, res, next){
         });
 }
 
-
+/**
+* This function gets a specifid committee currently in the database.
+* @param  {HTTP}   req  The request object
+* @param  {HTTP}   res  The response object
+* @param  {Function} next Callback function that is called once done with handling the request
+* @return {Array}  result a specified committee currently in the database
+*/
 module.exports.show = function(req, res, next){
 
 	  var id = req.params.id;
@@ -75,6 +94,12 @@ module.exports.show = function(req, res, next){
 }
 
 
+/**
+* This function stores the provided committe in the database
+* @param  {HTTP}   req  The request object
+* @param  {HTTP}   res  The response object
+* @param  {Function} next Callback function that is called once done with handling the request
+*/
 module.exports.store = function(req, res, next){
 
 
@@ -157,7 +182,12 @@ module.exports.store = function(req, res, next){
 }
 
 
-
+/**
+* This function updates a committees's information in the database
+* @param  {HTTP}   req  The request object
+* @param  {HTTP}   res  The response object
+* @param  {Function} next Callback function that is called once done with handling the request
+*/
 module.exports.update = function(req, res, next){
 
      var id = req.user.id;
