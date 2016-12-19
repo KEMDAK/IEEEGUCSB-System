@@ -80,8 +80,8 @@ module.exports.save = function(req, res) {
     }
 
     if(req.err){
-        console.log(req.err);
-        record.error_message = JSON.stringify(req.err);
+        console.log(String(req.err));
+        record.error_message = String(req.err);
     }
     else{
         record.error_message = null;
