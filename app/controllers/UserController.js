@@ -19,6 +19,21 @@ module.exports.index = function(req, res, next) {
    req.checkHeaders('user_agent', 'Enter a valid User Agent').isIn(['Web', 'Android', 'IOS']);
    req.sanitizeHeaders('user_agent').escape();
 
+   var errors = req.validationErrors();
+   if (errors) {
+      /* input validation failed */
+      res.status(400).json({
+         status: 'failed',
+         error: errors
+      });
+
+      req.err = errors;
+
+      next();
+
+      return;
+   }
+
    User.findAll({}).then(function(users) {
       if (!users) {
          res.status(404).json({
@@ -26,7 +41,7 @@ module.exports.index = function(req, res, next) {
             message: 'The requested route was not found.'
          });
 
-         req.err = 'The requested route was not found.'
+         req.err = 'The requested route was not found.';
 
          next();
       }
@@ -68,6 +83,12 @@ module.exports.index = function(req, res, next) {
    });
 };
 
+/**
+* This function gets a specifid User currently in the database.
+* @param  {HTTP}   req  The request object
+* @param  {HTTP}   res  The response object
+* @param  {Function} next Callback function that is called once done with handling the request
+*/
 module.exports.show = function(req, res, next) {
    /*Validate and sanitizing ID Input*/
    req.checkParams('id', 'ID is required').notEmpty();
@@ -110,10 +131,10 @@ module.exports.show = function(req, res, next) {
             one of his member's profile or if the rquesting user of trying to view his own profile.
             */
             if ((user.isHighBoard() && myCommittee.id == requestedCommittee.id) || user.isUpperBoard() || user.id == id || user.isAdmin()) {
-               // detailed info
+            // detailed info
             }
             else {
-               // basic info
+            // basic info
             }
 
             res.status(200).json({
@@ -158,7 +179,6 @@ module.exports.show = function(req, res, next) {
 
       next();
    });
-
 };
 
 /**
