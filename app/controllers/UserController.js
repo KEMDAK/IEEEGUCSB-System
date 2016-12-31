@@ -47,21 +47,8 @@ module.exports.index = function(req, res, next) {
       }
       else {
          var result = [];
-         for (var i = 0; i < users.length; i++) {
-            var currentUser = {
-               id : users[i].id,
-               type : users[i].type,
-               first_name : users[i].first_name,
-               last_name : users[i].last_name,
-               birthdate : users[i].birthdate,
-               gender : users[i].gender,
-               email : users[i].email,
-               IEEE_membership_ID : users[i].IEEE_membership_ID,
-               created_at : users[i].created_at
-            };
-
-            result.push(currentUser);
-         }
+         for (var i = 0; i < users.length; i++)
+         result.push(users[i].toJSON());
 
          res.status(200).json({
             status:'succeeded',
@@ -119,39 +106,67 @@ module.exports.show = function(req, res, next) {
    var id = req.params.id;
    var user = req.user;
 
+   /** Get requested user */
    User.findById(id).then(function(requestedUser) {
+      if (!requestedUser) {
+         // Requested user was not found in the database
+         res.status(404).json({
+            status:'failed',
+            message: 'The requested route was not found.'
+         });
+
+         req.err = 'The requested route was not found.';
+
+         next();
+
+         return;
+      }
       /** Get the committee of the requested user */
       requestedUser.getCommittee().then(function(requestedCommittee) {
+         // Requested committee was not found in the database
+         if (!requestedCommittee) {
+            res.status(404).json({
+               status:'failed',
+               message: 'The requested route was not found.'
+            });
 
-         /** Get the committee of logged in user */
-         user.getCommittee().then(function(myCommittee) {
+            req.err = 'The requested route was not found.';
+
+            next();
+
+            return;
+         }
+
+         /** Get the head of this committee */
+         requestedCommittee.head(function(head, error) {
+            if (error) {
+               // Couldn't get the head for the requested committee
+               res.status(500).json({
+                  status: 'failed',
+                  message: 'Internal server error'
+               });
+
+               req.err = error;
+
+               next();
+
+               return;
+            }
 
             var result;
-            /** Return the detailed profile only if the requesting user is an upper board or a high board trying to view
-            one of his member's profile or if the rquesting user of trying to view his own profile.
-            */
-            if ((user.isHighBoard() && myCommittee.id == requestedCommittee.id) || user.isUpperBoard() || user.id == id || user.isAdmin()) {
-            // detailed info
+            if (head.id == user.id || user.isUpperBoard() || user.id == id || user.isAdmin()) {
+               // Detailed Profile
+               result = requestedUser.toJSON(true);       // TO BE MODIFIED
             }
             else {
-            // basic info
+               // Basic Profile
+               result = requestedUser.toJSON(false);       // TO BE MODIFIED
             }
 
             res.status(200).json({
                status:'succeeded',
                user: result
             });
-
-            next();
-
-         }).catch(function(err) {
-            /* failed to find my committee.*/
-            res.status(500).json({
-               status:'failed',
-               message: 'Internal server error'
-            });
-
-            req.err = err;
 
             next();
          });
@@ -167,6 +182,7 @@ module.exports.show = function(req, res, next) {
 
          next();
       });
+
 
    }).catch(function(err) {
       /* failed to find the user in the database */

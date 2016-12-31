@@ -106,10 +106,10 @@ module.exports.defineUser = function(sequelize) {
                     return this.type === 'Member';
                },
                /**
-                * this function nreturns the user object.
+                * this function returns the user object.
                 * @return {Object} The user object.
                 */
-               toJSON: function() {
+               toJSON: function(detailed) {
                    var res = {};
 
                    res.type = this.type;

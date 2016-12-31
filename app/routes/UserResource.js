@@ -43,7 +43,7 @@ module.exports = function(app) {
     * 	message: String showing a descriptive text,
     *    result:
     *    {
-    *       The user depends on basic or detailed // to be modified!!
+    *       The user depends on basic or detailed // TO BE MODIFIED
     *    }
     *    error: Validation errors
     * }
@@ -82,7 +82,7 @@ module.exports = function(app) {
     * 	last_name: String, [required]
     * 	birthday: Date, [required]
     * 	gender: String, [required]
-    * 	IEEE_membership_ID: String [required]
+    * 	IEEE_membership_ID: String [optional]
     * }
     * @example The route expects a header.user_agent from one of those user agents ['Web', 'IOS', 'Android']
     * @example The route responds with an object having the following format
