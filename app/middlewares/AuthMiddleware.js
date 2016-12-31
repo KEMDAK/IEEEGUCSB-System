@@ -9,10 +9,11 @@ module.exports = function(req, res, next) {
     var jwt      = require('jsonwebtoken');
     var Identity = require('../models/Identity').Identity;
     var log      = require('./LogMiddleware');
+    var User = require('../models/User').User;
+
 
     /* getting the token from the http headers */
     var token = req.headers.authorization;
-
     /* getting the JWT seacret from the environment variables */
     var secret = process.env.JWTSECRET;
 
@@ -33,6 +34,9 @@ module.exports = function(req, res, next) {
                 throw "The server has no record of the used token";
             }
 
+            /* Adding the used identity to the request object */
+            req.identity = identity;
+
             /* checking if the used token is intended to be used with the current user agent */
             if(identity.user_agent !== req.headers.user_agent){
                 /* The used token is not for the use from the current user agent */
@@ -48,9 +52,6 @@ module.exports = function(req, res, next) {
             identity.getUser().then(function(user) {
                 /* Adding the authenticated user to the request object */
                 req.user = user;
-
-                /* Adding the authenticated user identity to the request object */
-                req.identity = identity;
 
                 /* Adding the token payload the request object */
                 req.payload = payload;
@@ -70,7 +71,7 @@ module.exports = function(req, res, next) {
             });
         }).catch(function(err){
 
-            /* failed to find the user in the database */
+            /* The token is valid however it might be stolen */
             res.status(401).json({
                 status:'failed',
                 message: 'Authentication error, please log in again.'

@@ -52,6 +52,7 @@ module.exports.login = function(req, res, next) {
             email: email
         }
     }).then(function(user) {
+
         if (!user) {
             /* user was not found */
             res.status(400).json({
@@ -309,6 +310,9 @@ module.exports.forgotPassword = function (req, res, next) {
             // });
 
         }
+	else{
+	    req.err = "The requested user was not found in the database.";
+	}
 
         /* request handled */
         res.status(200).json({

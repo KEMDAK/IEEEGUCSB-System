@@ -42,13 +42,22 @@ module.exports = function(req, res, next) {
             next();
         }).catch(function(err){
 
-            /* failed to find the user in the database */
-            res.status(500).json({
-                status:'failed',
-                message: 'Internal server error'
-            });
+	    if(err === "The used token is not the one expected"){         
+		res.status(404).json({
+	                status:'failed',
+	                message: 'The requested route was not found.'
+	        });
+	    }
+	    else{
+            	/* failed to find the user in the database */
+            	res.status(500).json({
+                	status:'failed',
+                	message: 'Internal server error'
+                });
+	    }
 
             req.err = err;
+	    log.save(req, res);	
         });
     }
     catch (err)
