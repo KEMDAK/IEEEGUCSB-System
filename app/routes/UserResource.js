@@ -8,8 +8,8 @@ module.exports = function(app) {
 
     /**
     * A get route responsible for getting all users in the database
-    * @var /api/user/index GET
-    * @name /api/user/index GET
+    * @var /api/user GET
+    * @name /api/user GET
     * @example The route expects a header.user_agent from one of those user agents ['Web', 'IOS', 'Android']
     * @example The route returns as a response an object in the following format
     * {
@@ -33,8 +33,8 @@ module.exports = function(app) {
 
     /**
     * A get route to show a specific user
-    * @var /api/user GET
-    * @name /api/user GET
+    * @var /api/user/{id} GET
+    * @name /api/user/{id} GET
     * @example The route expects a user id for the user to be returned
     * @example The route expects a header.user_agent from one of those user agents ['Web', 'IOS', 'Android']
     * @example The route returns as a response an object in the following format

@@ -43,6 +43,7 @@ module.exports.index = function(req, res, next){
             var committee = committees[i];
 
             result.push({
+                id: committee.id,
                 name: committee.name,
                 description: committee.description
             });
@@ -108,8 +109,7 @@ module.exports.show = function(req, res, next){
         if(!committee){
             /* The Committee was not found */
             res.status(400).json({
-                status:'failed',
-                message: 'The Committee was not found'
+                status:'failed'
             });
         }
         else{ 
@@ -117,6 +117,7 @@ module.exports.show = function(req, res, next){
             res.status(200).json({
                 status:'succeeded',
                 committee: {
+                    id: committee.id,
                     name: committee.name,
                     description: committee.description
                 } 

@@ -20,6 +20,7 @@ module.exports = function(app) {
     *   committees:
     *   [
     *      {
+    *          id: the committee id,
     *          name: the committee name,
     *          description: the committee description
 
@@ -42,6 +43,7 @@ module.exports = function(app) {
     *   message: String showing a descriptive text,
     *   committee:
     *      {
+    *          id: the committee id,
     *          name: the committee name,
     *          description: the committee description
     *      },

@@ -1,0 +1,11 @@
+TODO:
+
++ The return message duo to the SQL validation violation errors is Internal server Error!! (Try to store another committee with the same name)
+
++ Middleware to decet if the logged in user is an Admin board.
+
++ Middleware to decet if the logged in user is an upper board.
+
++ Middleware to decet if the logged in user is a high board.
+
++ Middleware to decet if the logged in user is a member.
