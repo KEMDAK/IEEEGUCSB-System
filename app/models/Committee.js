@@ -21,7 +21,7 @@ module.exports.defineCommittee = function(sequelize) {
     description: {
       type: Sequelize.TEXT,
       allowNull: false
-    }      
+    }
   },
   {
     paranoid: true,
@@ -42,11 +42,11 @@ module.exports.defineCommittee = function(sequelize) {
         User.findOne({
          where: {
           committee_id: this.getDataValue('id'),
-          type : 'High Board'      
+          type : 'High Board'
         }
         }).then(function (user) {
 
-          callback(user, null); 
+          callback(user, null);
         }).catch(function(err) {
           /* failed duo to an error in the database while trying to find the Head of the Committee */
           callback(null, err);

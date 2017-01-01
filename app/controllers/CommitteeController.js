@@ -1,6 +1,6 @@
 /**
 * @module Committee Controller
-* @description The controller that is responsible of handling communittees's requests
+* @description The controller that is responsible of handling committee's requests
 */
 
 /* Models */
@@ -51,7 +51,7 @@ module.exports.index = function(req, res, next){
 
         res.status(200).json({
             status:'succeeded',
-            committees: result 
+            committees: result
         });
 
         next();
@@ -104,27 +104,25 @@ module.exports.show = function(req, res, next){
 
     var id = req.params.id;
 
-    Committee.findById(id).then(function(committee){
-
+    Committee.findById(id).then(function(committee) {
         if(!committee){
             /* The Committee was not found */
             res.status(400).json({
                 status:'failed'
             });
         }
-        else{ 
-
+        else {
             res.status(200).json({
                 status:'succeeded',
                 committee: {
                     id: committee.id,
                     name: committee.name,
                     description: committee.description
-                } 
+                }
             });
-
-            next();
         }
+
+        next();
     }).catch(function(err){
         /* failed to retrieve the committe from the database */
         res.status(500).json({
