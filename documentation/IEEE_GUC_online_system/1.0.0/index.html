@@ -4,7 +4,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width">
-	<title>IEEE GUC Mixin: Identity</title>
+	<title>IEEE GUC Index</title>
 
 	<!--[if lt IE 9]>
 	<script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
@@ -47,7 +47,7 @@
 			<li class="dropdown">
 				<a href="global.html" class="dropdown-toggle" data-toggle="dropdown">Global<b class="caret"></b></a>
 				<ul class="dropdown-menu inline">
-					<li><a href="global.html#/api/committeeGET">/api/committee GET</a></li><li><a href="global.html#/api/committeePOST">/api/committee POST</a></li><li><a href="global.html#/api/committee/%257Bid%257DGET">/api/committee/{id} GET</a></li><li><a href="global.html#/api/committee/%257Bid%257DPOST">/api/committee/{id} POST</a></li><li><a href="global.html#/api/forgotPasswordPOST">/api/forgotPassword POST</a></li><li><a href="global.html#/api/loginPOST">/api/login POST</a></li><li><a href="global.html#/api/logoutGET">/api/logout GET</a></li><li><a href="global.html#/api/resetPasswordPOST">/api/resetPassword POST</a></li><li><a href="global.html#/api/userGET">/api/user GET</a></li><li><a href="global.html#/api/userPOST">/api/user POST</a></li><li><a href="global.html#/api/userPUT">/api/user PUT</a></li><li><a href="global.html#/api/user/%257Bid%257DGET">/api/user/{id} GET</a></li><li><a href="global.html#AuthController">AuthController</a></li>
+					<li><a href="global.html#/api/committeeGET">/api/committee GET</a></li><li><a href="global.html#/api/committeePOST">/api/committee POST</a></li><li><a href="global.html#/api/committee/%257Bid%257DGET">/api/committee/{id} GET</a></li><li><a href="global.html#/api/committee/%257Bid%257DPUT">/api/committee/{id} PUT</a></li><li><a href="global.html#/api/forgotPasswordPOST">/api/forgotPassword POST</a></li><li><a href="global.html#/api/loginPOST">/api/login POST</a></li><li><a href="global.html#/api/logoutGET">/api/logout GET</a></li><li><a href="global.html#/api/resetPasswordPOST">/api/resetPassword POST</a></li><li><a href="global.html#/api/userGET">/api/user GET</a></li><li><a href="global.html#/api/userPOST">/api/user POST</a></li><li><a href="global.html#/api/userPUT">/api/user PUT</a></li><li><a href="global.html#/api/user/%257Bid%257DGET">/api/user/{id} GET</a></li>
 				</ul>
 			</li>
 			
@@ -79,213 +79,43 @@
 		<div id="main">
 			
 
-	<h1 class="page-title">Mixin: Identity</h1>
-<section>
-
-<header>
-    
-        <h2>
-        Identity
-        </h2>
-        
-    
-</header>
-
-
-<article>
-    <div class="container-overview">
-    
-        
-
-        
-<dl class="details">
-    
-
-    <h5 class="subsection-title">Properties:</h5>
-
-    <dl>
-
-<table class="props table table-striped">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>token</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">String</span>
-
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">The access token of the identity</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>token_exp_date</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">Date</span>
-
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">IThe expiry Date of the access token</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>user_agent</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">Enum</span>
-
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">The user agent of the identity</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>last_logged_in</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">Date</span>
-
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Records the time of the most recent login using this identity</td>
-        </tr>
-
-    
-    </tbody>
-</table>
-</dl>
-
-    
-
 	
-
-	
-
-	
-
-    
-
-    
-
-    
-
-    
-
-	
-
-	
-
-	
-
-	
-
 	
 
 
 
-	
+    <h3>IEEE_GUC_online_system 1.0.0</h3>
+
+
+
+
+
+
+
+
 
 	
-
 	
 
-	
-</dl>
 
 
-        
-    
-    </div>
 
-    
 
-    
+    <section class="readme-section">
+        <article><h1>Back</h1><p>Backend API for IEEE GUC SB online system to manage interactions with all related applications and includes the API required to all main application functionalities and Database management.</p>
+<h1>branch naming patterns</h1><p>branches starts with naming tokens that identifies which part of the
+work flow each branch belongs followed by <code>/</code> and then the name of the branch.</p>
+<h4>Branch naming tokens</h4><ul>
+<li><strong><em>wip</em></strong>       Works in progress; stuff I know won't be finished soon</li>
+<li><strong><em>feat</em></strong>      Feature I'm adding or expanding</li>
+<li><strong><em>test</em></strong>      testing branch</li>
+<li><strong><em>bug</em></strong>       Bug fix or experiment</li>
+<li><strong><em>junk</em></strong>      Throwaway branch created to experiment</li>
+</ul></article>
+    </section>
 
-    
 
-    
 
-    
-
-    
-
-    
-
-    
-
-    
-</article>
-
-</section>
 
 
 
@@ -402,41 +232,6 @@ $( function () {
 
 
 <!--Navigation and Symbol Display-->
-
-<script>
-	$( function () {
-		$( '#main' ).localScroll( {
-			offset : { top : 60 } //offset by the height of your header (give or take a few px, see what works for you)
-		} );
-		$( "dt.name" ).each( function () {
-			var $this = $( this ).find("h4");
-			var icon = $( "<i/>" ).addClass( "icon-plus-sign" ).addClass( "pull-right" ).addClass( "icon-white" );
-			var dt = $(this);
-			var children = dt.next( "dd" );
-
-			dt.prepend( icon ).css( {cursor : "pointer"} );
-			dt.addClass( "member-collapsed" ).addClass( "member" );
-
-
-			children.hide();
-
-			dt.children().on( "click", function () {
-				children = dt.next( "dd" );
-				children.slideToggle( "fast", function () {
-
-					if ( children.is( ":visible" ) ) {
-						icon.addClass( "icon-minus-sign" ).removeClass( "icon-plus-sign" ).removeClass( "icon-white" );
-						dt.addClass( "member-open" ).animate( "member-collapsed" );
-					} else {
-						icon.addClass( "icon-plus-sign" ).removeClass( "icon-minus-sign" ).addClass( "icon-white" );
-						dt.addClass( "member-collapsed" ).removeClass( "member-open" );
-					}
-				} );
-			} );
-
-		} );
-	} );
-</script>
 
 
 <!--Google Analytics-->

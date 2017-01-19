@@ -4,7 +4,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width">
-	<title>IEEE GUC Module: Committee Controller</title>
+	<title>IEEE GUC Module: User Controller</title>
 
 	<!--[if lt IE 9]>
 	<script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
@@ -47,7 +47,7 @@
 			<li class="dropdown">
 				<a href="global.html" class="dropdown-toggle" data-toggle="dropdown">Global<b class="caret"></b></a>
 				<ul class="dropdown-menu inline">
-					<li><a href="global.html#/api/committeeGET">/api/committee GET</a></li><li><a href="global.html#/api/committeePOST">/api/committee POST</a></li><li><a href="global.html#/api/committee/%257Bid%257DGET">/api/committee/{id} GET</a></li><li><a href="global.html#/api/committee/%257Bid%257DPOST">/api/committee/{id} POST</a></li><li><a href="global.html#/api/forgotPasswordPOST">/api/forgotPassword POST</a></li><li><a href="global.html#/api/loginPOST">/api/login POST</a></li><li><a href="global.html#/api/logoutGET">/api/logout GET</a></li><li><a href="global.html#/api/resetPasswordPOST">/api/resetPassword POST</a></li><li><a href="global.html#/api/userGET">/api/user GET</a></li><li><a href="global.html#/api/userPOST">/api/user POST</a></li><li><a href="global.html#/api/userPUT">/api/user PUT</a></li><li><a href="global.html#/api/user/%257Bid%257DGET">/api/user/{id} GET</a></li><li><a href="global.html#AuthController">AuthController</a></li>
+					<li><a href="global.html#/api/committeeGET">/api/committee GET</a></li><li><a href="global.html#/api/committeePOST">/api/committee POST</a></li><li><a href="global.html#/api/committee/%257Bid%257DGET">/api/committee/{id} GET</a></li><li><a href="global.html#/api/committee/%257Bid%257DPUT">/api/committee/{id} PUT</a></li><li><a href="global.html#/api/forgotPasswordPOST">/api/forgotPassword POST</a></li><li><a href="global.html#/api/loginPOST">/api/login POST</a></li><li><a href="global.html#/api/logoutGET">/api/logout GET</a></li><li><a href="global.html#/api/resetPasswordPOST">/api/resetPassword POST</a></li><li><a href="global.html#/api/userGET">/api/user GET</a></li><li><a href="global.html#/api/userPOST">/api/user POST</a></li><li><a href="global.html#/api/userPUT">/api/user PUT</a></li><li><a href="global.html#/api/user/%257Bid%257DGET">/api/user/{id} GET</a></li>
 				</ul>
 			</li>
 			
@@ -79,7 +79,7 @@
 		<div id="main">
 			
 
-	<h1 class="page-title">Module: Committee Controller</h1>
+	<h1 class="page-title">Module: User Controller</h1>
 <section>
 
 <header>
@@ -91,7 +91,7 @@
     <div class="container-overview">
     
         
-            <div class="description">The controller that is responsible of handling committee's requests</div>
+            <div class="description">The controller that is responsible of handling user's requests</div>
         
 
         
@@ -165,7 +165,7 @@
 
     
     <div class="description">
-        This function gets a list of all committees currently in the database.
+        This function gets a list of all users currently in the database.
     </div>
     
 
@@ -329,7 +329,7 @@
     
             
 <div class="param-desc">
-    result The committees currently in the database
+    result The users currently in the database
 </div>
 
 
@@ -365,7 +365,7 @@
 
     
     <div class="description">
-        This function gets a specifid committee currently in the database.
+        This function gets a specifid User currently in the database.
     </div>
     
 
@@ -541,7 +541,7 @@
 
     
     <div class="description">
-        This function stores the provided committe in the database
+        This function stores the provided user in the database
     </div>
     
 
@@ -717,7 +717,7 @@
 
     
     <div class="description">
-        This function updates a committees's information in the database
+        This function updates a user's information in the database
     </div>
     
 
@@ -1006,41 +1006,6 @@ $( function () {
 
 
 <!--Navigation and Symbol Display-->
-
-<script>
-	$( function () {
-		$( '#main' ).localScroll( {
-			offset : { top : 60 } //offset by the height of your header (give or take a few px, see what works for you)
-		} );
-		$( "dt.name" ).each( function () {
-			var $this = $( this ).find("h4");
-			var icon = $( "<i/>" ).addClass( "icon-plus-sign" ).addClass( "pull-right" ).addClass( "icon-white" );
-			var dt = $(this);
-			var children = dt.next( "dd" );
-
-			dt.prepend( icon ).css( {cursor : "pointer"} );
-			dt.addClass( "member-collapsed" ).addClass( "member" );
-
-
-			children.hide();
-
-			dt.children().on( "click", function () {
-				children = dt.next( "dd" );
-				children.slideToggle( "fast", function () {
-
-					if ( children.is( ":visible" ) ) {
-						icon.addClass( "icon-minus-sign" ).removeClass( "icon-plus-sign" ).removeClass( "icon-white" );
-						dt.addClass( "member-open" ).animate( "member-collapsed" );
-					} else {
-						icon.addClass( "icon-plus-sign" ).removeClass( "icon-minus-sign" ).addClass( "icon-white" );
-						dt.addClass( "member-collapsed" ).removeClass( "member-open" );
-					}
-				} );
-			} );
-
-		} );
-	} );
-</script>
 
 
 <!--Google Analytics-->

@@ -4,7 +4,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width">
-	<title>IEEE GUC Mixin: Log</title>
+	<title>IEEE GUC Mixin: Committee</title>
 
 	<!--[if lt IE 9]>
 	<script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
@@ -47,7 +47,7 @@
 			<li class="dropdown">
 				<a href="global.html" class="dropdown-toggle" data-toggle="dropdown">Global<b class="caret"></b></a>
 				<ul class="dropdown-menu inline">
-					<li><a href="global.html#/api/committeeGET">/api/committee GET</a></li><li><a href="global.html#/api/committeePOST">/api/committee POST</a></li><li><a href="global.html#/api/committee/%257Bid%257DGET">/api/committee/{id} GET</a></li><li><a href="global.html#/api/committee/%257Bid%257DPOST">/api/committee/{id} POST</a></li><li><a href="global.html#/api/forgotPasswordPOST">/api/forgotPassword POST</a></li><li><a href="global.html#/api/loginPOST">/api/login POST</a></li><li><a href="global.html#/api/logoutGET">/api/logout GET</a></li><li><a href="global.html#/api/resetPasswordPOST">/api/resetPassword POST</a></li><li><a href="global.html#/api/userGET">/api/user GET</a></li><li><a href="global.html#/api/userPOST">/api/user POST</a></li><li><a href="global.html#/api/userPUT">/api/user PUT</a></li><li><a href="global.html#/api/user/%257Bid%257DGET">/api/user/{id} GET</a></li><li><a href="global.html#AuthController">AuthController</a></li>
+					<li><a href="global.html#/api/committeeGET">/api/committee GET</a></li><li><a href="global.html#/api/committeePOST">/api/committee POST</a></li><li><a href="global.html#/api/committee/%257Bid%257DGET">/api/committee/{id} GET</a></li><li><a href="global.html#/api/committee/%257Bid%257DPUT">/api/committee/{id} PUT</a></li><li><a href="global.html#/api/forgotPasswordPOST">/api/forgotPassword POST</a></li><li><a href="global.html#/api/loginPOST">/api/login POST</a></li><li><a href="global.html#/api/logoutGET">/api/logout GET</a></li><li><a href="global.html#/api/resetPasswordPOST">/api/resetPassword POST</a></li><li><a href="global.html#/api/userGET">/api/user GET</a></li><li><a href="global.html#/api/userPOST">/api/user POST</a></li><li><a href="global.html#/api/userPUT">/api/user PUT</a></li><li><a href="global.html#/api/user/%257Bid%257DGET">/api/user/{id} GET</a></li>
 				</ul>
 			</li>
 			
@@ -79,13 +79,13 @@
 		<div id="main">
 			
 
-	<h1 class="page-title">Mixin: Log</h1>
+	<h1 class="page-title">Mixin: Committee</h1>
 <section>
 
 <header>
     
         <h2>
-        Log
+        Committee
         </h2>
         
     
@@ -127,7 +127,7 @@
 
         <tr>
             
-                <td class="name"><code>method</code></td>
+                <td class="name"><code>name</code></td>
             
 
             <td class="type">
@@ -144,14 +144,14 @@
 
             
 
-            <td class="description last">The method name</td>
+            <td class="description last">The committee's name</td>
         </tr>
 
     
 
         <tr>
             
-                <td class="name"><code>route</code></td>
+                <td class="name"><code>description</code></td>
             
 
             <td class="type">
@@ -168,103 +168,7 @@
 
             
 
-            <td class="description last">The route accessed by the identity</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>response_time</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">Integer</span>
-
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">The response time of the request in milliseconds</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>status</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">Integer</span>
-
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">The response HTTP status code</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>ip</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">String</span>
-
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">The ip address of the device requisting the route</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>error_message</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">String</span>
-
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">The eeror message that is produced by the server</td>
+            <td class="description last">The committee's description</td>
         </tr>
 
     
@@ -326,6 +230,99 @@
 
     
 
+    
+        <h3 class="subsection-title">Methods</h3>
+
+        <dl>
+            
+<hr>
+<dt>
+    <h4 class="name" id="head"><span class="type-signature"></span>head()</h4>
+    
+    
+</dt>
+<dd>
+
+    
+    <div class="description">
+        This function calls the callback function 'callback' with the head of this committee.
+    </div>
+    
+
+    
+
+    
+
+    
+    
+
+    
+<dl class="details">
+    
+
+	
+
+	
+
+	
+
+    
+
+    
+
+    
+
+    
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+
+	
+
+	
+
+	
+</dl>
+
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <h5>Returns:</h5>
+    
+            
+<div class="param-desc">
+    User
+</div>
+
+
+
+
+        
+
+    
+</dd>
+
+        </dl>
     
 
     
@@ -450,41 +447,6 @@ $( function () {
 
 
 <!--Navigation and Symbol Display-->
-
-<script>
-	$( function () {
-		$( '#main' ).localScroll( {
-			offset : { top : 60 } //offset by the height of your header (give or take a few px, see what works for you)
-		} );
-		$( "dt.name" ).each( function () {
-			var $this = $( this ).find("h4");
-			var icon = $( "<i/>" ).addClass( "icon-plus-sign" ).addClass( "pull-right" ).addClass( "icon-white" );
-			var dt = $(this);
-			var children = dt.next( "dd" );
-
-			dt.prepend( icon ).css( {cursor : "pointer"} );
-			dt.addClass( "member-collapsed" ).addClass( "member" );
-
-
-			children.hide();
-
-			dt.children().on( "click", function () {
-				children = dt.next( "dd" );
-				children.slideToggle( "fast", function () {
-
-					if ( children.is( ":visible" ) ) {
-						icon.addClass( "icon-minus-sign" ).removeClass( "icon-plus-sign" ).removeClass( "icon-white" );
-						dt.addClass( "member-open" ).animate( "member-collapsed" );
-					} else {
-						icon.addClass( "icon-plus-sign" ).removeClass( "icon-minus-sign" ).addClass( "icon-white" );
-						dt.addClass( "member-collapsed" ).removeClass( "member-open" );
-					}
-				} );
-			} );
-
-		} );
-	} );
-</script>
 
 
 <!--Google Analytics-->

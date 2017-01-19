@@ -7,7 +7,7 @@
         "navType"               : "inline",
         "theme"                 : "flatly",
         "linenums"              : true,
-        "collapseSymbols"       : true,
+        "collapseSymbols"       : false,
         "inverseNav"            : true,
         "outputSourceFiles"     : false,
         "outputSourcePath"      : false,

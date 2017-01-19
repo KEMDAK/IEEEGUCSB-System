@@ -112,6 +112,7 @@ module.exports.defineUser = function(sequelize) {
                toJSON: function(detailed) {
                    var res = {};
 
+                   res.id = this.id;
                    res.type = this.type;
                    res.first_name = this.first_name;
                    res.last_name = this.last_name;

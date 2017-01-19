@@ -223,9 +223,11 @@ module.exports.store = function(req, res, next) {
 
    /*Validate and sanitizing Password Input*/
    req.checkBody('password', 'Password is required').notEmpty();
+   req.assert('password', 'The legnth of the password must be between 6 and 20 characters').len(6, 20);
 
    /*Validate and sanitizing type Input*/
    req.checkBody('type', 'Type is required').notEmpty();
+   req.checkBody('type', 'Enter a valid account type [\'Admin\', \'Upper Board\', \'High Board\', \'Member\']').isIn(['Admin', 'Upper Board', 'High Board', 'Member']);
    req.sanitizeBody('type').escape();
    req.sanitizeBody('type').trim();
 
@@ -246,6 +248,7 @@ module.exports.store = function(req, res, next) {
 
    /*Validate and sanitizing gender Input*/
    req.checkBody('gender', 'Gender is required').notEmpty();
+   req.checkBody('gender', 'Enter a valid gender [\'Male\', \'Female\']').isIn(['Male', 'Female']);
    req.sanitizeBody('gender').escape();
    req.sanitizeBody('gender').trim();
 
@@ -310,9 +313,11 @@ module.exports.update = function(req, res, next) {
 
    /*Validate and sanitizing Password Input*/
    req.checkBody('password', 'Password is required').notEmpty();
+   req.assert('password', 'The legnth of the password must be between 6 and 20 characters').len(6, 20);
 
    /*Validate and sanitizing type Input*/
    req.checkBody('type', 'Type is required').notEmpty();
+   req.checkBody('type', 'Enter a valid account type [\'Admin\', \'Upper Board\', \'High Board\', \'Member\']').isIn(['Admin', 'Upper Board', 'High Board', 'Member']);
    req.sanitizeBody('type').escape();
    req.sanitizeBody('type').trim();
 
@@ -333,6 +338,7 @@ module.exports.update = function(req, res, next) {
 
    /*Validate and sanitizing gender Input*/
    req.checkBody('gender', 'Gender is required').notEmpty();
+   req.checkBody('gender', 'Enter a valid gender [\'Male\', \'Female\']').isIn(['Male', 'Female']);
    req.sanitizeBody('gender').escape();
    req.sanitizeBody('gender').trim();
 

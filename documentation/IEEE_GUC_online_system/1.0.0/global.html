@@ -47,7 +47,7 @@
 			<li class="dropdown">
 				<a href="global.html" class="dropdown-toggle" data-toggle="dropdown">Global<b class="caret"></b></a>
 				<ul class="dropdown-menu inline">
-					<li><a href="global.html#/api/committeeGET">/api/committee GET</a></li><li><a href="global.html#/api/committeePOST">/api/committee POST</a></li><li><a href="global.html#/api/committee/%257Bid%257DGET">/api/committee/{id} GET</a></li><li><a href="global.html#/api/committee/%257Bid%257DPOST">/api/committee/{id} POST</a></li><li><a href="global.html#/api/forgotPasswordPOST">/api/forgotPassword POST</a></li><li><a href="global.html#/api/loginPOST">/api/login POST</a></li><li><a href="global.html#/api/logoutGET">/api/logout GET</a></li><li><a href="global.html#/api/resetPasswordPOST">/api/resetPassword POST</a></li><li><a href="global.html#/api/userGET">/api/user GET</a></li><li><a href="global.html#/api/userPOST">/api/user POST</a></li><li><a href="global.html#/api/userPUT">/api/user PUT</a></li><li><a href="global.html#/api/user/%257Bid%257DGET">/api/user/{id} GET</a></li><li><a href="global.html#AuthController">AuthController</a></li>
+					<li><a href="global.html#/api/committeeGET">/api/committee GET</a></li><li><a href="global.html#/api/committeePOST">/api/committee POST</a></li><li><a href="global.html#/api/committee/%257Bid%257DGET">/api/committee/{id} GET</a></li><li><a href="global.html#/api/committee/%257Bid%257DPUT">/api/committee/{id} PUT</a></li><li><a href="global.html#/api/forgotPasswordPOST">/api/forgotPassword POST</a></li><li><a href="global.html#/api/loginPOST">/api/login POST</a></li><li><a href="global.html#/api/logoutGET">/api/logout GET</a></li><li><a href="global.html#/api/resetPasswordPOST">/api/resetPassword POST</a></li><li><a href="global.html#/api/userGET">/api/user GET</a></li><li><a href="global.html#/api/userPOST">/api/user POST</a></li><li><a href="global.html#/api/userPUT">/api/user PUT</a></li><li><a href="global.html#/api/user/%257Bid%257DGET">/api/user/{id} GET</a></li>
 				</ul>
 			</li>
 			
@@ -165,7 +165,7 @@
 <dd>
     
     <div class="description">
-        A get route responsible for getting all committes in the database
+        A GET route responsible for getting all committes in the database
     </div>
     
 
@@ -214,7 +214,7 @@
     
         <h5>Examples</h5>
         
-    <pre class="sunlight-highlight-javascript">The route expects a header.user_agent from one of those user agents [&#x27;Web&#x27;, &#x27;IOS&#x27;, &#x27;Android&#x27;]</pre>
+    <pre class="sunlight-highlight-javascript">the route expects the user agent as &#x27;user_agent&#x27; in the request headers with one of the following values [&#x27;Web&#x27;, &#x27;IOS&#x27;, &#x27;Android&#x27;]</pre>
 
     <pre class="sunlight-highlight-javascript">The route returns as a response an object in the following format
 {
@@ -246,7 +246,7 @@
 <dd>
     
     <div class="description">
-        A post route responsible for creating a committee
+        A POST route responsible for creating a committee. This route can not be used unless the requesting account is an Upper Board or higher.
     </div>
     
 
@@ -295,6 +295,8 @@
     
         <h5>Examples</h5>
         
+    <pre class="sunlight-highlight-javascript">the route expects the access token as &#x27;Authorization&#x27; and the user agent as &#x27;user_agent&#x27; in the request headers</pre>
+
     <pre class="sunlight-highlight-javascript">The route expects a body Object in the following format
 {
   name: String, [required]
@@ -322,7 +324,7 @@
 <dd>
     
     <div class="description">
-        A get route to show a specific committee
+        A GET route to show a specific committee
     </div>
     
 
@@ -384,7 +386,7 @@
         
     <pre class="sunlight-highlight-javascript">The route expects a committee id for the committee to be returned</pre>
 
-    <pre class="sunlight-highlight-javascript">The route expects a header.user_agent from one of those user agents [&#x27;Web&#x27;, &#x27;IOS&#x27;, &#x27;Android&#x27;]</pre>
+    <pre class="sunlight-highlight-javascript">the route expects the access token as &#x27;Authorization&#x27; and the user agent as &#x27;user_agent&#x27; in the request headers</pre>
 
     <pre class="sunlight-highlight-javascript">The route returns as a response an object in the following format
 {
@@ -406,15 +408,15 @@
         
             
 <hr>
-<dt class="name" id="/api/committee/%7Bid%7DPOST">
-    <h4 id="/api/committee/%7Bid%7DPOST"><span class="type-signature"></span>/api/committee/{id} POST<span class="type-signature"> :id</span></h4>
+<dt class="name" id="/api/committee/%7Bid%7DPUT">
+    <h4 id="/api/committee/%7Bid%7DPUT"><span class="type-signature"></span>/api/committee/{id} PUT<span class="type-signature"> :id</span></h4>
 
     
 </dt>
 <dd>
     
     <div class="description">
-        A put route responsible for updating a committee
+        A PUT route responsible for updating a committee. This route can not be used unless the requesting account is an Upper Board or higher.
     </div>
     
 
@@ -474,13 +476,17 @@
     
         <h5>Examples</h5>
         
+    <pre class="sunlight-highlight-javascript">The route expects a committee id for the committee to be updated</pre>
+
+    <pre class="sunlight-highlight-javascript">the route expects the access token as &#x27;Authorization&#x27; and the user agent as &#x27;user_agent&#x27; in the request headers</pre>
+
     <pre class="sunlight-highlight-javascript">The route expects a body Object in the following format
 {
   name: String, [required]
   description: String [required]
 }</pre>
 
-    <pre class="sunlight-highlight-javascript">The route returns as a rauth,esponse an object in the following format
+    <pre class="sunlight-highlight-javascript">The route returns as a response an object in the following format
 {
   status: succeeded/failed,
   message: String showing a descriptive text
@@ -501,7 +507,7 @@
 <dd>
     
     <div class="description">
-        A post request responsible for sending an email to the user containing an link to reset password
+        A POST request responsible for sending an email to the user containing an link to reset password
     </div>
     
 
@@ -577,7 +583,7 @@
 <dd>
     
     <div class="description">
-        A post route responsible for Logging in an existing user
+        A POST route responsible for Logging in an existing user
     </div>
     
 
@@ -626,13 +632,13 @@
     
         <h5>Examples</h5>
         
+    <pre class="sunlight-highlight-javascript">the route expects the user agent as &#x27;user_agent&#x27; in the request headers with one of the following values [&#x27;Web&#x27;, &#x27;IOS&#x27;, &#x27;Android&#x27;]</pre>
+
     <pre class="sunlight-highlight-javascript">The route expects a body Object in the following format
 {
-	email: String, [required]
-	password: String [required]
+  email: String, [required]
+  password: String [required]
 }</pre>
-
-    <pre class="sunlight-highlight-javascript">The route expects a header.user_agent from one of those user agents [&#x27;Web&#x27;, &#x27;IOS&#x27;, &#x27;Android&#x27;]</pre>
 
     <pre class="sunlight-highlight-javascript">The route returns as a response an object in the following format
 {
@@ -641,12 +647,14 @@
 	token: access token as a response to a successfull login,
 	user:
 	 {
-      first_name: the logged in user first name;
-      last_name: the logged in user last name;
-      email: the logged in user email;
-      gender: the logged in user gender;
-      birthdate: the logged in user birthdate;
-      settings: the logged in user settings;
+      id: the user id,
+      type: the type of the account [&#x27;Admin&#x27;, &#x27;Upper Board&#x27;, &#x27;High Board&#x27;, &#x27;Member&#x27;],
+      first_name: the logged in user first name,
+      last_name: the logged in user last name,
+      email: the logged in user email,
+      gender: the logged in user gender,
+      birthdate: the logged in user birthdate,
+      IEEE_membership_ID: the membership id in IEEE
 	 }
 	error: Validation errors
 }</pre>
@@ -666,7 +674,7 @@
 <dd>
     
     <div class="description">
-        A get route to logOut A user
+        A GET route to logout A user
     </div>
     
 
@@ -738,7 +746,7 @@
 <dd>
     
     <div class="description">
-        A post route responsible for updating a user password in the database
+        A POST route responsible for updating a user password in the database
     </div>
     
 
@@ -816,7 +824,7 @@
 <dd>
     
     <div class="description">
-        A get route responsible for getting all users in the database
+        A GET route responsible for getting all users in the database
     </div>
     
 
@@ -874,12 +882,14 @@
 	users:
 	[
 	   {
-         first_name: the logged in user first name;
-         last_name: the logged in user last name;
-         email: the logged in user email;
-         gender: the logged in user gender;
-         birthdate: the logged in user birthdate;
-         settings: the logged in user settings;
+       id: the user id,
+       type: the type of the account [&#x27;Admin&#x27;, &#x27;Upper Board&#x27;, &#x27;High Board&#x27;, &#x27;Member&#x27;],
+       first_name: the logged in user first name,
+       last_name: the logged in user last name,
+       email: the logged in user email,
+       gender: the logged in user gender,
+       birthdate: the logged in user birthdate,
+       IEEE_membership_ID: the membership id in IEEE
 	   }, {...}, ...
 	 ]
 	error: Validation errors
@@ -900,7 +910,7 @@
 <dd>
     
     <div class="description">
-        A post route responsible for storing a user in the database
+        A POST route responsible for storing a user in the database. This route can not be used unless the requesting account is an Upper Board or higher.
     </div>
     
 
@@ -949,13 +959,19 @@
     
         <h5>Examples</h5>
         
+    <pre class="sunlight-highlight-javascript">the route expects the access token as &#x27;Authorization&#x27; and the user agent as &#x27;user_agent&#x27; in the request headers</pre>
+
     <pre class="sunlight-highlight-javascript">The route expects a body Object in the following format
 {
-	email: String, [required]
-	password: String [required]
+  type: String [&#x27;Admin&#x27;, &#x27;Upper Board&#x27;, &#x27;High Board&#x27;, &#x27;Member&#x27;], [required]
+  email: String, [required]
+  password: String (6 to 20 charecters), [required]
+  first_name: String, [required]
+  last_name: String, [required]
+  birthdate: String (YYYY-MM-DD), [required]
+  gender: String [&#x27;Male&#x27;, &#x27;Female&#x27;], [required]
+  IEEE_membership_ID: String [optional]
 }</pre>
-
-    <pre class="sunlight-highlight-javascript">The route expects a header.user_agent from one of those user agents [&#x27;Web&#x27;, &#x27;IOS&#x27;, &#x27;Android&#x27;]</pre>
 
     <pre class="sunlight-highlight-javascript">The route responds with an object having the following format
 {
@@ -979,7 +995,7 @@
 <dd>
     
     <div class="description">
-        A put route responsible for updating a user's information in the database
+        A PUT route responsible for updating a user's information in the database
     </div>
     
 
@@ -1028,19 +1044,19 @@
     
         <h5>Examples</h5>
         
+    <pre class="sunlight-highlight-javascript">the route expects the access token as &#x27;Authorization&#x27; and the user agent as &#x27;user_agent&#x27; in the request headers</pre>
+
     <pre class="sunlight-highlight-javascript">The route expects a body Object in the following format
 {
-	email: String, [required]
-	password: String, [required]
-	type: String, [required]
-	first_name: String, [required]
-	last_name: String, [required]
-	birthday: Date, [required]
-	gender: String, [required]
-	IEEE_membership_ID: String [optional]
+  type: String [&#x27;Admin&#x27;, &#x27;Upper Board&#x27;, &#x27;High Board&#x27;, &#x27;Member&#x27;], [required]
+  email: String, [required]
+  password: String (6 to 20 charecters), [required]
+  first_name: String, [required]
+  last_name: String, [required]
+  birthdate: String (YYYY-MM-DD), [required]
+  gender: String [&#x27;Male&#x27;, &#x27;Female&#x27;], [required]
+  IEEE_membership_ID: String [optional]
 }</pre>
-
-    <pre class="sunlight-highlight-javascript">The route expects a header.user_agent from one of those user agents [&#x27;Web&#x27;, &#x27;IOS&#x27;, &#x27;Android&#x27;]</pre>
 
     <pre class="sunlight-highlight-javascript">The route responds with an object having the following format
 {
@@ -1064,7 +1080,7 @@
 <dd>
     
     <div class="description">
-        A get route to show a specific user
+        A GET route to show a specific user
     </div>
     
 
@@ -1126,78 +1142,25 @@
         
     <pre class="sunlight-highlight-javascript">The route expects a user id for the user to be returned</pre>
 
-    <pre class="sunlight-highlight-javascript">The route expects a header.user_agent from one of those user agents [&#x27;Web&#x27;, &#x27;IOS&#x27;, &#x27;Android&#x27;]</pre>
+    <pre class="sunlight-highlight-javascript">the route expects the access token as &#x27;Authorization&#x27; and the user agent as &#x27;user_agent&#x27; in the request headers</pre>
 
     <pre class="sunlight-highlight-javascript">The route returns as a response an object in the following format
 {
 	status: succeeded/failed,
 	message: String showing a descriptive text,
-   result:
-   {
-      The user depends on basic or detailed // TO BE MODIFIED
-   }
-   error: Validation errors
+  result:
+  {
+    id: the user id,
+    type: the type of the account [&#x27;Admin&#x27;, &#x27;Upper Board&#x27;, &#x27;High Board&#x27;, &#x27;Member&#x27;],
+    first_name: the logged in user first name,
+    last_name: the logged in user last name,
+    email: the logged in user email,
+    gender: the logged in user gender,
+    birthdate: the logged in user birthdate,
+    IEEE_membership_ID: the membership id in IEEE
+  }
+  error: Validation errors
 }</pre>
-
-
-    
-</dd>
-
-        
-            
-<hr>
-<dt class="name" id="AuthController">
-    <h4 id="AuthController"><span class="type-signature"></span>AuthController<span class="type-signature"></span></h4>
-
-    
-</dt>
-<dd>
-    
-    <div class="description">
-        This function configures the routes of the entire application.
-    </div>
-    
-
-    
-
-    
-<dl class="details">
-    
-
-	
-
-	
-
-	
-
-    
-
-    
-
-    
-
-    
-
-	
-
-	
-
-	
-
-	
-
-	
-
-
-
-	
-
-	
-
-	
-
-	
-</dl>
 
 
     
@@ -1330,41 +1293,6 @@ $( function () {
 
 
 <!--Navigation and Symbol Display-->
-
-<script>
-	$( function () {
-		$( '#main' ).localScroll( {
-			offset : { top : 60 } //offset by the height of your header (give or take a few px, see what works for you)
-		} );
-		$( "dt.name" ).each( function () {
-			var $this = $( this ).find("h4");
-			var icon = $( "<i/>" ).addClass( "icon-plus-sign" ).addClass( "pull-right" ).addClass( "icon-white" );
-			var dt = $(this);
-			var children = dt.next( "dd" );
-
-			dt.prepend( icon ).css( {cursor : "pointer"} );
-			dt.addClass( "member-collapsed" ).addClass( "member" );
-
-
-			children.hide();
-
-			dt.children().on( "click", function () {
-				children = dt.next( "dd" );
-				children.slideToggle( "fast", function () {
-
-					if ( children.is( ":visible" ) ) {
-						icon.addClass( "icon-minus-sign" ).removeClass( "icon-plus-sign" ).removeClass( "icon-white" );
-						dt.addClass( "member-open" ).animate( "member-collapsed" );
-					} else {
-						icon.addClass( "icon-plus-sign" ).removeClass( "icon-minus-sign" ).addClass( "icon-white" );
-						dt.addClass( "member-collapsed" ).removeClass( "member-open" );
-					}
-				} );
-			} );
-
-		} );
-	} );
-</script>
 
 
 <!--Google Analytics-->
