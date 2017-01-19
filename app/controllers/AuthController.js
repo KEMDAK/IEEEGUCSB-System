@@ -7,6 +7,7 @@ var User              = require('../models/User').User;
 var Identity          = require('../models/Identity').Identity;
 var jwt               = require('jsonwebtoken');
 var path              = require('path');
+var nodemailer        = require('nodemailer');
 
 /**
 * This function recieves and handles login request
@@ -282,37 +283,42 @@ module.exports.forgotPassword = function (req, res, next) {
             };
             var token = jwt.sign(payload, process.env.JWTSECRET);
 
-            // var templateDir = path.join(__dirname, '../../', 'public', 'views', 'auth', 'emails', 'resetPasswordMail');
-            // var mail = new EmailTemplate(templateDir);
-            // var variables = {
-            //     token: token
-            // };
+            var transporter = nodemailer.createTransport('smtps://' + process.env.EMAIL + ':' + process.env.PASSWORD + '@' + process.env.MAIL_SERVER);
+            var EmailTemplate = require('email-templates').EmailTemplate;
+            var path = require('path');
 
-            // mail.render(variables, function (err, result) {
-            //     if(err){
-            //         return;
-            //     }
-            //
-            //     /* setting up email options */
-            //     var mailOptions = {
-            //         from: process.env.FROM , // sender address
-            //         to: email, // list of receivers
-            //         subject:'Reset password request', // Subject line
-            //         text: result.text, // plaintext body
-            //         html: result.html // html body
-            //     };
-            //
-            //     /* Sending the reset email */
-            //     transporter.sendMail(mailOptions);
+            var templateDir = path.join(__dirname, '../../', 'public', 'emails', 'resetPasswordMail');
+            var mail = new EmailTemplate(templateDir);
+            var variables = {
+                url: process.env.DOMAIN + ':' + process.env.PORT + '/api/resetPassword?token=' + token
+            };
 
-            user.reset_token = token;
-            user.save();
-            // });
+            mail.render(variables, function (err, result) {
+                if(err){
+                    req.err = err;
+                    next();
+                    return;
+                }
 
+                /* setting up email options */
+                var mailOptions = {
+                    from: process.env.FROM , // sender address
+                    to: email, // list of receivers
+                    subject:'Reset password request', // Subject line
+                    text: result.text, // plaintext body
+                    html: result.html // html body
+                };
+
+                /* Sending the reset email */
+                transporter.sendMail(mailOptions);
+
+                user.reset_token = token;
+                user.save();
+            });
         }
-	else{
-	    req.err = "The requested user was not found in the database.";
-	}
+    	else{
+    	    req.err = "The requested user was not found in the database.";
+    	}
 
         /* request handled */
         res.status(200).json({

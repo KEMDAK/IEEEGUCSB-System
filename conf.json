@@ -1,0 +1,18 @@
+{
+    "templates": {
+        "systemName"            : "IEEE GUC",
+        "footer"                : "",
+        "copyright"             : "",
+        "includeDate"           : false,
+        "navType"               : "inline",
+        "theme"                 : "flatly",
+        "linenums"              : true,
+        "collapseSymbols"       : true,
+        "inverseNav"            : true,
+        "outputSourceFiles"     : false,
+        "outputSourcePath"      : false,
+        "dateFormat"            : "DD MM YYYY",
+        "syntaxTheme"           : "default",
+        "sort"                  : true
+    }
+}

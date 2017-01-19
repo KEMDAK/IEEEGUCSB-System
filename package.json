@@ -1,5 +1,5 @@
 {
-  "name": "ieee_guc_sb_online_system",
+  "name": "IEEE_GUC_online_system",
   "version": "1.0.0",
   "description": "Backend API for IEEE GUC SB online system to manage interactions with all related applications and includes the API required to all main application functionalities and Database management.",
   "main": "server.js",
@@ -21,11 +21,14 @@
     "bcrypt-nodejs": "0.0.3",
     "body-parser": "^1.15.2",
     "dotenv": "^2.0.0",
+    "ejs": "^2.5.5",
+    "email-templates": "^2.5.4",
     "express": "^4.14.0",
     "express-validator": "^2.20.10",
     "jsonwebtoken": "^7.1.9",
     "method-override": "^2.3.6",
     "mysql": "^2.11.1",
+    "nodemailer": "^2.7.0",
     "sequelize": "^3.24.3"
   }
 }

@@ -1,0 +1,1382 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width">
+	<title>IEEE GUC Global</title>
+
+	<!--[if lt IE 9]>
+	<script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+	<![endif]-->
+	<link type="text/css" rel="stylesheet" href="styles/sunlight.default.css">
+
+	<link type="text/css" rel="stylesheet" href="styles/site.flatly.css">
+
+</head>
+
+<body>
+
+<div class="navbar navbar-default navbar-fixed-top navbar-inverse">
+<div class="container">
+	<div class="navbar-header">
+		<a class="navbar-brand" href="index.html">IEEE GUC</a>
+		<button class="navbar-toggle" type="button" data-toggle="collapse" data-target="#topNavigation">
+			<span class="icon-bar"></span>
+			<span class="icon-bar"></span>
+			<span class="icon-bar"></span>
+        </button>
+	</div>
+	<div class="navbar-collapse collapse" id="topNavigation">
+		<ul class="nav navbar-nav">
+			
+			<li class="dropdown">
+				<a href="modules.list.html" class="dropdown-toggle" data-toggle="dropdown">Modules<b class="caret"></b></a>
+				<ul class="dropdown-menu inline">
+					<li><a href="module-Auth%2520Controller.html">Auth Controller</a></li><li><a href="module-Committee%2520Controller.html">Committee Controller</a></li><li><a href="module-User%2520Controller.html">User Controller</a></li>
+				</ul>
+			</li>
+			
+			<li class="dropdown">
+				<a href="mixins.list.html" class="dropdown-toggle" data-toggle="dropdown">Mixins<b class="caret"></b></a>
+				<ul class="dropdown-menu inline">
+					<li><a href="Committee.html">Committee</a></li><li><a href="Identity.html">Identity</a></li><li><a href="Log.html">Log</a></li><li><a href="User.html">User</a></li>
+				</ul>
+			</li>
+			
+			<li class="dropdown">
+				<a href="global.html" class="dropdown-toggle" data-toggle="dropdown">Global<b class="caret"></b></a>
+				<ul class="dropdown-menu inline">
+					<li><a href="global.html#/api/committeeGET">/api/committee GET</a></li><li><a href="global.html#/api/committeePOST">/api/committee POST</a></li><li><a href="global.html#/api/committee/%257Bid%257DGET">/api/committee/{id} GET</a></li><li><a href="global.html#/api/committee/%257Bid%257DPOST">/api/committee/{id} POST</a></li><li><a href="global.html#/api/forgotPasswordPOST">/api/forgotPassword POST</a></li><li><a href="global.html#/api/loginPOST">/api/login POST</a></li><li><a href="global.html#/api/logoutGET">/api/logout GET</a></li><li><a href="global.html#/api/resetPasswordPOST">/api/resetPassword POST</a></li><li><a href="global.html#/api/userGET">/api/user GET</a></li><li><a href="global.html#/api/userPOST">/api/user POST</a></li><li><a href="global.html#/api/userPUT">/api/user PUT</a></li><li><a href="global.html#/api/user/%257Bid%257DGET">/api/user/{id} GET</a></li><li><a href="global.html#AuthController">AuthController</a></li>
+				</ul>
+			</li>
+			
+		</ul>
+        
+            <div class="col-sm-3 col-md-3">
+                <form class="navbar-form" role="search">
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="Search" name="q" id="search-input">
+                        <div class="input-group-btn">
+                            <button class="btn btn-default" id="search-submit"><i class="glyphicon glyphicon-search"></i></button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        
+	</div>
+
+</div>
+</div>
+
+
+<div class="container" id="toc-content">
+<div class="row">
+
+	
+	<div class="col-md-8">
+	
+		<div id="main">
+			
+
+	<h1 class="page-title">Global</h1>
+<section>
+
+<header>
+    
+        <h2>
+        
+        </h2>
+        
+    
+</header>
+
+
+<article>
+    <div class="container-overview">
+    
+        
+
+        
+<dl class="details">
+    
+
+	
+
+	
+
+	
+
+    
+
+    
+
+    
+
+    
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+
+	
+
+	
+
+	
+</dl>
+
+
+        
+    
+    </div>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+        <h3 class="subsection-title">Members</h3>
+
+        <dl>
+            
+<hr>
+<dt class="name" id="/api/committeeGET">
+    <h4 id="/api/committeeGET"><span class="type-signature"></span>/api/committee GET<span class="type-signature"></span></h4>
+
+    
+</dt>
+<dd>
+    
+    <div class="description">
+        A get route responsible for getting all committes in the database
+    </div>
+    
+
+    
+
+    
+<dl class="details">
+    
+
+	
+
+	
+
+	
+
+    
+
+    
+
+    
+
+    
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+
+	
+
+	
+
+	
+</dl>
+
+
+    
+        <h5>Examples</h5>
+        
+    <pre class="sunlight-highlight-javascript">The route expects a header.user_agent from one of those user agents [&#x27;Web&#x27;, &#x27;IOS&#x27;, &#x27;Android&#x27;]</pre>
+
+    <pre class="sunlight-highlight-javascript">The route returns as a response an object in the following format
+{
+  status: succeeded/failed,
+  message: String showing a descriptive text,
+  committees:
+  [
+     {
+         id: the committee id,
+         name: the committee name,
+         description: the committee description
+     }, {...}, ...
+   ],
+  error: Validation errors
+}</pre>
+
+
+    
+</dd>
+
+        
+            
+<hr>
+<dt class="name" id="/api/committeePOST">
+    <h4 id="/api/committeePOST"><span class="type-signature"></span>/api/committee POST<span class="type-signature"></span></h4>
+
+    
+</dt>
+<dd>
+    
+    <div class="description">
+        A post route responsible for creating a committee
+    </div>
+    
+
+    
+
+    
+<dl class="details">
+    
+
+	
+
+	
+
+	
+
+    
+
+    
+
+    
+
+    
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+
+	
+
+	
+
+	
+</dl>
+
+
+    
+        <h5>Examples</h5>
+        
+    <pre class="sunlight-highlight-javascript">The route expects a body Object in the following format
+{
+  name: String, [required]
+  description: String [required]
+}</pre>
+
+    <pre class="sunlight-highlight-javascript">The route returns as a response an object in the following format
+{
+  status: succeeded/failed,
+  message: String showing a descriptive text
+}</pre>
+
+
+    
+</dd>
+
+        
+            
+<hr>
+<dt class="name" id="/api/committee/%7Bid%7DGET">
+    <h4 id="/api/committee/%7Bid%7DGET"><span class="type-signature"></span>/api/committee/{id} GET<span class="type-signature"> :id</span></h4>
+
+    
+</dt>
+<dd>
+    
+    <div class="description">
+        A get route to show a specific committee
+    </div>
+    
+
+    
+        <h5>Type:</h5>
+        <ul>
+            <li>
+                
+<span class="param-type">id</span>
+
+
+
+            </li>
+        </ul>
+    
+
+    
+<dl class="details">
+    
+
+	
+
+	
+
+	
+
+    
+
+    
+
+    
+
+    
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+
+	
+
+	
+
+	
+</dl>
+
+
+    
+        <h5>Examples</h5>
+        
+    <pre class="sunlight-highlight-javascript">The route expects a committee id for the committee to be returned</pre>
+
+    <pre class="sunlight-highlight-javascript">The route expects a header.user_agent from one of those user agents [&#x27;Web&#x27;, &#x27;IOS&#x27;, &#x27;Android&#x27;]</pre>
+
+    <pre class="sunlight-highlight-javascript">The route returns as a response an object in the following format
+{
+  status: succeeded/failed,
+  message: String showing a descriptive text,
+  committee:
+     {
+         id: the committee id,
+         name: the committee name,
+         description: the committee description
+     },
+   error: Validation errors
+}</pre>
+
+
+    
+</dd>
+
+        
+            
+<hr>
+<dt class="name" id="/api/committee/%7Bid%7DPOST">
+    <h4 id="/api/committee/%7Bid%7DPOST"><span class="type-signature"></span>/api/committee/{id} POST<span class="type-signature"> :id</span></h4>
+
+    
+</dt>
+<dd>
+    
+    <div class="description">
+        A put route responsible for updating a committee
+    </div>
+    
+
+    
+        <h5>Type:</h5>
+        <ul>
+            <li>
+                
+<span class="param-type">id</span>
+
+
+
+            </li>
+        </ul>
+    
+
+    
+<dl class="details">
+    
+
+	
+
+	
+
+	
+
+    
+
+    
+
+    
+
+    
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+
+	
+
+	
+
+	
+</dl>
+
+
+    
+        <h5>Examples</h5>
+        
+    <pre class="sunlight-highlight-javascript">The route expects a body Object in the following format
+{
+  name: String, [required]
+  description: String [required]
+}</pre>
+
+    <pre class="sunlight-highlight-javascript">The route returns as a rauth,esponse an object in the following format
+{
+  status: succeeded/failed,
+  message: String showing a descriptive text
+}</pre>
+
+
+    
+</dd>
+
+        
+            
+<hr>
+<dt class="name" id="/api/forgotPasswordPOST">
+    <h4 id="/api/forgotPasswordPOST"><span class="type-signature"></span>/api/forgotPassword POST<span class="type-signature"></span></h4>
+
+    
+</dt>
+<dd>
+    
+    <div class="description">
+        A post request responsible for sending an email to the user containing an link to reset password
+    </div>
+    
+
+    
+
+    
+<dl class="details">
+    
+
+	
+
+	
+
+	
+
+    
+
+    
+
+    
+
+    
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+
+	
+
+	
+
+	
+</dl>
+
+
+    
+        <h5>Examples</h5>
+        
+    <pre class="sunlight-highlight-javascript">The route expects a body Object with the following format
+{
+	email: String [required]
+}</pre>
+
+    <pre class="sunlight-highlight-javascript">The route responds with an object having the following format
+{
+	status: succeeded/failed
+	message: Descriptive text about the errors,
+	error: Validation errors
+}</pre>
+
+
+    
+</dd>
+
+        
+            
+<hr>
+<dt class="name" id="/api/loginPOST">
+    <h4 id="/api/loginPOST"><span class="type-signature"></span>/api/login POST<span class="type-signature"></span></h4>
+
+    
+</dt>
+<dd>
+    
+    <div class="description">
+        A post route responsible for Logging in an existing user
+    </div>
+    
+
+    
+
+    
+<dl class="details">
+    
+
+	
+
+	
+
+	
+
+    
+
+    
+
+    
+
+    
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+
+	
+
+	
+
+	
+</dl>
+
+
+    
+        <h5>Examples</h5>
+        
+    <pre class="sunlight-highlight-javascript">The route expects a body Object in the following format
+{
+	email: String, [required]
+	password: String [required]
+}</pre>
+
+    <pre class="sunlight-highlight-javascript">The route expects a header.user_agent from one of those user agents [&#x27;Web&#x27;, &#x27;IOS&#x27;, &#x27;Android&#x27;]</pre>
+
+    <pre class="sunlight-highlight-javascript">The route returns as a response an object in the following format
+{
+	status: succeeded/failed,
+	message: String showing a descriptive text,
+	token: access token as a response to a successfull login,
+	user:
+	 {
+      first_name: the logged in user first name;
+      last_name: the logged in user last name;
+      email: the logged in user email;
+      gender: the logged in user gender;
+      birthdate: the logged in user birthdate;
+      settings: the logged in user settings;
+	 }
+	error: Validation errors
+}</pre>
+
+
+    
+</dd>
+
+        
+            
+<hr>
+<dt class="name" id="/api/logoutGET">
+    <h4 id="/api/logoutGET"><span class="type-signature"></span>/api/logout GET<span class="type-signature"></span></h4>
+
+    
+</dt>
+<dd>
+    
+    <div class="description">
+        A get route to logOut A user
+    </div>
+    
+
+    
+
+    
+<dl class="details">
+    
+
+	
+
+	
+
+	
+
+    
+
+    
+
+    
+
+    
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+
+	
+
+	
+
+	
+</dl>
+
+
+    
+        <h5>Examples</h5>
+        
+    <pre class="sunlight-highlight-javascript">the route expects the access token as &#x27;Authorization&#x27; and the user agent as &#x27;user_agent&#x27; in the request headers</pre>
+
+    <pre class="sunlight-highlight-javascript">The route respond with a json Object having the following format
+{
+	status: succeeded/failed
+	message: Descriptive text about the errors
+}</pre>
+
+
+    
+</dd>
+
+        
+            
+<hr>
+<dt class="name" id="/api/resetPasswordPOST">
+    <h4 id="/api/resetPasswordPOST"><span class="type-signature"></span>/api/resetPassword POST<span class="type-signature"></span></h4>
+
+    
+</dt>
+<dd>
+    
+    <div class="description">
+        A post route responsible for updating a user password in the database
+    </div>
+    
+
+    
+
+    
+<dl class="details">
+    
+
+	
+
+	
+
+	
+
+    
+
+    
+
+    
+
+    
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+
+	
+
+	
+
+	
+</dl>
+
+
+    
+        <h5>Examples</h5>
+        
+    <pre class="sunlight-highlight-javascript">The route expects the reset token in the query string as &#x27;token&#x27;</pre>
+
+    <pre class="sunlight-highlight-javascript">The route expects a body object with the following format
+{
+	password: String containing the new password [required (length between 6-20 characters)]
+}</pre>
+
+    <pre class="sunlight-highlight-javascript">The route responds with an object having the following format
+{
+	status: succeeded/failed,
+	message: Descriptive text about the errors,
+	error: Validation errors
+}</pre>
+
+
+    
+</dd>
+
+        
+            
+<hr>
+<dt class="name" id="/api/userGET">
+    <h4 id="/api/userGET"><span class="type-signature"></span>/api/user GET<span class="type-signature"></span></h4>
+
+    
+</dt>
+<dd>
+    
+    <div class="description">
+        A get route responsible for getting all users in the database
+    </div>
+    
+
+    
+
+    
+<dl class="details">
+    
+
+	
+
+	
+
+	
+
+    
+
+    
+
+    
+
+    
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+
+	
+
+	
+
+	
+</dl>
+
+
+    
+        <h5>Examples</h5>
+        
+    <pre class="sunlight-highlight-javascript">The route expects a header.user_agent from one of those user agents [&#x27;Web&#x27;, &#x27;IOS&#x27;, &#x27;Android&#x27;]</pre>
+
+    <pre class="sunlight-highlight-javascript">The route returns as a response an object in the following format
+{
+	status: succeeded/failed,
+	message: String showing a descriptive text,
+	users:
+	[
+	   {
+         first_name: the logged in user first name;
+         last_name: the logged in user last name;
+         email: the logged in user email;
+         gender: the logged in user gender;
+         birthdate: the logged in user birthdate;
+         settings: the logged in user settings;
+	   }, {...}, ...
+	 ]
+	error: Validation errors
+}</pre>
+
+
+    
+</dd>
+
+        
+            
+<hr>
+<dt class="name" id="/api/userPOST">
+    <h4 id="/api/userPOST"><span class="type-signature"></span>/api/user POST<span class="type-signature"></span></h4>
+
+    
+</dt>
+<dd>
+    
+    <div class="description">
+        A post route responsible for storing a user in the database
+    </div>
+    
+
+    
+
+    
+<dl class="details">
+    
+
+	
+
+	
+
+	
+
+    
+
+    
+
+    
+
+    
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+
+	
+
+	
+
+	
+</dl>
+
+
+    
+        <h5>Examples</h5>
+        
+    <pre class="sunlight-highlight-javascript">The route expects a body Object in the following format
+{
+	email: String, [required]
+	password: String [required]
+}</pre>
+
+    <pre class="sunlight-highlight-javascript">The route expects a header.user_agent from one of those user agents [&#x27;Web&#x27;, &#x27;IOS&#x27;, &#x27;Android&#x27;]</pre>
+
+    <pre class="sunlight-highlight-javascript">The route responds with an object having the following format
+{
+	status: succeeded/failed,
+	message: String showing a descriptive text,
+	error: Validation errors
+}</pre>
+
+
+    
+</dd>
+
+        
+            
+<hr>
+<dt class="name" id="/api/userPUT">
+    <h4 id="/api/userPUT"><span class="type-signature"></span>/api/user PUT<span class="type-signature"></span></h4>
+
+    
+</dt>
+<dd>
+    
+    <div class="description">
+        A put route responsible for updating a user's information in the database
+    </div>
+    
+
+    
+
+    
+<dl class="details">
+    
+
+	
+
+	
+
+	
+
+    
+
+    
+
+    
+
+    
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+
+	
+
+	
+
+	
+</dl>
+
+
+    
+        <h5>Examples</h5>
+        
+    <pre class="sunlight-highlight-javascript">The route expects a body Object in the following format
+{
+	email: String, [required]
+	password: String, [required]
+	type: String, [required]
+	first_name: String, [required]
+	last_name: String, [required]
+	birthday: Date, [required]
+	gender: String, [required]
+	IEEE_membership_ID: String [optional]
+}</pre>
+
+    <pre class="sunlight-highlight-javascript">The route expects a header.user_agent from one of those user agents [&#x27;Web&#x27;, &#x27;IOS&#x27;, &#x27;Android&#x27;]</pre>
+
+    <pre class="sunlight-highlight-javascript">The route responds with an object having the following format
+{
+	status: succeeded/failed,
+	message: String showing a descriptive text,
+	error: Validation errors
+}</pre>
+
+
+    
+</dd>
+
+        
+            
+<hr>
+<dt class="name" id="/api/user/%7Bid%7DGET">
+    <h4 id="/api/user/%7Bid%7DGET"><span class="type-signature"></span>/api/user/{id} GET<span class="type-signature"> :id</span></h4>
+
+    
+</dt>
+<dd>
+    
+    <div class="description">
+        A get route to show a specific user
+    </div>
+    
+
+    
+        <h5>Type:</h5>
+        <ul>
+            <li>
+                
+<span class="param-type">id</span>
+
+
+
+            </li>
+        </ul>
+    
+
+    
+<dl class="details">
+    
+
+	
+
+	
+
+	
+
+    
+
+    
+
+    
+
+    
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+
+	
+
+	
+
+	
+</dl>
+
+
+    
+        <h5>Examples</h5>
+        
+    <pre class="sunlight-highlight-javascript">The route expects a user id for the user to be returned</pre>
+
+    <pre class="sunlight-highlight-javascript">The route expects a header.user_agent from one of those user agents [&#x27;Web&#x27;, &#x27;IOS&#x27;, &#x27;Android&#x27;]</pre>
+
+    <pre class="sunlight-highlight-javascript">The route returns as a response an object in the following format
+{
+	status: succeeded/failed,
+	message: String showing a descriptive text,
+   result:
+   {
+      The user depends on basic or detailed // TO BE MODIFIED
+   }
+   error: Validation errors
+}</pre>
+
+
+    
+</dd>
+
+        
+            
+<hr>
+<dt class="name" id="AuthController">
+    <h4 id="AuthController"><span class="type-signature"></span>AuthController<span class="type-signature"></span></h4>
+
+    
+</dt>
+<dd>
+    
+    <div class="description">
+        This function configures the routes of the entire application.
+    </div>
+    
+
+    
+
+    
+<dl class="details">
+    
+
+	
+
+	
+
+	
+
+    
+
+    
+
+    
+
+    
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+
+	
+
+	
+
+	
+</dl>
+
+
+    
+</dd>
+
+        </dl>
+    
+
+    
+
+    
+
+    
+</article>
+
+</section>
+
+
+
+
+		</div>
+	</div>
+
+	<div class="clearfix"></div>
+
+	
+		<div class="col-md-3">
+			<div id="toc" class="col-md-3 hidden-xs hidden-sm hidden-md"></div>
+		</div>
+	
+
+</div>
+</div>
+
+
+    <div class="modal fade" id="searchResults">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title">Search results</h4>
+          </div>
+          <div class="modal-body"></div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          </div>
+        </div><!-- /.modal-content -->
+      </div><!-- /.modal-dialog -->
+    </div>
+
+
+<footer>
+
+
+<span class="jsdoc-message">
+	Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.3</a>
+	
+	using the <a href="https://github.com/docstrap/docstrap">DocStrap template</a>.
+</span>
+</footer>
+
+<script src="scripts/docstrap.lib.js"></script>
+<script src="scripts/toc.js"></script>
+
+    <script type="text/javascript" src="scripts/fulltext-search-ui.js"></script>
+
+
+<script>
+$( function () {
+	$( "[id*='$']" ).each( function () {
+		var $this = $( this );
+
+		$this.attr( "id", $this.attr( "id" ).replace( "$", "__" ) );
+	} );
+
+	$( ".tutorial-section pre, .readme-section pre, pre.prettyprint.source" ).each( function () {
+		var $this = $( this );
+
+		var example = $this.find( "code" );
+		exampleText = example.html();
+		var lang = /{@lang (.*?)}/.exec( exampleText );
+		if ( lang && lang[1] ) {
+			exampleText = exampleText.replace( lang[0], "" );
+			example.html( exampleText );
+			lang = lang[1];
+		} else {
+			var langClassMatch = example.parent()[0].className.match(/lang\-(\S+)/);
+			lang = langClassMatch ? langClassMatch[1] : "javascript";
+		}
+
+		if ( lang ) {
+
+			$this
+			.addClass( "sunlight-highlight-" + lang )
+			.addClass( "linenums" )
+			.html( example.html() );
+
+		}
+	} );
+
+	Sunlight.highlightAll( {
+		lineNumbers : true,
+		showMenu : true,
+		enableDoclinks : true
+	} );
+
+	$.catchAnchorLinks( {
+        navbarOffset: 10
+	} );
+	$( "#toc" ).toc( {
+		anchorName  : function ( i, heading, prefix ) {
+			return $( heading ).attr( "id" ) || ( prefix + i );
+		},
+		selectors   : "#toc-content h1,#toc-content h2,#toc-content h3,#toc-content h4",
+		showAndHide : false,
+		smoothScrolling: true
+	} );
+
+	$( "#main span[id^='toc']" ).addClass( "toc-shim" );
+	$( '.dropdown-toggle' ).dropdown();
+
+    $( "table" ).each( function () {
+      var $this = $( this );
+      $this.addClass('table');
+    } );
+
+} );
+</script>
+
+
+
+<!--Navigation and Symbol Display-->
+
+<script>
+	$( function () {
+		$( '#main' ).localScroll( {
+			offset : { top : 60 } //offset by the height of your header (give or take a few px, see what works for you)
+		} );
+		$( "dt.name" ).each( function () {
+			var $this = $( this ).find("h4");
+			var icon = $( "<i/>" ).addClass( "icon-plus-sign" ).addClass( "pull-right" ).addClass( "icon-white" );
+			var dt = $(this);
+			var children = dt.next( "dd" );
+
+			dt.prepend( icon ).css( {cursor : "pointer"} );
+			dt.addClass( "member-collapsed" ).addClass( "member" );
+
+
+			children.hide();
+
+			dt.children().on( "click", function () {
+				children = dt.next( "dd" );
+				children.slideToggle( "fast", function () {
+
+					if ( children.is( ":visible" ) ) {
+						icon.addClass( "icon-minus-sign" ).removeClass( "icon-plus-sign" ).removeClass( "icon-white" );
+						dt.addClass( "member-open" ).animate( "member-collapsed" );
+					} else {
+						icon.addClass( "icon-plus-sign" ).removeClass( "icon-minus-sign" ).addClass( "icon-white" );
+						dt.addClass( "member-collapsed" ).removeClass( "member-open" );
+					}
+				} );
+			} );
+
+		} );
+	} );
+</script>
+
+
+<!--Google Analytics-->
+
+
+
+    <script type="text/javascript">
+        $(document).ready(function() {
+            SearcherDisplay.init();
+        });
+    </script>
+
+
+</body>
+</html>
