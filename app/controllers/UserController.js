@@ -121,16 +121,26 @@ module.exports.show = function(req, res, next) {
 
          return;
       }
+
       /** Get the committee of the requested user */
       requestedUser.getCommittee().then(function(requestedCommittee) {
          // Requested committee was not found in the database
          if (!requestedCommittee) {
-            res.status(404).json({
-               status:'failed',
-               message: 'The requested route was not found.'
-            });
 
-            req.err = 'The requested route was not found.';
+            var result;
+            if (user.isUpperBoard() || user.id == id || user.isAdmin()) {
+               // Detailed Profile
+               result = requestedUser.toJSON(true);       // TO BE MODIFIED
+            }
+            else {
+               // Basic Profile
+               result = requestedUser.toJSON(false);       // TO BE MODIFIED
+            }
+
+            res.status(200).json({
+               status:'succeeded',
+               user: result
+            });
 
             next();
 
@@ -154,7 +164,7 @@ module.exports.show = function(req, res, next) {
             }
 
             var result;
-            if (head.id == user.id || user.isUpperBoard() || user.id == id || user.isAdmin()) {
+            if ((head && head.id == user.id) || user.isUpperBoard() || user.id == id || user.isAdmin()) {
                // Detailed Profile
                result = requestedUser.toJSON(true);       // TO BE MODIFIED
             }
