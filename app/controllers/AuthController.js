@@ -290,16 +290,26 @@ module.exports.forgotPassword = function (req, res, next) {
             var templateDir = path.join(__dirname, '../../', 'public', 'emails', 'resetPasswordMail');
             var mail = new EmailTemplate(templateDir);
             var variables = {
-                url: process.env.DOMAIN + ':' + process.env.PORT + '/api/resetPassword?token=' + token
+                domain: process.env.DOMAIN,
+                port: process.env.PORT,
+                token: token
             };
 
             mail.render(variables, function (err, result) {
                 if(err){
+                    /* failed to render the email */
+                    res.status(500).json({
+                        status:'failed',
+                        message: 'Internal server error'
+                    });
+
                     req.err = err;
+
                     next();
+
                     return;
                 }
-
+                
                 /* setting up email options */
                 var mailOptions = {
                     from: process.env.FROM , // sender address
@@ -314,18 +324,25 @@ module.exports.forgotPassword = function (req, res, next) {
 
                 user.reset_token = token;
                 user.save();
+
+                /* request handled */
+                res.status(200).json({
+                    status: 'succeeded'
+                });
+
+                next();
             });
         }
     	else{
     	    req.err = "The requested user was not found in the database.";
+
+            /* request handled */
+            res.status(200).json({
+                status: 'succeeded'
+            });
+
+            next();
     	}
-
-        /* request handled */
-        res.status(200).json({
-            status: 'succeeded'
-        });
-
-        next();
     }).catch(function(err){
 
         /* failed to find the user in the database */
