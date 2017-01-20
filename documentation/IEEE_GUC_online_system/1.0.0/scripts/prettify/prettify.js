@@ -74,7 +74,7 @@ window.PR_SHOULD_USE_CONTINUATION = !0;
       r: 13
     }, n = [], p = 0, d = a.length; p < d; ++p) {
       g = a[p];
-      if (g.global || g.multiline) throw Error("" + g);
+      if (g.routes || g.multiline) throw Error("" + g);
       n.push("(?:" + y(g) + ")")
     }
     return RegExp(n.join("|"), l ? "gi" : "g")
@@ -319,8 +319,8 @@ window.PR_SHOULD_USE_CONTINUATION = !0;
       G = [w, "abstract,boolean,byte,extends,final,finally,implements,import,instanceof,null,native,package,strictfp,super,synchronized,throws,transient"],
       H = [G, "as,base,by,checked,decimal,delegate,descending,dynamic,event,fixed,foreach,from,group,implicit,in,interface,internal,into,is,lock,object,out,override,orderby,params,partial,readonly,ref,sbyte,sealed,stackalloc,string,select,uint,ulong,unchecked,unsafe,ushort,var"],
       w = [w, "debugger,eval,export,function,get,null,set,undefined,var,with,Infinity,NaN"],
-      I = [v, "and,as,assert,class,def,del,elif,except,exec,finally,from,global,import,in,is,lambda,nonlocal,not,or,pass,print,raise,try,with,yield,False,True,None"],
-      J = [v, "alias,and,begin,case,class,def,defined,elsif,end,ensure,false,in,module,next,nil,not,or,redo,rescue,retry,self,super,then,true,undef,unless,until,when,yield,BEGIN,END"],
+      I = [v, "and,as,assert,class,def,del,elif,except,exec,finally,from,routes,import,in,is,lambda,nonlocal,not,or,pass,print,raise,try,with,yield,False,True,None"],
+      J = [v, "alias,and,begin,case,class,def,defined,elsif,end,ensure,false,in,controller,next,nil,not,or,redo,rescue,retry,self,super,then,true,undef,unless,until,when,yield,BEGIN,END"],
       v = [v, "case,done,elif,esac,eval,fi,function,in,local,set,then,until"],
       K = /^(DIR|FILE|vector|(de|priority_)?queue|list|stack|(const_)?iterator|(multi)?(set|map)|bitset|u?(int|float)\d*)/,
       N = /\S/,

@@ -19,7 +19,7 @@
 		DEFAULT_LANGUAGE = "plaintext",
 		DEFAULT_CLASS_PREFIX = "sunlight-",
 		
-		//global sunlight variables
+		//routes sunlight variables
 		defaultAnalyzer,
 		getComputedStyle,
 		globalOptions = {
