@@ -1,0 +1,14 @@
+TODO:
+
++ The return message duo to the SQL validation violation errors is Internal server Error!! (Try to store another committee with the same name)
+
++ Middleware to detect if the logged in user is an upper board that gives the privilege assigned to it to the same authority level or higher.
+
++ Middleware to detect if the logged in user is a high board that gives the privilege assigned to it to the same authority level or higher.
+
++ Middleware to detect if the logged in user is a member that gives the privilege assigned to it to the same authority level or higher.
+
++ Routes to:
+      assign a user to a committee.
+      assign user as high board.
+      assign user as upper board.
