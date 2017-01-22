@@ -6,12 +6,13 @@
 /* Models */
 var User = require('../models/User').User;
 
+// FIXME Remove all user_agent validation checks as they are not needed
+
 /**
 * This function gets a list of all users currently in the database.
 * @param  {HTTP}   req  The request object
 * @param  {HTTP}   res  The response object
 * @param  {Function} next Callback function that is called once done with handling the request
-* @return {Array}  result The users currently in the database
 */
 module.exports.index = function(req, res, next) {
    /*Validate and sanitizing User Agent*/
@@ -48,7 +49,7 @@ module.exports.index = function(req, res, next) {
       else {
          var result = [];
          for (var i = 0; i < users.length; i++)
-         result.push(users[i].toJSON());
+         result.push(users[i].toJSON(false));
 
          res.status(200).json({
             status:'succeeded',
@@ -71,7 +72,7 @@ module.exports.index = function(req, res, next) {
 };
 
 /**
-* This function gets a specifid User currently in the database.
+* This function gets a specifid user currently in the database.
 * @param  {HTTP}   req  The request object
 * @param  {HTTP}   res  The response object
 * @param  {Function} next Callback function that is called once done with handling the request
@@ -106,10 +107,10 @@ module.exports.show = function(req, res, next) {
    var id = req.params.id;
    var user = req.user;
 
-   /** Get requested user */
+   /* Get requested user */
    User.findById(id).then(function(requestedUser) {
       if (!requestedUser) {
-         // Requested user was not found in the database
+         /* Requested user was not found in the database */
          res.status(404).json({
             status:'failed',
             message: 'The requested route was not found.'
@@ -122,9 +123,9 @@ module.exports.show = function(req, res, next) {
          return;
       }
 
-      /** Get the committee of the requested user */
+      /* Get the committee of the requested user */
       requestedUser.getCommittee().then(function(requestedCommittee) {
-         // Requested committee was not found in the database
+         /* Requested committee was not found in the database */
          if (!requestedCommittee) {
 
             var result;
@@ -147,10 +148,10 @@ module.exports.show = function(req, res, next) {
             return;
          }
 
-         /** Get the head of this committee */
+         /* Get the head of this committee */
          requestedCommittee.head(function(head, error) {
             if (error) {
-               // Couldn't get the head for the requested committee
+               /* Couldn't get the head for the requested committee */
                res.status(500).json({
                   status: 'failed',
                   message: 'Internal server error'
@@ -223,7 +224,7 @@ module.exports.store = function(req, res, next) {
 
    /*Validate and sanitizing Password Input*/
    req.checkBody('password', 'Password is required').notEmpty();
-   req.assert('password', 'The legnth of the password must be between 6 and 20 characters').len(6, 20);
+   req.assert('password', 'The length of the password must be between 6 and 20 characters').len(6, 20);
 
    /*Validate and sanitizing type Input*/
    req.checkBody('type', 'Type is required').notEmpty();
@@ -280,7 +281,8 @@ module.exports.store = function(req, res, next) {
 
    User.findOrCreate({ where : { email : req.body.email, password : req.body.password, type : req.body.type, first_name : req.body.first_name, last_name : req.body.last_name, birthdate : req.body.birthdate, gender : req.body.gender, IEEE_membership_ID : req.body.IEEE_membership_ID } }).then(function(user, created) {
       res.status(200).json({
-         status: 'succeeded'
+         status: 'succeeded',
+         message: 'user successfully added'
       });
 
       next();
@@ -304,6 +306,8 @@ module.exports.store = function(req, res, next) {
 * @param  {Function} next Callback function that is called once done with handling the request
 */
 module.exports.update = function(req, res, next) {
+   // FIXME not all information is required.
+
    /*Validate and sanitizing email Input*/
    req.checkBody('email', 'Email is required').notEmpty();
    req.checkBody('email', 'Enter a Valid Email address').isEmail();
@@ -372,7 +376,7 @@ module.exports.update = function(req, res, next) {
       if (affected[0] == 1) {
          res.status(200).json({
             status: 'succeeded',
-            message: 'user updated'
+            message: 'user successfully updated'
          });
       }
       else {

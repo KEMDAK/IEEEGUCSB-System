@@ -3,3 +3,5 @@ To FIX:
 + When creating a user with the same data as one in the database it shouldn't return a 'Internal server error'
 
 + The return message duo to the SQL validation violation errors is Internal server Error!! (Try to store another committee with the same name)
+
++ The update function in user controller shouldn't get all the information to update them
