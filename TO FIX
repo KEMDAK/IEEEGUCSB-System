@@ -1,0 +1,3 @@
+To FIX:
+
++ When creating a user with the same data as one in the database it shouldn't return a 'Internal server error'
