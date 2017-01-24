@@ -17,11 +17,6 @@ module.exports.defineMedia = function(sequelize)
 
    module.exports.Media = sequelize.define('media',
       {
-         id:
-         {
-            type: Sequelize.Integer,
-            primaryKey: true
-         },
          type:
          {
             type: Sequelize.STRING,
@@ -29,8 +24,9 @@ module.exports.defineMedia = function(sequelize)
          },
          url:
          {
-            type: Sequelize.TEXT,
-            allowNull: false
+            type: Sequelize.STRING(1000),
+            allowNull: false,
+            unique: true
          }
       },
       {

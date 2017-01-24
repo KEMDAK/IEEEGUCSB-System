@@ -16,11 +16,6 @@ module.exports.defineComment = function(sequelize)
 
    module.exports.Comment = sequelize.define('comment',
       {
-         id:
-         {
-            type: Sequelize.Integer,
-            primaryKey: true
-         },
          content:
          {
             type: Sequelize.STRING,

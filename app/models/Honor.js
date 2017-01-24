@@ -1,7 +1,7 @@
 /**
  *  @mixin Honor
  *  @property {Integer} id Identifier of the honor
- *  @property {String} name Name of the honor 
+ *  @property {String} name Name of the honor
  *  @property {Text} description Description of the honor
 
  */
@@ -18,15 +18,11 @@ module.exports.defineHonor = function(sequelize)
 
    module.exports.Honor = sequelize.define('honor',
       {
-         id:
-         {
-            type: Sequelize.Integer,
-            primaryKey: true
-         },
          name:
          {
             type: Sequelize.STRING,
-            allowNull: false
+            allowNull: false,
+            unique: true
          },
          description:
          {

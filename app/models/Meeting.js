@@ -21,11 +21,6 @@ module.exports.defineMeeting = function(sequelize)
 
    module.exports.Meeting = sequelize.define('meeting',
       {
-         id:
-         {
-            type: Sequelize.INTEGER,
-            primaryKey: true
-         },
          date:
          {
             type: Sequelize.DATE,
@@ -50,8 +45,8 @@ module.exports.defineMeeting = function(sequelize)
          {
             type: Sequelize.TEXT,
             allowNull: false
-         }
-         evalutaion:
+         },
+         evaluation:
          {
             type: Sequelize.INTEGER,
             allowNull: true
