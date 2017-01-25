@@ -6,8 +6,6 @@
 /* Models */
 var User = require('../models/User').User;
 
-// FIXME Remove all user_agent validation checks as they are not needed
-
 /**
 * This function gets a list of all users currently in the database.
 * @param  {HTTP}   req  The request object
@@ -15,26 +13,6 @@ var User = require('../models/User').User;
 * @param  {Function} next Callback function that is called once done with handling the request
 */
 module.exports.index = function(req, res, next) {
-   /*Validate and sanitizing User Agent*/
-   req.checkHeaders('user_agent', 'User Agent is required').notEmpty();
-   req.checkHeaders('user_agent', 'Enter a valid User Agent').isIn(['Web', 'Android', 'IOS']);
-   req.sanitizeHeaders('user_agent').escape();
-
-   var errors = req.validationErrors();
-   if (errors) {
-      /* input validation failed */
-      res.status(400).json({
-         status: 'failed',
-         error: errors
-      });
-
-      req.err = errors;
-
-      next();
-
-      return;
-   }
-
    User.findAll({}).then(function(users) {
       if (!users) {
          res.status(404).json({
@@ -83,11 +61,6 @@ module.exports.show = function(req, res, next) {
    req.sanitizeParams('id').escape();
    req.sanitizeParams('id').trim();
    req.checkParams('id', 'Enter a valid ID').isInt();
-
-   /*Validate and sanitizing User Agent*/
-   req.checkHeaders('user_agent', 'User Agent is required').notEmpty();
-   req.checkHeaders('user_agent', 'Enter a valid User Agent').isIn(['Web', 'Android', 'IOS']);
-   req.sanitizeHeaders('user_agent').escape();
 
    var errors = req.validationErrors();
    if (errors) {
@@ -259,11 +232,6 @@ module.exports.store = function(req, res, next) {
       req.sanitizeBody('IEEE_membership_ID').trim();
    }
 
-   /*Validate and sanitizing User Agent*/
-   req.checkHeaders('user_agent', 'User Agent is required').notEmpty();
-   req.checkHeaders('user_agent', 'Enter a valid User Agent').isIn(['Web', 'Android', 'IOS']);
-   req.sanitizeHeaders('user_agent').escape();
-
    var errors = req.validationErrors();
    if (errors) {
       /* input validation failed */
@@ -351,11 +319,6 @@ module.exports.update = function(req, res, next) {
       req.sanitizeBody('IEEE_membership_ID').escape();
       req.sanitizeBody('IEEE_membership_ID').trim();
    }
-
-   /*Validate and sanitizing User Agent*/
-   req.checkHeaders('user_agent', 'User Agent is required').notEmpty();
-   req.checkHeaders('user_agent', 'Enter a valid User Agent').isIn(['Web', 'Android', 'IOS']);
-   req.sanitizeHeaders('user_agent').escape();
 
    var errors = req.validationErrors();
    if (errors) {

@@ -309,7 +309,7 @@ module.exports.forgotPassword = function (req, res, next) {
 
                     return;
                 }
-                
+
                 /* setting up email options */
                 var mailOptions = {
                     from: process.env.FROM , // sender address

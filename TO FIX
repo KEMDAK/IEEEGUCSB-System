@@ -5,3 +5,5 @@ To FIX:
 + The return message duo to the SQL validation violation errors is Internal server Error!! (Try to store another committee with the same name)
 
 + The update function in user controller shouldn't get all the information to update them
+
++ When password doesn't match it doesn't return anything but it throws an 'Unhandled rejection Not a valid BCrypt hash.' error.
