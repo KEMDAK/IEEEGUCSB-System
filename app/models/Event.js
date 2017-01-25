@@ -2,8 +2,8 @@
 *  @mixin Event
 *  @property {String} name The event's name
 *  @property {String} description The events's description
-*  @property {Date} start_date The event's start date
-*  @property {Date} end_date The users's end date
+*  @property {Date} start_date The event's start date and time
+*  @property {Date} end_date The event's end date and time
 *  @property {String} location The event's location
 */
 
