@@ -15,19 +15,20 @@ var User = require('../models/User').User;
 module.exports.index = function(req, res, next) {
    User.findAll({}).then(function(users) {
       if (!users) {
+         var message = 'The requested route was not found.';
          res.status(404).json({
             status:'failed',
-            message: 'The requested route was not found.'
+            message: message
          });
 
-         req.err = 'The requested route was not found.';
+         req.err = 'UserController.js, Line: 24\n' + message;
 
          next();
       }
       else {
          var result = [];
          for (var i = 0; i < users.length; i++)
-         result.push(users[i].toJSON(false));
+            result.push(users[i].toJSON(false));
 
          res.status(200).json({
             status:'succeeded',
@@ -43,7 +44,7 @@ module.exports.index = function(req, res, next) {
          message: 'Internal server error'
       });
 
-      req.err = err;
+      req.err = 'UserController.js, Line: 47\nCouldn\'t retreive the users from the database.\n' + String(err);
 
       next();
    });
@@ -70,7 +71,7 @@ module.exports.show = function(req, res, next) {
          error: errors
       });
 
-      req.err = errors;
+      req.err = 'UserController.js, Line: 74\nSome validation errors occured.\n' + JSON.stringify(errors);
 
       next();
 
@@ -84,12 +85,13 @@ module.exports.show = function(req, res, next) {
    User.findById(id).then(function(requestedUser) {
       if (!requestedUser) {
          /* Requested user was not found in the database */
+         var message = 'The requested route was not found.';
          res.status(404).json({
             status:'failed',
-            message: 'The requested route was not found.'
+            message: message
          });
 
-         req.err = 'The requested route was not found.';
+         req.err = 'UserController.js, Line: 94\n' + message;
 
          next();
 
@@ -130,7 +132,7 @@ module.exports.show = function(req, res, next) {
                   message: 'Internal server error'
                });
 
-               req.err = error;
+               req.err = 'UserController.js, Line: 135\nCouldn\'t retreive the head of the commitee.\n' + String(error);
 
                next();
 
@@ -162,7 +164,7 @@ module.exports.show = function(req, res, next) {
             message: 'Internal server error'
          });
 
-         req.err = err;
+         req.err = 'UserController.js, Line: 167\nCouldn\'t retreive the user\'s committee.\n' + String(err);
 
          next();
       });
@@ -175,7 +177,7 @@ module.exports.show = function(req, res, next) {
          message: 'Internal server error'
       });
 
-      req.err = err;
+      req.err = 'UserController.js, Line: 180\nCouldn\'t retreive the user from the database.\n' + String(err);
 
       next();
    });
@@ -240,7 +242,7 @@ module.exports.store = function(req, res, next) {
          error: errors
       });
 
-      req.err = errors;
+      req.err = 'UserController.js, Line: 245\nSome validation errors occured.\n' + JSON.stringify(errors);
 
       next();
 
@@ -261,7 +263,7 @@ module.exports.store = function(req, res, next) {
          message: 'Internal server error'
       });
 
-      req.err = err;
+      req.err = 'UserController.js, Line: 266\nCouldn\'t save the user in the database.\n' + String(err);
 
       next();
    });
@@ -285,7 +287,7 @@ module.exports.update = function(req, res, next) {
 
    /*Validate and sanitizing Password Input*/
    req.checkBody('password', 'Password is required').notEmpty();
-   req.assert('password', 'The legnth of the password must be between 6 and 20 characters').len(6, 20);
+   req.assert('password', 'The length of the password must be between 6 and 20 characters').len(6, 20);
 
    /*Validate and sanitizing type Input*/
    req.checkBody('type', 'Type is required').notEmpty();
@@ -328,7 +330,7 @@ module.exports.update = function(req, res, next) {
          error: errors
       });
 
-      req.err = errors;
+      req.err = 'UserController.js, Line: 333\nSome validation errors occured.\n' + JSON.stringify(errors);
 
       next();
 
@@ -343,10 +345,13 @@ module.exports.update = function(req, res, next) {
          });
       }
       else {
+         var message = 'The requested route was not found.';
          res.status(404).json({
             status:'failed',
-            message: 'The requested route was not found.'
+            message: message
          });
+
+         req.err = 'UserController.js, Line: 354\n' + message;
       }
 
       next();
@@ -357,7 +362,7 @@ module.exports.update = function(req, res, next) {
          message: 'Internal server error'
       });
 
-      req.err = err;
+      req.err = 'UserController.js, Line: 354\nCouldn\'t save the user in the database.\n' + err;
 
       next();
    });
