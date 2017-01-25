@@ -8,20 +8,23 @@
  module.exports = function(req, res, next) {
     var jwt  = require('jsonwebtoken');
     var User = require('../models/User').User;
+    var log  = require('./LogMiddleware');
     
     /* getting the token from the http headers */
     var token = req.headers.authorization;
+    /* getting the JWT seacret from the environment variables */
+    var secret = process.env.JWTSECRET;
 
 
     if(token){
         /* The request has an authorization header */
-
+        
         try
         {
             /* validating the token */
             var payload = jwt.verify(token, secret);
 
-            User.findById(payload.id).then(function(user) {
+            User.findById(payload.userId).then(function(user) {
                 /* Adding the authenticated user to the request object */
                 req.user = user;
 
@@ -34,11 +37,10 @@
             });
         }
         catch(err){
-            req.err = "VisitorMiddleware.js, 37\nThe user tries to access a route that is only for visitors.";
+            req.err = "VisitorMiddleware.js, 37\nThe user tries to access a route that is only for visitors.\n" + err;
 
             log.save(req, res);
         }
-
 
         res.status(403).json({
             status:'failed',
