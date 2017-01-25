@@ -20,6 +20,10 @@ module.exports.initialize = function(callback) {
     require('../../app/models/Identity').defineIdentity(sequelize);
     require('../../app/models/Log').defineLog(sequelize);
     require('../../app/models/Committee').defineCommittee(sequelize);
+    require('../../app/models/Task').defineTask(sequelize);
+    require('../../app/models/Notification').defineNotification(sequelize);
+
+
 
     /* defining relation */
     require('../../app/models/Relations');
