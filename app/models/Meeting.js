@@ -20,7 +20,12 @@ module.exports.defineMeeting = function(sequelize)
 
    module.exports.Meeting = sequelize.define('meeting',
       {
-         date:
+         start_date:
+         {
+            type: Sequelize.DATE,
+            allowNull: false
+         },
+         end_date:
          {
             type: Sequelize.DATE,
             allowNull: false
@@ -40,8 +45,13 @@ module.exports.defineMeeting = function(sequelize)
          },
          duration:
          {
-            type: Sequelize.STRING,
-            allowNull: false
+            type: Sequelize.VIRTUAL,
+            allowNull: false,
+            get: function ()
+            {
+               // duration in mins
+               return (this.end_date - this.start_date)/(100*60);
+            }
          },
          location:
          {
