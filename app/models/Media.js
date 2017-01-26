@@ -18,12 +18,12 @@ module.exports.defineMedia = function(sequelize)
       {
          type:
          {
-            type: Sequelize.STRING,
+            type: Sequelize.ENUM("Video", "Audio", "Image"),
             allowNull: false
          },
          url:
          {
-            type:Sequelize.ENUM("Video", "Audio", "Image"),
+            type:Sequelize.STRING,
             allowNull: false,
             unique: true
          }
