@@ -50,7 +50,7 @@ module.exports.defineMeeting = function(sequelize)
             get: function ()
             {
                // duration in mins
-               return (this.end_date - this.start_date)/(100*60);
+               return (this.end_date - this.start_date)/(1000*60);
             }
          },
          location:
