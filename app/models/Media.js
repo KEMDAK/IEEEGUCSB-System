@@ -27,6 +27,11 @@ module.exports.defineMedia = function(sequelize)
             allowNull: false,
             unique: true
          }
+      },
+      {
+          paranoid: true,
+          underscored: true,
+          underscoredALL: true
       }
    );
 };

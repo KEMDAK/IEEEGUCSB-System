@@ -20,6 +20,11 @@ module.exports.defineComment = function(sequelize)
             type: Sequelize.TEXT,
             allowNull: false
          }
+      },
+      {
+          paranoid: true,
+          underscored: true,
+          underscoredALL: true
       }
    );
 };

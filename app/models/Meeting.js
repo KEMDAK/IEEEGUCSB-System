@@ -58,6 +58,11 @@ module.exports.defineMeeting = function(sequelize)
             type: Sequelize.INTEGER,
             allowNull: true
          }
+      },
+      {
+          paranoid: true,
+          underscored: true,
+          underscoredALL: true
       }
    );
 };
