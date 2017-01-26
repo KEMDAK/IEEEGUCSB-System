@@ -14,8 +14,7 @@
 * @ignore
 */
 module.exports.defineTask = function(sequelize) {
-     var Sequelize = require("sequelize");
-     
+     var Sequelize = require("sequelize");  
 
      module.exports.Task = sequelize.define('task', {
           title: {
@@ -35,7 +34,7 @@ module.exports.defineTask = function(sequelize) {
                allowNull: false
           },
           status: {
-               type: Sequelize.ENUM('Done', 'Undone'),
+               type: Sequelize.ENUM('DONE', 'UNDONE'),
                allowNull: false
           },
           evaluation: {
