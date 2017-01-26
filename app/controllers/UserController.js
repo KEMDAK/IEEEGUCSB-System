@@ -27,15 +27,55 @@ module.exports.index = function(req, res, next) {
       }
       else {
          var result = [];
-         for (var i = 0; i < users.length; i++)
-            result.push(users[i].toJSON(false));
 
-         res.status(200).json({
-            status:'succeeded',
-            users: result
+         var addUsers = function(i, callback) {
+            if (i == users.length) {
+               callback(null);
+               return;
+            }
+
+            users[i].getCommittee().then(function(committee) {
+               var curUser = {
+                  id: users[i].id,
+                  first_name: users[i].first_name,
+                  last_name: users[i].last_name,
+               };
+
+               if (committee) {
+                  curUser.committee_id = committee.id;
+                  curUser.committee_name = committee.name;
+               }
+
+               result.push(curUser);
+               addUsers(i+1, callback);
+            }).catch(function(err) {
+               /* failed to retreive the committee of the current user */
+               callback(err);
+               return;
+            });
+         };
+
+         addUsers(0, function(err) {
+            if (err) {
+               res.status(500).json({
+                  status:'failed',
+                  message: 'Internal server error'
+               });
+
+               req.err = 'UserController.js, Line: 65\nCouldn\'t retreive the users from the database.\n' + String(err);
+
+               next();
+
+               return;
+            }
+
+            res.status(200).json({
+               status:'succeeded',
+               users: result
+            });
+
+            next();
          });
-
-         next();
       }
    }).catch(function(err) {
       /* failed to find the users in the database */
@@ -44,7 +84,7 @@ module.exports.index = function(req, res, next) {
          message: 'Internal server error'
       });
 
-      req.err = 'UserController.js, Line: 47\nCouldn\'t retreive the users from the database.\n' + String(err);
+      req.err = 'UserController.js, Line: 87\nCouldn\'t retreive the users from the database.\n' + String(err);
 
       next();
    });
@@ -71,7 +111,7 @@ module.exports.show = function(req, res, next) {
          error: errors
       });
 
-      req.err = 'UserController.js, Line: 74\nSome validation errors occured.\n' + JSON.stringify(errors);
+      req.err = 'UserController.js, Line: 114\nSome validation errors occured.\n' + JSON.stringify(errors);
 
       next();
 
@@ -91,7 +131,7 @@ module.exports.show = function(req, res, next) {
             message: message
          });
 
-         req.err = 'UserController.js, Line: 94\n' + message;
+         req.err = 'UserController.js, Line: 134\n' + message;
 
          next();
 
@@ -106,11 +146,11 @@ module.exports.show = function(req, res, next) {
             var result;
             if (user.isUpperBoard() || user.id == id || user.isAdmin()) {
                // Detailed Profile
-               result = requestedUser.toJSON(true);       // TO BE MODIFIED
+               result = requestedUser.toJSON(true);
             }
             else {
                // Basic Profile
-               result = requestedUser.toJSON(false);       // TO BE MODIFIED
+               result = requestedUser.toJSON(false);
             }
 
             res.status(200).json({
@@ -132,7 +172,7 @@ module.exports.show = function(req, res, next) {
                   message: 'Internal server error'
                });
 
-               req.err = 'UserController.js, Line: 135\nCouldn\'t retreive the head of the commitee.\n' + String(error);
+               req.err = 'UserController.js, Line: 175\nCouldn\'t retreive the head of the commitee.\n' + String(error);
 
                next();
 
@@ -142,11 +182,11 @@ module.exports.show = function(req, res, next) {
             var result;
             if ((head && head.id == user.id) || user.isUpperBoard() || user.id == id || user.isAdmin()) {
                // Detailed Profile
-               result = requestedUser.toJSON(true);       // TO BE MODIFIED
+               result = requestedUser.toJSON(true);
             }
             else {
                // Basic Profile
-               result = requestedUser.toJSON(false);       // TO BE MODIFIED
+               result = requestedUser.toJSON(false);
             }
 
             res.status(200).json({
@@ -164,7 +204,7 @@ module.exports.show = function(req, res, next) {
             message: 'Internal server error'
          });
 
-         req.err = 'UserController.js, Line: 167\nCouldn\'t retreive the user\'s committee.\n' + String(err);
+         req.err = 'UserController.js, Line: 207\nCouldn\'t retreive the user\'s committee.\n' + String(err);
 
          next();
       });
@@ -177,7 +217,7 @@ module.exports.show = function(req, res, next) {
          message: 'Internal server error'
       });
 
-      req.err = 'UserController.js, Line: 180\nCouldn\'t retreive the user from the database.\n' + String(err);
+      req.err = 'UserController.js, Line: 220\nCouldn\'t retreive the user from the database.\n' + String(err);
 
       next();
    });
@@ -242,7 +282,7 @@ module.exports.store = function(req, res, next) {
          error: errors
       });
 
-      req.err = 'UserController.js, Line: 245\nSome validation errors occured.\n' + JSON.stringify(errors);
+      req.err = 'UserController.js, Line: 285\nSome validation errors occured.\n' + JSON.stringify(errors);
 
       next();
 
@@ -263,7 +303,7 @@ module.exports.store = function(req, res, next) {
          message: 'Internal server error'
       });
 
-      req.err = 'UserController.js, Line: 266\nCouldn\'t save the user in the database.\n' + String(err);
+      req.err = 'UserController.js, Line: 306\nCouldn\'t save the user in the database.\n' + String(err);
 
       next();
    });
@@ -276,51 +316,23 @@ module.exports.store = function(req, res, next) {
 * @param  {Function} next Callback function that is called once done with handling the request
 */
 module.exports.update = function(req, res, next) {
-   // FIXME not all information is required.
+   /*Validate Old Password Input*/
+   req.checkBody('old_password', 'Old Password is required').notEmpty();
 
-   /*Validate and sanitizing email Input*/
-   req.checkBody('email', 'Email is required').notEmpty();
-   req.checkBody('email', 'Enter a Valid Email address').isEmail();
-   req.sanitizeBody('email').escape();
-   req.sanitizeBody('email').trim();
-   req.sanitizeBody('email').normalizeEmail({ lowercase: true });
-
-   /*Validate and sanitizing Password Input*/
-   req.checkBody('password', 'Password is required').notEmpty();
-   req.assert('password', 'The length of the password must be between 6 and 20 characters').len(6, 20);
-
-   /*Validate and sanitizing type Input*/
-   req.checkBody('type', 'Type is required').notEmpty();
-   req.checkBody('type', 'Enter a valid account type [\'Admin\', \'Upper Board\', \'High Board\', \'Member\']').isIn(['Admin', 'Upper Board', 'High Board', 'Member']);
-   req.sanitizeBody('type').escape();
-   req.sanitizeBody('type').trim();
-
-   /*Validate and sanitizing first name Input*/
-   req.checkBody('first_name', 'First Name is required').notEmpty();
-   req.sanitizeBody('first_name').escape();
-   req.sanitizeBody('first_name').trim();
-
-   /*Validate and sanitizing last name Input*/
-   req.checkBody('last_name', 'Last Name is required').notEmpty();
-   req.sanitizeBody('last_name').escape();
-   req.sanitizeBody('last_name').trim();
-
-   /*Validate and sanitizing birthdate Input*/
-   req.checkBody('birthdate', 'Birth Date is required').notEmpty();
-   req.sanitizeBody('birthdate').escape();
-   req.sanitizeBody('birthdate').trim();
-
-   /*Validate and sanitizing gender Input*/
-   req.checkBody('gender', 'Gender is required').notEmpty();
-   req.checkBody('gender', 'Enter a valid gender [\'Male\', \'Female\']').isIn(['Male', 'Female']);
-   req.sanitizeBody('gender').escape();
-   req.sanitizeBody('gender').trim();
+   var obj = {};
+   /*Validate New Password Input*/
+   if (req.body.new_password) {
+      req.assert('new_password', 'The length of the new password must be between 6 and 20 characters').len(6, 20);
+      obj.password = req.body.new_password;
+   }
 
    /*Sanitizing IEEE membership ID Input*/
    if (req.body.IEEE_membership_ID) {
       req.sanitizeBody('IEEE_membership_ID').escape();
       req.sanitizeBody('IEEE_membership_ID').trim();
+      obj.IEEE_membership_ID = req.body.IEEE_membership_ID;
    }
+
 
    var errors = req.validationErrors();
    if (errors) {
@@ -330,14 +342,27 @@ module.exports.update = function(req, res, next) {
          error: errors
       });
 
-      req.err = 'UserController.js, Line: 333\nSome validation errors occured.\n' + JSON.stringify(errors);
+      req.err = 'UserController.js, Line: 345\nSome validation errors occured.\n' + JSON.stringify(errors);
 
       next();
 
       return;
    }
 
-   User.update({ type : req.body.type, first_name : req.body.first_name, last_name : req.body.last_name, birthdate : req.body.birthdate, gender : req.body.gender, email : req.body.email, password : req.body.password, IEEE_membership_ID : req.body.IEEE_membership_ID }, { where : { id : req.user.id } }).then(function(affected) {
+   if (!req.user.validPassword(req.body.old_password)) {
+      res.status(400).json({
+         status: 'failed',
+         message: 'The requested route was not found.'
+      });
+
+      req.err = 'UserController.js, Line: 358\nThe old password doesn\'t match the password in the database.';
+
+      next();
+
+      return;
+   }
+
+   User.update(obj, { where : { id : req.user.id } }).then(function(affected) {
       if (affected[0] == 1) {
          res.status(200).json({
             status: 'succeeded',
@@ -351,7 +376,7 @@ module.exports.update = function(req, res, next) {
             message: message
          });
 
-         req.err = 'UserController.js, Line: 354\n' + message;
+         req.err = 'UserController.js, Line: 379\n' + message;
       }
 
       next();
@@ -362,7 +387,7 @@ module.exports.update = function(req, res, next) {
          message: 'Internal server error'
       });
 
-      req.err = 'UserController.js, Line: 354\nCouldn\'t save the user in the database.\n' + err;
+      req.err = 'UserController.js, Line: 390\nCouldn\'t save the user in the database.\n' + err;
 
       next();
    });

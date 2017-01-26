@@ -18,15 +18,11 @@ module.exports = function(app) {
     * 	users:
     * 	[
     * 	   {
-    * 	    FIXME The output is based on the basic and detailed profile information.
-    *        id: the user id,
-    *        type: the type of the account ['Admin', 'Upper Board', 'High Board', 'Member'],
-    *        first_name: the logged in user first name,
-    *        last_name: the logged in user last name,
-    *        email: the logged in user email,
-    *        gender: the logged in user gender,
-    *        birthdate: the logged in user birthdate,
-    *        IEEE_membership_ID: the membership id in IEEE
+    *        id: the user's id,
+    *        first_name: the user's first name,
+    *        last_name: the user's last name,
+    *        committee_id: the id of user's committee, [if found]
+    *        committee_name: the name of user's committee, [if found]
     * 	   }, {...}, ...
     * 	 ]
     * 	error: Validation errors
@@ -88,20 +84,14 @@ module.exports = function(app) {
     app.post('/api/user', auth, UserController.store);
 
     /**
-    * A PUT route responsible for updating the information of a user currently in the database
+    * A PUT route responsible for updating the information of authenticated user
     * @var /api/user PUT
     * @name /api/user PUT
     * @example the route expects the access token as 'Authorization' and the user agent as 'user_agent' in the request headers with one of the following values ['Web', 'IOS', 'Android']
     * @example The route expects a body Object in the following format
     * {
-    *    FIXME not all information is required.
-    *    type: String ['Admin', 'Upper Board', 'High Board', 'Member'], [required]
-    *    email: String, [required]
-    *    password: String (6 to 20 charecters), [required]
-    *    first_name: String, [required]
-    *    last_name: String, [required]
-    *    birthdate: String (YYYY-MM-DD), [required]
-    *    gender: String ['Male', 'Female'], [required]
+    *    old_password: String, [required]
+    *    new_password: String (6 to 20 charecters), [optional]
     *    IEEE_membership_ID: String [optional]
     * }
     * @example The route responds with an object having the following format
