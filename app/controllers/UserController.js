@@ -48,7 +48,7 @@ module.exports.index = function(req, res, next) {
       else {
          var result = [];
          for (var i = 0; i < users.length; i++)
-         result.push(users[i].toJSON());
+         result.push(users[i].toJSON(false));
 
          res.status(200).json({
             status:'succeeded',

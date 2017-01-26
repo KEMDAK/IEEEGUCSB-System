@@ -10,7 +10,7 @@ module.exports = function(app) {
     * A GET route responsible for getting all users in the database
     * @var /api/user GET
     * @name /api/user GET
-    * @example The route expects a header.user_agent from one of those user agents ['Web', 'IOS', 'Android']
+    * @example the route expects the access token as 'Authorization' and the user agent as 'user_agent' in the request headers with one of the following values ['Web', 'IOS', 'Android']
     * @example The route returns as a response an object in the following format
     * {
     * 	status: succeeded/failed,
@@ -38,7 +38,7 @@ module.exports = function(app) {
     * @var /api/user/{id} GET
     * @name /api/user/{id} GET
     * @example The route expects a user id for the user to be returned
-    * @example the route expects the access token as 'Authorization' and the user agent as 'user_agent' in the request headers
+    * @example the route expects the access token as 'Authorization' and the user agent as 'user_agent' in the request headers with one of the following values ['Web', 'IOS', 'Android']
     * @example The route returns as a response an object in the following format
     * {
     * 	status: succeeded/failed,
@@ -63,7 +63,7 @@ module.exports = function(app) {
     * A POST route responsible for storing a user in the database. This route can not be used unless the requesting account is an Upper Board or higher.
     * @var /api/user POST
     * @name /api/user POST
-    * @example the route expects the access token as 'Authorization' and the user agent as 'user_agent' in the request headers
+    * @example the route expects the access token as 'Authorization' and the user agent as 'user_agent' in the request headers with one of the following values ['Web', 'IOS', 'Android']
     * @example The route expects a body Object in the following format
     * {
     *   type: String ['Admin', 'Upper Board', 'High Board', 'Member'], [required]
@@ -88,7 +88,7 @@ module.exports = function(app) {
     * A PUT route responsible for updating a user's information in the database
     * @var /api/user PUT
     * @name /api/user PUT
-    * @example the route expects the access token as 'Authorization' and the user agent as 'user_agent' in the request headers
+    * @example the route expects the access token as 'Authorization' and the user agent as 'user_agent' in the request headers with one of the following values ['Web', 'IOS', 'Android']
     * @example The route expects a body Object in the following format
     * {
     *   type: String ['Admin', 'Upper Board', 'High Board', 'Member'], [required]

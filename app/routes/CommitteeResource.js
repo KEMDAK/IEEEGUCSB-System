@@ -35,7 +35,7 @@ module.exports = function(app) {
     * @var /api/committee/{id} GET
     * @name /api/committee/{id} GET
     * @example The route expects a committee id for the committee to be returned
-    * @example the route expects the access token as 'Authorization' and the user agent as 'user_agent' in the request headers
+    * @example the route expects the access token as 'Authorization' and the user agent as 'user_agent' in the request headers with one of the following values ['Web', 'IOS', 'Android']
     * @example The route returns as a response an object in the following format
     * {
     *   status: succeeded/failed,
@@ -55,7 +55,7 @@ module.exports = function(app) {
     * A POST route responsible for creating a committee. This route can not be used unless the requesting account is an Upper Board or higher.
     * @var /api/committee POST
     * @name /api/committee POST
-    * @example the route expects the access token as 'Authorization' and the user agent as 'user_agent' in the request headers
+    * @example the route expects the access token as 'Authorization' and the user agent as 'user_agent' in the request headers with one of the following values ['Web', 'IOS', 'Android']
     * @example The route expects a body Object in the following format
     * {
     *   name: String, [required]
@@ -74,7 +74,7 @@ module.exports = function(app) {
     * @var /api/committee/{id} PUT
     * @name /api/committee/{id} PUT
     * @example The route expects a committee id for the committee to be updated
-    * @example the route expects the access token as 'Authorization' and the user agent as 'user_agent' in the request headers
+    * @example the route expects the access token as 'Authorization' and the user agent as 'user_agent' in the request headers with one of the following values ['Web', 'IOS', 'Android']
     * @example The route expects a body Object in the following format
     * {
     *   name: String, [required]
