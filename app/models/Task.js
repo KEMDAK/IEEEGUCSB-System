@@ -56,7 +56,7 @@ module.exports.defineTask = function(sequelize) {
                * @return {Boolean} true if the task is done.
                */
                isDone: function() {
-                    return this.status === 'Done';
+                    return this.status === 'DONE';
                },
     
               

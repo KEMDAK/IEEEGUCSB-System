@@ -75,12 +75,7 @@ module.exports.defineUser = function(sequelize) {
                * @return {Boolean} true if the claimed password matches the real one.
                */
                validPassword: function(password) {
-                    var valid =  bcrypt.compareSync(password, this.password);
-                    
-                    if(valid==true)
-                      return true  ;
-                    else
-                      return false ;
+                    return bcrypt.compareSync(password, this.password);
                },
                /**
                * This function checks if the user is an admin.
