@@ -1,9 +1,7 @@
 /**
  *  @mixin Honor
- *  @property {Integer} id Identifier of the honor
  *  @property {String} name Name of the honor
  *  @property {Text} description Description of the honor
-
  */
 
 /**
@@ -29,12 +27,6 @@ module.exports.defineHonor = function(sequelize)
             type: Sequelize.TEXT,
             allowNull: false
          }
-      },
-      {
-         paranoid: true,
-         underscored: true,
-         underscoredALL: true,
-         charset: 'latin1'
       }
    );
 };

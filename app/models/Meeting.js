@@ -1,8 +1,7 @@
 /**
 *  @mixin Meeting
-*  @property {Integer} id The identifier of the meeting
-*  @property {Date} date The date of the meeting
-*  @property {Text} tools Required tools during the meeting
+*  @property {Date} date The date and time of the meeting
+*  @property {Text} goals Goals of the meeting
 *  @property {String} duration Duration of the meeting
 *  @property {String} location Location of the meeting
 *  @property {Text} description Description of the meeting
@@ -26,10 +25,18 @@ module.exports.defineMeeting = function(sequelize)
             type: Sequelize.DATE,
             allowNull: false
          },
-         tools:
+         goals:
          {
             type: Sequelize.TEXT,
-            allowNull: false
+            allowNull: false,
+            set: function(val)
+            {
+                 this.setDataValue('goals', JSON.stringify(val));
+            },
+            get: function()
+            {
+               return JSON.parse(this.getDataValue('goals'));
+            }
          },
          duration:
          {
@@ -51,12 +58,6 @@ module.exports.defineMeeting = function(sequelize)
             type: Sequelize.INTEGER,
             allowNull: true
          }
-      },
-      {
-         paranoid: true,
-         underscored: true,
-         underscoredALL: true,
-         charset: 'latin1'
       }
    );
 };

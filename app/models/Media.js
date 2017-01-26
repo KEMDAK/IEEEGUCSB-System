@@ -1,8 +1,7 @@
 /**
  *  @mixin Media
- *  @property {Integer} id Identifier of the media
  *  @property {String} type Type of the media
- *  @property {Text} url URL of the media
+ *  @property {String} url URL of the media
  */
 
 /**
@@ -24,16 +23,10 @@ module.exports.defineMedia = function(sequelize)
          },
          url:
          {
-            type: Sequelize.STRING(1000),
+            type:Sequelize.ENUM("Video", "Audio", "Image"),
             allowNull: false,
             unique: true
          }
-      },
-      {
-         paranoid: true,
-         underscored: true,
-         underscoredALL: true,
-         charset: 'latin1'
       }
    );
 };

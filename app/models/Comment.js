@@ -1,6 +1,5 @@
 /**
 *  @mixin Comment
-*  @property {Integer} id Identifier of the comment
 *  @property {String} content The actual comment
 */
 
@@ -18,15 +17,9 @@ module.exports.defineComment = function(sequelize)
       {
          content:
          {
-            type: Sequelize.STRING,
+            type: Sequelize.TEXT,
             allowNull: false
          }
-      },
-      {
-         paranoid: true,
-         underscored: true,
-         underscoredALL: true,
-         charset: 'latin1'
       }
    );
 };
