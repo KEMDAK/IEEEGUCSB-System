@@ -24,6 +24,7 @@ module.exports.initialize = function(callback) {
     require('../../app/models/Meeting').defineMeeting(sequelize);
     require('../../app/models/Comment').defineComment(sequelize);
     require('../../app/models/Media').defineMedia(sequelize);
+    require('../../app/models/Event').defineEvent(sequelize);
 
     /* defining relation */
     require('../../app/models/Relations');
