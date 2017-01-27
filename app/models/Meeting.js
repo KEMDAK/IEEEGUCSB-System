@@ -1,8 +1,9 @@
 /**
 *  @mixin Meeting
-*  @property {Date} date The date and time of the meeting
-*  @property {Text} goals Goals of the meeting
-*  @property {String} duration Duration of the meeting
+*  @property {Date} start_date The date and time when the meeting starts
+*  @property {Date} end_date The date and time when the meeting ends
+*  @property {Text} goals JSON object representing the goals of the meeting
+*  @property {String} duration Duration of the meeting (Virtual)
 *  @property {String} location Location of the meeting
 *  @property {Text} description Description of the meeting
 *  @property {Integer} evalutaion Evalutaion of the meeting
