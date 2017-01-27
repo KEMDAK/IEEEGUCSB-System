@@ -21,8 +21,10 @@ module.exports = function(app) {
     *        id: the user's id,
     *        first_name: the user's first name,
     *        last_name: the user's last name,
-    *        committee_id: the id of user's committee, [if found]
-    *        committee_name: the name of user's committee, [if found]
+    *        committee: {                       [if found]
+    *          id: the users's committee id,
+    *          name: the user's committee name
+    *        }
     * 	   }, {...}, ...
     * 	 ]
     * 	error: Validation errors
