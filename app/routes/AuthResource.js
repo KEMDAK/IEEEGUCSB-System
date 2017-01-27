@@ -42,7 +42,7 @@ module.exports = function(app) {
     * A GET route to logout A user
     * @var /api/logout GET
     * @name /api/logout GET
-    * @example the route expects the access token as 'Authorization' and the user agent as 'user_agent' in the request headers
+    * @example the route expects the access token as 'Authorization' and the user agent as 'user_agent' in the request headers with one of the following values ['Web', 'IOS', 'Android']
     * @example The route respond with a json Object having the following format
     * {
     * 	status: succeeded/failed
