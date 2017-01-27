@@ -18,7 +18,7 @@ module.exports.defineTask = function(sequelize) {
 
      module.exports.Task = sequelize.define('task', {
           title: {
-               type: Sequelize.STRING(45),
+               type: Sequelize.STRING,
                allowNull: false
           },
           description: {
@@ -34,7 +34,7 @@ module.exports.defineTask = function(sequelize) {
                allowNull: false
           },
           status: {
-               type: Sequelize.ENUM('DONE', 'UNDONE'),
+               type: Sequelize.ENUM('New', 'In Progress', 'Ready', 'Done'),
                allowNull: false
           },
           evaluation: {
@@ -56,8 +56,29 @@ module.exports.defineTask = function(sequelize) {
                * @return {Boolean} true if the task is done.
                */
                isDone: function() {
-                    return this.status === 'DONE';
+                    return this.status === 'Done';
                },
+               /**
+               * This function checks if the task is new.
+               * @return {Boolean} true if the task is new.
+               */
+               isNew: function() {
+                    return this.status === 'New';
+               },
+               /**
+               * This function checks if the task is In Progress.
+               * @return {Boolean} true if the task is In Progress.
+               */
+               isInProgress: function() {
+                    return this.status === 'In Progress';
+               },
+               /**
+               * This function checks if the task is Ready.
+               * @return {Boolean} true if the task is Ready.
+               */
+               isReady: function() {
+                    return this.status === 'Ready';
+               }
     
               
           }
