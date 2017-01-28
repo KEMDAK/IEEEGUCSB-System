@@ -285,7 +285,18 @@ module.exports.store = function(req, res, next) {
       return;
    }
 
-   User.findOrCreate({ where : { email : req.body.email, password : req.body.password, type : req.body.type, first_name : req.body.first_name, last_name : req.body.last_name, birthdate : req.body.birthdate, gender : req.body.gender, IEEE_membership_ID : req.body.IEEE_membership_ID } }).then(function(user, created) {
+   var obj = {
+      email : req.body.email,
+      password : req.body.password,
+      type : req.body.type,
+      first_name : req.body.first_name,
+      last_name : req.body.last_name,
+      birthdate : req.body.birthdate,
+      gender : req.body.gender,
+      IEEE_membership_ID : req.body.IEEE_membership_ID
+   };
+
+   User.create(obj).then(function() {
       res.status(200).json({
          status: 'succeeded',
          message: 'user successfully added'
@@ -298,8 +309,8 @@ module.exports.store = function(req, res, next) {
          status:'failed',
          message: 'Internal server error'
       });
-
-      req.err = 'UserController.js, Line: 302\nCouldn\'t save the user in the database.\n' + String(err);
+      console.log(err);
+      req.err = 'UserController.js, Line: 313\nCouldn\'t save the user in the database.\n' + String(err);
 
       next();
    });
@@ -338,7 +349,7 @@ module.exports.update = function(req, res, next) {
          error: errors
       });
 
-      req.err = 'UserController.js, Line: 341\nSome validation errors occured.\n' + JSON.stringify(errors);
+      req.err = 'UserController.js, Line: 352\nSome validation errors occured.\n' + JSON.stringify(errors);
 
       next();
 
@@ -346,12 +357,12 @@ module.exports.update = function(req, res, next) {
    }
 
    if (!req.user.validPassword(req.body.old_password)) {
-      res.status(400).json({
+      res.status(403).json({
          status: 'failed',
          message: 'The provided credentials are not correct'
       });
 
-      req.err = 'UserController.js, Line: 354\nThe old password doesn\'t match the password in the database.';
+      req.err = 'UserController.js, Line: 365\nThe old password doesn\'t match the password in the database.';
 
       next();
 
@@ -371,7 +382,7 @@ module.exports.update = function(req, res, next) {
             message: 'The requested route was not found.'
          });
 
-         req.err = 'UserController.js, Line: 374\nThe requested user was not found in the database.';
+         req.err = 'UserController.js, Line: 385\nThe requested user was not found in the database.';
       }
 
       next();
@@ -382,7 +393,7 @@ module.exports.update = function(req, res, next) {
          message: 'Internal server error'
       });
 
-      req.err = 'UserController.js, Line: 385\nCouldn\'t save the user in the database.\n' + err;
+      req.err = 'UserController.js, Line: 396\nCouldn\'t save the user in the database.\n' + err;
 
       next();
    });
