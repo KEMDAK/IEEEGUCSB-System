@@ -22,6 +22,25 @@ module.exports.defineUser = function(sequelize) {
  var Sequelize = require("sequelize");
  var bcrypt = require('bcrypt-nodejs');
 
+ var settings = JSON.stringify(
+ {
+  public: {
+    background: "the background of the profile"
+  },
+  private:{
+    notifications: {
+      email: {
+        lastSent: "timestamp",
+        taskAssignment: "boolean sent email on task assignment",
+        taskDeadline: "boolean sent a reminder email before the task deadline",
+        meetingAssignment: "boolean sent email on meetings",
+        meetingDay: "booealan send email on meeting day",
+        comment: "boolean sent email on comments"
+      }
+    }
+  }
+ });
+
  module.exports.User = sequelize.define('user', {
    type: {
      type: Sequelize.ENUM('Admin', 'Upper Board', 'High Board', 'Member'),
@@ -70,25 +89,8 @@ module.exports.defineUser = function(sequelize) {
     allowNull: true
    },
    settings: {
-    type: Sequelize.STRING,
+    type: Sequelize.TEXT,
     allowNull: true,
-    defaultValue: JSON.stringify({
-      public: {
-        background: "the background of the profile"
-      },
-      private:{
-        notifications: {
-          email: {
-            lastSent: "timestamp",
-            taskAssignment: "boolean sent email on task assignment",
-            taskDeadline: "boolean sent a reminder email before the task deadline",
-            meetingAssignment: "boolean sent email on meetings",
-            meetingDay: "booealan send email on meeting day",
-            comment: "boolean sent email on comments"
-          }
-        }
-      }
-    }),
     get: function() {
       return JSON.parse(this.getDataValue('settings'));
     },
