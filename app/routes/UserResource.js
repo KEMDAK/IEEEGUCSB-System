@@ -26,7 +26,7 @@ module.exports = function(app) {
     *          name: the user's committee name
     *        }
     * 	   }, {...}, ...
-    * 	 ]
+    * 	]
     * 	error: Validation errors
     * }
     */
