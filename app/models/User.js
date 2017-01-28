@@ -72,6 +72,23 @@ module.exports.defineUser = function(sequelize) {
    settings: {
     type: Sequelize.STRING,
     allowNull: true,
+    defaultValue: JSON.stringify({
+      public: {
+        background: "the background of the profile"
+      },
+      private:{
+        notifications: {
+          email: {
+            lastSent: "timestamp",
+            taskAssignment: "boolean sent email on task assignment",
+            taskDeadline: "boolean sent a reminder email before the task deadline",
+            meetingAssignment: "boolean sent email on meetings",
+            meetingDay: "booealan send email on meeting day",
+            comment: "boolean sent email on comments"
+          }
+        }
+      }
+    }),
     get: function() {
       return JSON.parse(this.getDataValue('settings'));
     },
@@ -124,34 +141,33 @@ module.exports.defineUser = function(sequelize) {
        return this.type === 'Member';
      },
       /**
-       * this function returns the user object.
-       * @return {Object} The user object.
-       */
-       toJSON: function(detailed) {
+      * this function returns the user object.
+      * @return {Object} The user object.
+      */
+      toJSON: function(detailed) {
         var res = {};
         // TODO
         if(detailed) {
-          res.id = this.id;
-          res.type = this.type;
-          res.first_name = this.first_name;
-          res.last_name = this.last_name;
-          res.gender = this.gender;
-          res.email = this.email;
-          res.phone_number = this.phone_number;
-          res.birthdate = this.birthdate;
+          res.id                 = this.id;
+          res.type               = this.type;
+          res.first_name         = this.first_name;
+          res.last_name          = this.last_name;
+          res.gender             = this.gender;
+          res.email              = this.email;
+          res.phone_number       = this.phone_number;
+          res.birthdate          = this.birthdate;
           res.IEEE_membership_ID = this.IEEE_membership_ID;
-          res.settings = this.settings;
+          res.settings           = this.settings;
         }
         else {
-          res.id = this.id;
-          res.type = this.type;
-          res.first_name = this.first_name;
-          res.last_name = this.last_name;
-          res.gender = this.gender;
-          res.email = this.email;
-          res.settings = this.settings;
+          res.id                 = this.id;
+          res.type               = this.type;
+          res.first_name         = this.first_name;
+          res.last_name          = this.last_name;
+          res.email              = this.email;
+          res.IEEE_membership_ID = this.IEEE_membership_ID;
+          res.settings           = this.settings.public;
         }
-
         return res;
       }
     }
