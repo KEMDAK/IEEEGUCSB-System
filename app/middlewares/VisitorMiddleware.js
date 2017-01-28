@@ -31,13 +31,13 @@
                 /* Adding the token payload the request object */
                 req.payload = payload;
 
-                req.err = "VisitorMiddleware.js, 31\nThe user tries to access a route that is only for visitors.";
+                req.err = 'VisitorMiddleware.js, 34\nThe user tries to access a route that is only for visitors.';
 
                 log.save(req, res);
             });
         }
         catch(err){
-            req.err = "VisitorMiddleware.js, 37\nThe user tries to access a route that is only for visitors.\n" + err;
+            req.err = 'VisitorMiddleware.js, 40\nThe user tries to access a route that is only for visitors.\n' + err;
 
             log.save(req, res);
         }

@@ -65,7 +65,7 @@ module.exports = function(req, res, next) {
                     message: 'Internal server error'
                 });
 
-                req.err = err;
+                req.err = 'AuthMiddleware.js, 68\nFailed to find the user in the database.\n' + err;
 
                 log.save(req, res);
             });
@@ -77,7 +77,7 @@ module.exports = function(req, res, next) {
                 message: 'Authentication error, please log in again.'
             });
 
-            req.err = err;
+            req.err = 'AuthMiddleware.js, 80\nThe token is valid however it might be stolen.\n' + err;
 
             log.save(req, res);
         });
@@ -90,7 +90,7 @@ module.exports = function(req, res, next) {
             message: 'Authentication error, please log in again.'
         });
 
-        req.err = err;
+        req.err = 'AuthMiddleware.js, 93\nThe token failed the validation.\n' + err;
 
         log.save(req, res);
     }

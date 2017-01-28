@@ -16,8 +16,7 @@ module.exports = function(req, res, next) {
     /* getting the JWT seacret from the environment variables */
     var secret = process.env.JWTSECRET;
 
-    try
-    {
+    try {
         /* validating the token */
         var payload = jwt.verify(token, secret);
 
@@ -42,22 +41,22 @@ module.exports = function(req, res, next) {
             next();
         }).catch(function(err){
 
-	    if(err === "The used token is not the one expected"){         
-		res.status(404).json({
-	                status:'failed',
-	                message: 'The requested route was not found.'
-	        });
-	    }
-	    else{
-            	/* failed to find the user in the database */
-            	res.status(500).json({
-                	status:'failed',
-                	message: 'Internal server error'
+            if(err === "The used token is not the one expected"){         
+                res.status(404).json({
+                    status:'failed',
+                    message: 'The requested route was not found.'
                 });
-	    }
+            }
+            else{
+                /* failed to find the user in the database */
+                res.status(500).json({
+                    status:'failed',
+                    message: 'Internal server error'
+                });
+            }   
 
-            req.err = err;
-	    log.save(req, res);	
+            req.err = 'ResetMiddleware.js, 58\nFailed to find the user in the database.\n' + err;
+            log.save(req, res);	
         });
     }
     catch (err)
@@ -68,7 +67,7 @@ module.exports = function(req, res, next) {
             message: 'The requested route was not found.'
         });
 
-        req.err = err;
+        req.err = 'ResetMiddleware.js, 70\nThe token failed the validation.\n' + err;
 
         log.save(req, res);
     }
