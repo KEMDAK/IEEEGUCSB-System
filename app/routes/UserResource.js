@@ -27,7 +27,7 @@ module.exports = function(app) {
     *        birthdate: the logged in user birthdate,
     *        IEEE_membership_ID: the membership id in IEEE
     * 	   }, {...}, ...
-    * 	 ]
+    * 	]
     * 	error: Validation errors
     * }
     */

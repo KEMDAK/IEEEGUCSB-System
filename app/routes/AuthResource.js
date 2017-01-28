@@ -23,18 +23,35 @@ module.exports = function(app) {
     * 	message: String showing a descriptive text,
     * 	token: access token as a response to a successfull login,
     * 	user:
-    * 	 {
+    * 	{
     *       id: the user id,
     *       type: the type of the account ['Admin', 'Upper Board', 'High Board', 'Member'],
     *       first_name: the logged in user first name,
     *       last_name: the logged in user last name,
-    *       email: the logged in user email,
     *       gender: the logged in user gender,
+    *       email: the logged in user email,
+    *       phone_number: the logged in user phone number,
     *       birthdate: the logged in user birthdate,
-    *       IEEE_membership_ID: the membership id in IEEE
-    * 	 }
-    * 	error: Validation errors
-    * }
+    *       IEEE_membership_ID: the membership id in IEEE,
+    *       settings: {
+    *           public: {
+    *               background: "the background of the profile"
+    *           },
+    *           private:{
+    *             notifications: {
+    *               email: {
+    *                 lastSent: "timestamp",
+    *                 taskAssignment: "boolean send email on task assignment",
+    *                 taskDeadline: "boolean sent a reminder email before the task deadline",
+    *                 meetingAssignment: "boolean send email on meetings",
+    *                 meetingDay: "booealan send email on meeting day",
+    *                 comment: "boolean send email on comments"
+    *               }
+    *             }
+    *           }
+    *       },
+    * 	    error: Validation errors
+    *   }
     */
     app.post('/api/login', AuthController.login);
 
