@@ -44,15 +44,16 @@ module.exports = function(app) {
     * 	message: String showing a descriptive text,
     *    result:
     *    {
-    *       FIXME The output is based on the basic and detailed profile information.
-    *       id: the user id,
+    *       id: the user's id,
     *       type: the type of the account ['Admin', 'Upper Board', 'High Board', 'Member'],
-    *       first_name: the logged in user first name,
-    *       last_name: the logged in user last name,
-    *       email: the logged in user email,
-    *       gender: the logged in user gender,
-    *       birthdate: the logged in user birthdate,
-    *       IEEE_membership_ID: the membership id in IEEE
+    *       first_name: the user's first name,
+    *       last_name: the user's last name,
+    *       email: the user's email,
+    *       gender: the user's gender,       [for detailed view only]
+    *       phone_number: the user's phone number,       [for detailed view only]
+    *       birthdate: the logged in user birthdate,        [for detailed view only]
+    *       IEEE_membership_ID: the user's membership id in IEEE,
+    *       settings: the user's profile settings        [public settings only for basic view]
     *     }
     *     error: Validation errors
     * }

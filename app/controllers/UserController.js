@@ -258,6 +258,11 @@ module.exports.store = function(req, res, next) {
    req.sanitizeBody('birthdate').escape();
    req.sanitizeBody('birthdate').trim();
 
+   /*Validate and sanitizing phone number Input*/
+   req.checkBody('phone_number', 'Phone Number is required').notEmpty();
+   req.sanitizeBody('phone_number').escape();
+   req.sanitizeBody('phone_number').trim();
+
    /*Validate and sanitizing gender Input*/
    req.checkBody('gender', 'Gender is required').notEmpty();
    req.checkBody('gender', 'Enter a valid gender [\'Male\', \'Female\']').isIn(['Male', 'Female']);
@@ -292,6 +297,7 @@ module.exports.store = function(req, res, next) {
       first_name : req.body.first_name,
       last_name : req.body.last_name,
       birthdate : req.body.birthdate,
+      phone_number: req.body.phone_number,
       gender : req.body.gender,
       IEEE_membership_ID : req.body.IEEE_membership_ID
    };
@@ -309,7 +315,7 @@ module.exports.store = function(req, res, next) {
          status:'failed',
          message: 'Internal server error'
       });
-      console.log(err);
+      
       req.err = 'UserController.js, Line: 313\nCouldn\'t save the user in the database.\n' + String(err);
 
       next();
@@ -338,6 +344,13 @@ module.exports.update = function(req, res, next) {
       req.sanitizeBody('IEEE_membership_ID').escape();
       req.sanitizeBody('IEEE_membership_ID').trim();
       obj.IEEE_membership_ID = req.body.IEEE_membership_ID;
+   }
+
+   /*Sanitizing Phone Number Input*/
+   if (req.body.phone_number) {
+      req.sanitizeBody('phone_number').escape();
+      req.sanitizeBody('phone_number').trim();
+      obj.phone_number = req.body.phone_number;
    }
 
 
@@ -393,7 +406,7 @@ module.exports.update = function(req, res, next) {
          message: 'Internal server error'
       });
 
-      req.err = 'UserController.js, Line: 396\nCouldn\'t save the user in the database.\n' + err;
+      req.err = 'UserController.js, Line: 396\nCouldn\'t save the user in the database.\n' + String(err);
 
       next();
    });
