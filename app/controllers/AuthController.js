@@ -56,7 +56,7 @@ module.exports.login = function(req, res, next) {
 
         if (!user) {
             /* user was not found */
-            res.status(400).json({
+            res.status(401).json({
                 status: 'failed',
                 message: 'The provided credentials are not correct'
             });
@@ -166,7 +166,7 @@ module.exports.login = function(req, res, next) {
                 });
             } else {
                 /* password mismatch */
-                res.status(400).json({
+                res.status(401).json({
                     status: 'failed',
                     message: 'The provided credentials are not correct'
                 });

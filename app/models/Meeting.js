@@ -33,16 +33,8 @@ module.exports.defineMeeting = function(sequelize)
          },
          goals:
          {
-            type: Sequelize.TEXT,
-            allowNull: false,
-            set: function(val)
-            {
-                 this.setDataValue('goals', JSON.stringify(val));
-            },
-            get: function()
-            {
-               return JSON.parse(this.getDataValue('goals'));
-            }
+            type: Sequelize.JSON,
+            allowNull: false
          },
          duration:
          {
