@@ -92,12 +92,10 @@ module.exports.defineUser = function(sequelize) {
     type: Sequelize.TEXT,
     allowNull: true,
     get: function() {
-      if (this.getDataValue('settings'))
-         return JSON.parse(this.getDataValue('settings'));
+      return JSON.parse(this.getDataValue('settings'));
     },
     set: function(value) {
-      if (value)
-         this.setDataValue('settings', JSON.stringify(value));
+      this.setDataValue('settings', JSON.stringify(value));
     }
    }
  },
@@ -170,7 +168,6 @@ module.exports.defineUser = function(sequelize) {
           res.last_name          = this.last_name;
           res.email              = this.email;
           res.IEEE_membership_ID = this.IEEE_membership_ID;
-          if (this.settings)
           res.settings           = this.settings.public;
         }
         return res;
