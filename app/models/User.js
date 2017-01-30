@@ -126,6 +126,7 @@ module.exports.defineUser = function(sequelize) {
 
         // TODO
         if(detailed) {
+          res.profile_type       = 'Detailed';
           res.id                 = this.id;
           res.type               = this.type;
           res.first_name         = this.first_name;
@@ -138,13 +139,16 @@ module.exports.defineUser = function(sequelize) {
           res.settings           = JSON.parse(this.settings);
         }
         else {
+          res.profile_type       = 'Basic';
           res.id                 = this.id;
           res.type               = this.type;
           res.first_name         = this.first_name;
           res.last_name          = this.last_name;
           res.email              = this.email;
           res.IEEE_membership_ID = this.IEEE_membership_ID;
-          res.settings           = JSON.parse(this.settings.public);
+          var settings = JSON.parse(this.settings);
+          delete settings.private; 
+          res.settings           = settings;
         }
 
         return res;
