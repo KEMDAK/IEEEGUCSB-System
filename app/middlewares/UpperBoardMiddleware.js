@@ -9,7 +9,7 @@ module.exports = function(req, res, next)
 {
    var log  = require('./LogMiddleware');
 
-   if(req.user.type === 'Upper Board')
+   if(req.user.isAdmin() || req.user.isUpperBoard())
    {
       next();
    }
