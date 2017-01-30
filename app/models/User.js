@@ -22,25 +22,6 @@ module.exports.defineUser = function(sequelize) {
  var Sequelize = require("sequelize");
  var bcrypt = require('bcrypt-nodejs');
 
- var settings = JSON.stringify(
- {
-  public: {
-    background: "the background of the profile"
-  },
-  private:{
-    notifications: {
-      email: {
-        lastSent: "timestamp",
-        taskAssignment: "boolean sent email on task assignment",
-        taskDeadline: "boolean sent a reminder email before the task deadline",
-        meetingAssignment: "boolean sent email on meetings",
-        meetingDay: "booealan send email on meeting day",
-        comment: "boolean sent email on comments"
-      }
-    }
-  }
- });
-
  module.exports.User = sequelize.define('user', {
    type: {
      type: Sequelize.ENUM('Admin', 'Upper Board', 'High Board', 'Member'),
@@ -89,14 +70,8 @@ module.exports.defineUser = function(sequelize) {
     allowNull: true
    },
    settings: {
-    type: Sequelize.TEXT,
-    allowNull: true,
-    get: function() {
-      return JSON.parse(this.getDataValue('settings'));
-    },
-    set: function(value) {
-      this.setDataValue('settings', JSON.stringify(value));
-    }
+    type: Sequelize.JSON,
+    allowNull: false
    }
  },
  {
@@ -148,8 +123,10 @@ module.exports.defineUser = function(sequelize) {
       */
       toJSON: function(detailed) {
         var res = {};
+
         // TODO
         if(detailed) {
+          res.profile_type       = 'Detailed';
           res.id                 = this.id;
           res.type               = this.type;
           res.first_name         = this.first_name;
@@ -159,17 +136,21 @@ module.exports.defineUser = function(sequelize) {
           res.phone_number       = this.phone_number;
           res.birthdate          = this.birthdate;
           res.IEEE_membership_ID = this.IEEE_membership_ID;
-          res.settings           = this.settings;
+          res.settings           = JSON.parse(this.settings);
         }
         else {
+          res.profile_type       = 'Basic';
           res.id                 = this.id;
           res.type               = this.type;
           res.first_name         = this.first_name;
           res.last_name          = this.last_name;
           res.email              = this.email;
           res.IEEE_membership_ID = this.IEEE_membership_ID;
-          res.settings           = this.settings.public;
+          var settings = JSON.parse(this.settings);
+          delete settings.private; 
+          res.settings           = settings;
         }
+
         return res;
       }
     }

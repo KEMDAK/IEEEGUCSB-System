@@ -31,7 +31,8 @@ module.exports.defineIdentity = function(sequelize) {
         },
         last_logged_in: {
             type: Sequelize.DATE,
-            allowNull: true
+            allowNull: true,
+            defaultValue: Sequelize.NOW
         }
     },
     {
