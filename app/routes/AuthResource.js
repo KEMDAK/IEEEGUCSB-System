@@ -24,6 +24,7 @@ module.exports = function(app) {
     * 	token: access token as a response to a successfull login,
     * 	user:
     * 	{
+    *       profile_type: "Detailed",
     *       id: the user id,
     *       type: the type of the account ['Admin', 'Upper Board', 'High Board', 'Member'],
     *       first_name: the logged in user first name,
@@ -49,6 +50,10 @@ module.exports = function(app) {
     *               }
     *             }
     *           }
+    *       },
+    *       committee: { [optinal|if the user belongs to a committee]
+    *          id: the users's committee id,
+    *          name: the user's committee name
     *       },
     * 	    error: Validation errors
     *   }

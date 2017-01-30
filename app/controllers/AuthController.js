@@ -3,11 +3,12 @@
 * @description The controller that is responsible of handling requests that deals with authentication.
 */
 
-var User              = require('../models/User').User;
-var Identity          = require('../models/Identity').Identity;
-var jwt               = require('jsonwebtoken');
-var path              = require('path');
-var nodemailer        = require('nodemailer');
+var User       = require('../models/User').User;
+var Identity   = require('../models/Identity').Identity;
+var Committee  = require('../models/Committee').Committee;
+var jwt        = require('jsonwebtoken');
+var path       = require('path');
+var nodemailer = require('nodemailer');
 
 /**
 * This function recieves and handles login request
@@ -37,7 +38,7 @@ module.exports.login = function(req, res, next) {
             error: errors
         });
 
-        req.err = 'AuthController.js, 40\nValidation errors.\n' + errors;
+        req.err = 'AuthController.js, 41\nValidation errors.\n' + errors;
 
         next();
 
@@ -61,7 +62,7 @@ module.exports.login = function(req, res, next) {
                 message: 'The provided credentials are not correct'
             });
 
-            req.err = 'AuthController.js, 64\nUser was not found in the database.';
+            req.err = 'AuthController.js, 65\nUser was not found in the database.';
 
             next();
         } else {
@@ -93,6 +94,7 @@ module.exports.login = function(req, res, next) {
                             userId: user.id,
                             exp: exp_date.getTime() // 90 days
                         };
+
                         var token = jwt.sign(payload, process.env.JWTSECRET);
 
                         var identityInstance = Identity.build({
@@ -104,17 +106,34 @@ module.exports.login = function(req, res, next) {
                         });
 
                         identityInstance.save().then(function(identity) {
-
                             /* Adding the authenticated user identity to the request object */
                             req.identity = identity;
 
-                            res.status(200).json({
-                                status: 'succeeded',
-                                token: token,
-                                user: user.toJSON(true)
-                            });
+                            user.getCommittee().then(function(committee) {
+                                var curUser = user.toJSON(true);
 
-                            next();
+                                if(committee){
+                                    curUser.committee = { id: committee.id, name: committee.name };
+                                }
+
+                                res.status(200).json({
+                                    status: 'succeeded',
+                                    token: token,
+                                    user: curUser
+                                });
+
+                                next();
+                            }).catch(function(err) {
+                                /* failed to find the committee in the database */
+                                res.status(500).json({
+                                    status: 'failed',
+                                    message: 'Internal server error'
+                                });
+
+                                req.err = 'AuthController.js, 133\nFailed to find the committee in the database.\n' + err;
+
+                                next();
+                            });
                         }).catch(function(err) {
                             /* failed to save the user identity in the database */
                             res.status(500).json({
@@ -122,37 +141,55 @@ module.exports.login = function(req, res, next) {
                                 message: 'Internal server error'
                             });
 
-                            req.err = 'AuthController.js, 125\nFailed to save the user identity in the database.\n' + err;
+                            req.err = 'AuthController.js, 144\nFailed to save the user identity in the database.\n' + err;
 
                             next();
                         });
                     };
 
-                    if (identity) {
-                        /* found a valid identity */
-                        try {
-                            jwt.verify(identity.token, process.env.JWTSECRET);
+                if (identity) {
+                    /* found a valid identity */
+                    try {
+                        jwt.verify(identity.token, process.env.JWTSECRET);
 
-                            /* Adding the authenticated user identity to the request object */
-                            req.identity = identity;
+                        /* Adding the authenticated user identity to the request object */
+                        req.identity = identity;
+
+                        user.getCommittee().then(function(committee) {
+                            var curUser = user.toJSON(true);
+
+                            if(committee){
+                                curUser.committee = { id: committee.id, name: committee.name };
+                            }
 
                             res.status(200).json({
                                 status: 'succeeded',
                                 token: identity.token,
-                                user: user.toJSON(true)
+                                user: curUser
                             });
 
                             next();
+                        }).catch(function(err) {
+                            /* failed to find the committee in the database */
+                            res.status(500).json({
+                                status: 'failed',
+                                message: 'Internal server error'
+                            });
 
-                            identity.last_logged_in = new Date();
-                            identity.save();
-                        } catch (err) {
-                            identity.destroy();
-                            generateIdentity();
-                        }
-                    } else {
+                            req.err = 'AuthController.js, 179\nFailed to find the committee in the database.\n' + err;
+
+                            next();
+                        });
+
+                        identity.last_logged_in = new Date();
+                        identity.save();
+                    } catch (err) {
+                        identity.destroy();
                         generateIdentity();
                     }
+                } else {
+                        generateIdentity();
+                }
                 }).catch(function(err) {
                     /* failed duo to an error in the database while trying to find the identity */
                     res.status(500).json({
@@ -160,7 +197,7 @@ module.exports.login = function(req, res, next) {
                         message: 'Internal server error'
                     });
 
-                    req.err = 'AuthController.js, 163\nFailed duo to an error in the database while trying to find the identity.\n' + err;
+                    req.err = 'AuthController.js, 200\nFailed duo to an error in the database while trying to find the identity.\n' + err;
 
                     next();
                 });
@@ -171,7 +208,7 @@ module.exports.login = function(req, res, next) {
                     message: 'The provided credentials are not correct'
                 });
 
-                req.err = 'AuthController.js, 174\nThe provided password doesn\'t match the database.\n';
+                req.err = 'AuthController.js, 211\nThe provided password doesn\'t match the database.\n';
 
                 next();
             }
@@ -187,47 +224,21 @@ module.exports.login = function(req, res, next) {
 * @param  {Function} next Callback function that is called once done with handling the request
 */
 module.exports.logout = function (req, res, next){
-    Identity.findOne( { where: { user_id: req.payload.userId, user_agent: req.payload.userAgent } } ).then(function(identity){
-        if(!identity){
-            //no Identity found
-            res.status(400).json({
-                status:'failed'
-            });
+    //delete the identity from the database
+    req.identity.destroy().then(function(){
+        res.status(200).json({
+            status:'succeeded'
+        });
 
-            req.err = 'AuthController.js, 197\nThe used identity was not found in the database.\n';
-
-            next();
-        }
-        else{
-            //delete the identity from the database
-            identity.destroy().then(function(){
-                res.status(200).json({
-                    status:'succeeded'
-                });
-
-                next();
-            }).catch(function(err){
-
-                /* failed to destroy the identity in the database */
-                res.status(500).json({
-                    status:'failed',
-                    message: 'Internal server error'
-                });
-
-                req.err = 'AuthController.js, 217\nFailed to destroy the identity in the database\n' + err;
-
-                next();
-            });
-        }
+        next();
     }).catch(function(err){
-
-        /* failed to find the identity in the database */
+        /* failed to destroy the identity in the database */
         res.status(500).json({
             status:'failed',
             message: 'Internal server error'
         });
 
-        req.err = 'AuthController.js, 230\nFailed to find the identity in the database.\n' + err;
+        req.err = 'AuthController.js, 241\nFailed to destroy the identity in the database\n' + err;
 
         next();
     });
@@ -255,7 +266,7 @@ module.exports.forgotPassword = function (req, res, next) {
             error: errors
         });
 
-        req.err = 'AuthController.js, 258\nValidation errors\n' + errors;
+        req.err = 'AuthController.js, 269\nValidation errors\n' + errors;
 
         next();
 
@@ -271,7 +282,7 @@ module.exports.forgotPassword = function (req, res, next) {
             /* Adding the user to the request object */
             req.user = user;
 
-            /* saving the identity */
+            /* generating the exp_date */
             var exp_date = new Date();
             exp_date.setDate(exp_date.getDate() + 1); // sets the expiry date to one day
 
@@ -279,8 +290,9 @@ module.exports.forgotPassword = function (req, res, next) {
             var payload = {
                 type: 'reset-token',
                 userId: user.id,
-                exp: exp_date.getTime() // 24 hours
+            exp: exp_date.getTime() // 24 hours
             };
+
             var token = jwt.sign(payload, process.env.JWTSECRET);
 
             var transporter = nodemailer.createTransport('smtps://' + process.env.EMAIL + ':' + process.env.PASSWORD + '@' + process.env.MAIL_SERVER);
@@ -303,13 +315,13 @@ module.exports.forgotPassword = function (req, res, next) {
                         message: 'Internal server error'
                     });
 
-                    req.err = 'AuthController.js, 306\nFailed to render the email.\n' + err;
+                    req.err = 'AuthController.js, 318\nFailed to render the email.\n' + err;
 
                     next();
 
                     return;
                 }
-                
+
                 /* setting up email options */
                 var mailOptions = {
                     from: process.env.FROM , // sender address
@@ -332,9 +344,8 @@ module.exports.forgotPassword = function (req, res, next) {
 
                 next();
             });
-        }
-    	else{
-    	    req.err = 'AuthController.js, 337\nThe requested user was not found in the database.\n';
+        } else{
+            req.err = 'AuthController.js, 348\nThe requested user was not found in the database.\n';
 
             /* request handled */
             res.status(200).json({
@@ -342,7 +353,7 @@ module.exports.forgotPassword = function (req, res, next) {
             });
 
             next();
-    	}
+        }
     }).catch(function(err){
 
         /* failed to find the user in the database */
@@ -351,7 +362,7 @@ module.exports.forgotPassword = function (req, res, next) {
             message: 'Internal server error'
         });
 
-        req.err = 'AuthController.js, 354\nFailed to find the user in the database.\n' + err;
+        req.err = 'AuthController.js, 365\nFailed to find the user in the database.\n' + err;
 
         next();
     });
@@ -376,7 +387,7 @@ module.exports.resetPassword = function (req, res, next) {
             error: errors
         });
 
-        req.err = 'AuthController.js, 379\nValidation errors.\n' + errors;
+        req.err = 'AuthController.js, 390\nValidation errors.\n' + errors;
 
         next();
 
@@ -394,7 +405,7 @@ module.exports.resetPassword = function (req, res, next) {
                 status:'failed'
             });
 
-            req.err = 'AuthController.js, 397\nThe user was not found in the database.\n';
+            req.err = 'AuthController.js, 408\nThe user was not found in the database.\n';
 
             next();
         }
@@ -416,7 +427,7 @@ module.exports.resetPassword = function (req, res, next) {
                     message: 'Internal server error'
                 });
 
-                req.err = 'AuthController.js, 419\nFailed to change the password in the database.\n' + err;
+                req.err = 'AuthController.js, 430\nFailed to change the password in the database.\n' + err;
 
                 next();
             });
@@ -429,7 +440,7 @@ module.exports.resetPassword = function (req, res, next) {
             message: 'Internal server error'
         });
 
-        req.err = 'AuthController.js, 432\nFailed to find the user in the database.\n' + err;
+        req.err = 'AuthController.js, 443\nFailed to find the user in the database.\n' + err;
 
         next();
     });
