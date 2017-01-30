@@ -260,6 +260,7 @@ module.exports.store = function(req, res, next) {
 
    /*Validate and sanitizing phone number Input*/
    req.checkBody('phone_number', 'Phone Number is required').notEmpty();
+   req.checkBody('phone_number', 'Enter a valid phone number').isPhoneNumber();
    req.sanitizeBody('phone_number').escape();
    req.sanitizeBody('phone_number').trim();
 
@@ -299,7 +300,24 @@ module.exports.store = function(req, res, next) {
       birthdate : req.body.birthdate,
       phone_number: req.body.phone_number,
       gender : req.body.gender,
-      IEEE_membership_ID : req.body.IEEE_membership_ID
+      IEEE_membership_ID : req.body.IEEE_membership_ID,
+      settings: {
+         public: {
+            background: "The background of the profile"
+         },
+         private: {
+            notifications: {
+               email: {
+                  comment: "boolean sent email on comments",
+                  lastSent: "timestamp",
+                  meetingDay: "boolean sent email on meeting day",
+                  taskDeadline: "boolean sent a reminder email before the task deadline",
+                  taskAssignment: "boolean sent email on task assignment",
+                  meetingAssignment: "boolean sent email on meetings"
+               }
+            }
+         }
+      }
    };
 
    User.create(obj).then(function() {
@@ -315,7 +333,7 @@ module.exports.store = function(req, res, next) {
          status:'failed',
          message: 'Internal server error'
       });
-      
+
       req.err = 'UserController.js, Line: 313\nCouldn\'t save the user in the database.\n' + String(err);
 
       next();
