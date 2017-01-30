@@ -7,6 +7,8 @@
 */
 module.exports = function(req, res, next)
 {
+   var log  = require('./LogMiddleware');
+
    if(req.user.type === 'Upper Board')
    {
       next();
@@ -18,5 +20,9 @@ module.exports = function(req, res, next)
             status:'failed',
             message: 'Access denied'
          });
+
+      req.err = 'UpperBoardMiddleware.js, 24\nThe user tries to access a route that is only for upper board.';
+      log.save(req, res);
+
    }
 };
