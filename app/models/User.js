@@ -118,13 +118,18 @@ module.exports.defineUser = function(sequelize) {
      },
       /**
       * this function returns the user object.
+      * @param {boolean} detailed true if the returned attributes should be detailed.
+      * @param {boolean} mine true if the returned attributes are requested by thier owner.
       * @return {Object} The user object.
       */
-      toJSON: function(detailed) {
+      toJSON: function(detailed, mine) {
         var res = {};
+        var settings = JSON.parse(this.settings);
 
         // TODO
         if(detailed) {
+          if(!mine) delete settings.private;
+
           res.profile_type       = 'Detailed';
           res.id                 = this.id;
           res.type               = this.type;
@@ -135,9 +140,11 @@ module.exports.defineUser = function(sequelize) {
           res.phone_number       = this.phone_number;
           res.birthdate          = this.birthdate;
           res.IEEE_membership_ID = this.IEEE_membership_ID;
-          res.settings           = JSON.parse(this.settings);
+          res.settings           = settings;
         }
         else {
+          delete settings.private;
+
           res.profile_type       = 'Basic';
           res.id                 = this.id;
           res.type               = this.type;
@@ -145,8 +152,6 @@ module.exports.defineUser = function(sequelize) {
           res.last_name          = this.last_name;
           res.email              = this.email;
           res.IEEE_membership_ID = this.IEEE_membership_ID;
-          var settings = JSON.parse(this.settings);
-          delete settings.private;
           res.settings           = settings;
         }
 

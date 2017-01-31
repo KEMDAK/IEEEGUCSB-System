@@ -9,6 +9,7 @@ var Committee  = require('../models/Committee').Committee;
 var jwt        = require('jsonwebtoken');
 var path       = require('path');
 var nodemailer = require('nodemailer');
+var format = require('../script').errorFormat;
 
 /**
 * This function recieves and handles login request
@@ -18,19 +19,20 @@ var nodemailer = require('nodemailer');
 */
 module.exports.login = function(req, res, next) {
     /*Validate and sanitizing email Input*/
-    req.checkBody('email', 'Email is required').notEmpty();
-    req.checkBody('email', 'Enter a Valid Email address').isEmail();
+    req.checkBody('email', 'required').notEmpty();
+    req.checkBody('email', 'validity').isEmail();
     req.sanitizeBody('email').escape();
     req.sanitizeBody('email').trim();
     req.sanitizeBody('email').normalizeEmail({ lowercase: true });
     /*Validate and sanitizing Password Input*/
-    req.checkBody('password', 'Password is required').notEmpty();
+    req.checkBody('password', 'required').notEmpty();
     /*Validate and sanitizing User Agent*/
-    req.checkHeaders('user_agent', 'User Agent is required').notEmpty();
-    req.checkHeaders('user_agent', 'Enter a valid User Agent').isIn(['Web', 'Android', 'IOS']);
+    req.checkHeaders('user_agent', 'required').notEmpty();
+    req.checkHeaders('user_agent', 'validity').isIn(['Web', 'Android', 'IOS']);
     req.sanitizeHeaders('user_agent').escape();
 
     var errors = req.validationErrors();
+    errors = format(errors);
     if (errors) {
         /* input validation failed */
         res.status(400).json({
@@ -38,7 +40,7 @@ module.exports.login = function(req, res, next) {
             error: errors
         });
 
-        req.err = 'AuthController.js, 41\nValidation errors.\n' + errors;
+        req.err = 'AuthController.js, 41\nSome validation errors occured.\n' + JSON.stringify(errors);
 
         next();
 
@@ -110,7 +112,7 @@ module.exports.login = function(req, res, next) {
                             req.identity = identity;
 
                             user.getCommittee().then(function(committee) {
-                                var curUser = user.toJSON(true);
+                                var curUser = user.toJSON(true, true);
 
                                 if(committee){
                                     curUser.committee = { id: committee.id, name: committee.name };
@@ -156,7 +158,7 @@ module.exports.login = function(req, res, next) {
                         req.identity = identity;
 
                         user.getCommittee().then(function(committee) {
-                            var curUser = user.toJSON(true);
+                            var curUser = user.toJSON(true, true);
 
                             if(committee){
                                 curUser.committee = { id: committee.id, name: committee.name };
@@ -252,13 +254,14 @@ module.exports.logout = function (req, res, next){
 */
 module.exports.forgotPassword = function (req, res, next) {
     /*Validate and sanitizing email Input*/
-    req.checkBody('email', 'Email is required').notEmpty();
-    req.checkBody('email', 'Enter a Valid Email address').isEmail();
+    req.checkBody('email', 'required').notEmpty();
+    req.checkBody('email', 'validity').isEmail();
     req.sanitizeBody('email').escape();
     req.sanitizeBody('email').trim();
     req.sanitizeBody('email').normalizeEmail({ lowercase: true });
 
     var errors = req.validationErrors();
+    errors = format(errors);
     if (errors) {
         /* input validation failed */
         res.status(400).json({
@@ -266,7 +269,7 @@ module.exports.forgotPassword = function (req, res, next) {
             error: errors
         });
 
-        req.err = 'AuthController.js, 269\nValidation errors\n' + errors;
+        req.err = 'AuthController.js, 269\nSome validation errors occured.\n' + JSON.stringify(errors);
 
         next();
 
@@ -376,10 +379,11 @@ module.exports.forgotPassword = function (req, res, next) {
 */
 module.exports.resetPassword = function (req, res, next) {
     /*Validate and sanitizing Password  Input*/
-    req.checkBody('password', 'Password is required').notEmpty();
-    req.assert('password', 'The legnth of the password must be between 6 and 20 characters').len(6, 20);
+    req.checkBody('password', 'required').notEmpty();
+    req.assert('password', 'validity').len(6, 20);
 
     var errors = req.validationErrors();
+    errors = format(errors);
     if (errors) {
         /* input validation failed */
         res.status(400).json({
@@ -387,7 +391,7 @@ module.exports.resetPassword = function (req, res, next) {
             error: errors
         });
 
-        req.err = 'AuthController.js, 390\nValidation errors.\n' + errors;
+        req.err = 'AuthController.js, 390\nSome validation errors occured.\n' + JSON.stringify(errors);
 
         next();
 
