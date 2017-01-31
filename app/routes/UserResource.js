@@ -5,6 +5,7 @@
 module.exports = function(app) {
     var UserController = require('../controllers/UserController');
     var auth           = require('../middlewares/AuthMiddleware');
+    var upper          = require('../middlewares/UpperBoardMiddleware');
 
     /**
     * A GET route responsible for getting all users currently in the database
@@ -30,7 +31,7 @@ module.exports = function(app) {
     * 	error: Validation errors
     * }
     */
-    app.get('/api/user', auth, UserController.index);
+    app.get('/api/user', UserController.index);
 
     /**
     * A GET route responsible for getting a specific user currently in the database
@@ -84,7 +85,7 @@ module.exports = function(app) {
     * 	error: Validation errors
     * }
     */
-    app.post('/api/user', UserController.store);
+    app.post('/api/user', auth, upper, UserController.store);
 
     /**
     * A PUT route responsible for updating the information of authenticated user

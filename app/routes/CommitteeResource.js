@@ -3,10 +3,9 @@
 * @param  {express} app An instance of the express app to be configured.
 */
 module.exports = function(app) {
-    var AuthController      = require('../controllers/AuthController');
     var CommitteeController = require('../controllers/CommitteeController');
     var auth                = require('../middlewares/AuthMiddleware');
-    var reset               = require('../middlewares/ResetMiddleware');
+    var upper               = require('../middlewares/UpperBoardMiddleware');
 
     /**
     * A GET route responsible for getting all committes in the database
@@ -49,8 +48,8 @@ module.exports = function(app) {
     *    error: Validation errors
     * }
     */
-    app.get('/api/committee/:id', auth, CommitteeController.show);
-    
+    app.get('/api/committee/:id', CommitteeController.show);
+
     /**
     * A POST route responsible for creating a committee. This route can not be used unless the requesting account is an Upper Board or higher.
     * @var /api/committee POST
@@ -67,8 +66,8 @@ module.exports = function(app) {
     *   message: String showing a descriptive text
     * }
     */
-    app.post('/api/committee', auth, CommitteeController.store);
-    
+    app.post('/api/committee', auth, upper, CommitteeController.store);
+
     /**
     * A PUT route responsible for updating a committee. This route can not be used unless the requesting account is an Upper Board or higher.
     * @var /api/committee/{id} PUT
@@ -86,5 +85,5 @@ module.exports = function(app) {
     *   message: String showing a descriptive text
     * }
     */
-    app.put('/api/committee/:id', auth, CommitteeController.update);
+    app.put('/api/committee/:id', auth, upper, CommitteeController.update);
 };
