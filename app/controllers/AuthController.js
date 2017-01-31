@@ -110,7 +110,7 @@ module.exports.login = function(req, res, next) {
                             req.identity = identity;
 
                             user.getCommittee().then(function(committee) {
-                                var curUser = user.toJSON(true);
+                                var curUser = user.toJSON(true, true);
 
                                 if(committee){
                                     curUser.committee = { id: committee.id, name: committee.name };
@@ -156,7 +156,7 @@ module.exports.login = function(req, res, next) {
                         req.identity = identity;
 
                         user.getCommittee().then(function(committee) {
-                            var curUser = user.toJSON(true);
+                            var curUser = user.toJSON(true, true);
 
                             if(committee){
                                 curUser.committee = { id: committee.id, name: committee.name };
