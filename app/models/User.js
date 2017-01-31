@@ -57,7 +57,6 @@ module.exports.defineUser = function(sequelize) {
    },
    phone_number: {
      type: Sequelize.STRING,
-     unique: true,
      allowNull: false
    },
    IEEE_membership_ID: {
@@ -144,8 +143,8 @@ module.exports.defineUser = function(sequelize) {
           res.settings           = settings;
         }
         else {
-          delete settings.private; 
-          
+          delete settings.private;
+
           res.profile_type       = 'Basic';
           res.id                 = this.id;
           res.type               = this.type;

@@ -1,5 +1,7 @@
 To FIX:
 
-+ When creating a user with the same data as one in the database it shouldn't return a 'Internal server error'
++ Integrate the settings in update functions
 
-+ The return message duo to the SQL validation violation errors is Internal server Error!! (Try to store another committee with the same name)
++ error documentation in resources
+
++ The user agent validations in non auth required routes.

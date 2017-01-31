@@ -55,7 +55,14 @@ module.exports = function(app) {
     *          id: the users's committee id,
     *          name: the user's committee name
     *       },
-    * 	    error: Validation errors
+    * 	error:
+    * 	[
+    * 	  {
+    * 	     param: the field that caused the error,
+    * 	     value: the value that was provided for that field,
+    * 	     type: the type of error that was caused ['required', 'validity', 'unique violation']
+    * 	  }, {...}, ...
+    * 	]
     *   }
     */
     app.post('/api/login', AuthController.login);
@@ -85,7 +92,14 @@ module.exports = function(app) {
     * {
     * 	status: succeeded/failed
     * 	message: Descriptive text about the errors,
-    * 	error: Validation errors
+    * 	error:
+    * 	[
+    * 	  {
+    * 	     param: the field that caused the error,
+    * 	     value: the value that was provided for that field,
+    * 	     type: the type of error that was caused ['required', 'validity', 'unique violation']
+    * 	  }, {...}, ...
+    * 	]
     * }
     */
     app.post('/api/forgotPassword', AuthController.forgotPassword);
@@ -103,7 +117,14 @@ module.exports = function(app) {
     * {
     * 	status: succeeded/failed,
     * 	message: Descriptive text about the errors,
-    * 	error: Validation errors
+    * 	error:
+    * 	[
+    * 	  {
+    * 	     param: the field that caused the error,
+    * 	     value: the value that was provided for that field,
+    * 	     type: the type of error that was caused ['required', 'validity', 'unique violation']
+    * 	  }, {...}, ...
+    * 	]
     * }
     */
     app.post('/api/resetPassword', reset, AuthController.resetPassword);
