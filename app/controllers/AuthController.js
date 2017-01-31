@@ -9,7 +9,7 @@ var Committee  = require('../models/Committee').Committee;
 var jwt        = require('jsonwebtoken');
 var path       = require('path');
 var nodemailer = require('nodemailer');
-var format = require('../script').errorFormat;
+var format     = require('../script').errorFormat;
 
 /**
 * This function recieves and handles login request
@@ -40,7 +40,7 @@ module.exports.login = function(req, res, next) {
             error: errors
         });
 
-        req.err = 'AuthController.js, 41\nSome validation errors occured.\n' + JSON.stringify(errors);
+        req.err = 'AuthController.js, 43\nSome validation errors occured.\n' + JSON.stringify(errors);
 
         next();
 
@@ -64,7 +64,7 @@ module.exports.login = function(req, res, next) {
                 message: 'The provided credentials are not correct'
             });
 
-            req.err = 'AuthController.js, 65\nUser was not found in the database.';
+            req.err = 'AuthController.js, 67\nUser was not found in the database.';
 
             next();
         } else {
@@ -132,7 +132,7 @@ module.exports.login = function(req, res, next) {
                                     message: 'Internal server error'
                                 });
 
-                                req.err = 'AuthController.js, 133\nFailed to find the committee in the database.\n' + err;
+                                req.err = 'AuthController.js, 135\nFailed to find the committee in the database.\n' + err;
 
                                 next();
                             });
@@ -143,7 +143,7 @@ module.exports.login = function(req, res, next) {
                                 message: 'Internal server error'
                             });
 
-                            req.err = 'AuthController.js, 144\nFailed to save the user identity in the database.\n' + err;
+                            req.err = 'AuthController.js, 146\nFailed to save the user identity in the database.\n' + err;
 
                             next();
                         });
@@ -178,7 +178,7 @@ module.exports.login = function(req, res, next) {
                                 message: 'Internal server error'
                             });
 
-                            req.err = 'AuthController.js, 179\nFailed to find the committee in the database.\n' + err;
+                            req.err = 'AuthController.js, 181\nFailed to find the committee in the database.\n' + err;
 
                             next();
                         });
@@ -199,7 +199,7 @@ module.exports.login = function(req, res, next) {
                         message: 'Internal server error'
                     });
 
-                    req.err = 'AuthController.js, 200\nFailed duo to an error in the database while trying to find the identity.\n' + err;
+                    req.err = 'AuthController.js, 202\nFailed duo to an error in the database while trying to find the identity.\n' + err;
 
                     next();
                 });
@@ -210,7 +210,7 @@ module.exports.login = function(req, res, next) {
                     message: 'The provided credentials are not correct'
                 });
 
-                req.err = 'AuthController.js, 211\nThe provided password doesn\'t match the database.\n';
+                req.err = 'AuthController.js, 213\nThe provided password doesn\'t match the database.\n';
 
                 next();
             }
@@ -240,7 +240,7 @@ module.exports.logout = function (req, res, next){
             message: 'Internal server error'
         });
 
-        req.err = 'AuthController.js, 241\nFailed to destroy the identity in the database\n' + err;
+        req.err = 'AuthController.js, 243\nFailed to destroy the identity in the database\n' + err;
 
         next();
     });
@@ -269,7 +269,7 @@ module.exports.forgotPassword = function (req, res, next) {
             error: errors
         });
 
-        req.err = 'AuthController.js, 269\nSome validation errors occured.\n' + JSON.stringify(errors);
+        req.err = 'AuthController.js, 272\nSome validation errors occured.\n' + JSON.stringify(errors);
 
         next();
 
@@ -318,7 +318,7 @@ module.exports.forgotPassword = function (req, res, next) {
                         message: 'Internal server error'
                     });
 
-                    req.err = 'AuthController.js, 318\nFailed to render the email.\n' + err;
+                    req.err = 'AuthController.js, 321\nFailed to render the email.\n' + err;
 
                     next();
 
@@ -348,7 +348,7 @@ module.exports.forgotPassword = function (req, res, next) {
                 next();
             });
         } else{
-            req.err = 'AuthController.js, 348\nThe requested user was not found in the database.\n';
+            req.err = 'AuthController.js, 351\nThe requested user was not found in the database.\n';
 
             /* request handled */
             res.status(200).json({
@@ -365,7 +365,7 @@ module.exports.forgotPassword = function (req, res, next) {
             message: 'Internal server error'
         });
 
-        req.err = 'AuthController.js, 365\nFailed to find the user in the database.\n' + err;
+        req.err = 'AuthController.js, 368\nFailed to find the user in the database.\n' + err;
 
         next();
     });
@@ -391,7 +391,7 @@ module.exports.resetPassword = function (req, res, next) {
             error: errors
         });
 
-        req.err = 'AuthController.js, 390\nSome validation errors occured.\n' + JSON.stringify(errors);
+        req.err = 'AuthController.js, 394\nSome validation errors occured.\n' + JSON.stringify(errors);
 
         next();
 
@@ -409,7 +409,7 @@ module.exports.resetPassword = function (req, res, next) {
                 status:'failed'
             });
 
-            req.err = 'AuthController.js, 408\nThe user was not found in the database.\n';
+            req.err = 'AuthController.js, 412\nThe user was not found in the database.\n';
 
             next();
         }
@@ -431,7 +431,7 @@ module.exports.resetPassword = function (req, res, next) {
                     message: 'Internal server error'
                 });
 
-                req.err = 'AuthController.js, 430\nFailed to change the password in the database.\n' + err;
+                req.err = 'AuthController.js, 434\nFailed to change the password in the database.\n' + err;
 
                 next();
             });
@@ -444,7 +444,7 @@ module.exports.resetPassword = function (req, res, next) {
             message: 'Internal server error'
         });
 
-        req.err = 'AuthController.js, 443\nFailed to find the user in the database.\n' + err;
+        req.err = 'AuthController.js, 447\nFailed to find the user in the database.\n' + err;
 
         next();
     });
