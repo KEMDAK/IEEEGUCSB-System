@@ -24,7 +24,14 @@ module.exports = function(app) {
     *          description: the committee description
     *      }, {...}, ...
     *    ],
-    *   error: Validation errors
+    * 	error:
+    * 	[
+    * 	  {
+    * 	     param: the field that caused the error,
+    * 	     value: the value that was provided for that field,
+    * 	     type: the type of error that was caused ['required', 'validity', 'unique violation']
+    * 	  }, {...}, ...
+    * 	]
     * }
     */
     app.get('/api/committee', CommitteeController.index);
@@ -33,8 +40,8 @@ module.exports = function(app) {
     * A GET route to show a specific committee
     * @var /api/committee/{id} GET
     * @name /api/committee/{id} GET
-    * @example The route expects a committee id for the committee to be returned
-    * @example the route expects the access token as 'Authorization' and the user agent as 'user_agent' in the request headers with one of the following values ['Web', 'IOS', 'Android']
+    * @example The route expects a committee id for the desired committee in the URL in replace of '{id}'
+    * @example the route expects the user agent as 'user_agent' in the request headers with one of the following values ['Web', 'IOS', 'Android']
     * @example The route returns as a response an object in the following format
     * {
     *   status: succeeded/failed,
@@ -45,15 +52,23 @@ module.exports = function(app) {
     *          name: the committee name,
     *          description: the committee description
     *      },
-    *    error: Validation errors
+    * 	error:
+    * 	[
+    * 	  {
+    * 	     param: the field that caused the error,
+    * 	     value: the value that was provided for that field,
+    * 	     type: the type of error that was caused ['required', 'validity', 'unique violation']
+    * 	  }, {...}, ...
+    * 	]
     * }
     */
     app.get('/api/committee/:id', CommitteeController.show);
 
     /**
-    * A POST route responsible for creating a committee. This route can not be used unless the requesting account is an Upper Board or higher.
+    * A POST route responsible for creating a committee.
     * @var /api/committee POST
     * @name /api/committee POST
+    * @example The user requesting the route has to be of type 'Upper Board' at least.
     * @example the route expects the access token as 'Authorization' and the user agent as 'user_agent' in the request headers with one of the following values ['Web', 'IOS', 'Android']
     * @example The route expects a body Object in the following format
     * {
@@ -63,26 +78,43 @@ module.exports = function(app) {
     * @example The route returns as a response an object in the following format
     * {
     *   status: succeeded/failed,
-    *   message: String showing a descriptive text
+    *   message: String showing a descriptive text,
+    *   error:
+    *   [
+    *     {
+    *         param: the field that caused the error,
+    * 	     value: the value that was provided for that field,
+    * 	     type: the type of error that was caused ['required', 'validity', 'unique violation']
+    * 	 }, {...}, ...
+    *   ]
     * }
     */
     app.post('/api/committee', auth, upper, CommitteeController.store);
 
     /**
-    * A PUT route responsible for updating a committee. This route can not be used unless the requesting account is an Upper Board or higher.
+    * A PUT route responsible for updating a committee.
     * @var /api/committee/{id} PUT
     * @name /api/committee/{id} PUT
-    * @example The route expects a committee id for the committee to be updated
+    * @example The user requesting the route has to be of type 'Upper Board' at least.
+    * @example The route expects a committee id for the desired committee in the URL in replace of '{id}'
     * @example the route expects the access token as 'Authorization' and the user agent as 'user_agent' in the request headers with one of the following values ['Web', 'IOS', 'Android']
     * @example The route expects a body Object in the following format
     * {
-    *   name: String, [required]
-    *   description: String [required]
+    *   name: String, [optional]
+    *   description: String [optional]
     * }
     * @example The route returns as a response an object in the following format
     * {
     *   status: succeeded/failed,
-    *   message: String showing a descriptive text
+    *   message: String showing a descriptive text,
+    *   error:
+    *   [
+    *     {
+    *         param: the field that caused the error,
+    * 	     value: the value that was provided for that field,
+    * 	     type: the type of error that was caused ['required', 'validity', 'unique violation']
+    * 	 }, {...}, ...
+    *   ]
     * }
     */
     app.put('/api/committee/:id', auth, upper, CommitteeController.update);

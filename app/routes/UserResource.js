@@ -11,7 +11,7 @@ module.exports = function(app) {
     * A GET route responsible for getting all users currently in the database
     * @var /api/user GET
     * @name /api/user GET
-    * @example the route expects the access token as 'Authorization' and the user agent as 'user_agent' in the request headers with one of the following values ['Web', 'IOS', 'Android']
+    * @example the route expects the user agent as 'user_agent' in the request headers with one of the following values ['Web', 'IOS', 'Android']
     * @example The route returns as a response an object in the following format
     * {
     * 	status: succeeded/failed,
@@ -28,7 +28,14 @@ module.exports = function(app) {
     *        }
     * 	   }, {...}, ...
     * 	]
-    * 	error: Validation errors
+    * 	error:
+    * 	[
+    * 	  {
+    * 	     param: the field that caused the error,
+    * 	     value: the value that was provided for that field,
+    * 	     type: the type of error that was caused ['required', 'validity', 'unique violation']
+    * 	  }, {...}, ...
+    * 	]
     * }
     */
     app.get('/api/user', UserController.index);
@@ -37,7 +44,8 @@ module.exports = function(app) {
     * A GET route responsible for getting a specific user currently in the database
     * @var /api/user/{id} GET
     * @name /api/user/{id} GET
-    * @example the route expects the access token as 'Authorization' and the user agent as 'user_agent' in the request headers with one of the following values ['Web', 'IOS', 'Android']
+    * @example The user requesting the route has to be of type 'Member' at least.
+    * @example The route expects the access token as 'Authorization' and the user agent as 'user_agent' in the request headers with one of the following values ['Web', 'IOS', 'Android']
     * @example The route expects the id of the desired user in the URL in replace of '{id}'
     * @example The route returns as a response an object in the following format
     * {
@@ -52,11 +60,18 @@ module.exports = function(app) {
     *       email: the user's email,
     *       gender: the user's gender,       [for detailed view only]
     *       phone_number: the user's phone number,       [for detailed view only]
-    *       birthdate: the logged in user birthdate,        [for detailed view only]
+    *       birthdate: the user's birthdate,        [for detailed view only]
     *       IEEE_membership_ID: the user's membership id in IEEE,
     *       settings: the user's profile settings        [public settings only for basic view]
     *     }
-    *     error: Validation errors
+    * 	error:
+    * 	[
+    * 	  {
+    * 	     param: the field that caused the error,
+    * 	     value: the value that was provided for that field,
+    * 	     type: the type of error that was caused ['required', 'validity', 'unique violation']
+    * 	  }, {...}, ...
+    * 	]
     * }
     */
     app.get('/api/user/:id', auth, UserController.show);
@@ -65,7 +80,7 @@ module.exports = function(app) {
     * A POST route responsible for storing a given user in the database.
     * @var /api/user POST
     * @name /api/user POST
-    * @example The route can not be used unless the requesting account is an Upper Board or higher.
+    * @example The user requesting the route has to be of type 'Upper Board' at least.
     * @example The route expects the access token as 'Authorization' and the user agent as 'user_agent' in the request headers with one of the following values ['Web', 'IOS', 'Android']
     * @example The route expects a body Object in the following format
     * {
@@ -82,7 +97,14 @@ module.exports = function(app) {
     * {
     * 	status: succeeded/failed,
     * 	message: String showing a descriptive text,
-    * 	error: Validation errors
+    * 	error:
+    * 	[
+    * 	  {
+    * 	     param: the field that caused the error,
+    * 	     value: the value that was provided for that field,
+    * 	     type: the type of error that was caused ['required', 'validity', 'unique violation']
+    * 	  }, {...}, ...
+    * 	]
     * }
     */
     app.post('/api/user', auth, upper, UserController.store);
@@ -91,6 +113,7 @@ module.exports = function(app) {
     * A PUT route responsible for updating the information of authenticated user
     * @var /api/user PUT
     * @name /api/user PUT
+    * @example The user requesting the route has to be of type 'Member' at least.
     * @example the route expects the access token as 'Authorization' and the user agent as 'user_agent' in the request headers with one of the following values ['Web', 'IOS', 'Android']
     * @example The route expects a body Object in the following format
     * {
@@ -102,7 +125,14 @@ module.exports = function(app) {
     * {
     * 	status: succeeded/failed,
     * 	message: String showing a descriptive text,
-    * 	error: Validation errors
+    * 	error:
+    * 	[
+    * 	  {
+    * 	     param: the field that caused the error,
+    * 	     value: the value that was provided for that field,
+    * 	     type: the type of error that was caused ['required', 'validity', 'unique violation']
+    * 	  }, {...}, ...
+    * 	]
     * }
     */
     app.put('/api/user', auth, UserController.update);
