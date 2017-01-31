@@ -84,7 +84,7 @@ module.exports = function(app) {
     * 	error: Validation errors
     * }
     */
-    app.post('/api/user', auth, UserController.store);
+    app.post('/api/user', UserController.store);
 
     /**
     * A PUT route responsible for updating the information of authenticated user

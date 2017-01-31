@@ -57,7 +57,6 @@ module.exports.defineUser = function(sequelize) {
    },
    phone_number: {
      type: Sequelize.STRING,
-     unique: true,
      allowNull: false
    },
    IEEE_membership_ID: {
@@ -147,7 +146,7 @@ module.exports.defineUser = function(sequelize) {
           res.email              = this.email;
           res.IEEE_membership_ID = this.IEEE_membership_ID;
           var settings = JSON.parse(this.settings);
-          delete settings.private; 
+          delete settings.private;
           res.settings           = settings;
         }
 

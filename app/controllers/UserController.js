@@ -3,8 +3,8 @@
 * @description The controller that is responsible of handling user's requests
 */
 
-/* Models */
 var User = require('../models/User').User;
+var format = require('../script').errorFormat;
 
 /**
 * This function gets a list of all users currently in the database.
@@ -95,12 +95,13 @@ module.exports.index = function(req, res, next) {
 */
 module.exports.show = function(req, res, next) {
    /*Validate and sanitizing ID Input*/
-   req.checkParams('id', 'ID is required').notEmpty();
+   req.checkParams('id', 'required').notEmpty();
    req.sanitizeParams('id').escape();
    req.sanitizeParams('id').trim();
-   req.checkParams('id', 'Enter a valid ID').isInt();
+   req.checkParams('id', 'validity').isInt();
 
    var errors = req.validationErrors();
+   errors = format(errors);
    if (errors) {
       /* input validation failed */
       res.status(400).json({
@@ -108,7 +109,7 @@ module.exports.show = function(req, res, next) {
          error: errors
       });
 
-      req.err = 'UserController.js, Line: 111\nSome validation errors occured.\n' + JSON.stringify(errors);
+      req.err = 'UserController.js, Line: 112\nSome validation errors occured.\n' + JSON.stringify(errors);
 
       next();
 
@@ -127,7 +128,7 @@ module.exports.show = function(req, res, next) {
             message: 'The requested route was not found.'
          });
 
-         req.err = 'UserController.js, Line: 130\nThe requested user was not found in the database.';
+         req.err = 'UserController.js, Line: 131\nThe requested user was not found in the database.';
 
          next();
 
@@ -168,7 +169,7 @@ module.exports.show = function(req, res, next) {
                   message: 'Internal server error'
                });
 
-               req.err = 'UserController.js, Line: 171\nCouldn\'t retreive the head of the commitee.\n' + String(error);
+               req.err = 'UserController.js, Line: 172\nCouldn\'t retreive the head of the commitee.\n' + String(error);
 
                next();
 
@@ -200,7 +201,7 @@ module.exports.show = function(req, res, next) {
             message: 'Internal server error'
          });
 
-         req.err = 'UserController.js, Line: 203\nCouldn\'t retreive the user\'s committee.\n' + String(err);
+         req.err = 'UserController.js, Line: 204\nCouldn\'t retreive the user\'s committee.\n' + String(err);
 
          next();
       });
@@ -213,7 +214,7 @@ module.exports.show = function(req, res, next) {
          message: 'Internal server error'
       });
 
-      req.err = 'UserController.js, Line: 216\nCouldn\'t retreive the user from the database.\n' + String(err);
+      req.err = 'UserController.js, Line: 217\nCouldn\'t retreive the user from the database.\n' + String(err);
 
       next();
    });
@@ -227,46 +228,46 @@ module.exports.show = function(req, res, next) {
 */
 module.exports.store = function(req, res, next) {
    /*Validate and sanitizing email Input*/
-   req.checkBody('email', 'Email is required').notEmpty();
-   req.checkBody('email', 'Enter a Valid Email address').isEmail();
+   req.checkBody('email', 'required').notEmpty();
+   req.checkBody('email', 'validity').isEmail();
    req.sanitizeBody('email').escape();
    req.sanitizeBody('email').trim();
    req.sanitizeBody('email').normalizeEmail({ lowercase: true });
 
    /*Validate and sanitizing Password Input*/
-   req.checkBody('password', 'Password is required').notEmpty();
-   req.assert('password', 'The length of the password must be between 6 and 20 characters').len(6, 20);
+   req.checkBody('password', 'required').notEmpty();
+   req.assert('password', 'validity').len(6, 20);
 
    /*Validate and sanitizing type Input*/
-   req.checkBody('type', 'Type is required').notEmpty();
-   req.checkBody('type', 'Enter a valid account type [\'Admin\', \'Upper Board\', \'High Board\', \'Member\']').isIn(['Admin', 'Upper Board', 'High Board', 'Member']);
+   req.checkBody('type', 'required').notEmpty();
+   req.checkBody('type', 'validity').isIn(['Admin', 'Upper Board', 'High Board', 'Member']);
    req.sanitizeBody('type').escape();
    req.sanitizeBody('type').trim();
 
    /*Validate and sanitizing first name Input*/
-   req.checkBody('first_name', 'First Name is required').notEmpty();
+   req.checkBody('first_name', 'required').notEmpty();
    req.sanitizeBody('first_name').escape();
    req.sanitizeBody('first_name').trim();
 
    /*Validate and sanitizing last name Input*/
-   req.checkBody('last_name', 'Last Name is required').notEmpty();
+   req.checkBody('last_name', 'required').notEmpty();
    req.sanitizeBody('last_name').escape();
    req.sanitizeBody('last_name').trim();
 
    /*Validate and sanitizing birthdate Input*/
-   req.checkBody('birthdate', 'Birth Date is required').notEmpty();
+   req.checkBody('birthdate', 'required').notEmpty();
    req.sanitizeBody('birthdate').escape();
    req.sanitizeBody('birthdate').trim();
 
    /*Validate and sanitizing phone number Input*/
-   req.checkBody('phone_number', 'Phone Number is required').notEmpty();
-   req.checkBody('phone_number', 'Enter a valid phone number').isPhoneNumber();
+   req.checkBody('phone_number', 'required').notEmpty();
    req.sanitizeBody('phone_number').escape();
    req.sanitizeBody('phone_number').trim();
+   req.checkBody('phone_number', 'validity').isPhoneNumber();
 
    /*Validate and sanitizing gender Input*/
-   req.checkBody('gender', 'Gender is required').notEmpty();
-   req.checkBody('gender', 'Enter a valid gender [\'Male\', \'Female\']').isIn(['Male', 'Female']);
+   req.checkBody('gender', 'required').notEmpty();
+   req.checkBody('gender', 'validity').isIn(['Male', 'Female']);
    req.sanitizeBody('gender').escape();
    req.sanitizeBody('gender').trim();
 
@@ -277,6 +278,7 @@ module.exports.store = function(req, res, next) {
    }
 
    var errors = req.validationErrors();
+   errors = format(errors);
    if (errors) {
       /* input validation failed */
       res.status(400).json({
@@ -284,7 +286,7 @@ module.exports.store = function(req, res, next) {
          error: errors
       });
 
-      req.err = 'UserController.js, Line: 281\nSome validation errors occured.\n' + JSON.stringify(errors);
+      req.err = 'UserController.js, Line: 289\nSome validation errors occured.\n' + JSON.stringify(errors);
 
       next();
 
@@ -328,13 +330,35 @@ module.exports.store = function(req, res, next) {
 
       next();
    }).catch(function(err) {
-      /* failed to save the user in the database */
-      res.status(500).json({
-         status:'failed',
-         message: 'Internal server error'
-      });
+      if (err.message === 'Validation error') {
+         /* The user violated database constraints */
+         var errors = [];
+         for (var i = 0; i < err.errors.length; i++) {
+            var curError = err.errors[i];
 
-      req.err = 'UserController.js, Line: 313\nCouldn\'t save the user in the database.\n' + String(err);
+            errors.push({
+               param: curError.path,
+               value: curError.value,
+               type: curError.type
+            });
+         }
+
+         res.status(400).json({
+            status:'failed',
+            error: errors
+         });
+
+         req.err = 'UserController.js, Line: 351\nThe user violated some database constraints.\n' + JSON.stringify(errors);
+      }
+      else {
+         /* failed to save the user in the database */
+         res.status(500).json({
+            status:'failed',
+            message: 'Internal server error'
+         });
+
+         req.err = 'UserController.js, Line: 360\nCouldn\'t save the user in the database.\n' + String(err);
+      }
 
       next();
    });
@@ -348,12 +372,12 @@ module.exports.store = function(req, res, next) {
 */
 module.exports.update = function(req, res, next) {
    /*Validate Old Password Input*/
-   req.checkBody('old_password', 'Old Password is required').notEmpty();
+   req.checkBody('old_password', 'required').notEmpty();
 
    var obj = {};
    /*Validate New Password Input*/
    if (req.body.new_password) {
-      req.assert('new_password', 'The length of the new password must be between 6 and 20 characters').len(6, 20);
+      req.assert('new_password', 'validity').len(6, 20);
       obj.password = req.body.new_password;
    }
 
@@ -368,11 +392,13 @@ module.exports.update = function(req, res, next) {
    if (req.body.phone_number) {
       req.sanitizeBody('phone_number').escape();
       req.sanitizeBody('phone_number').trim();
+      req.checkBody('phone_number', 'validity').isPhoneNumber();
       obj.phone_number = req.body.phone_number;
    }
 
 
    var errors = req.validationErrors();
+   errors = format(errors);
    if (errors) {
       /* input validation failed */
       res.status(400).json({
@@ -380,7 +406,7 @@ module.exports.update = function(req, res, next) {
          error: errors
       });
 
-      req.err = 'UserController.js, Line: 352\nSome validation errors occured.\n' + JSON.stringify(errors);
+      req.err = 'UserController.js, Line: 409\nSome validation errors occured.\n' + JSON.stringify(errors);
 
       next();
 
@@ -393,7 +419,7 @@ module.exports.update = function(req, res, next) {
          message: 'The provided credentials are not correct'
       });
 
-      req.err = 'UserController.js, Line: 365\nThe old password doesn\'t match the password in the database.';
+      req.err = 'UserController.js, Line: 422\nThe old password doesn\'t match the password in the database.';
 
       next();
 
@@ -413,7 +439,7 @@ module.exports.update = function(req, res, next) {
             message: 'The requested route was not found.'
          });
 
-         req.err = 'UserController.js, Line: 385\nThe requested user was not found in the database.';
+         req.err = 'UserController.js, Line: 442\nThe requested user was not found in the database.';
       }
 
       next();
@@ -424,7 +450,7 @@ module.exports.update = function(req, res, next) {
          message: 'Internal server error'
       });
 
-      req.err = 'UserController.js, Line: 396\nCouldn\'t save the user in the database.\n' + String(err);
+      req.err = 'UserController.js, Line: 453\nCouldn\'t save the user in the database.\n' + String(err);
 
       next();
    });

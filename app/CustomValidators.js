@@ -6,7 +6,7 @@ module.exports = {
             return false;
          }
 
-         return value.match(/\+?\d+[-.]?\d+[-.]?\d+| /i);
+         return value.match(/^\+?\d+-?\d+-?\d+$/i) === null ? false : true;
       }
    }
 };
