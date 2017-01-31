@@ -18,16 +18,16 @@ var nodemailer = require('nodemailer');
 */
 module.exports.login = function(req, res, next) {
     /*Validate and sanitizing email Input*/
-    req.checkBody('email', 'Email is required').notEmpty();
-    req.checkBody('email', 'Enter a Valid Email address').isEmail();
+    req.checkBody('email', 'required').notEmpty();
+    req.checkBody('email', 'validity').isEmail();
     req.sanitizeBody('email').escape();
     req.sanitizeBody('email').trim();
     req.sanitizeBody('email').normalizeEmail({ lowercase: true });
     /*Validate and sanitizing Password Input*/
-    req.checkBody('password', 'Password is required').notEmpty();
+    req.checkBody('password', 'required').notEmpty();
     /*Validate and sanitizing User Agent*/
-    req.checkHeaders('user_agent', 'User Agent is required').notEmpty();
-    req.checkHeaders('user_agent', 'Enter a valid User Agent').isIn(['Web', 'Android', 'IOS']);
+    req.checkHeaders('user_agent', 'required').notEmpty();
+    req.checkHeaders('user_agent', 'validity').isIn(['Web', 'Android', 'IOS']);
     req.sanitizeHeaders('user_agent').escape();
 
     var errors = req.validationErrors();
@@ -252,8 +252,8 @@ module.exports.logout = function (req, res, next){
 */
 module.exports.forgotPassword = function (req, res, next) {
     /*Validate and sanitizing email Input*/
-    req.checkBody('email', 'Email is required').notEmpty();
-    req.checkBody('email', 'Enter a Valid Email address').isEmail();
+    req.checkBody('email', 'required').notEmpty();
+    req.checkBody('email', 'validity').isEmail();
     req.sanitizeBody('email').escape();
     req.sanitizeBody('email').trim();
     req.sanitizeBody('email').normalizeEmail({ lowercase: true });
@@ -376,8 +376,8 @@ module.exports.forgotPassword = function (req, res, next) {
 */
 module.exports.resetPassword = function (req, res, next) {
     /*Validate and sanitizing Password  Input*/
-    req.checkBody('password', 'Password is required').notEmpty();
-    req.assert('password', 'The legnth of the password must be between 6 and 20 characters').len(6, 20);
+    req.checkBody('password', 'required').notEmpty();
+    req.assert('password', 'validity').len(6, 20);
 
     var errors = req.validationErrors();
     if (errors) {
