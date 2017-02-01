@@ -1,7 +1,3 @@
 To FIX:
 
 + Integrate the settings in update functions
-
-+ error documentation in resources
-
-+ The user agent validations in non auth required routes.

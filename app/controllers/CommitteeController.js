@@ -14,27 +14,6 @@ var format = require('../script').errorFormat;
 * @return {Array}  result The committees currently in the database
 */
 module.exports.index = function(req, res, next){
-   /*Validate and sanitizing User Agent*/
-   req.checkHeaders('user_agent', 'required').notEmpty();
-   req.checkHeaders('user_agent', 'validity').isIn(['Web', 'Android', 'IOS']);
-   req.sanitizeHeaders('user_agent').escape();
-
-   var errors = req.validationErrors();
-   errors = format(errors);
-   if (errors) {
-      /* input validation failed */
-      res.status(400).json({
-         status: 'failed',
-         error: errors
-      });
-
-      req.err = 'CommitteeController.js, Line: 31\nSome validation errors occured.\n' + JSON.stringify(errors);
-
-      next();
-
-      return;
-   }
-
    Committee.findAll().then(function(committees){
 
       var result = [];
@@ -63,7 +42,7 @@ module.exports.index = function(req, res, next){
          message: 'Internal server error'
       });
 
-      req.err = 'CommitteeController.js, Line: 66\nCouldn\'t retreive the committees from the database.\n' + String(err);
+      req.err = 'CommitteeController.js, Line: 45\nCouldn\'t retreive the committees from the database.\n' + String(err);
 
       next();
    });
@@ -82,11 +61,6 @@ module.exports.show = function(req, res, next){
    req.sanitizeParams('id').trim();
    req.checkParams('id', 'validity').isInt();
 
-   /*Validate and sanitizing User Agent*/
-   req.checkHeaders('user_agent', 'required').notEmpty();
-   req.checkHeaders('user_agent', 'validity').isIn(['Web', 'Android', 'IOS']);
-   req.sanitizeHeaders('user_agent').escape();
-
    var errors = req.validationErrors();
    errors = format(errors);
    if (errors) {
@@ -96,7 +70,7 @@ module.exports.show = function(req, res, next){
          error: errors
       });
 
-      req.err = 'CommitteeController.js, Line: 99\nSome validation errors occured.\n' + JSON.stringify(errors);
+      req.err = 'CommitteeController.js, Line: 73\nSome validation errors occured.\n' + JSON.stringify(errors);
 
       next();
 
@@ -113,7 +87,7 @@ module.exports.show = function(req, res, next){
             message: 'The requested route was not found.'
          });
 
-         req.err = 'CommitteeController.js, Line: 116\nThe requested committee was not found in the database.';
+         req.err = 'CommitteeController.js, Line: 90\nThe requested committee was not found in the database.';
       }
       else {
          res.status(200).json({
@@ -134,7 +108,7 @@ module.exports.show = function(req, res, next){
          message: 'Internal server error'
       });
 
-      req.err = 'CommitteeController.js, Line: 137\nCouldn\'t retreive the the committee from the database.\n' + String(err);
+      req.err = 'CommitteeController.js, Line: 111\nCouldn\'t retreive the the committee from the database.\n' + String(err);
 
       next();
    });
@@ -151,6 +125,7 @@ module.exports.store = function(req, res, next){
    req.checkBody('name', 'required').notEmpty();
    req.sanitizeBody('name').escape();
    req.sanitizeBody('name').trim();
+
    /*Validate and sanitizing committee description Input*/
    req.checkBody('description', 'required').notEmpty();
    req.sanitizeBody('description').escape();
@@ -165,7 +140,7 @@ module.exports.store = function(req, res, next){
          error: errors
       });
 
-      req.err = 'CommitteeController.js, Line: 168\nSome validation errors occured.\n' + JSON.stringify(errors);
+      req.err = 'CommitteeController.js, Line: 143\nSome validation errors occured.\n' + JSON.stringify(errors);
 
       next();
 
@@ -209,7 +184,7 @@ module.exports.store = function(req, res, next){
             error: errors
          });
 
-         req.err = 'CommitteeController.js, Line: 212\nThe committee violated some database constraints.\n' + JSON.stringify(errors);
+         req.err = 'CommitteeController.js, Line: 187\nThe committee violated some database constraints.\n' + JSON.stringify(errors);
       }
       else {
          /* failed to save the committee in the database */
@@ -218,7 +193,7 @@ module.exports.store = function(req, res, next){
             message: 'Internal server error'
          });
 
-         req.err = 'CommitteeController.js, Line: 221\nCouldn\'t save the committee in the database.\n' + String(err);
+         req.err = 'CommitteeController.js, Line: 196\nCouldn\'t save the committee in the database.\n' + String(err);
       }
 
       next();
@@ -262,7 +237,7 @@ module.exports.update = function(req, res, next){
          error: errors
       });
 
-      req.err = 'CommitteeController.js, Line: 265\nThe committee violated some database constraints.\n' + JSON.stringify(errors);
+      req.err = 'CommitteeController.js, Line: 240\nThe committee violated some database constraints.\n' + JSON.stringify(errors);
 
       next();
 
@@ -279,7 +254,7 @@ module.exports.update = function(req, res, next){
             message: 'The requested route was not found.'
          });
 
-         req.err = 'CommitteeController.js, Line: 282\nThe requested committee was not found in the database.';
+         req.err = 'CommitteeController.js, Line: 257\nThe requested committee was not found in the database.';
       }
       else{
          /* the committee is updated successfully in the database */
@@ -297,7 +272,7 @@ module.exports.update = function(req, res, next){
          message: 'Internal server error'
       });
 
-      req.err = 'UserController.js, Line: 300\nCouldn\'t update the committee in the database.\n' + String(err);
+      req.err = 'UserController.js, Line: 275\nCouldn\'t update the committee in the database.\n' + String(err);
 
       next();
    });

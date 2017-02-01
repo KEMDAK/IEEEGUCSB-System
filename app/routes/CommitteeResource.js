@@ -11,7 +11,6 @@ module.exports = function(app) {
     * A GET route responsible for getting all committes in the database
     * @var /api/committee GET
     * @name /api/committee GET
-    * @example the route expects the user agent as 'user_agent' in the request headers with one of the following values ['Web', 'IOS', 'Android']
     * @example The route returns as a response an object in the following format
     * {
     *   status: succeeded/failed,
@@ -41,7 +40,6 @@ module.exports = function(app) {
     * @var /api/committee/{id} GET
     * @name /api/committee/{id} GET
     * @example The route expects a committee id for the desired committee in the URL in replace of '{id}'
-    * @example the route expects the user agent as 'user_agent' in the request headers with one of the following values ['Web', 'IOS', 'Android']
     * @example The route returns as a response an object in the following format
     * {
     *   status: succeeded/failed,

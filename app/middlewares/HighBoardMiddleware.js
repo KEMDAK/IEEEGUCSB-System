@@ -1,5 +1,5 @@
 /**
-* This is a middleware that validates that the user is an upper board member or higher
+* This is a middleware that validates that the user is a High board member or higher
 * @param  {HTTP}   req  The request object
 * @param  {HTTP}   res  The response object
 * @param  {Function} next Callback function that is called once the validation succeed
@@ -9,7 +9,7 @@ module.exports = function(req, res, next)
 {
    var log  = require('./LogMiddleware');
 
-   if(req.user.isAdmin() || req.user.isUpperBoard())
+   if(req.user.isAdmin() || req.user.isUpperBoard() || req.user.isHighBoard())
    {
       next();
    }
@@ -21,7 +21,7 @@ module.exports = function(req, res, next)
             message: 'Access denied'
          });
 
-      req.err = 'UpperBoardMiddleware.js, 24\nThe user tries to access a route that is only for upper board or higher.';
+      req.err = 'HighBoardMiddleware.js, 24\nThe user tries to access a route that is only for High board or higher.';
       log.save(req, res);
 
    }

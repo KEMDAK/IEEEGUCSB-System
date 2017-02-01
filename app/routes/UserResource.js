@@ -11,7 +11,6 @@ module.exports = function(app) {
     * A GET route responsible for getting all users currently in the database
     * @var /api/user GET
     * @name /api/user GET
-    * @example the route expects the user agent as 'user_agent' in the request headers with one of the following values ['Web', 'IOS', 'Android']
     * @example The route returns as a response an object in the following format
     * {
     * 	status: succeeded/failed,
