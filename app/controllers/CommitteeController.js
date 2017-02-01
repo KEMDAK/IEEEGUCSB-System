@@ -4,7 +4,7 @@
 */
 
 var Committee = require('../models/Committee').Committee;
-var format = require('../script').errorFormat;
+var format    = require('../script').errorFormat;
 
 /**
 * This function gets a list of all committees currently in the database.
