@@ -1,0 +1,58 @@
+[
+	{
+		"email" : "kareem-mokhtar@outlook.com",
+		"password" : "1234567",
+		"type" : "Admin",
+		"first_name" : "Kareem",
+		"last_name" : "Mokhtar",
+		"birthdate" : "1995-03-05",
+		"phone_number": "+201122064666",
+		"gender" : "Male",
+		"IEEE_membership_ID" : null,
+		"settings": {
+			"public": {
+				"background": "The background of the profile"
+			},
+			"private": {
+				"notifications": {
+					"email": {
+						"comment": "boolean sent email on comments",
+						"lastSent": "timestamp",
+						"meetingDay": "boolean sent email on meeting day",
+						"taskDeadline": "boolean sent a reminder email before the task deadline",
+						"taskAssignment": "boolean sent email on task assignment",
+						"meetingAssignment": "boolean sent email on meetings"
+					}
+				}
+			}
+		}
+	},
+	{
+		"email" : "nkhaled16@outlook.com",
+		"password" : "1234567",
+		"type" : "Admin",
+		"first_name" : "Nour ElDin",
+		"last_name" : "Khaled",
+		"birthdate" : "1995-09-19",
+		"phone_number": "+201097642897",
+		"gender" : "Male",
+		"IEEE_membership_ID" : null,
+		"settings": {
+			"public": {
+				"background": "The background of the profile"
+			},
+			"private": {
+				"notifications": {
+					"email": {
+						"comment": "boolean sent email on comments",
+						"lastSent": "timestamp",
+						"meetingDay": "boolean sent email on meeting day",
+						"taskDeadline": "boolean sent a reminder email before the task deadline",
+						"taskAssignment": "boolean sent email on task assignment",
+						"meetingAssignment": "boolean sent email on meetings"
+					}
+				}
+			}
+		}
+	}
+]

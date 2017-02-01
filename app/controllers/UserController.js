@@ -3,7 +3,7 @@
 * @description The controller that is responsible of handling user's requests
 */
 
-var User = require('../models/User').User;
+var User   = require('../models/User').User;
 var format = require('../script').errorFormat;
 
 /**

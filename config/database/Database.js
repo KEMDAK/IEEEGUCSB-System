@@ -37,8 +37,14 @@ module.exports.initialize = function(callback) {
 
     sequelize.sync({ force: force }).then(function(err) {
         /* seeding */
-
-        callback();
+        require('./seeders/Seeder.js')(function(err) {
+            if(err){
+                callback(err);
+            }
+            else{
+                callback();
+            }
+        });
     }, function (err) {
         callback(err);
     });
