@@ -4,7 +4,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width">
-	<title>IEEE GUC Model: User</title>
+	<title>IEEE GUC Model: Meeting</title>
 
 	<!--[if lt IE 9]>
 	<script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
@@ -79,13 +79,13 @@
 		<div id="main">
 			
 
-	<h1 class="page-title">Model: User</h1>
+	<h1 class="page-title">Model: Meeting</h1>
 <section>
 
 <header>
     
         <h2>
-        User
+        Meeting
         </h2>
         
     
@@ -127,79 +127,7 @@
 
         <tr>
             
-                <td class="name"><code>type</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">String</span>
-
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">The users's type ('Admin', 'Upper Board', 'High Board', 'Member')</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>first_name</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">String</span>
-
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">The users's first name</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>last_name</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">String</span>
-
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">The users's last name</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>birthdate</code></td>
+                <td class="name"><code>start_date</code></td>
             
 
             <td class="type">
@@ -216,14 +144,62 @@
 
             
 
-            <td class="description last">The users's birthdate</td>
+            <td class="description last">The date and time when the meeting starts</td>
         </tr>
 
     
 
         <tr>
             
-                <td class="name"><code>gender</code></td>
+                <td class="name"><code>end_date</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Date</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The date and time when the meeting ends</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>goals</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Text</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">JSON object representing the goals of the meeting</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>duration</code></td>
             
 
             <td class="type">
@@ -240,14 +216,14 @@
 
             
 
-            <td class="description last">The users's gender ('Male', 'Female')</td>
+            <td class="description last">Duration of the meeting (Virtual)</td>
         </tr>
 
     
 
         <tr>
             
-                <td class="name"><code>email</code></td>
+                <td class="name"><code>location</code></td>
             
 
             <td class="type">
@@ -264,20 +240,20 @@
 
             
 
-            <td class="description last">The users's email</td>
+            <td class="description last">Location of the meeting</td>
         </tr>
 
     
 
         <tr>
             
-                <td class="name"><code>password</code></td>
+                <td class="name"><code>description</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">String</span>
+<span class="param-type">Text</span>
 
 
 
@@ -288,20 +264,20 @@
 
             
 
-            <td class="description last">The users's password</td>
+            <td class="description last">Description of the meeting</td>
         </tr>
 
     
 
         <tr>
             
-                <td class="name"><code>phone_number</code></td>
+                <td class="name"><code>evalutaion</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">String</span>
+<span class="param-type">Integer</span>
 
 
 
@@ -312,79 +288,7 @@
 
             
 
-            <td class="description last">The users's phone number</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>IEEE_membership_ID</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">String</span>
-
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">The users's IEEE_membership_ID</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>reset_token</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">String</span>
-
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">The reset token of the user that could be used to reset the password</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>settings</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">Object</span>
-
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">The users's settings as a JSON object</td>
+            <td class="description last">Evalutaion of the meeting</td>
         </tr>
 
     
@@ -446,746 +350,6 @@
 
     
 
-    
-        <h3 class="subsection-title">Methods</h3>
-
-        <dl>
-            
-<hr>
-<dt>
-    <h4 class="name" id="isAdmin"><span class="type-signature"></span>isAdmin()</h4>
-    
-    
-</dt>
-<dd>
-
-    
-    <div class="description">
-        This function checks if the user is an admin.
-    </div>
-    
-
-    
-
-    
-
-    
-    
-
-    
-<dl class="details">
-    
-
-	
-
-	
-
-	
-
-    
-
-    
-
-    
-
-    
-
-	
-
-	
-
-	
-
-	
-
-	
-
-
-
-	
-
-	
-
-	
-
-	
-</dl>
-
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <h5>Returns:</h5>
-    
-            
-<div class="param-desc">
-    true if the claimed password matches the real one.
-</div>
-
-
-
-<dl>
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">Boolean</span>
-
-
-
-    </dd>
-</dl>
-
-
-        
-
-    
-</dd>
-
-        
-            
-<hr>
-<dt>
-    <h4 class="name" id="isHighBoard"><span class="type-signature"></span>isHighBoard()</h4>
-    
-    
-</dt>
-<dd>
-
-    
-    <div class="description">
-        This function checks if the user is a high board.
-    </div>
-    
-
-    
-
-    
-
-    
-    
-
-    
-<dl class="details">
-    
-
-	
-
-	
-
-	
-
-    
-
-    
-
-    
-
-    
-
-	
-
-	
-
-	
-
-	
-
-	
-
-
-
-	
-
-	
-
-	
-
-	
-</dl>
-
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <h5>Returns:</h5>
-    
-            
-<div class="param-desc">
-    true if the claimed password matches the real one.
-</div>
-
-
-
-<dl>
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">Boolean</span>
-
-
-
-    </dd>
-</dl>
-
-
-        
-
-    
-</dd>
-
-        
-            
-<hr>
-<dt>
-    <h4 class="name" id="isMember"><span class="type-signature"></span>isMember()</h4>
-    
-    
-</dt>
-<dd>
-
-    
-    <div class="description">
-        This function checks if the user is a member.
-    </div>
-    
-
-    
-
-    
-
-    
-    
-
-    
-<dl class="details">
-    
-
-	
-
-	
-
-	
-
-    
-
-    
-
-    
-
-    
-
-	
-
-	
-
-	
-
-	
-
-	
-
-
-
-	
-
-	
-
-	
-
-	
-</dl>
-
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <h5>Returns:</h5>
-    
-            
-<div class="param-desc">
-    true if the claimed password matches the real one.
-</div>
-
-
-
-<dl>
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">Boolean</span>
-
-
-
-    </dd>
-</dl>
-
-
-        
-
-    
-</dd>
-
-        
-            
-<hr>
-<dt>
-    <h4 class="name" id="isUpperBoard"><span class="type-signature"></span>isUpperBoard()</h4>
-    
-    
-</dt>
-<dd>
-
-    
-    <div class="description">
-        This function checks if the user is an upper board.
-    </div>
-    
-
-    
-
-    
-
-    
-    
-
-    
-<dl class="details">
-    
-
-	
-
-	
-
-	
-
-    
-
-    
-
-    
-
-    
-
-	
-
-	
-
-	
-
-	
-
-	
-
-
-
-	
-
-	
-
-	
-
-	
-</dl>
-
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <h5>Returns:</h5>
-    
-            
-<div class="param-desc">
-    true if the claimed password matches the real one.
-</div>
-
-
-
-<dl>
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">Boolean</span>
-
-
-
-    </dd>
-</dl>
-
-
-        
-
-    
-</dd>
-
-        
-            
-<hr>
-<dt>
-    <h4 class="name" id="toJSON"><span class="type-signature"></span>toJSON(detailed, mine)</h4>
-    
-    
-</dt>
-<dd>
-
-    
-    <div class="description">
-        this function returns the user object.
-    </div>
-    
-
-    
-
-    
-
-    
-    
-        <h5>Parameters:</h5>
-        
-
-<table class="params table table-striped">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>detailed</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">boolean</span>
-
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">true if the returned attributes should be detailed.</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>mine</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">boolean</span>
-
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">true if the returned attributes are requested by thier owner.</td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-    
-
-    
-<dl class="details">
-    
-
-	
-
-	
-
-	
-
-    
-
-    
-
-    
-
-    
-
-	
-
-	
-
-	
-
-	
-
-	
-
-
-
-	
-
-	
-
-	
-
-	
-</dl>
-
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <h5>Returns:</h5>
-    
-            
-<div class="param-desc">
-    The user object.
-</div>
-
-
-
-<dl>
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">Object</span>
-
-
-
-    </dd>
-</dl>
-
-
-        
-
-    
-</dd>
-
-        
-            
-<hr>
-<dt>
-    <h4 class="name" id="validPassword"><span class="type-signature"></span>validPassword(password)</h4>
-    
-    
-</dt>
-<dd>
-
-    
-    <div class="description">
-        This function validates the password of the user.
-    </div>
-    
-
-    
-
-    
-
-    
-    
-        <h5>Parameters:</h5>
-        
-
-<table class="params table table-striped">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>password</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">String</span>
-
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">the claimed password.</td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-    
-
-    
-<dl class="details">
-    
-
-	
-
-	
-
-	
-
-    
-
-    
-
-    
-
-    
-
-	
-
-	
-
-	
-
-	
-
-	
-
-
-
-	
-
-	
-
-	
-
-	
-</dl>
-
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <h5>Returns:</h5>
-    
-            
-<div class="param-desc">
-    true if the claimed password matches the real one.
-</div>
-
-
-
-<dl>
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">Boolean</span>
-
-
-
-    </dd>
-</dl>
-
-
-        
-
-    
-</dd>
-
-        </dl>
     
 
     
