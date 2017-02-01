@@ -4,8 +4,8 @@
  *  @property {String} route The route accessed by the identity
  *  @property {Integer} response_time The response time of the request in milliseconds
  *  @property {Integer} status The response HTTP status code
- *  @property {String} ip The ip address of the device requisting the route
- *  @property {String} error_message The eeror message that is produced by the server
+ *  @property {String} ip The ip address of the device requesting the route
+ *  @property {String} error_message The error message that is produced by the server
  */
 
 /**

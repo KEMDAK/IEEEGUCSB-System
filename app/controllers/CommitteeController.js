@@ -3,9 +3,8 @@
 * @description The controller that is responsible of handling committee's requests
 */
 
-/* Models */
-var User      = require('../models/User').User;
 var Committee = require('../models/Committee').Committee;
+var format = require('../script').errorFormat;
 
 /**
 * This function gets a list of all committees currently in the database.
@@ -15,58 +14,38 @@ var Committee = require('../models/Committee').Committee;
 * @return {Array}  result The committees currently in the database
 */
 module.exports.index = function(req, res, next){
-    /*Validate and sanitizing User Agent*/
-    req.checkHeaders('user_agent', 'User Agent is required').notEmpty();
-    req.checkHeaders('user_agent', 'Enter a valid User Agent').isIn(['Web', 'Android', 'IOS']);
-    req.sanitizeHeaders('user_agent').escape();
+   Committee.findAll().then(function(committees){
 
-    var errors = req.validationErrors();
-    if (errors) {
-        /* input validation failed */
-        res.status(400).json({
-            status: 'failed',
-            error: errors
-        });
+      var result = [];
 
-        req.err = errors;
+      for(var i = 0; i < committees.length; i++){
+         var committee = committees[i];
 
-        next();
+         result.push({
+            id: committee.id,
+            name: committee.name,
+            description: committee.description
+         });
+      }
 
-        return;
-    }
+      res.status(200).json({
+         status:'succeeded',
+         committees: result
+      });
 
-    Committee.findAll().then(function(committees){
+      next();
 
-        var result = [];
+   }).catch(function(err){
+      /* failed to retrieve the committes from the database */
+      res.status(500).json({
+         status:'failed',
+         message: 'Internal server error'
+      });
 
-        for(var i = 0; i < committees.length; i++){
-            var committee = committees[i];
+      req.err = 'CommitteeController.js, Line: 45\nCouldn\'t retreive the committees from the database.\n' + String(err);
 
-            result.push({
-                id: committee.id,
-                name: committee.name,
-                description: committee.description
-            });
-        }
-
-        res.status(200).json({
-            status:'succeeded',
-            committees: result
-        });
-
-        next();
-
-    }).catch(function(err){
-        /* failed to retrieve the committes from the database */
-        res.status(500).json({
-            status:'failed',
-            message: 'Internal server error'
-        });
-
-        req.err = err;
-
-        next();
-    });
+      next();
+   });
 };
 
 /**
@@ -76,64 +55,63 @@ module.exports.index = function(req, res, next){
 * @param  {Function} next Callback function that is called once done with handling the request
 */
 module.exports.show = function(req, res, next){
-    /*Validate and sanitizing ID Input*/
-    req.checkParams('id', 'ID is required').notEmpty();
-    req.sanitizeParams('id').escape();
-    req.sanitizeParams('id').trim();
-    req.checkParams('id', 'Enter a valid ID').isInt();
+   /*Validate and sanitizing ID Input*/
+   req.checkParams('id', 'required').notEmpty();
+   req.sanitizeParams('id').escape();
+   req.sanitizeParams('id').trim();
+   req.checkParams('id', 'validity').isInt();
 
-    /*Validate and sanitizing User Agent*/
-    req.checkHeaders('user_agent', 'User Agent is required').notEmpty();
-    req.checkHeaders('user_agent', 'Enter a valid User Agent').isIn(['Web', 'Android', 'IOS']);
-    req.sanitizeHeaders('user_agent').escape();
+   var errors = req.validationErrors();
+   errors = format(errors);
+   if (errors) {
+      /* input validation failed */
+      res.status(400).json({
+         status: 'failed',
+         error: errors
+      });
 
-    var errors = req.validationErrors();
-    if (errors) {
-        /* input validation failed */
-        res.status(400).json({
-            status: 'failed',
-            error: errors
-        });
+      req.err = 'CommitteeController.js, Line: 73\nSome validation errors occured.\n' + JSON.stringify(errors);
 
-        req.err = errors;
+      next();
 
-        next();
+      return;
+   }
 
-        return;
-    }
+   var id = req.params.id;
 
-    var id = req.params.id;
-
-    Committee.findById(id).then(function(committee) {
-        if(!committee){
-            /* The Committee was not found */
-            res.status(400).json({
-                status:'failed'
-            });
-        }
-        else {
-            res.status(200).json({
-                status:'succeeded',
-                committee: {
-                    id: committee.id,
-                    name: committee.name,
-                    description: committee.description
-                }
-            });
-        }
-
-        next();
-    }).catch(function(err){
-        /* failed to retrieve the committe from the database */
-        res.status(500).json({
+   Committee.findById(id).then(function(committee) {
+      if(!committee){
+         /* The Committee was not found */
+         res.status(400).json({
             status:'failed',
-            message: 'Internal server error'
-        });
+            message: 'The requested route was not found.'
+         });
 
-        req.err = err;
+         req.err = 'CommitteeController.js, Line: 90\nThe requested committee was not found in the database.';
+      }
+      else {
+         res.status(200).json({
+            status:'succeeded',
+            committee: {
+               id: committee.id,
+               name: committee.name,
+               description: committee.description
+            }
+         });
+      }
 
-        next();
-    });
+      next();
+   }).catch(function(err){
+      /* failed to retrieve the committee from the database */
+      res.status(500).json({
+         status:'failed',
+         message: 'Internal server error'
+      });
+
+      req.err = 'CommitteeController.js, Line: 111\nCouldn\'t retreive the the committee from the database.\n' + String(err);
+
+      next();
+   });
 };
 
 /**
@@ -143,56 +121,83 @@ module.exports.show = function(req, res, next){
 * @param  {Function} next Callback function that is called once done with handling the request
 */
 module.exports.store = function(req, res, next){
-    /*Validate and sanitizing committee name Input*/
-    req.checkBody('name', 'name is required').notEmpty();
-    req.sanitizeBody('name').escape();
-    req.sanitizeBody('name').trim();
-    /*Validate and sanitizing committee description Input*/
-    req.checkBody('description', 'Description is required').notEmpty();
-    req.sanitizeBody('description').escape();
-    req.sanitizeBody('description').trim();
+   /*Validate and sanitizing committee name Input*/
+   req.checkBody('name', 'required').notEmpty();
+   req.sanitizeBody('name').escape();
+   req.sanitizeBody('name').trim();
 
-    var errors = req.validationErrors();
-    if (errors) {
-        /* input validation failed */
-        res.status(400).json({
-            status: 'failed',
+   /*Validate and sanitizing committee description Input*/
+   req.checkBody('description', 'required').notEmpty();
+   req.sanitizeBody('description').escape();
+   req.sanitizeBody('description').trim();
+
+   var errors = req.validationErrors();
+   errors = format(errors);
+   if (errors) {
+      /* input validation failed */
+      res.status(400).json({
+         status: 'failed',
+         error: errors
+      });
+
+      req.err = 'CommitteeController.js, Line: 143\nSome validation errors occured.\n' + JSON.stringify(errors);
+
+      next();
+
+      return;
+   }
+
+   /* extracting data from the request body */
+   var name = req.body.name;
+   var desc = req.body.description ;
+
+   /* building user instance to be inserted */
+   var committeeInstance = Committee.build({
+      name: name,
+      description: desc
+   });
+
+   committeeInstance.save().then(function(client){
+      /* the committee is saved successfully in the database */
+      res.status(200).json({
+         status:'succeeded',
+         message: 'committee successfully added'
+      });
+
+      next();
+   }).catch(function(err){
+      if (err.message === 'Validation error') {
+         /* The committee violated database constraints */
+         var errors = [];
+         for (var i = 0; i < err.errors.length; i++) {
+            var curError = err.errors[i];
+
+            errors.push({
+               param: curError.path,
+               value: curError.value,
+               type: curError.type
+            });
+         }
+
+         res.status(400).json({
+            status:'failed',
             error: errors
-        });
+         });
 
-        next();
-
-        return;
-    }
-
-    /* extracting data from the request body */
-    var name = req.body.name;
-    var desc = req.body.description ;
-
-    /* building user instance to be inserted */
-    var committeeInstance = Committee.build({
-        name: name,
-        description: desc
-    });
-
-    committeeInstance.save().then(function(client){
-        /* the committee is saved successfully in the database */
-        res.status(200).json({
-            status:'succeeded'
-        });
-
-        next();
-    }).catch(function(err){
-        /* failed to save the client in the database */
-        res.status(500).json({
+         req.err = 'CommitteeController.js, Line: 187\nThe committee violated some database constraints.\n' + JSON.stringify(errors);
+      }
+      else {
+         /* failed to save the committee in the database */
+         res.status(500).json({
             status:'failed',
             message: 'Internal server error'
-        });
+         });
 
-        req.err = err;
+         req.err = 'CommitteeController.js, Line: 196\nCouldn\'t save the committee in the database.\n' + String(err);
+      }
 
-        next();
-    });
+      next();
+   });
 };
 
 /**
@@ -202,69 +207,73 @@ module.exports.store = function(req, res, next){
 * @param  {Function} next Callback function that is called once done with handling the request
 */
 module.exports.update = function(req, res, next){
-    /*Validate and sanitizing ID Input*/
-    req.checkParams('id', 'ID is required').notEmpty();
-    req.sanitizeParams('id').escape();
-    req.sanitizeParams('id').trim();
-    req.checkParams('id', 'Enter a valid ID').isInt();
-    /*Validate and sanitizing committee name Input*/
-    req.checkBody('name', 'name is required').notEmpty();
-    req.sanitizeBody('name').escape();
-    req.sanitizeBody('name').trim();
-    /*Validate and sanitizing committee description Input*/
-    req.checkBody('description', 'Description is required').notEmpty();
-    req.sanitizeBody('description').escape();
-    req.sanitizeBody('description').trim();
+   /*Validate and sanitizing ID Input*/
+   req.checkParams('id', 'required').notEmpty();
+   req.sanitizeParams('id').escape();
+   req.sanitizeParams('id').trim();
+   req.checkParams('id', 'validity').isInt();
 
-    var errors = req.validationErrors();
-    if (errors) {
-        /* input validation failed */
-        res.status(400).json({
-            status: 'failed',
-            error: errors
-        });
+   var updatedAttributes = {};
+   /*Validate the committee name Input*/
+   if (req.body.name) {
+      req.sanitizeBody('name').escape();
+      req.sanitizeBody('name').trim();
+      updatedAttributes.name = req.body.name;
+   }
 
-        next();
+   /*Validate the committee description Input*/
+   if (req.body.description) {
+      req.sanitizeBody('description').escape();
+      req.sanitizeBody('description').trim();
+      updatedAttributes.description = req.body.description;
+   }
 
-        return;
-    }
+   var errors = req.validationErrors();
+   errors = format(errors);
+   if (errors) {
+      /* input validation failed */
+      res.status(400).json({
+         status: 'failed',
+         error: errors
+      });
 
-    /* extracting data from the request params and body */
-    var name = req.body.name;
-    var desc = req.body.description;
+      req.err = 'CommitteeController.js, Line: 240\nThe committee violated some database constraints.\n' + JSON.stringify(errors);
 
-    /* Constructing the updated object */
-    var updatedAttributes = {
-        name: name,
-        description: desc
-    };
+      next();
 
-    Committee.update(updatedAttributes, { where: {  id: req.params.id } }).then(function(arr) {
-        var affectedRows = arr[0];
+      return;
+   }
 
-        if(affectedRows === 0){
-            /* committee was not found */
-            res.status(400).json({
-                status:'failed'
-            });
-        }
-        else{
-            /* the committee is updated successfully in the database */
-            res.status(200).json({
-                status:'succeeded'
-            });
-        }
+   Committee.update(updatedAttributes, { where: {  id: req.params.id } }).then(function(arr) {
+      var affectedRows = arr[0];
 
-        next();
-    }).catch(function(err){
-        /* failed to update the committee in the database */
-        res.status(500).json({
+      if(affectedRows === 0){
+         /* committee was not found */
+         res.status(400).json({
             status:'failed',
-            message: 'Internal server error'
-        });
+            message: 'The requested route was not found.'
+         });
 
-        req.err = err;
+         req.err = 'CommitteeController.js, Line: 257\nThe requested committee was not found in the database.';
+      }
+      else{
+         /* the committee is updated successfully in the database */
+         res.status(200).json({
+            status:'succeeded',
+            message: 'committee successfully updated'
+         });
+      }
 
-        next();
-    });
+      next();
+   }).catch(function(err){
+      /* failed to update the committee in the database */
+      res.status(500).json({
+         status:'failed',
+         message: 'Internal server error'
+      });
+
+      req.err = 'UserController.js, Line: 275\nCouldn\'t update the committee in the database.\n' + String(err);
+
+      next();
+   });
 };

@@ -79,7 +79,7 @@ module.exports.save = function(req, res) {
     }
 
     if(req.err){
-        record.error_message = String(req.err);
+        record.error_message = req.err;
     }
     else{
         record.error_message = null;

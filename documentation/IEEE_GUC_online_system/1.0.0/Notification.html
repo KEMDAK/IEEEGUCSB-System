@@ -4,7 +4,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width">
-	<title>IEEE GUC Model: User</title>
+	<title>IEEE GUC Model: Notification</title>
 
 	<!--[if lt IE 9]>
 	<script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
@@ -79,13 +79,13 @@
 		<div id="main">
 			
 
-	<h1 class="page-title">Model: User</h1>
+	<h1 class="page-title">Model: Notification</h1>
 <section>
 
 <header>
     
         <h2>
-        User
+        Notification
         </h2>
         
     
@@ -127,6 +127,30 @@
 
         <tr>
             
+                <td class="name"><code>content</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The notification's content</td>
+        </tr>
+
+    
+
+        <tr>
+            
                 <td class="name"><code>type</code></td>
             
 
@@ -144,62 +168,14 @@
 
             
 
-            <td class="description last">The users's type ('Admin', 'Upper Board', 'High Board', 'Member')</td>
+            <td class="description last">The notification's type</td>
         </tr>
 
     
 
         <tr>
             
-                <td class="name"><code>first_name</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">String</span>
-
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">The users's first name</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>last_name</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">String</span>
-
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">The users's last name</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>birthdate</code></td>
+                <td class="name"><code>url</code></td>
             
 
             <td class="type">
@@ -216,175 +192,7 @@
 
             
 
-            <td class="description last">The users's birthdate</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>gender</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">String</span>
-
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">The users's gender ('Male', 'Female')</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>email</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">String</span>
-
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">The users's email</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>password</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">String</span>
-
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">The users's password</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>phone_number</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">String</span>
-
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">The users's phone number</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>IEEE_membership_ID</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">String</span>
-
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">The users's IEEE_membership_ID</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>reset_token</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">String</span>
-
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">The reset token of the user that could be used to reset the password</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>settings</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">Object</span>
-
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">The users's settings as a JSON object</td>
+            <td class="description last">The notification's url</td>
         </tr>
 
     
@@ -453,7 +261,7 @@
             
 <hr>
 <dt>
-    <h4 class="name" id="isAdmin"><span class="type-signature"></span>isAdmin()</h4>
+    <h4 class="name" id="isAnnouncement"><span class="type-signature"></span>isAnnouncement()</h4>
     
     
 </dt>
@@ -461,7 +269,7 @@
 
     
     <div class="description">
-        This function checks if the user is an admin.
+        This function checks if the notification is a announcement.
     </div>
     
 
@@ -527,7 +335,7 @@
     
             
 <div class="param-desc">
-    true if the claimed password matches the real one.
+    true if it is a new announcement.
 </div>
 
 
@@ -555,7 +363,7 @@
             
 <hr>
 <dt>
-    <h4 class="name" id="isHighBoard"><span class="type-signature"></span>isHighBoard()</h4>
+    <h4 class="name" id="isComment"><span class="type-signature"></span>isComment()</h4>
     
     
 </dt>
@@ -563,7 +371,7 @@
 
     
     <div class="description">
-        This function checks if the user is a high board.
+        This function checks if the notification is a comment.
     </div>
     
 
@@ -629,7 +437,7 @@
     
             
 <div class="param-desc">
-    true if the claimed password matches the real one.
+    true if it is a comment.
 </div>
 
 
@@ -657,7 +465,7 @@
             
 <hr>
 <dt>
-    <h4 class="name" id="isMember"><span class="type-signature"></span>isMember()</h4>
+    <h4 class="name" id="isEvent"><span class="type-signature"></span>isEvent()</h4>
     
     
 </dt>
@@ -665,7 +473,7 @@
 
     
     <div class="description">
-        This function checks if the user is a member.
+        This function checks if the notification is a event.
     </div>
     
 
@@ -731,7 +539,7 @@
     
             
 <div class="param-desc">
-    true if the claimed password matches the real one.
+    true if it is a new event.
 </div>
 
 
@@ -759,7 +567,7 @@
             
 <hr>
 <dt>
-    <h4 class="name" id="isUpperBoard"><span class="type-signature"></span>isUpperBoard()</h4>
+    <h4 class="name" id="isMeeting"><span class="type-signature"></span>isMeeting()</h4>
     
     
 </dt>
@@ -767,7 +575,7 @@
 
     
     <div class="description">
-        This function checks if the user is an upper board.
+        This function checks if the notification is a meeting.
     </div>
     
 
@@ -833,7 +641,7 @@
     
             
 <div class="param-desc">
-    true if the claimed password matches the real one.
+    true if it is a new meeting.
 </div>
 
 
@@ -861,7 +669,7 @@
             
 <hr>
 <dt>
-    <h4 class="name" id="toJSON"><span class="type-signature"></span>toJSON(detailed, mine)</h4>
+    <h4 class="name" id="isTask"><span class="type-signature"></span>isTask()</h4>
     
     
 </dt>
@@ -869,7 +677,7 @@
 
     
     <div class="description">
-        this function returns the user object.
+        This function checks if the notification is a task.
     </div>
     
 
@@ -878,80 +686,6 @@
     
 
     
-    
-        <h5>Parameters:</h5>
-        
-
-<table class="params table table-striped">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>detailed</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">boolean</span>
-
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">true if the returned attributes should be detailed.</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>mine</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">boolean</span>
-
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">true if the returned attributes are requested by thier owner.</td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
     
 
     
@@ -1009,159 +743,7 @@
     
             
 <div class="param-desc">
-    The user object.
-</div>
-
-
-
-<dl>
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">Object</span>
-
-
-
-    </dd>
-</dl>
-
-
-        
-
-    
-</dd>
-
-        
-            
-<hr>
-<dt>
-    <h4 class="name" id="validPassword"><span class="type-signature"></span>validPassword(password)</h4>
-    
-    
-</dt>
-<dd>
-
-    
-    <div class="description">
-        This function validates the password of the user.
-    </div>
-    
-
-    
-
-    
-
-    
-    
-        <h5>Parameters:</h5>
-        
-
-<table class="params table table-striped">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>password</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">String</span>
-
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">the claimed password.</td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-    
-
-    
-<dl class="details">
-    
-
-	
-
-	
-
-	
-
-    
-
-    
-
-    
-
-    
-
-	
-
-	
-
-	
-
-	
-
-	
-
-
-
-	
-
-	
-
-	
-
-	
-</dl>
-
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <h5>Returns:</h5>
-    
-            
-<div class="param-desc">
-    true if the claimed password matches the real one.
+    true if it is a new task.
 </div>
 
 

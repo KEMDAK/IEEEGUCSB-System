@@ -40,7 +40,7 @@
 			<li class="dropdown">
 				<a href="models.list.html" class="dropdown-toggle" data-toggle="dropdown">Models<b class="caret"></b></a>
 				<ul class="dropdown-menu inline">
-					<li><a href="Committee.html">Committee</a></li><li><a href="Identity.html">Identity</a></li><li><a href="Log.html">Log</a></li><li><a href="User.html">User</a></li>
+					<li><a href="Comment.html">Comment</a></li><li><a href="Committee.html">Committee</a></li><li><a href="Event.html">Event</a></li><li><a href="Honor.html">Honor</a></li><li><a href="Identity.html">Identity</a></li><li><a href="Log.html">Log</a></li><li><a href="Media.html">Media</a></li><li><a href="Meeting.html">Meeting</a></li><li><a href="Notification.html">Notification</a></li><li><a href="Task.html">Task</a></li><li><a href="User.html">User</a></li>
 				</ul>
 			</li>
 			
@@ -212,10 +212,8 @@
 
 
     
-        <h5>Examples</h5>
+        <h5>Example</h5>
         
-    <pre class="sunlight-highlight-javascript">the route expects the user agent as &#x27;user_agent&#x27; in the request headers with one of the following values [&#x27;Web&#x27;, &#x27;IOS&#x27;, &#x27;Android&#x27;]</pre>
-
     <pre class="sunlight-highlight-javascript">The route returns as a response an object in the following format
 {
   status: succeeded/failed,
@@ -228,7 +226,14 @@
          description: the committee description
      }, {...}, ...
    ],
-  error: Validation errors
+	error:
+	[
+	  {
+	     param: the field that caused the error,
+	     value: the value that was provided for that field,
+	     type: the type of error that was caused [&#x27;required&#x27;, &#x27;validity&#x27;, &#x27;unique violation&#x27;]
+	  }, {...}, ...
+	]
 }</pre>
 
 
@@ -246,7 +251,7 @@
 <dd>
     
     <div class="description">
-        A POST route responsible for creating a committee. This route can not be used unless the requesting account is an Upper Board or higher.
+        A POST route responsible for creating a committee.
     </div>
     
 
@@ -295,6 +300,8 @@
     
         <h5>Examples</h5>
         
+    <pre class="sunlight-highlight-javascript">The user requesting the route has to be of type &#x27;Upper Board&#x27; at least.</pre>
+
     <pre class="sunlight-highlight-javascript">the route expects the access token as &#x27;Authorization&#x27; and the user agent as &#x27;user_agent&#x27; in the request headers with one of the following values [&#x27;Web&#x27;, &#x27;IOS&#x27;, &#x27;Android&#x27;]</pre>
 
     <pre class="sunlight-highlight-javascript">The route expects a body Object in the following format
@@ -306,7 +313,15 @@
     <pre class="sunlight-highlight-javascript">The route returns as a response an object in the following format
 {
   status: succeeded/failed,
-  message: String showing a descriptive text
+  message: String showing a descriptive text,
+  error:
+  [
+    {
+        param: the field that caused the error,
+	     value: the value that was provided for that field,
+	     type: the type of error that was caused [&#x27;required&#x27;, &#x27;validity&#x27;, &#x27;unique violation&#x27;]
+	 }, {...}, ...
+  ]
 }</pre>
 
 
@@ -384,9 +399,7 @@
     
         <h5>Examples</h5>
         
-    <pre class="sunlight-highlight-javascript">The route expects a committee id for the committee to be returned</pre>
-
-    <pre class="sunlight-highlight-javascript">the route expects the access token as &#x27;Authorization&#x27; and the user agent as &#x27;user_agent&#x27; in the request headers with one of the following values [&#x27;Web&#x27;, &#x27;IOS&#x27;, &#x27;Android&#x27;]</pre>
+    <pre class="sunlight-highlight-javascript">The route expects a committee id for the desired committee in the URL in replace of &#x27;{id}&#x27;</pre>
 
     <pre class="sunlight-highlight-javascript">The route returns as a response an object in the following format
 {
@@ -398,7 +411,14 @@
          name: the committee name,
          description: the committee description
      },
-   error: Validation errors
+	error:
+	[
+	  {
+	     param: the field that caused the error,
+	     value: the value that was provided for that field,
+	     type: the type of error that was caused [&#x27;required&#x27;, &#x27;validity&#x27;, &#x27;unique violation&#x27;]
+	  }, {...}, ...
+	]
 }</pre>
 
 
@@ -416,7 +436,7 @@
 <dd>
     
     <div class="description">
-        A PUT route responsible for updating a committee. This route can not be used unless the requesting account is an Upper Board or higher.
+        A PUT route responsible for updating a committee.
     </div>
     
 
@@ -476,20 +496,30 @@
     
         <h5>Examples</h5>
         
-    <pre class="sunlight-highlight-javascript">The route expects a committee id for the committee to be updated</pre>
+    <pre class="sunlight-highlight-javascript">The user requesting the route has to be of type &#x27;Upper Board&#x27; at least.</pre>
+
+    <pre class="sunlight-highlight-javascript">The route expects a committee id for the desired committee in the URL in replace of &#x27;{id}&#x27;</pre>
 
     <pre class="sunlight-highlight-javascript">the route expects the access token as &#x27;Authorization&#x27; and the user agent as &#x27;user_agent&#x27; in the request headers with one of the following values [&#x27;Web&#x27;, &#x27;IOS&#x27;, &#x27;Android&#x27;]</pre>
 
     <pre class="sunlight-highlight-javascript">The route expects a body Object in the following format
 {
-  name: String, [required]
-  description: String [required]
+  name: String, [optional]
+  description: String [optional]
 }</pre>
 
     <pre class="sunlight-highlight-javascript">The route returns as a response an object in the following format
 {
   status: succeeded/failed,
-  message: String showing a descriptive text
+  message: String showing a descriptive text,
+  error:
+  [
+    {
+        param: the field that caused the error,
+	     value: the value that was provided for that field,
+	     type: the type of error that was caused [&#x27;required&#x27;, &#x27;validity&#x27;, &#x27;unique violation&#x27;]
+	 }, {...}, ...
+  ]
 }</pre>
 
 
@@ -565,7 +595,14 @@
 {
 	status: succeeded/failed
 	message: Descriptive text about the errors,
-	error: Validation errors
+	error:
+	[
+	  {
+	     param: the field that caused the error,
+	     value: the value that was provided for that field,
+	     type: the type of error that was caused [&#x27;required&#x27;, &#x27;validity&#x27;, &#x27;unique violation&#x27;]
+	  }, {...}, ...
+	]
 }</pre>
 
 
@@ -646,18 +683,47 @@
 	message: String showing a descriptive text,
 	token: access token as a response to a successfull login,
 	user:
-	 {
+	{
+      profile_type: &quot;Detailed&quot;,
       id: the user id,
       type: the type of the account [&#x27;Admin&#x27;, &#x27;Upper Board&#x27;, &#x27;High Board&#x27;, &#x27;Member&#x27;],
       first_name: the logged in user first name,
       last_name: the logged in user last name,
-      email: the logged in user email,
       gender: the logged in user gender,
+      email: the logged in user email,
+      phone_number: the logged in user phone number,
       birthdate: the logged in user birthdate,
-      IEEE_membership_ID: the membership id in IEEE
-	 }
-	error: Validation errors
-}</pre>
+      IEEE_membership_ID: the membership id in IEEE,
+      settings: {
+          public: {
+              background: &quot;the background of the profile&quot;
+          },
+          private:{
+            notifications: {
+              email: {
+                lastSent: &quot;timestamp&quot;,
+                taskAssignment: &quot;boolean send email on task assignment&quot;,
+                taskDeadline: &quot;boolean sent a reminder email before the task deadline&quot;,
+                meetingAssignment: &quot;boolean send email on meetings&quot;,
+                meetingDay: &quot;booealan send email on meeting day&quot;,
+                comment: &quot;boolean send email on comments&quot;
+              }
+            }
+          }
+      },
+      committee: { [optinal|if the user belongs to a committee]
+         id: the users&#x27;s committee id,
+         name: the user&#x27;s committee name
+      },
+	error:
+	[
+	  {
+	     param: the field that caused the error,
+	     value: the value that was provided for that field,
+	     type: the type of error that was caused [&#x27;required&#x27;, &#x27;validity&#x27;, &#x27;unique violation&#x27;]
+	  }, {...}, ...
+	]
+  }</pre>
 
 
     
@@ -806,7 +872,14 @@
 {
 	status: succeeded/failed,
 	message: Descriptive text about the errors,
-	error: Validation errors
+	error:
+	[
+	  {
+	     param: the field that caused the error,
+	     value: the value that was provided for that field,
+	     type: the type of error that was caused [&#x27;required&#x27;, &#x27;validity&#x27;, &#x27;unique violation&#x27;]
+	  }, {...}, ...
+	]
 }</pre>
 
 
@@ -824,7 +897,7 @@
 <dd>
     
     <div class="description">
-        A GET route responsible for getting all users in the database
+        A GET route responsible for getting all users currently in the database
     </div>
     
 
@@ -871,10 +944,8 @@
 
 
     
-        <h5>Examples</h5>
+        <h5>Example</h5>
         
-    <pre class="sunlight-highlight-javascript">the route expects the access token as &#x27;Authorization&#x27; and the user agent as &#x27;user_agent&#x27; in the request headers with one of the following values [&#x27;Web&#x27;, &#x27;IOS&#x27;, &#x27;Android&#x27;]</pre>
-
     <pre class="sunlight-highlight-javascript">The route returns as a response an object in the following format
 {
 	status: succeeded/failed,
@@ -882,17 +953,23 @@
 	users:
 	[
 	   {
-       id: the user id,
-       type: the type of the account [&#x27;Admin&#x27;, &#x27;Upper Board&#x27;, &#x27;High Board&#x27;, &#x27;Member&#x27;],
-       first_name: the logged in user first name,
-       last_name: the logged in user last name,
-       email: the logged in user email,
-       gender: the logged in user gender,
-       birthdate: the logged in user birthdate,
-       IEEE_membership_ID: the membership id in IEEE
+       id: the user&#x27;s id,
+       first_name: the user&#x27;s first name,
+       last_name: the user&#x27;s last name,
+       committee: {                       [if found]
+         id: the users&#x27;s committee id,
+         name: the user&#x27;s committee name
+       }
 	   }, {...}, ...
-	 ]
-	error: Validation errors
+	]
+	error:
+	[
+	  {
+	     param: the field that caused the error,
+	     value: the value that was provided for that field,
+	     type: the type of error that was caused [&#x27;required&#x27;, &#x27;validity&#x27;, &#x27;unique violation&#x27;]
+	  }, {...}, ...
+	]
 }</pre>
 
 
@@ -910,7 +987,7 @@
 <dd>
     
     <div class="description">
-        A POST route responsible for storing a user in the database. This route can not be used unless the requesting account is an Upper Board or higher.
+        A POST route responsible for storing a given user in the database.
     </div>
     
 
@@ -959,25 +1036,34 @@
     
         <h5>Examples</h5>
         
-    <pre class="sunlight-highlight-javascript">the route expects the access token as &#x27;Authorization&#x27; and the user agent as &#x27;user_agent&#x27; in the request headers with one of the following values [&#x27;Web&#x27;, &#x27;IOS&#x27;, &#x27;Android&#x27;]</pre>
+    <pre class="sunlight-highlight-javascript">The user requesting the route has to be of type &#x27;Upper Board&#x27; at least.</pre>
+
+    <pre class="sunlight-highlight-javascript">The route expects the access token as &#x27;Authorization&#x27; and the user agent as &#x27;user_agent&#x27; in the request headers with one of the following values [&#x27;Web&#x27;, &#x27;IOS&#x27;, &#x27;Android&#x27;]</pre>
 
     <pre class="sunlight-highlight-javascript">The route expects a body Object in the following format
 {
-  type: String [&#x27;Admin&#x27;, &#x27;Upper Board&#x27;, &#x27;High Board&#x27;, &#x27;Member&#x27;], [required]
-  email: String, [required]
-  password: String (6 to 20 charecters), [required]
-  first_name: String, [required]
-  last_name: String, [required]
-  birthdate: String (YYYY-MM-DD), [required]
-  gender: String [&#x27;Male&#x27;, &#x27;Female&#x27;], [required]
-  IEEE_membership_ID: String [optional]
+   type: String [&#x27;Admin&#x27;, &#x27;Upper Board&#x27;, &#x27;High Board&#x27;, &#x27;Member&#x27;], [required]
+   email: String, [required]
+   password: String (6 to 20 charecters), [required]
+   first_name: String, [required]
+   last_name: String, [required]
+   birthdate: String (YYYY-MM-DD), [required]
+   gender: String [&#x27;Male&#x27;, &#x27;Female&#x27;], [required]
+   IEEE_membership_ID: String [optional]
 }</pre>
 
-    <pre class="sunlight-highlight-javascript">The route responds with an object having the following format
+    <pre class="sunlight-highlight-javascript">The route returns as a response an object in the following format
 {
 	status: succeeded/failed,
 	message: String showing a descriptive text,
-	error: Validation errors
+	error:
+	[
+	  {
+	     param: the field that caused the error,
+	     value: the value that was provided for that field,
+	     type: the type of error that was caused [&#x27;required&#x27;, &#x27;validity&#x27;, &#x27;unique violation&#x27;]
+	  }, {...}, ...
+	]
 }</pre>
 
 
@@ -995,7 +1081,7 @@
 <dd>
     
     <div class="description">
-        A PUT route responsible for updating a user's information in the database
+        A PUT route responsible for updating the information of authenticated user
     </div>
     
 
@@ -1044,25 +1130,29 @@
     
         <h5>Examples</h5>
         
+    <pre class="sunlight-highlight-javascript">The user requesting the route has to be of type &#x27;Member&#x27; at least.</pre>
+
     <pre class="sunlight-highlight-javascript">the route expects the access token as &#x27;Authorization&#x27; and the user agent as &#x27;user_agent&#x27; in the request headers with one of the following values [&#x27;Web&#x27;, &#x27;IOS&#x27;, &#x27;Android&#x27;]</pre>
 
     <pre class="sunlight-highlight-javascript">The route expects a body Object in the following format
 {
-  type: String [&#x27;Admin&#x27;, &#x27;Upper Board&#x27;, &#x27;High Board&#x27;, &#x27;Member&#x27;], [required]
-  email: String, [required]
-  password: String (6 to 20 charecters), [required]
-  first_name: String, [required]
-  last_name: String, [required]
-  birthdate: String (YYYY-MM-DD), [required]
-  gender: String [&#x27;Male&#x27;, &#x27;Female&#x27;], [required]
-  IEEE_membership_ID: String [optional]
+   old_password: String, [required]
+   new_password: String (6 to 20 charecters), [optional]
+   IEEE_membership_ID: String [optional]
 }</pre>
 
     <pre class="sunlight-highlight-javascript">The route responds with an object having the following format
 {
 	status: succeeded/failed,
 	message: String showing a descriptive text,
-	error: Validation errors
+	error:
+	[
+	  {
+	     param: the field that caused the error,
+	     value: the value that was provided for that field,
+	     type: the type of error that was caused [&#x27;required&#x27;, &#x27;validity&#x27;, &#x27;unique violation&#x27;]
+	  }, {...}, ...
+	]
 }</pre>
 
 
@@ -1080,7 +1170,7 @@
 <dd>
     
     <div class="description">
-        A GET route to show a specific user
+        A GET route responsible for getting a specific user currently in the database
     </div>
     
 
@@ -1140,26 +1230,37 @@
     
         <h5>Examples</h5>
         
-    <pre class="sunlight-highlight-javascript">The route expects a user id for the user to be returned</pre>
+    <pre class="sunlight-highlight-javascript">The user requesting the route has to be of type &#x27;Member&#x27; at least.</pre>
 
-    <pre class="sunlight-highlight-javascript">the route expects the access token as &#x27;Authorization&#x27; and the user agent as &#x27;user_agent&#x27; in the request headers with one of the following values [&#x27;Web&#x27;, &#x27;IOS&#x27;, &#x27;Android&#x27;]</pre>
+    <pre class="sunlight-highlight-javascript">The route expects the access token as &#x27;Authorization&#x27; and the user agent as &#x27;user_agent&#x27; in the request headers with one of the following values [&#x27;Web&#x27;, &#x27;IOS&#x27;, &#x27;Android&#x27;]</pre>
+
+    <pre class="sunlight-highlight-javascript">The route expects the id of the desired user in the URL in replace of &#x27;{id}&#x27;</pre>
 
     <pre class="sunlight-highlight-javascript">The route returns as a response an object in the following format
 {
 	status: succeeded/failed,
 	message: String showing a descriptive text,
-  result:
-  {
-    id: the user id,
-    type: the type of the account [&#x27;Admin&#x27;, &#x27;Upper Board&#x27;, &#x27;High Board&#x27;, &#x27;Member&#x27;],
-    first_name: the logged in user first name,
-    last_name: the logged in user last name,
-    email: the logged in user email,
-    gender: the logged in user gender,
-    birthdate: the logged in user birthdate,
-    IEEE_membership_ID: the membership id in IEEE
-  }
-  error: Validation errors
+   result:
+   {
+      id: the user&#x27;s id,
+      type: the type of the account [&#x27;Admin&#x27;, &#x27;Upper Board&#x27;, &#x27;High Board&#x27;, &#x27;Member&#x27;],
+      first_name: the user&#x27;s first name,
+      last_name: the user&#x27;s last name,
+      email: the user&#x27;s email,
+      gender: the user&#x27;s gender,       [for detailed view only]
+      phone_number: the user&#x27;s phone number,       [for detailed view only]
+      birthdate: the user&#x27;s birthdate,        [for detailed view only]
+      IEEE_membership_ID: the user&#x27;s membership id in IEEE,
+      settings: the user&#x27;s profile settings        [public settings only for basic view]
+    }
+	error:
+	[
+	  {
+	     param: the field that caused the error,
+	     value: the value that was provided for that field,
+	     type: the type of error that was caused [&#x27;required&#x27;, &#x27;validity&#x27;, &#x27;unique violation&#x27;]
+	  }, {...}, ...
+	]
 }</pre>
 
 

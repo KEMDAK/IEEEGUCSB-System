@@ -23,18 +23,47 @@ module.exports = function(app) {
     * 	message: String showing a descriptive text,
     * 	token: access token as a response to a successfull login,
     * 	user:
-    * 	 {
+    * 	{
+    *       profile_type: "Detailed",
     *       id: the user id,
     *       type: the type of the account ['Admin', 'Upper Board', 'High Board', 'Member'],
     *       first_name: the logged in user first name,
     *       last_name: the logged in user last name,
-    *       email: the logged in user email,
     *       gender: the logged in user gender,
+    *       email: the logged in user email,
+    *       phone_number: the logged in user phone number,
     *       birthdate: the logged in user birthdate,
-    *       IEEE_membership_ID: the membership id in IEEE
-    * 	 }
-    * 	error: Validation errors
-    * }
+    *       IEEE_membership_ID: the membership id in IEEE,
+    *       settings: {
+    *           public: {
+    *               background: "the background of the profile"
+    *           },
+    *           private:{
+    *             notifications: {
+    *               email: {
+    *                 lastSent: "timestamp",
+    *                 taskAssignment: "boolean send email on task assignment",
+    *                 taskDeadline: "boolean sent a reminder email before the task deadline",
+    *                 meetingAssignment: "boolean send email on meetings",
+    *                 meetingDay: "booealan send email on meeting day",
+    *                 comment: "boolean send email on comments"
+    *               }
+    *             }
+    *           }
+    *       },
+    *       committee: { [optinal|if the user belongs to a committee]
+    *          id: the users's committee id,
+    *          name: the user's committee name
+    *       },
+    * 	error:
+    * 	[
+    * 	  {
+    * 	     param: the field that caused the error,
+    * 	     value: the value that was provided for that field,
+    * 	     type: the type of error that was caused ['required', 'validity', 'unique violation']
+    * 	  }, {...}, ...
+    * 	]
+    *   }
     */
     app.post('/api/login', AuthController.login);
 
@@ -63,7 +92,14 @@ module.exports = function(app) {
     * {
     * 	status: succeeded/failed
     * 	message: Descriptive text about the errors,
-    * 	error: Validation errors
+    * 	error:
+    * 	[
+    * 	  {
+    * 	     param: the field that caused the error,
+    * 	     value: the value that was provided for that field,
+    * 	     type: the type of error that was caused ['required', 'validity', 'unique violation']
+    * 	  }, {...}, ...
+    * 	]
     * }
     */
     app.post('/api/forgotPassword', AuthController.forgotPassword);
@@ -81,7 +117,14 @@ module.exports = function(app) {
     * {
     * 	status: succeeded/failed,
     * 	message: Descriptive text about the errors,
-    * 	error: Validation errors
+    * 	error:
+    * 	[
+    * 	  {
+    * 	     param: the field that caused the error,
+    * 	     value: the value that was provided for that field,
+    * 	     type: the type of error that was caused ['required', 'validity', 'unique violation']
+    * 	  }, {...}, ...
+    * 	]
     * }
     */
     app.post('/api/resetPassword', reset, AuthController.resetPassword);
