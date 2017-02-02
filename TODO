@@ -1,5 +1,7 @@
 TODO:
 
++ validate IEEEMembershipID
+
 + Routes to:
       assign a user to a committee.
       assign user as high board.
