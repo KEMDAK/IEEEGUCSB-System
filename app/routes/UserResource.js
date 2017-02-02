@@ -89,6 +89,7 @@ module.exports = function(app) {
     *    first_name: String, [required]
     *    last_name: String, [required]
     *    birthdate: String (YYYY-MM-DD), [required]
+    *    phone_number: String, [required]
     *    gender: String ['Male', 'Female'], [required]
     *    IEEE_membership_ID: String [optional]
     * }
@@ -118,6 +119,7 @@ module.exports = function(app) {
     * {
     *    old_password: String, [required]
     *    new_password: String (6 to 20 charecters), [optional]
+    *    phone_number: String, [optional]
     *    IEEE_membership_ID: String [optional]
     * }
     * @example The route responds with an object having the following format
