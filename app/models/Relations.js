@@ -32,7 +32,7 @@ Meeting.belongsTo(User, { as: 'Supervisor', foreignKey: { name: 'supervisor', al
 
 /* Meeting_User relation */
 User.belongsToMany(Meeting, { as: 'Meetings', through: 'meeting_user' });
-Meeting.belongsToMany(User, { as: 'AssignedUsers', through: 'meeting_user' });
+Meeting.belongsToMany(User, { as: 'Attendees', through: 'meeting_user' });
 
 /* Committee_User relation */
 Committee.hasMany(User, { as: 'Users', foreignKey: { allowNull: true } });
