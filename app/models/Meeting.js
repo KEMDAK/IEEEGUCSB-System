@@ -49,12 +49,12 @@ module.exports.defineMeeting = function(sequelize)
          location:
          {
             type: Sequelize.STRING,
-            allowNull: false
+            allowNull: true
          },
          description:
          {
             type: Sequelize.TEXT,
-            allowNull: false
+            allowNull: true
          },
          evaluation:
          {
