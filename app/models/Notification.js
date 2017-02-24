@@ -29,7 +29,6 @@ module.exports.defineNotification = function(sequelize) {
           }
 },
 {
-     paranoid: true,
      underscored: true,
      underscoredAll: true,
      instanceMethods:
