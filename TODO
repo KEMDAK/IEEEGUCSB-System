@@ -3,3 +3,5 @@ TODO:
 + validate IEEEMembershipID
 
 + Integrate the settings in update functions
+
++ change the phone number regex to be the equivilant to this "\\+?\\d\\d\\d-?\\d\\d\\d-?\\d\\d\\d?\\d?\\d?\\d?"
