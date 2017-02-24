@@ -13,7 +13,7 @@ module.exports = function(app) {
 
     /* allowing cross origin requests */
     app.use(function(req, res, next) {
-        res.header('Access-Control-Allow-Origin', "localhost");
+        res.header('Access-Control-Allow-Origin', "http://localhost:" + process.env.PORT);
 
         next();
     });
