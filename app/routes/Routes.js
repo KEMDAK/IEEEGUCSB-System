@@ -11,6 +11,11 @@ var CommitteeController = require('../controllers/CommitteeController');
 
 module.exports = function(app) {
 
+    /* allowing cross origin requests */
+    app.use(function(req, res, next) {
+        res.header('Access-Control-Allow-Origin', "localhost");
+    });
+
     /* initializing the log record */
     app.use(log.init);
 
