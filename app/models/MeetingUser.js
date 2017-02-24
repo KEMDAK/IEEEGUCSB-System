@@ -29,7 +29,6 @@ module.exports.defineMeetingUser = function(sequelize)
          }
       },
       {
-          paranoid: true,
           underscored: true,
           underscoredALL: true
       }

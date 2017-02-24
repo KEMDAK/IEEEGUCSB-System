@@ -29,7 +29,6 @@ module.exports.defineNotificationUser = function(sequelize)
          }
       },
       {
-          paranoid: true,
           underscored: true,
           underscoredALL: true
       }

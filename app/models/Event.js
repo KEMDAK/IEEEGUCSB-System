@@ -38,7 +38,6 @@ module.exports.defineEvent = function(sequelize) {
       }
    },
    {
-      paranoid: true,
       underscored: true,
       underscoredAll: true
    });
