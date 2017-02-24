@@ -11,20 +11,18 @@
 */
 module.exports.defineComment = function(sequelize)
 {
-   var Sequelize = require("sequelize");
+  var Sequelize = require("sequelize");
 
-   module.exports.Comment = sequelize.define('comment',
-      {
-         content:
-         {
-            type: Sequelize.TEXT,
-            allowNull: false
-         }
-      },
-      {
-          paranoid: true,
-          underscored: true,
-          underscoredALL: true
-      }
-   );
+  module.exports.Comment = sequelize.define('comment',
+  {
+    content:
+    {
+      type: Sequelize.TEXT,
+      allowNull: false
+    }
+  },
+  {
+    underscored: true,
+    underscoredALL: true
+  });
 };
