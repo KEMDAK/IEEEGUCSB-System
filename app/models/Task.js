@@ -44,7 +44,6 @@ module.exports.defineTask = function(sequelize) {
         
      },
      {
-          paranoid: true,
           underscored: true,
           underscoredAll: true,
           instanceMethods:
