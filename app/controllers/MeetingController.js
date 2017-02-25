@@ -110,16 +110,36 @@ module.exports.show = function(req, res, next) {
             });
 
             next();
+         }).catch(function(err) {
+            /* failed to get the meeting supervisor from the database */
+            res.status(500).json({
+               status:'failed',
+               message: 'Internal server error'
+            });
+
+            req.err = 'MeetingController.js, Line: 111\nfailed to get the meeting supervisor from the database.\n' + String(err);
+
+            next();
          });
+      }).catch(function(err) {
+         /* failed to get the meeting attendees from the database */
+         res.status(500).json({
+            status:'failed',
+            message: 'Internal server error'
+         });
+
+         req.err = 'MeetingController.js, Line: 111\nfailed to get the meeting attendees from the database.\n' + String(err);
+
+         next();
       });
    }).catch(function(err) {
-      /* failed to get the meeting or its details from the database */
+      /* failed to get the meeting from the database */
       res.status(500).json({
          status:'failed',
          message: 'Internal server error'
       });
 
-      req.err = 'MeetingController.js, Line: 111\nfailed to get the meeting or its details from the database.\n' + String(err);
+      req.err = 'MeetingController.js, Line: 111\nfailed to get the meeting from the database.\n' + String(err);
 
       next();
    });  
@@ -145,48 +165,32 @@ module.exports.store = function(req, res, next) {
    req.sanitizeBody('end_date').trim();
 
    /*Validate and sanitizing goals Input*/
-   req.checkBody('goals', 'required').notEmpty();
-   req.checkBody('goals', 'validity').isJSON();
-   req.sanitizeBody('goals').escape();
-   req.sanitizeBody('goals').trim();
+   var goals = [];
+   if(req.body.goals) {
+      req.checkBody('goals', 'validity').isArray();
 
+      for (var i = 0; i < req.body.goals.length; i++) {
+         goals.push({
+            goal: req.body.goals[i],
+            isDone: false
+         });
+      }
+   }
+   
    /*Validate and sanitizing location Input*/
    if(req.body.location){
       req.sanitizeBody('location').escape();
       req.sanitizeBody('location').trim();
+   } else {
+      req.body.location = null;
    }
 
    /*Validate and sanitizing description Input*/
    if(req.body.description){
       req.sanitizeBody('description').escape();
       req.sanitizeBody('description').trim();
-   }
-
-   var errors = req.validationErrors();
-   
-   if(!req.user.isAdmin() && !req.user.isUpperBoard && req.body.attendees){
-      /*validating the user list*/
-      User.findAll({ where: { id: { in: req.body.attendees } } }).then(function(attendees) {
-         for (var i = 0; i < attendees.length; i++) {
-            if(req.user.committee_id != attendees[i].committee_id){
-               if(!errors){
-                  errors = [];
-               }
-
-               errors.push({
-                  param: 'attendees',
-                  value: req.body.attendees,
-                  type: 'validity'
-               });
-               break;
-            }
-         }
-
-         rest();
-      });
-   }
-   else{
-      rest();
+   } else {
+      req.body.description = null;
    }
 
    var rest = function(){
@@ -199,7 +203,7 @@ module.exports.store = function(req, res, next) {
             error: errors
          });
 
-         req.err = 'MeetingController.js, Line: 194\nSome validation errors occured.\n' + JSON.stringify(errors);
+         req.err = 'MeetingController.js, Line: 194\nSome validation errors occurred.\n' + JSON.stringify(errors);
 
          next();
 
@@ -209,21 +213,42 @@ module.exports.store = function(req, res, next) {
       var attributes = {
          start_date: req.body.start_date,
          end_date: req.body.end_date,
-         goals: JSON.parse(req.body.goals),
+         goals: goals,
          location: req.body.location,
          description: req.body.description,
          supervisor: req.user.id
       };
 
       Meeting.create(attributes).then(function(meeting) {
-         meeting.serAttendees(req.body.attendees, { rating: null, review: null }).then(function(){
+         if(req.body.attendees){
+            meeting.setAttendees(req.body.attendees, { rating: null, review: null }).then(function(){
+               res.status(200).json({
+                  status: 'succeeded',
+                  message: 'meeting successfully added'
+               });
+
+               next();
+            }).catch(function(err) {
+               /* failed to assign the attendees to the meeting in the database */
+               res.status(500).json({
+                  status:'failed',
+                  message: 'Internal server error'
+               });
+
+               meeting.destroy();
+
+               req.err = 'MeetingController.js, Line: 225\nfailed to assign the attendees to the meeting in the database.\n' + String(err);
+
+               next();
+            });
+         } else {
             res.status(200).json({
                status: 'succeeded',
                message: 'meeting successfully added'
             });
 
             next();
-         });
+         }
       }).catch(function(err) {
          /* failed to save the meeting in the database */
          res.status(500).json({
@@ -236,6 +261,46 @@ module.exports.store = function(req, res, next) {
          next();
       });
    };
+   
+   var errors;
+   
+   if(req.body.attendees){
+      /*validating the user list*/
+      User.findAll({ where: { id: { in: req.body.attendees } } }).then(function(attendees) {
+         req.checkBody('attendees', 'validity').isArray(attendees.length);
+         errors = req.validationErrors();
+
+         for (var i = 0; i < attendees.length; i++) {
+            if(!req.user.isAdmin() && !req.user.isUpperBoard() && req.user.committee_id != attendees[i].committee_id || req.user.id == attendees[i].id){
+               if(!errors){
+                  errors = [];
+               }
+
+               errors.push({
+                  param: 'attendees',
+                  value: req.body.attendees,
+                  msg: 'validity'
+               });
+               break;
+            }
+         }
+
+         rest();
+      }).catch(function(err) {
+         /* failed to validate the attendees in the database */
+         res.status(500).json({
+            status:'failed',
+            message: 'Internal server error'
+         });
+
+         req.err = 'MeetingController.js, Line: 225\nfailed to validate the attendees in the database.\n' + String(err);
+
+         next();
+      });
+   }
+   else{
+      rest();
+   }
 };
 
 /**
@@ -271,10 +336,15 @@ module.exports.update = function(req, res, next) {
 
    /*Validate and sanitizing goals Input*/
    if(req.body.goals){  
-      req.checkBody('goals', 'validity').isJSON();
-      req.sanitizeBody('goals').escape();
-      req.sanitizeBody('goals').trim();
-      attributes.goals = req.body.goals;
+      req.checkBody('goals', 'validity').isArray();
+
+      attributes.goals = [];
+      for (var i = 0; i < req.body.goals.length; i++) {
+         attributes.goals.push({
+            goal: req.body.goals[i],
+            isDone: false
+         });
+      }
    }
 
    /*Validate and sanitizing location Input*/
@@ -289,33 +359,6 @@ module.exports.update = function(req, res, next) {
       req.sanitizeBody('description').escape();
       req.sanitizeBody('description').trim();
       attributes.description = req.body.description;
-   }
-
-   var errors = req.validationErrors();
-   
-   if(!req.user.isAdmin() && !req.user.isUpperBoard && req.body.attendees){
-      /*validating the user list*/
-      User.findAll({ where: { id: { in: req.body.attendees } } }).then(function(attendees) {
-         for (var i = 0; i < attendees.length; i++) {
-            if(req.user.committee_id != attendees[i].committee_id){
-               if(!errors){
-                  errors = [];
-               }
-
-               errors.push({
-                  param: 'attendees',
-                  value: req.body.attendees,
-                  type: 'validity'
-               });
-               break;
-            }
-         }
-
-         rest();
-      });
-   }
-   else{
-      rest();
    }
 
    var rest = function(){
@@ -337,14 +380,33 @@ module.exports.update = function(req, res, next) {
 
       Meeting.update(attributes, { where : { supervisor : req.user.id } }).then(function(affected) {
          if (affected[0] == 1) {
-            meeting.serAttendees(req.body.attendees, { rating: null, review: null }).then(function(){
+            if(req.body.attendees){
+               meeting.setAttendees(req.body.attendees, { rating: null, review: null }).then(function(){
+                  res.status(200).json({
+                     status: 'succeeded',
+                     message: 'meeting successfully updated'
+                  });
+
+                  next();
+               }).catch(function(err) {
+                  /* failed to update the meeting attendees in the database */
+                  res.status(500).json({
+                     status:'failed',
+                     message: 'Internal server error'
+                  });
+
+                  req.err = 'MeetingController.js, Line: 365\nfailed to update the meeting attendees in the database.\n' + String(err);
+
+                  next();
+               });
+            } else {
                res.status(200).json({
                   status: 'succeeded',
                   message: 'meeting successfully updated'
                });
 
                next();
-            });
+            }
          }
          else {
             res.status(404).json({
@@ -369,6 +431,46 @@ module.exports.update = function(req, res, next) {
          next();
       });
    };
+   
+   var errors;
+   
+   if(req.body.attendees){
+      /*validating the user list*/
+      User.findAll({ where: { id: { in: req.body.attendees } } }).then(function(attendees) {
+         req.checkBody('attendees', 'validity').isArray(attendees.length);
+         errors = req.validationErrors();
+
+         for (var i = 0; i < attendees.length; i++) {
+            if(!req.user.isAdmin() && !req.user.isUpperBoard() && req.user.committee_id != attendees[i].committee_id || req.user.id == attendees[i].id){
+               if(!errors){
+                  errors = [];
+               }
+
+               errors.push({
+                  param: 'attendees',
+                  value: req.body.attendees,
+                  msg: 'validity'
+               });
+               break;
+            }
+         }
+
+         rest();
+      }).catch(function(err) {
+         /* failed to validate the attendees in the database */
+         res.status(500).json({
+            status:'failed',
+            message: 'Internal server error'
+         });
+
+         req.err = 'MeetingController.js, Line: 225\nfailed to validate the attendees in the database.\n' + String(err);
+
+         next();
+      });
+   }
+   else{
+      rest();
+   }
 };
 
 /**
@@ -464,8 +566,6 @@ module.exports.rate = function(req, res, next) {
 
          /*validating the goals*/
          req.checkBody('goals', 'required').notEmpty();
-         req.sanitizeBody('goals').escape();
-         req.sanitizeBody('goals').trim();
          req.checkBody('goals', 'validity').isArray(meeting.goals.length);
 
          for (var i = 0; i < req.body.goals.length; i++) {
@@ -475,8 +575,6 @@ module.exports.rate = function(req, res, next) {
          MeetingUser.findAll({ where: { meeting_id: req.params.id } }).then(function(attendees) {
             /*validating the ratings*/
             req.checkBody('ratings', 'required').notEmpty();
-            req.sanitizeBody('ratings').escape();
-            req.sanitizeBody('ratings').trim();
             req.checkBody('ratings', 'validity').isArray(attendees.length);
             
             for (var i = 0; i < req.body.ratings.length; i++) {
@@ -518,18 +616,38 @@ module.exports.rate = function(req, res, next) {
                   });
 
                   next();
+               }).catch(function(err) {
+                  /* failed to save the meeting in the database */
+                  res.status(500).json({
+                     status:'failed',
+                     message: 'Internal server error'
+                  });
+
+                  req.err = 'MeetingController.js, Line: 365\nfailed to save the meeting in the database.\n' + String(err);
+
+                  next();
                });
             }
+         }).catch(function(err) {
+            /* failed to find the meeting attendees in the database */
+            res.status(500).json({
+               status:'failed',
+               message: 'Internal server error'
+            });
+
+            req.err = 'MeetingController.js, Line: 365\nfailed to find the meeting attendees in the database.\n' + String(err);
+
+            next();
          });
       }
    }).catch(function(err) {
-      /* failed to rate the meeting in the database */
+      /* failed to find the meeting in the database */
       res.status(500).json({
          status:'failed',
          message: 'Internal server error'
       });
 
-      req.err = 'MeetingController.js, Line: 365\nCouldn\'t rate the meeting in the database.\n' + String(err);
+      req.err = 'MeetingController.js, Line: 365\nCouldn\'t find the meeting in the database.\n' + String(err);
 
       next();
    });

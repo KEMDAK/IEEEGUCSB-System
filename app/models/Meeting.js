@@ -34,12 +34,11 @@ module.exports.defineMeeting = function(sequelize)
          goals:
          {
             type: Sequelize.JSON,
-            allowNull: false
+            allowNull: true
          },
          duration:
          {
             type: Sequelize.VIRTUAL,
-            allowNull: false,
             get: function ()
             {
                // duration in mins

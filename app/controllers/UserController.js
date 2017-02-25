@@ -276,6 +276,9 @@ module.exports.store = function(req, res, next) {
       req.sanitizeBody('IEEE_membership_ID').escape();
       req.sanitizeBody('IEEE_membership_ID').trim();
    }
+   else{
+      req.body.IEEE_membership_ID = null;
+   }
 
    var errors = req.validationErrors();
    errors = format(errors);

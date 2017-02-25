@@ -10,7 +10,7 @@ module.exports = {
       },
       /* validator to check if the given value is an array */
       isArray: function(value, length) {
-         if(!length)
+         if(!length && length != 0)
             return Array.isArray(value);
          else
             return Array.isArray(value) && value.length == length;
