@@ -65,11 +65,15 @@ module.exports.show = function(req, res, next) {
          description: meeting.description,
          location: meeting.location,
          duration: meeting.duration,
-         evaluation: meeting.evaluation,
          created_at: meeting.created_at,
          updated_at: meeting.updated_at,
          attendees: []
       };
+
+      /* adding the evaluation of the meeting to the result */
+      if(req.user.isAdmin() || req.user.isUpperBoard() || req.user.isHighBoard() && req.user.id == meeting.supervisor){
+         result.evaluation = meeting.evaluation;
+      }
 
       /* Get the attendees of the requested meeting */
       meeting.getAttendees({ include: [{ model: Media, as: 'profilePicture' }] }).then(function(attendees) {
@@ -89,7 +93,7 @@ module.exports.show = function(req, res, next) {
             }
 
             /* adding the rating and the review of the attendee */
-            if(req.user.isAdmin() || req.user.isUpperBoard() || req.user.isHighBoard()){
+            if(req.user.isAdmin() || req.user.isUpperBoard() || req.user.isHighBoard() && req.user.id == meeting.supervisor){
                cur.rating = attendees[i].rating ? attendees[i].rating : null;
                cur.review = attendees[i].review ? attendees[i].review : null;
             }
