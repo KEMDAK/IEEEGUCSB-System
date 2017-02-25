@@ -15,7 +15,7 @@ User.hasMany(Identity, { as: 'Identities', foreignKey: { allowNull: false }, onD
 Identity.belongsTo(User, { as: 'User', foreignKey: { allowNull: false }, onDelete: 'NO ACTION' });
 
 /* Media_User relation */
-User.hasMany(Media, { as: 'Media', foreignKey: { allowNull: true }, onDelete: 'CASCADE' });
+User.hasOne(Media, { as: 'profilePicture', foreignKey: { allowNull: true }, onDelete: 'CASCADE' });
 Media.belongsTo(User, { as: 'User', foreignKey: { allowNull: true }, onDelete: 'NO ACTION' });
 
 /* Task_User relation */

@@ -31,7 +31,7 @@ module.exports.show = function(req, res, next) {
          error: errors
       });
 
-      req.err = 'MeetingController.js, Line: 31\nSome validation errors occured.\n' + JSON.stringify(errors);
+      req.err = 'MeetingController.js, Line: 31\nSome validation errors occurred.\n' + JSON.stringify(errors);
 
       next();
 
@@ -61,7 +61,7 @@ module.exports.show = function(req, res, next) {
          id: meeting.id,
          start_date: meeting.start_date,
          end_date: meeting.end_date,
-         goals: JSON.parse(meeting.goal),
+         goals: JSON.parse(meeting.goals),
          description: meeting.description,
          location: meeting.location,
          duration: meeting.duration,
@@ -72,37 +72,45 @@ module.exports.show = function(req, res, next) {
       };
 
       /* Get the attendees of the requested meeting */
-      meeting.getAttendees({ include: [{ model: Media, as: 'profile_picture' }] }).then(function(attendees) {
+      meeting.getAttendees({ include: [{ model: Media, as: 'profilePicture' }] }).then(function(attendees) {
          for (var i = 0; i < attendees.length; i++) {
             var cur = {
                id: attendees[i].id,
                first_name: attendees[i].first_name,
                last_name: attendees[i].last_name,
-               profile_picture: {
-                  type: attendees[i].profile_picture.type,
-                  url: attendees[i].profile_picture.url
-               }
+               profile_picture: null
             };
+
+            if(attendees[i].profilePicture) {
+               cur.profile_picture = {
+                  type: attendees[i].profilePicture.type,
+                  url: attendees[i].profilePicture.url
+               };
+            }
 
             /* adding the rating and the review of the attendee */
             if(req.user.isAdmin() || req.user.isUpperBoard() || req.user.isHighBoard()){
-               cur.rating = attendees[i].rating;
-               cur.review = attendees[i].review;
+               cur.rating = attendees[i].rating ? attendees[i].rating : null;
+               cur.review = attendees[i].review ? attendees[i].review : null;
             }
 
             result.attendees.push(cur);
          }
 
-         meeting.getSupervisor({ include: [{ model: Media, as: 'profile_picture' }] }).then(function(supervisor) {
+         meeting.getSupervisor({ include: [{ model: Media, as: 'profilePicture' }] }).then(function(supervisor) {
             result.supervisor = {
                id: supervisor.id,
                first_name: supervisor.first_name,
                last_name: supervisor.last_name,
-               profile_picture: {
-                  type: supervisor.profile_picture.type,
-                  url: supervisor.profile_picture.url
-               }
+               profile_picture: null
             };
+
+            if(supervisor.profilePicture) {
+               result.supervisor.profile_picture = {
+                  type: attendees[i].profilePicture.type,
+                  url: attendees[i].profilePicture.url
+               };
+            }
 
             res.status(200).json({
                status:'succeeded',
@@ -495,7 +503,7 @@ module.exports.delete = function(req, res, next) {
          error: errors
       });
 
-      req.err = 'MeetingController.js, Line: 31\nSome validation errors occured.\n' + JSON.stringify(errors);
+      req.err = 'MeetingController.js, Line: 31\nSome validation errors occurred.\n' + JSON.stringify(errors);
 
       next();
 
