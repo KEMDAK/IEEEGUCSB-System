@@ -34,7 +34,7 @@ module.exports.defineMeeting = function(sequelize)
          goals:
          {
             type: Sequelize.JSON,
-            allowNull: true
+            allowNull: false
          },
          duration:
          {
