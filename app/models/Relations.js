@@ -19,16 +19,16 @@ User.hasMany(Media, { as: 'Media', foreignKey: { allowNull: true }, onDelete: 'C
 Media.belongsTo(User, { as: 'User', foreignKey: { allowNull: true }, onDelete: 'NO ACTION' });
 
 /* Task_User relation */
-User.hasMany(Task, { as: 'SupervisedTasks', foreignKey: { name: 'supervisor', allowNull: true }, onDelete: 'SET NULL' });
-Task.belongsTo(User, { as: 'Supervisor', foreignKey: { name: 'supervisor', allowNull: true }, onDelete: 'NO ACTION' });
+User.hasMany(Task, { as: 'SupervisedTasks', foreignKey: { name: 'supervisor', allowNull: false }, onDelete: 'CASCADE' });
+Task.belongsTo(User, { as: 'Supervisor', foreignKey: { name: 'supervisor', allowNull: false }, onDelete: 'NO ACTION' });
 
 /* Task_User relation */
 User.belongsToMany(Task, { as: 'Tasks', through: 'task_user', onDelete: 'CASCADE' });
 Task.belongsToMany(User, { as: 'AssignedUsers', through: 'task_user', onDelete: 'CASCADE' });
 
 /* Meeting_User relation */
-User.hasMany(Meeting, { as: 'SupervisedMeetings', foreignKey: { name: 'supervisor', allowNull: true }, onDelete: 'SET NULL' });
-Meeting.belongsTo(User, { as: 'Supervisor', foreignKey: { name: 'supervisor', allowNull: true }, onDelete: 'NO ACTION' });
+User.hasMany(Meeting, { as: 'SupervisedMeetings', foreignKey: { name: 'supervisor', allowNull: false }, onDelete: 'CASCADE' });
+Meeting.belongsTo(User, { as: 'Supervisor', foreignKey: { name: 'supervisor', allowNull: false }, onDelete: 'NO ACTION' });
 
 /* Meeting_User relation */
 User.belongsToMany(Meeting, { as: 'Meetings', through: 'meeting_user', onDelete: 'CASCADE' });

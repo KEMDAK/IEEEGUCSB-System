@@ -3,10 +3,11 @@
 * @description The controller that is responsible of handling meetings' requests
 */
 
-var Meeting = require('../models/Meeting').Meeting;
-var User    = require('../models/User').User;
-var Media   = require('../models/Media').Media;
-var format  = require('../script').errorFormat;
+var Meeting     = require('../models/Meeting').Meeting;
+var User        = require('../models/User').User;
+var MeetingUser = require('../models/MeetingUser').MeetingUser;
+var Media       = require('../models/Media').Media;
+var format      = require('../script').errorFormat;
 
 /**
 * This function gets a specifid meeting currently in the database.
@@ -15,7 +16,7 @@ var format  = require('../script').errorFormat;
 * @param  {Function} next Callback function that is called once done with handling the request
 */
 module.exports.show = function(req, res, next) {
-   /*Validagte and sanitizing ID Input*/
+   /*Validate and sanitizing ID Input*/
    req.checkParams('id', 'required').notEmpty();
    req.sanitizeParams('id').escape();
    req.sanitizeParams('id').trim();
@@ -210,7 +211,8 @@ module.exports.store = function(req, res, next) {
          end_date: req.body.end_date,
          goals: JSON.parse(req.body.goals),
          location: req.body.location,
-         description: req.body.description
+         description: req.body.description,
+         supervisor: req.user.id
       };
 
       Meeting.create(attributes).then(function(meeting) {
@@ -245,7 +247,7 @@ module.exports.store = function(req, res, next) {
 module.exports.update = function(req, res, next) {
    var attributes = {};
 
-   /*Validagte and sanitizing ID Input*/
+   /*Validate and sanitizing ID Input*/
    req.checkParams('id', 'required').notEmpty();
    req.sanitizeParams('id').escape();
    req.sanitizeParams('id').trim();
@@ -326,7 +328,7 @@ module.exports.update = function(req, res, next) {
             error: errors
          });
 
-         req.err = 'MeetingController.js, Line: 329\nSome validation errors occured.\n' + JSON.stringify(errors);
+         req.err = 'MeetingController.js, Line: 329\nSome validation errors occurred.\n' + JSON.stringify(errors);
 
          next();
 
@@ -350,7 +352,7 @@ module.exports.update = function(req, res, next) {
                message: 'The requested route was not found.'
             });
 
-            req.err = 'MeetingController.js, Line: 353\nThe requested meeting was not found in the database.';
+            req.err = 'MeetingController.js, Line: 353\nThe requested meeting was not found in the database or the user has no authority to edit it.';
             
             next();
          }
@@ -367,4 +369,168 @@ module.exports.update = function(req, res, next) {
          next();
       });
    };
+};
+
+/**
+* This function deletes a meeting from the database
+* @param  {HTTP}   req  The request object
+* @param  {HTTP}   res  The response object
+* @param  {Function} next Callback function that is called once done with handling the request
+*/
+module.exports.delete = function(req, res, next) {
+   /*Validate and sanitizing ID Input*/
+   req.checkParams('id', 'required').notEmpty();
+   req.sanitizeParams('id').escape();
+   req.sanitizeParams('id').trim();
+   req.checkParams('id', 'validity').isInt();
+
+   var errors = req.validationErrors();
+   errors = format(errors);
+   if (errors) {
+      /* input validation failed */
+      res.status(400).json({
+         status: 'failed',
+         error: errors
+      });
+
+      req.err = 'MeetingController.js, Line: 31\nSome validation errors occured.\n' + JSON.stringify(errors);
+
+      next();
+
+      return;
+   }
+
+   Meeting.destroy({ where: { id: req.params.id, supervisor: req.user.id } }).then(function(affectedRows) {
+      if(affectedRows == 0){
+         res.status(404).json({
+            status:'failed',
+            message: 'The requested route was not found.'
+         });
+
+         req.err = 'MeetingController.js, Line: 353\nThe requested meeting was not found in the database or the user has no authority to delete it.';
+      } else {
+         res.status(200).json({
+            status: 'succeeded',
+            message: 'The Meeting has been deleted.'
+         });
+      }
+
+      next();
+   }).catch(function(err) {
+      /* failed to delete the meeting from the database */
+      res.status(500).json({
+         status:'failed',
+         message: 'Internal server error'
+      });
+
+      req.err = 'MeetingController.js, Line: 365\nCouldn\'t delete the meeting from the database.\n' + String(err);
+
+      next();
+   });
+};
+
+/**
+* This function rates a meeting in the database
+* @param  {HTTP}   req  The request object
+* @param  {HTTP}   res  The response object
+* @param  {Function} next Callback function that is called once done with handling the request
+*/
+module.exports.rate = function(req, res, next) {
+   /*Validate and sanitizing ID Input*/
+   req.checkParams('id', 'required').notEmpty();
+   req.sanitizeBody('id').escape();
+   req.sanitizeBody('id').trim();
+   req.checkParams('id', 'validity').isInt();
+
+   /*validating the meeting evaluation*/
+   req.checkBody('meeting_evaluation', 'required').notEmpty();
+   req.sanitizeBody('meeting_evaluation').escape();
+   req.sanitizeBody('meeting_evaluation').trim();
+   req.checkBody('meeting_evaluation', 'validity').isInt({ min: 0, max: 5 });
+
+
+   Meeting.findById(req.params.id).then(function(meeting) {
+      if(!meeting || meeting.supervisor != req.user.id) {
+         res.status(404).json({
+            status:'failed',
+            message: 'The requested route was not found.'
+         });
+
+         req.err = 'MeetingController.js, Line: 353\nThe requested meeting was not found in the database or the user has no authority to rate it.';
+         
+         next();
+      } else {
+         meeting.goals = JSON.parse(meeting.goals);
+
+         /*validating the goals*/
+         req.checkBody('goals', 'required').notEmpty();
+         req.sanitizeBody('goals').escape();
+         req.sanitizeBody('goals').trim();
+         req.checkBody('goals', 'validity').isArray(meeting.goals.length);
+
+         for (var i = 0; i < req.body.goals.length; i++) {
+            req.checkBody('goals[' + i + ']', 'validity').isBoolean();
+         }
+
+         MeetingUser.findAll({ where: { meeting_id: req.params.id } }).then(function(attendees) {
+            /*validating the ratings*/
+            req.checkBody('ratings', 'required').notEmpty();
+            req.sanitizeBody('ratings').escape();
+            req.sanitizeBody('ratings').trim();
+            req.checkBody('ratings', 'validity').isArray(attendees.length);
+            
+            for (var i = 0; i < req.body.ratings.length; i++) {
+               req.checkBody('ratings[' + i + '].rating', 'validity').notEmpty().isInt({ min: 0, max: 5 });
+               if(req.body.ratings[i].rating && req.body.ratings[i].rating <= 3)
+                  req.checkBody('ratings[' + i + '].review', 'validity').notEmpty();
+               if(req.body.ratings[i].review)
+                  req.sanitizeBody('ratings[' + i + '].review').escape().trim();
+            }
+
+            var errors = req.validationErrors();
+            errors = format(errors);
+            if (errors) {
+               /* input validation failed */
+               res.status(400).json({
+                  status: 'failed',
+                  error: errors
+               });
+
+               req.err = 'MeetingController.js, Line: 31\nSome validation errors occurred.\n' + JSON.stringify(errors);
+
+               next();
+            } else {
+               /*changing goals status*/
+               for (var i = 0; i < meeting.goals.length; i++) {
+                  meeting.goals[i].isDone = req.body.goals[i];
+               }
+
+               for (var i = 0; i < attendees.length; i++) {
+                  attendees[i].rating = req.body.ratings.rating;
+                  attendees[i].review = req.body.ratings.review;
+                  attendees[i].save();
+               }
+
+               meeting.save().then(function() {
+                  res.status(200).json({
+                     status: 'succeeded',
+                     message: 'The Meeting has been rated.'
+                  });
+
+                  next();
+               });
+            }
+         });
+      }
+   }).catch(function(err) {
+      /* failed to rate the meeting in the database */
+      res.status(500).json({
+         status:'failed',
+         message: 'Internal server error'
+      });
+
+      req.err = 'MeetingController.js, Line: 365\nCouldn\'t rate the meeting in the database.\n' + String(err);
+
+      next();
+   });
 };
