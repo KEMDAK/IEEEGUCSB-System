@@ -63,7 +63,6 @@ module.exports.defineMeeting = function(sequelize)
          }
       },
       {
-          paranoid: true,
           underscored: true,
           underscoredALL: true
       }
