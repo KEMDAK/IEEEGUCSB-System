@@ -2,7 +2,7 @@ TODO:
 
 + validate IEEEMembershipID
 
-+ validate date formats
++ validate date formats to match "YYYY-MM-DD" and check that is it in the future if needed.
 
 + Integrate the settings in update functions
 

@@ -578,23 +578,29 @@ module.exports.rate = function(req, res, next) {
 
          /*validating the goals*/
          req.checkBody('goals', 'required').notEmpty();
-         req.checkBody('goals', 'validity').isArray(meeting.goals.length);
 
-         for (var i = 0; i < req.body.goals.length; i++) {
-            req.checkBody('goals[' + i + ']', 'validity').isBoolean();
+         if(req.body.goals){
+            req.checkBody('goals', 'validity').isArray(meeting.goals.length);
+
+            for (var i = 0; i < req.body.goals.length; i++) {
+               req.checkBody('goals[' + i + ']', 'validity').isBoolean();
+            }
          }
 
          MeetingUser.findAll({ where: { meeting_id: req.params.id } }).then(function(attendees) {
             /*validating the ratings*/
             req.checkBody('ratings', 'required').notEmpty();
-            req.checkBody('ratings', 'validity').isArray(attendees.length);
-            
-            for (var i = 0; i < req.body.ratings.length; i++) {
-               req.checkBody('ratings[' + i + '].rating', 'validity').notEmpty().isInt({ min: 0, max: 5 });
-               if(req.body.ratings[i].rating && req.body.ratings[i].rating <= 3)
-                  req.checkBody('ratings[' + i + '].review', 'validity').notEmpty();
-               if(req.body.ratings[i].review)
-                  req.sanitizeBody('ratings[' + i + '].review').escape().trim();
+
+            if(req.body.ratings){
+               req.checkBody('ratings', 'validity').isArray(attendees.length);
+
+               for (var i = 0; i < req.body.ratings.length; i++) {
+                  req.checkBody('ratings[' + i + '].rating', 'validity').notEmpty().isInt({ min: 0, max: 5 });
+                  if(req.body.ratings[i].rating && req.body.ratings[i].rating <= 3)
+                     req.checkBody('ratings[' + i + '].review', 'validity').notEmpty();
+                  if(req.body.ratings[i].review)
+                     req.sanitizeBody('ratings[' + i + '].review').escape().trim();
+               }
             }
 
             var errors = req.validationErrors();
