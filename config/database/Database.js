@@ -2,7 +2,12 @@ var mysql = require('mysql');
 var Sequelize = require('sequelize');
 
 /* Connecting to the database. */
-var sequelize = new Sequelize(process.env.DB_NAME, process.env.DB_USER, process.env.DB_PASS,
+var db_name = process.env.DB_NAME;
+if (process.env.ENV === 'test') {
+   db_name += '_test';
+}
+
+var sequelize = new Sequelize(db_name, process.env.DB_USER, process.env.DB_PASS,
 {
    host: process.env.DB_HOST,
    dialect: 'mysql',
