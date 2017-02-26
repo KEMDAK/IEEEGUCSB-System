@@ -36,6 +36,7 @@ module.exports.defineIdentity = function(sequelize) {
         }
     },
     {
+        underscored: true,
         underscoredALL: true,
         charset: 'latin1'
     });
