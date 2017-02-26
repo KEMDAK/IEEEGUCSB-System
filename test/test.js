@@ -39,23 +39,76 @@ describe('Meeting Controller', function() {
             User.bulkCreate(data.users).then(function() {
                Identity.bulkCreate(data.identities).then(function() {
                   done();
+               }).catch(function(err) {
+                  done(err);
                });
+            }).catch(function(err) {
+               done(err);
             });
+         }).catch(function(err) {
+            done(err);
          });
-
       }).catch(function(err) {
          done(err);
       });
    });
 
-   it('Should be empty', function(done) {
-      User.findAll().then(function(users) {
-         try {
-            users.should.not.be.empty;
-            done();
-         } catch(error) {
-            done(error);
-         }
+   describe('POST /api/meeting', function(done) {
+      it('Should not allow a visitor to add a meeting.', function(done) {
+         chai.request(app)
+         .post('/api/meeting')
+         .end(function(err, res) {
+            try {
+               res.should.have.status(401);
+               res.body.should.have.property('status').and.equal('failed');
+               should.exist(err);
+               done();
+            } catch(error) {
+               done(error);
+            }
+         });
+      });
+
+      it('Should not allow a Member to add a meeting.', function(done) {
+         chai.request(app)
+         .post('/api/meeting')
+         .set('Authorization', data.identities[7].token)
+         .end(function(err, res) {
+            try {
+               res.should.have.status(401);
+               res.body.should.have.property('status').and.equal('failed');
+               should.exist(err);
+               done();
+            } catch(error) {
+               done(error);
+            }
+         });
+      });
+
+      it('Should not allow a High Board to add a meeting with members not from his/her committee.', function(done) {
+         var meeting = {
+            start_date: "2017-2-25 08:00:00",
+            end_date: "2017-2-25 10:00:00",
+            goals: ["Goal 1", "Goal 2", "Goal 3"],
+            location: "Location",
+            description: "Description",
+            attendees: [9, 13]
+         };
+
+         chai.request(app)
+         .post('/api/meeting')
+         .set('Authorization', data.identities[3].token)
+         .send(meeting)
+         .end(function(err, res) {
+            try {
+               res.should.have.status(401);
+               res.body.should.have.property('status').and.equal('failed');
+               should.exist(err);
+               done();
+            } catch(error) {
+               done(error);
+            }
+         });
       });
    });
 });
