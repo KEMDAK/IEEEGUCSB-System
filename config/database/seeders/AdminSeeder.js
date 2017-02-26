@@ -7,7 +7,7 @@ module.exports = function(callback){
 	var User   = require('../../../app/models/User').User;
 	var admins = require('../../data/Admins.json');
 
-	User.bulkCreate(admins, { updateOnDuplicate : true }).then(function(records) {
+	User.bulkCreate(admins, { updateOnDuplicate : true }).then(function() {
 		callback();
 	}).catch(function(err) {
 		callback(err);
