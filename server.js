@@ -12,11 +12,11 @@ module.exports = function(callback) {
 
 
    // connect to our database and initialize models
-   db.initialize(function(err) {
+   db.initialize(function(sq, err) {
       if (err) {
          console.log('Unable to connect to MySQL duo to: ', err);
+         callback(null, null, err);
          process.exit(1);
-         callback(null, err);
       } else {
          console.log('Connected successfully to MySQL.');
 
@@ -50,7 +50,7 @@ module.exports = function(callback) {
          var port    = (process.env.ENV === 'prod')? 80 : process.env.PORT;
          app.listen(port, function() {
             console.log('Listening on port ' + port + '...');
-            callback(app, null);
+            callback(app, sq, null);
          });
       }
    });

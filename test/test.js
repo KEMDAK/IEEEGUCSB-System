@@ -1,14 +1,15 @@
-var app;
+var app, sq;
 
 before(function(done) {
-   require('../server')(function(MyApp, err) {
+   require('../server')(function(MyApp, MySq, err) {
       if (err) {
-         console.log('Unable to start Tests...');
+         console.log('Unable to start Tests.');
          done(err);
       }
       else {
          console.log('Starting Tests...');
          app = MyApp;
+         sq = MySq;
          done();
       }
    });
@@ -17,39 +18,44 @@ before(function(done) {
 var chai = require('chai');
 var chaiHttp = require('chai-http');
 var should = chai.should();
-var data = require('../config/data/Test.json');
+var data = require('./data.js')();
 
 chai.use(chaiHttp);
 
-describe('Task Controller', function() {
-   // beforeEach(function(done) {
-   //    var Task = require('../app/models/Task').Task;
-   //    User.destroy({ where : {} }).then(function(affected) {
-   //       console.log(affected);
-   //       // User.bulkCreate(data.users).then(function() {
-   //          done();
-   //       // });
-   //    });
-   // });
+var User, Meeting, Committee, Identity;
 
-   describe('GET /api/task/:id', function() {
-      it('Should not allow the route to be accessed', function(done) {
-            var User = require('../app/models/User').User;
-         User.findAll().then(function(users) {
-            console.log(users);
-            try
-            {
-               res.should.have.status(200);
-               res.body.should.have.property('users');
-               res.body.users.should.be.empty;
-               done();
-            }
-            catch(error)
-            {
-               done(error);
-            }
+describe('Meeting Controller', function() {
+   before(function(done) {
+      this.timeout(10000);
+      sq.sync({ force: true }).then(function() {
+
+         /* Require models */
+         User = require('../app/models/User').User;
+         Meeting = require('../app/models/Meeting').Meeting;
+         Committee = require('../app/models/Committee').Committee;
+         Identity = require('../app/models/Identity').Identity;
+
+         Committee.bulkCreate(data.committees).then(function() {
+            User.bulkCreate(data.users).then(function() {
+               Identity.bulkCreate(data.identities).then(function() {
+                  done();
+               });
+            });
          });
-         // chai.reque33
+
+      }).catch(function(err) {
+         done(err);
+      });
+   });
+
+   it('Should be empty', function(done) {
+      User.findAll().then(function(users) {
+         try {
+            users.should.not.be.empty;
+            done();
+         } catch(error) {
+            done(error);
+         }
       });
    });
 });
