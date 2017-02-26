@@ -153,6 +153,7 @@ module.exports.defineUser = function(sequelize) {
           res.email              = this.email;
           res.IEEE_membership_ID = this.IEEE_membership_ID;
           res.settings           = settings;
+          res.gender             = this.gender;
         }
 
         return res;

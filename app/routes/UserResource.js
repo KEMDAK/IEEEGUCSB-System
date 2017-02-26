@@ -24,6 +24,9 @@ module.exports = function(app) {
     *        committee: {                       [if found]
     *          id: the users's committee id,
     *          name: the user's committee name
+    *        },
+    *        media:{                            [if found]
+    *          url:the user's profile pic url
     *        }
     * 	   }, {...}, ...
     * 	]

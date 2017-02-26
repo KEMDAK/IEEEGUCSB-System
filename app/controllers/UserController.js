@@ -5,7 +5,10 @@
 
 var User   = require('../models/User').User;
 var format = require('../script').errorFormat;
-
+var Media  = require('../models/Media').Media;
+var jwt        = require('jsonwebtoken');
+var path       = require('path');
+var nodemailer = require('nodemailer');
 /**
 * This function gets a list of all users currently in the database.
 * @param  {HTTP}   req  The request object
@@ -13,6 +16,7 @@ var format = require('../script').errorFormat;
 * @param  {Function} next Callback function that is called once done with handling the request
 */
 module.exports.index = function(req, res, next) {
+
    User.findAll().then(function(users) {
       if (!users) {
          res.status(404).json({
@@ -43,16 +47,30 @@ module.exports.index = function(req, res, next) {
                if (committee)
                   curUser.committee = { id: committee.id, name: committee.name };
 
+               return curUser ;
+
+            }).then(function(curUser){
+
+
+             users[i].getMedia({where:{type:'Image'}}).then(function(media){
+               var image = media[0];
+               if(image){
+                  curUser.profilePicture = { url : image.url,type : 'Image' }; 
+               }
                result.push(curUser);
                addUsers(i+1, callback);
-            }).catch(function(err) {
+                 }).catch(function(err){
+                    /* failed to retreive the media of the current user */
+                    callback(err);
+                 });
+              }).catch(function(err) {
                /* failed to retreive the committee of the current user */
                callback(err);
                return;
             });
-         };
+           };
 
-         addUsers(0, function(err) {
+           addUsers(0, function(err) {
             if (err) {
                res.status(500).json({
                   status:'failed',
@@ -73,8 +91,8 @@ module.exports.index = function(req, res, next) {
 
             next();
          });
-      }
-   }).catch(function(err) {
+        }
+     }).catch(function(err) {
       /* failed to find the users in the database */
       res.status(500).json({
          status:'failed',
@@ -85,7 +103,7 @@ module.exports.index = function(req, res, next) {
 
       next();
    });
-};
+  };
 
 /**
 * This function gets a specifid user currently in the database.
@@ -234,13 +252,9 @@ module.exports.store = function(req, res, next) {
    req.sanitizeBody('email').trim();
    req.sanitizeBody('email').normalizeEmail({ lowercase: true });
 
-   /*Validate and sanitizing Password Input*/
-   req.checkBody('password', 'required').notEmpty();
-   req.assert('password', 'validity').len(6, 20);
-
    /*Validate and sanitizing type Input*/
    req.checkBody('type', 'required').notEmpty();
-   req.checkBody('type', 'validity').isIn(['Admin', 'Upper Board', 'High Board', 'Member']);
+   req.checkBody('type', 'validity').isIn(['Upper Board', 'High Board', 'Member']);
    req.sanitizeBody('type').escape();
    req.sanitizeBody('type').trim();
 
@@ -293,13 +307,25 @@ module.exports.store = function(req, res, next) {
       return;
    }
 
+    var defaultURL ;
+   if(req.body.gender == 'Male'){
+      defaultURL = '../../public/images/general/male.png';
+   }else
+   {
+      defaultURL = '../../public/images/general/female.png';
+   }
+   
+  
+
+   var pass = require('../script').generatePassword(20);
+
    var obj = {
       email : req.body.email,
-      password : req.body.password,
       type : req.body.type,
       first_name : req.body.first_name,
       last_name : req.body.last_name,
       birthdate : req.body.birthdate,
+      password  : pass,
       phone_number: req.body.phone_number,
       gender : req.body.gender,
       IEEE_membership_ID : req.body.IEEE_membership_ID,
@@ -319,10 +345,63 @@ module.exports.store = function(req, res, next) {
                }
             }
          }
-      }
+      },
+      Media:[{
+         type : 'Image',
+         url  : defaultURL
+      }]
    };
 
-   User.create(obj).then(function() {
+   User.create(obj,{include: [{model: Media,as:'Media'}]}).then(function(user) {
+          
+
+            var transporter = nodemailer.createTransport('smtps://' + process.env.EMAIL + ':' + process.env.PASSWORD + '@' + process.env.MAIL_SERVER);
+            var EmailTemplate = require('email-templates').EmailTemplate;
+            var path = require('path');
+
+            var templateDir = path.join(__dirname, '../../', 'public', 'emails', 'generatePasswordMail');
+            var mail = new EmailTemplate(templateDir);
+            var variables = {
+                domain: process.env.DOMAIN,
+                port: process.env.PORT,
+                password: pass
+            };
+
+            mail.render(variables, function (err, result) {
+                if(err){
+                    /* failed to render the email */
+                    res.status(500).json({
+                        status:'failed',
+                        message: 'Internal server error'
+                    });
+
+                    req.err = 'AuthController.js, 321\nFailed to render the email.\n' + err;
+
+                    next();
+
+                    return;
+                }
+
+                /* setting up email options */
+                var mailOptions = {
+                    from: process.env.FROM , // sender address
+                    to: user.email, // list of receivers
+                    subject:'Reset password request', // Subject line
+                    text: result.text, // plaintext body
+                    html: result.html // html body
+                };
+
+                /* Sending the reset email */
+                transporter.sendMail(mailOptions);
+
+
+});
+
+
+
+
+
+
       res.status(200).json({
          status: 'succeeded',
          message: 'user successfully added'
@@ -352,6 +431,7 @@ module.exports.store = function(req, res, next) {
       }
       else {
          /* failed to save the user in the database */
+         console.log(String(err));
          res.status(500).json({
             status:'failed',
             message: 'Internal server error'
