@@ -23,7 +23,7 @@ module.exports = function(callback) {
          //* serving static files */
          app.use(express.static('public/views/'));
          app.use(express.static('public/images/'));
-         app.use('/api', express.static('documentation/IEEE_GUC_online_system/1.0.0/'));
+         app.use('/api', express.static('documentation/IEEE_GUC_online_system/' + require('./package.json').version + '/'));
          /* setting up body parser */
          app.use(bodyParser.json());
          app.use(bodyParser.urlencoded({ extended: false }));
