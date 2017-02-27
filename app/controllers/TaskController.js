@@ -4,6 +4,7 @@
  */
 
 var Task = require('../models/Task').Task;
+var format = require('../script').errorFormat;
 
 /**
  * This function deletes a task currently in the database.
@@ -11,7 +12,7 @@ var Task = require('../models/Task').Task;
  * @param  {HTTP}   res  The response object
  * @param  {Function} next Callback function that is called once done with handling the request
  */
-module.exports.destroy = (req, res, next)
+module.exports.delete = (req, res, next)
 {
    /*Validate and sanitizing ID Input*/
    req.checkParams('id', 'required').notEmpty();
@@ -28,54 +29,32 @@ module.exports.destroy = (req, res, next)
          status: 'failed',
          error: errors
       });
-
       req.err = 'TaskController.js, Line: 32\nSome validation errors occured.\n' + JSON.stringify(errors);
       next();
       return;
    }
 
-   var id = req.params.id;
-   var user = req.user;
-   Task.findById(id).then(function(task)
-      {
-         if (!task)
-         {
-            /* Requested task was not found in the database */
-            res.status(404).json({
-               status:'failed',
-               message: 'The requested route was not found.'
-            });
-
-            req.err = 'TaskController.js, Line: 49\nThe requested task was not found in the database.';
-            next();
-            return;
-         }
-
-         if(task.getSupervisor.id === user.id)
-         {
-            task.destroy();
-         }
-         else
-         {
-            res.status(403).json(
-               {
-                  status:'failed',
-                  message: 'Access denied'
-               });
-
-            req.err = 'TaskController.js, Line: 66\nCannot delete a task without being the supervisor';
-            next();
-            return;
-         }
-
-      }).catch(function(err)
+   Task.destroy({ where: { id: req.params.id, supervisor: req.user.id } }).then(function(affectedRows) {
+      if(affectedRows == 0){
+         res.status(404).json({
+            status:'failed',
+            message: 'The requested route was not found.'
+         });
+         req.err = 'TaskController.js, Line: 46\nThe requested task was not found in the database or the user has no authority to delete it.';
+      } else {
+         res.status(200).json({
+            status: 'succeeded',
+            message: 'The task has been deleted.'
+         });
+      }
+      next();
+   }).catch(function(err)
       {
          /* failed to find the task in the database */
          res.status(500).json({
             status:'failed',
             message: 'Internal server error'
          });
-
          req.err = 'TaskController.js, Line: 79\nCouldn\'t retreive the task from the database.\n' + String(err);
          next();
       });

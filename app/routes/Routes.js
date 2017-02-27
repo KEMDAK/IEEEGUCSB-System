@@ -50,6 +50,14 @@ module.exports = function(app) {
     ****************************/
 
     require('./CommitteeResource')(app);
+
+    /***************************
+    *                          *
+    * TaskResource routes *
+    *                          *
+    ****************************/
+
+    require('./TaskResource')(app);
     /*====================================================================================================================================*/
 
     /* any other request will be treated as not found (404) */
