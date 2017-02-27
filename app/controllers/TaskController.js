@@ -4,7 +4,212 @@
  */
 
 var Task = require('../models/Task').Task;
+var Media = require('../models/Media').Media;
 var format = require('../script').errorFormat;
+
+/**
+* This function gets a specifid task currently in the database.
+* @param  {HTTP}   req  The request object
+* @param  {HTTP}   res  The response object
+* @param  {Function} next Callback function that is called once done with handling the request
+*/
+module.exports.show = function(req, res, next)
+{
+   /*Validate and sanitizing ID Input*/
+   req.checkParams('id', 'required').notEmpty();
+   req.sanitizeParams('id').escape();
+   req.sanitizeParams('id').trim();
+   req.checkParams('id', 'validity').isInt();
+
+   var errors = req.validationErrors();
+   errors = format(errors);
+   if (errors)
+   {
+      /* input validation failed */
+      res.status(400)
+         .json(
+         {
+            status: 'failed',
+            error: errors
+         });
+
+      req.err = 'TaskController.js, Line: 29\nSome validation errors occurred.\n' + JSON.stringify(errors);
+      next();
+      return;
+   }
+
+
+   /* Get requested task */
+   Task.findById(req.params.id)
+       .then(function(task)
+       {
+         if (!task)
+         {
+            /* Requested task was not found in the database */
+            res.status(404)
+               .json(
+               {
+                  status:'failed',
+                  message: 'The requested route was not found.'
+               });
+
+            req.err = 'TaskController.js, Line: 43\nThe requested task was not found in the database.';
+            next();
+            return;
+         }
+
+         /* building the returned task */
+         var result =
+         {
+            id: task.id,
+            title: task.title,
+            description: task.description,
+            deadline: task.deadline,
+            priority: task.priority,
+            status: task.duration,
+            evaluation: task.evaluation,
+            created_at: task.created_at,
+            updated_at: task.updated_at,
+         };
+
+         task.getSupervisor(
+             {
+                attributes: ['id', 'first_name', 'last_name'],
+                include: [{ model: Media, as: 'profilePicture' }]
+             })
+             .then(function(supervisor)
+             {
+                if(!supervisor)
+                {
+                   /* Requested supervisor was not found in the database */
+                  res.status(404)
+                     .json(
+                     {
+                        status:'failed',
+                        message: 'The requested route was not found.'
+                     });
+
+                  req.err = 'TaskController.js, Line: 43\nThe requested supervisor was not found in the database.';
+                  next();
+                  return;
+                }
+
+                result.supervisor = supervisor;
+                result.supervisor.profile_picture = profilePicture;
+             })
+             .catch(function(err)
+             {
+                /* failed to get the supervisor from the database */
+                res.status(500).json({
+                   status:'failed',
+                   message: 'Internal server error'
+                });
+
+                req.err = 'TaskController.js, Line: 111\nfailed to get the supervisor from the database.\n' + String(err);
+                next();
+             });
+
+             task.getAssignedUsers(
+                {
+                   attributes: ['id', 'first_name', 'last_name'],
+                   include: [{ model: Media, as: 'profilePicture' }]
+                })
+                .then(function(assigned_users)
+                {
+                   if(!assigned_users)
+                   {
+                      /* Requested assigned_users was not found in the database */
+                      res.status(404)
+                         .json(
+                         {
+                            status:'failed',
+                            message: 'The requested route was not found.'
+                         });
+
+                      req.err = 'TaskController.js, Line: 43\nThe requested assigned users were not found in the database.';
+                      next();
+                      return;
+                   }
+                   var i = 0;
+                   assigned_users.foreach(function(assigned_user)
+                     {
+                        assigned_user.profile_picture = profilePicture[i];
+                        i++;
+                     });
+
+                   result.assignedTo = assigned_users;
+                })
+                .catch(function()
+                {
+                   /* failed to get the assigned users from the database */
+                   res.status(500).json({
+                      status:'failed',
+                      message: 'Internal server error'
+                   });
+
+                   req.err = 'TaskController.js, Line: 111\nfailed to get the supervisor from the database.\n' + String(err);
+                   next();
+                });
+
+         // Authorization
+         var flag = false;
+         if(result.supervisor.id === req.user.id || req.user.isHighBoard()
+          || req.user.isUpperBoard() || req.user.isAdmin())
+            flag = true;
+         else
+            for (var i = 0; i < result.assignedTo.length; i++)
+               if(result.assignedTo[i].id === req.user.id)
+               {
+                  flag = true;
+                  break;
+               }
+
+         // not autharized
+         if(!flag)
+         {
+         }
+
+         task.getComments(
+             {
+                order: [['created_at', 'ASC']],
+                include: [{ model: User, as: 'User' }]
+             })
+             .then(function(comments)
+             {
+                result.comments = comments;
+             })
+             .catch(function()
+             {
+                /* failed to get the comments from the database */
+                res.status(500).json({
+                   status:'failed',
+                   message: 'Internal server error'
+                });
+
+                req.err = 'TaskController.js, Line: 111\nfailed to get the supervisor from the database.\n' + String(err);
+                next();
+             });
+
+         res.status(200).json(
+            {
+               status:'succeeded',
+               task: result
+            });
+
+         next();
+      })
+      .catch(function(err)
+      {
+         /* failed to get the task from the database */
+         res.status(500).json({
+            status:'failed',
+            message: 'Internal server error'
+         });
+         req.err = 'TaskController.js, Line: 111\nfailed to get the task from the database.\n' + String(err);
+         next();
+      });
+
+};
 
 /**
  * This function deletes a task currently in the database.
@@ -12,7 +217,7 @@ var format = require('../script').errorFormat;
  * @param  {HTTP}   res  The response object
  * @param  {Function} next Callback function that is called once done with handling the request
  */
-module.exports.delete = (req, res, next)
+module.exports.delete = function(req, res, next)
 {
    /*Validate and sanitizing ID Input*/
    req.checkParams('id', 'required').notEmpty();
