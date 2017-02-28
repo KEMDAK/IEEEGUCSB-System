@@ -94,8 +94,8 @@ module.exports.show = function(req, res, next) {
 
             /* adding the rating and the review of the attendee */
             if(req.user.isAdmin() || req.user.isUpperBoard() || req.user.isHighBoard() && req.user.id == meeting.supervisor){
-               cur.rating = attendees[i].rating ? attendees[i].rating : null;
-               cur.review = attendees[i].review ? attendees[i].review : null;
+               cur.rating = attendees[i].meeting_user.rating ? attendees[i].meeting_user.rating : null;
+               cur.review = attendees[i].meeting_user.review ? attendees[i].meeting_user.review : null;
             }
 
             result.attendees.push(cur);
@@ -582,7 +582,7 @@ module.exports.rate = function(req, res, next) {
          if(req.body.goals){
             req.checkBody('goals', 'validity').isArray(meeting.goals.length);
 
-            for (var i = 0; i < req.body.goals.length; i++) {
+            for (var i = 0; i < req.body.goals.length && typeof req.body.goals !== "string"; i++) {
                req.checkBody('goals[' + i + ']', 'validity').isBoolean();
             }
          }
@@ -594,7 +594,7 @@ module.exports.rate = function(req, res, next) {
             if(req.body.ratings){
                req.checkBody('ratings', 'validity').isArray(attendees.length);
 
-               for (var i = 0; i < req.body.ratings.length; i++) {
+               for (var i = 0; i < req.body.ratings.length && typeof req.body.ratings !== "string"; i++) {
                   req.checkBody('ratings[' + i + '].rating', 'validity').notEmpty().isInt({ min: 0, max: 5 });
                   if(req.body.ratings[i].rating && req.body.ratings[i].rating <= 3)
                      req.checkBody('ratings[' + i + '].review', 'validity').notEmpty();
@@ -616,14 +616,17 @@ module.exports.rate = function(req, res, next) {
 
                next();
             } else {
+               /*adding the meeting evaluation*/
+               meeting.evaluation = req.body.meeting_evaluation;
+
                /*changing goals status*/
                for (var i = 0; i < meeting.goals.length; i++) {
                   meeting.goals[i].isDone = req.body.goals[i];
                }
 
                for (var i = 0; i < attendees.length; i++) {
-                  attendees[i].rating = req.body.ratings.rating;
-                  attendees[i].review = req.body.ratings.review;
+                  attendees[i].rating = req.body.ratings[i].rating;
+                  attendees[i].review = req.body.ratings[i].review;
                   attendees[i].save();
                }
 
