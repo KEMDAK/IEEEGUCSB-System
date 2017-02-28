@@ -35,8 +35,8 @@ User.belongsToMany(Meeting, { as: 'Meetings', through: 'meeting_user' });
 Meeting.belongsToMany(User, { as: 'Attendees', through: 'meeting_user' });
 
 /* Committee_User relation */
-Committee.hasMany(User, { as: 'Users', foreignKey: { allowNull: true } });
 User.belongsTo(Committee, { as: 'Committee', foreignKey: { allowNull: true } });
+Committee.hasMany(User,   { as: 'Users', foreignKey: { allowNull: true } });
 
 /* Notification_User relation */
 User.belongsToMany(Notification, { as: 'Notifications', through: 'notification_user' });

@@ -25,7 +25,7 @@ module.exports = function(app) {
     *          id: the users's committee id,
     *          name: the user's committee name
     *        },
-    *        media:{                            [if found]
+    *        profile_picture:{                            [if found]
     *          url:the user's profile pic url
     *        }
     * 	   }, {...}, ...
@@ -86,9 +86,8 @@ module.exports = function(app) {
     * @example The route expects the access token as 'Authorization' and the user agent as 'user_agent' in the request headers with one of the following values ['Web', 'IOS', 'Android']
     * @example The route expects a body Object in the following format
     * {
-    *    type: String ['Admin', 'Upper Board', 'High Board', 'Member'], [required]
+    *    type: String ['Upper Board', 'High Board', 'Member'], [required]
     *    email: String, [required]
-    *    password: String (6 to 20 charecters), [required]
     *    first_name: String, [required]
     *    last_name: String, [required]
     *    birthdate: String (YYYY-MM-DD), [required]

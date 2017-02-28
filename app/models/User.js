@@ -122,15 +122,25 @@ module.exports.defineUser = function(sequelize) {
       * @param {boolean} mine true if the returned attributes are requested by thier owner.
       * @return {Object} The user object.
       */
-      toJSON: function(detailed, mine) {
+      toJSON: function(detailed,mine) {
         var res = {};
         var settings = JSON.parse(this.settings);
+        var type = 'Basic' ;
+        
 
-        // TODO
-        if(detailed) {
-          if(!mine) delete settings.private;
+           
+            if(mine==true){
+                  type = 'mine';
+               }else{
+                  delete settings.private ;  
+                  if(detailed==true)           
+                    type ='Detailed';
+                   }
+     
 
-          res.profile_type       = 'Detailed';
+
+           
+          res.profile_type       = type;
           res.id                 = this.id;
           res.type               = this.type;
           res.first_name         = this.first_name;
@@ -141,23 +151,16 @@ module.exports.defineUser = function(sequelize) {
           res.birthdate          = this.birthdate;
           res.IEEE_membership_ID = this.IEEE_membership_ID;
           res.settings           = settings;
-        }
-        else {
-          delete settings.private;
+          res.committee          = this.Committee;
+          res.profile_picture    = this.Media;
+          res.honors             = this.Honors ;
+          res.tasks              = this.Tasks ;
+          res.meetings           = this.Meetings;
 
-          res.profile_type       = 'Basic';
-          res.id                 = this.id;
-          res.type               = this.type;
-          res.first_name         = this.first_name;
-          res.last_name          = this.last_name;
-          res.email              = this.email;
-          res.IEEE_membership_ID = this.IEEE_membership_ID;
-          res.settings           = settings;
-          res.gender             = this.gender;
-        }
 
         return res;
       }
+
     }
   });
 };

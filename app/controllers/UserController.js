@@ -3,12 +3,17 @@
 * @description The controller that is responsible of handling user's requests
 */
 
-var User   = require('../models/User').User;
-var format = require('../script').errorFormat;
-var Media  = require('../models/Media').Media;
+var User       = require('../models/User').User;
+var format     = require('../script').errorFormat;
+var Media      = require('../models/Media').Media;
+var Committee  = require('../models/Committee').Committee;
+var Task       = require('../models/Task').Task;
+var Honor      = require('../models/Honor').Honor ;
+var Meeting    = require('../models/Meeting').Meeting;
 var jwt        = require('jsonwebtoken');
 var path       = require('path');
 var nodemailer = require('nodemailer');
+
 /**
 * This function gets a list of all users currently in the database.
 * @param  {HTTP}   req  The request object
@@ -55,7 +60,7 @@ module.exports.index = function(req, res, next) {
              users[i].getMedia({where:{type:'Image'}}).then(function(media){
                var image = media[0];
                if(image){
-                  curUser.profilePicture = { url : image.url,type : 'Image' }; 
+                  curUser.profile_picture = { url : image.url,type : 'Image' }; 
                }
                result.push(curUser);
                addUsers(i+1, callback);
@@ -137,94 +142,117 @@ module.exports.show = function(req, res, next) {
    var id = req.params.id;
    var user = req.user;
 
-   /* Get requested user */
-   User.findById(id).then(function(requestedUser) {
-      if (!requestedUser) {
-         /* Requested user was not found in the database */
-         res.status(404).json({
-            status:'failed',
-            message: 'The requested route was not found.'
-         });
+ 
+   var basic    =[];
+   var detailed =[];
+   var mine     =[];
 
-         req.err = 'UserController.js, Line: 131\nThe requested user was not found in the database.';
+   var committeeInclude = 
+         {model      : Committee,
+         as         :"Committee",
+         attributes :['id','name']
+         };
+
+   var mediaInclude =
+        {model : Media     ,
+        as :"Media"       , 
+        where : {type :"Image"},
+        attributes :['url','type'],
+        required : false
+        };
+   var honorsInclude =
+        {model : Honor     ,
+        as :'Honors'      ,
+        attributes :['id','name'],
+        through:{
+        attributes:[]
+         }
+        };
+   var tasksInclude = 
+        {model   : Task,
+        as      :"Tasks",
+        attributes :{exclude:['description','deleted_at']},
+        through:{
+        attributes:[]
+         }
+        };
+   var meetingsInclude=
+        {model   : Meeting,
+        as      :"Meetings",
+        attributes :{exclude:['description','deleted_at']},
+        through:{
+        attributes:[] 
+         }
+        };
+
+   basic.push(
+            committeeInclude,
+            mediaInclude,
+            honorsInclude);
+
+   detailed.push(
+            committeeInclude,
+            mediaInclude,
+            honorsInclude,
+            tasksInclude,
+            meetingsInclude);
+
+   mine.push(
+            committeeInclude,
+            mediaInclude,
+            honorsInclude,
+            tasksInclude,
+            meetingsInclude);
+
+   var excludeBasic = ['phone_number','birthdate'];
+
+   User.findById(id).then(function(requestedUser) {
+      var include ;
+      var exclude ;
+      var mineFlag = false ;
+      var detailedFlag = false ;
+
+      if ( user.id == id ) {
+         include = mine ;
+         mineFlag = true ;
+      }else{
+         if(user.isUpperBoard() || user.isAdmin() || ( user.isHighBoard() && (requestedUser.committee_id==user.committee_id))){
+            include = detailed ;
+            exclude = excludeBasic;
+            detailedFlag= true ;
+         }else{  
+            include = basic ; 
+            exclude = excludeBasic;
+         }
+      }
+
+      User.findAll(
+      {  
+         where     :{id :id},
+         attributes:{exclude :exclude},
+         include   :include      
+      }).then(function(results){
+
+         var s = results[0].toJSON(detailedFlag,mineFlag);
+         res.status(200).json({
+            status:'succeeded',
+            results:s
+         });
 
          next();
 
-         return;
-      }
-
-      /* Get the committee of the requested user */
-      requestedUser.getCommittee().then(function(requestedCommittee) {
-         /* Requested committee was not found in the database */
-         if (!requestedCommittee) {
-
-            var result;
-            if (user.isUpperBoard() || user.id == id || user.isAdmin()) {
-               // Detailed Profile
-               result = requestedUser.toJSON(true);
-            }
-            else {
-               // Basic Profile
-               result = requestedUser.toJSON(false);
-            }
-
-            res.status(200).json({
-               status:'succeeded',
-               user: result
-            });
-
-            next();
-
-            return;
-         }
-
-         /* Get the head of this committee */
-         requestedCommittee.head(function(head, error) {
-            if (error) {
-               /* Couldn't get the head for the requested committee */
-               res.status(500).json({
-                  status: 'failed',
-                  message: 'Internal server error'
-               });
-
-               req.err = 'UserController.js, Line: 172\nCouldn\'t retreive the head of the commitee.\n' + String(error);
-
-               next();
-
-               return;
-            }
-
-            var result;
-            if ((head && head.id == user.id) || user.isUpperBoard() || user.id == id || user.isAdmin()) {
-               // Detailed Profile
-               result = requestedUser.toJSON(true);
-            }
-            else {
-               // Basic Profile
-               result = requestedUser.toJSON(false);
-            }
-
-            res.status(200).json({
-               status:'succeeded',
-               user: result
-            });
-
-            next();
-         });
-
       }).catch(function(err) {
-         /* failed to find the user's committee.*/
+         /* failed to find the user's joined tables.*/
+         console.log(err);
          res.status(500).json({
             status:'failed',
             message: 'Internal server error'
          });
 
-         req.err = 'UserController.js, Line: 204\nCouldn\'t retreive the user\'s committee.\n' + String(err);
+         req.err = 'UserController.js, Line: 204\nCouldn\'t retreive the user\'s joined tables.\n' + String(err);
 
          next();
       });
-
-
    }).catch(function(err) {
       /* failed to find the user in the database */
       res.status(500).json({
@@ -236,6 +264,7 @@ module.exports.show = function(req, res, next) {
 
       next();
    });
+
 };
 
 /**
