@@ -189,7 +189,7 @@ module.exports = function() {
           exp: exp_date.getTime()
       };
 
-      var token = jwt.sign(payload, '123456');
+      var token = jwt.sign(payload, process.env.JWTSECRET);
 
       var identity = {
           token: token,
