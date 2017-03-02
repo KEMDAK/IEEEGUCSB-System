@@ -48,7 +48,7 @@ module.exports = function(args) {
             .set('Authorization', data.identities[7].token)
             .end(function(err, res) {
                try {
-                  res.should.have.status(401);
+                  res.should.have.status(403);
                   res.body.should.have.property('status').and.equal('failed');
                   should.exist(err);
                   done();
@@ -133,7 +133,7 @@ module.exports = function(args) {
             .send(meeting)
             .end(function(err, res) {
                try {
-                  res.should.have.status(403);
+                  res.should.have.status(400);
                   res.body.should.have.property('status').and.equal('failed');
                   res.body.should.have.property('errors');  // TODO: Test the errors themselves
                   should.exist(err);
@@ -366,7 +366,7 @@ module.exports = function(args) {
                      res.body.should.not.have.property('errors');
                      should.not.exist(err);
 
-                     Meeting.findById(1).then(function(theMeeting) {
+                     models.Meeting.findById(1).then(function(theMeeting) {
                         theMeeting.getAttendees().then(function(attendees) {
                            attendees.should.have.lengthOf(meeting.attendees.length);
 
@@ -403,7 +403,7 @@ module.exports = function(args) {
                   goals: ["Goal 1", "Goal 2", "Goal 3"],
                   location: "Location",
                   description: "Description",
-                  attendees: [2, 3, 4, 5, 6]
+                  attendees: [3, 4, 5, 6]
                };
 
                chai.request(app)
@@ -418,7 +418,7 @@ module.exports = function(args) {
                      res.body.should.not.have.property('errors');
                      should.not.exist(err);
 
-                     Meeting.findById(1).then(function(theMeeting) {
+                     models.Meeting.findById(1).then(function(theMeeting) {
                         theMeeting.getAttendees().then(function(attendees) {
                            attendees.should.have.lengthOf(meeting.attendees.length);
 
@@ -470,7 +470,7 @@ module.exports = function(args) {
                      res.body.should.not.have.property('errors');
                      should.not.exist(err);
 
-                     Meeting.findById(1).then(function(theMeeting) {
+                     models.Meeting.findById(1).then(function(theMeeting) {
                         theMeeting.getAttendees().then(function(attendees) {
                            attendees.should.have.lengthOf(meeting.attendees.length);
 
