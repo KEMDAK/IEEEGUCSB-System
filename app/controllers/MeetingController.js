@@ -28,7 +28,7 @@ module.exports.show = function(req, res, next) {
       /* input validation failed */
       res.status(400).json({
          status: 'failed',
-         error: errors
+         errors: errors
       });
 
       req.err = 'MeetingController.js, Line: 34\nSome validation errors occurred.\n' + JSON.stringify(errors);
@@ -191,6 +191,7 @@ module.exports.store = function(req, res, next) {
    
    /*Validate and sanitizing location Input*/
    if(req.body.location){
+      req.checkBody('location', 'validity').isString();
       req.sanitizeBody('location').escape();
       req.sanitizeBody('location').trim();
    } else {
@@ -199,6 +200,7 @@ module.exports.store = function(req, res, next) {
 
    /*Validate and sanitizing description Input*/
    if(req.body.description){
+      req.checkBody('description', 'validity').isString();
       req.sanitizeBody('description').escape();
       req.sanitizeBody('description').trim();
    } else {
@@ -361,6 +363,7 @@ module.exports.update = function(req, res, next) {
 
    /*Validate and sanitizing location Input*/
    if(req.body.location){
+      req.checkBody('location', 'validity').isString();
       req.sanitizeBody('location').escape();
       req.sanitizeBody('location').trim();
       attributes.location = req.body.location;
@@ -368,6 +371,7 @@ module.exports.update = function(req, res, next) {
 
    /*Validate and sanitizing description Input*/
    if(req.body.description){
+      req.checkBody('description', 'validity').isString();
       req.sanitizeBody('description').escape();
       req.sanitizeBody('description').trim();
       attributes.description = req.body.description;
@@ -504,7 +508,7 @@ module.exports.delete = function(req, res, next) {
       /* input validation failed */
       res.status(400).json({
          status: 'failed',
-         error: errors
+         errors: errors
       });
 
       req.err = 'MeetingController.js, Line: 510\nSome validation errors occurred.\n' + JSON.stringify(errors);
@@ -598,8 +602,10 @@ module.exports.rate = function(req, res, next) {
                   req.checkBody('ratings[' + i + '].rating', 'validity').notEmpty().isInt({ min: 0, max: 5 });
                   if(req.body.ratings[i].rating && req.body.ratings[i].rating <= 3)
                      req.checkBody('ratings[' + i + '].review', 'validity').notEmpty();
-                  if(req.body.ratings[i].review)
+                  if(req.body.ratings[i].review){
+                     req.checkBody('ratings[' + i + '].review', 'validity').isString();
                      req.sanitizeBody('ratings[' + i + '].review').escape().trim();
+                  }
                }
             }
 

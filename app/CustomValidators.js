@@ -14,6 +14,10 @@ module.exports = {
             return Array.isArray(value);
          else
             return Array.isArray(value) && value.length == length;
+      },
+      /* validator to check if the given value is a String */
+      isString: function(value) {
+            return typeof value === "string"
       }
    }
 };
