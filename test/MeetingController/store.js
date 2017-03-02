@@ -133,7 +133,7 @@ module.exports = function(args) {
             .send(meeting)
             .end(function(err, res) {
                try {
-                  res.should.have.status(403);
+                  res.should.have.status(400);
                   res.body.should.have.property('status').and.equal('failed');
                   res.body.should.have.property('errors');  // TODO: Test the errors themselves
                   should.exist(err);
