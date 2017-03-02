@@ -7,11 +7,15 @@ module.exports = function(sq) {
             return sq.query('SET FOREIGN_KEY_CHECKS = 1');
          }).then(function() {
             callback();
+         }).catch(function(err){
+            callback(err);
          });
       },
       clearAll: function(callback) {
          sq.sync({ force: true }).then(function() {
             callback();
+         }).catch(function(err){
+            callback(err);
          });
       }
    };
