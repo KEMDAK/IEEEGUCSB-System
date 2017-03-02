@@ -289,7 +289,7 @@ module.exports.store = function(req, res, next) {
          error: errors
       });
 
-      req.err = 'UserController.js, Line: 289\nSome validation errors occured.\n' + JSON.stringify(errors);
+      req.err = 'UserController.js, Line: 292\nSome validation errors occured.\n' + JSON.stringify(errors);
 
       next();
 
@@ -351,7 +351,7 @@ module.exports.store = function(req, res, next) {
             error: errors
          });
 
-         req.err = 'UserController.js, Line: 351\nThe user violated some database constraints.\n' + JSON.stringify(errors);
+         req.err = 'UserController.js, Line: 354\nThe user violated some database constraints.\n' + JSON.stringify(errors);
       }
       else {
          /* failed to save the user in the database */
@@ -360,7 +360,7 @@ module.exports.store = function(req, res, next) {
             message: 'Internal server error'
          });
 
-         req.err = 'UserController.js, Line: 360\nCouldn\'t save the user in the database.\n' + String(err);
+         req.err = 'UserController.js, Line: 363\nCouldn\'t save the user in the database.\n' + String(err);
       }
 
       next();
@@ -409,7 +409,7 @@ module.exports.update = function(req, res, next) {
          error: errors
       });
 
-      req.err = 'UserController.js, Line: 409\nSome validation errors occured.\n' + JSON.stringify(errors);
+      req.err = 'UserController.js, Line: 412\nSome validation errors occured.\n' + JSON.stringify(errors);
 
       next();
 
@@ -422,7 +422,7 @@ module.exports.update = function(req, res, next) {
          message: 'The provided credentials are not correct'
       });
 
-      req.err = 'UserController.js, Line: 422\nThe old password doesn\'t match the password in the database.';
+      req.err = 'UserController.js, Line: 425\nThe old password doesn\'t match the password in the database.';
 
       next();
 
@@ -442,7 +442,7 @@ module.exports.update = function(req, res, next) {
             message: 'The requested route was not found.'
          });
 
-         req.err = 'UserController.js, Line: 442\nThe requested user was not found in the database.';
+         req.err = 'UserController.js, Line: 445\nThe requested user was not found in the database.';
       }
 
       next();
@@ -453,7 +453,7 @@ module.exports.update = function(req, res, next) {
          message: 'Internal server error'
       });
 
-      req.err = 'UserController.js, Line: 453\nCouldn\'t update the user in the database.\n' + String(err);
+      req.err = 'UserController.js, Line: 456\nCouldn\'t update the user in the database.\n' + String(err);
 
       next();
    });
