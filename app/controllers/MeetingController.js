@@ -214,7 +214,7 @@ module.exports.store = function(req, res, next) {
          /* input validation failed */
          res.status(400).json({
             status: 'failed',
-            error: errors
+            errors: errors
          });
 
          req.err = 'MeetingController.js, Line: 218\nSome validation errors occurred.\n' + JSON.stringify(errors);
@@ -384,7 +384,7 @@ module.exports.update = function(req, res, next) {
          /* input validation failed */
          res.status(400).json({
             status: 'failed',
-            error: errors
+            errors: errors
          });
 
          req.err = 'MeetingController.js, Line: 386\nSome validation errors occurred.\n' + JSON.stringify(errors);
@@ -615,7 +615,7 @@ module.exports.rate = function(req, res, next) {
                /* input validation failed */
                res.status(400).json({
                   status: 'failed',
-                  error: errors
+                  errors: errors
                });
 
                req.err = 'MeetingController.js, Line: 615\nSome validation errors occurred.\n' + JSON.stringify(errors);
