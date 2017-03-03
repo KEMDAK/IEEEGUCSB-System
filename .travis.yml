@@ -1,6 +1,6 @@
 dist: trusty
 
-sudo: false
+sudo: required
 
 language: node_js
 
@@ -11,4 +11,4 @@ services:
   - mysql
 
 before_install:
-  - mysql -e 'CREATE DATABASE ieeeguc_system_test;'
+  - mysql -u root -e 'CREATE DATABASE ieeeguc_system_test;'
