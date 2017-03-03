@@ -1,8 +1,5 @@
 var args = {};
 
-// var app, fn;
-// var models = {};
-
 before(function(done) {
    this.timeout(5000);
    process.env.ENV = 'test';
