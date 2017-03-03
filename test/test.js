@@ -21,8 +21,11 @@ before(function(done) {
             Identity : require('../app/models/Identity').Identity
          };
 
-         args.fn.clearAll(function() {
-            done();
+         args.fn.clearAll(function(err) {
+            if(err)
+               done(err);
+            else
+               done();
          });
       }
    });
