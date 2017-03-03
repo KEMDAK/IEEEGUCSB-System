@@ -11,4 +11,5 @@ services:
   - mysql
 
 before_install:
+  - bash ./scripts/.travis.install-mysql-5.7.sh
   - mysql -u root -e 'CREATE DATABASE ieeeguc_system_test;'
