@@ -6,3 +6,4 @@ sudo apt-get update -q
 sudo apt-get install -q -y -o Dpkg::Options::=--force-confnew mysql-server
 sudo mysql_upgrade -u root --force
 sudo service mysql restart
+mysql --version
