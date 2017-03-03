@@ -367,6 +367,10 @@ module.exports = function(args) {
                      should.not.exist(err);
 
                      Meeting.findById(1).then(function(theMeeting) {
+                        if (!theMeeting) {
+                           throw new Error("The meeting wasn\'t added in the database.");
+                        }
+
                         theMeeting.getAttendees().then(function(attendees) {
                            attendees.should.have.lengthOf(meeting.attendees.length);
 
@@ -419,6 +423,10 @@ module.exports = function(args) {
                      should.not.exist(err);
 
                      Meeting.findById(1).then(function(theMeeting) {
+                        if (!theMeeting) {
+                           throw new Error("The meeting wasn\'t added in the database.");
+                        }
+
                         theMeeting.getAttendees().then(function(attendees) {
                            attendees.should.have.lengthOf(meeting.attendees.length);
 
@@ -471,6 +479,10 @@ module.exports = function(args) {
                      should.not.exist(err);
 
                      Meeting.findById(1).then(function(theMeeting) {
+                        if (!theMeeting) {
+                           throw new Error("The meeting wasn\'t added in the database.");
+                        }
+
                         theMeeting.getAttendees().then(function(attendees) {
                            attendees.should.have.lengthOf(meeting.attendees.length);
 
@@ -497,6 +509,40 @@ module.exports = function(args) {
                });
             });
 
+         });
+      }
+
+      /**************
+      * Other Tests *
+      ***************/
+      {
+         it('Should not add the meeting if the requester is in the attendees', function(done) {
+            fn.clearTable('meetings', function() {
+               var meeting = {
+                  start_date: "2017-2-25 08:00:00",
+                  end_date: "2017-2-25 10:00:00",
+                  goals: ["Goal 1", "Goal 2", "Goal 3"],
+                  location: "Location",
+                  description: "Description",
+                  attendees: [1, 2, 3, 4, 5, 6]
+               };
+
+               chai.request(app)
+               .post('/api/meeting')
+               .set('User_Agent', 'Web')
+               .set('Authorization', data.identities[0].token)
+               .send(meeting)
+               .end(function(err, res) {
+                  try {
+                     res.should.have.status(400);
+                     res.body.should.have.property('status').and.equal('failed');
+                     res.body.should.not.have.property('errors');
+                     should.exist(err);
+                  } catch(error) {
+                     done(error);
+                  }
+               });
+            });
          });
       }
    });
