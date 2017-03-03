@@ -16,8 +16,14 @@ module.exports = function(args) {
             models.User.bulkCreate(data.users).then(function() {
                models.Identity.bulkCreate(data.identities).then(function() {
                   done();
+               }).catch(function(err) {
+                  done(err);
                });
+            }).catch(function(err) {
+               done(err);
             });
+         }).catch(function(err) {
+            done(err);
          });
       });
 
@@ -343,8 +349,12 @@ module.exports = function(args) {
       * Acceptance Tests *
       ********************/
       {
-         it('Should add the meeting in the database (Admin Authentication)', function(done) {
-            fn.clearTable('meetings', function() {
+         it('Should add the meeting in the database (Admin Authentication).', function(done) {
+            fn.clearTable('meetings', function(err) {
+               if (err) {
+                  done(err);
+               }
+
                var meeting = {
                   start_date: "2017-2-25 08:00:00",
                   end_date: "2017-2-25 10:00:00",
@@ -366,30 +376,42 @@ module.exports = function(args) {
                      res.body.should.not.have.property('errors');
                      should.not.exist(err);
 
-                     Meeting.findById(1).then(function(theMeeting) {
+                     models.Meeting.findById(1).then(function(theMeeting) {
                         if (!theMeeting) {
                            throw new Error("The meeting wasn\'t added in the database.");
                         }
 
-                        theMeeting.getAttendees().then(function(attendees) {
+                        theMeeting.getAttendees().then(function(records) {
+                           if (!records) {
+                              throw new Error("There were no attendees for the meeting.");
+                           }
+
+                           var attendees = [];
+                           var i;
+                           for (i = 0; i < records.length; i++) {
+                              attendees.push(records[i].id);
+                           }
+
                            attendees.should.have.lengthOf(meeting.attendees.length);
+                           attendees.sort(function(a, b) { return a - b; });
 
                            var valid = true;
-                           for (var i = 0; i <= meeting.attendees.length && valid; i++) {
-                              valid = false;
-                              for (var j = 0; j < attendees.length && !valid; j++) {
-                                 if (attendees[j].id === meeting.attendees[i]) {
-                                    valid = true;
-                                 }
+                           for (i = 0; i < attendees.length && valid; i++) {
+                              if (attendees[i] != meeting.attendees[i]) {
+                                 valid = false;
                               }
                            }
 
-                           if (!valid) {
+                           if (valid === false) {
                               throw new Error("The wrong attendees were assigned to the meeting.");
                            }
 
                            done();
+                        }).catch(function(error) {
+                           done(error);
                         });
+                     }).catch(function(error) {
+                        done(error);
                      });
                   } catch(error) {
                      done(error);
@@ -399,7 +421,7 @@ module.exports = function(args) {
             });
          });
 
-         it('Should add the meeting in the database (Upper Board Authentication)', function(done) {
+         it('Should add the meeting in the database (Upper Board Authentication).', function(done) {
             fn.clearTable('meetings', function() {
                var meeting = {
                   start_date: "2017-2-25 08:00:00",
@@ -422,30 +444,42 @@ module.exports = function(args) {
                      res.body.should.not.have.property('errors');
                      should.not.exist(err);
 
-                     Meeting.findById(1).then(function(theMeeting) {
+                     models.Meeting.findById(1).then(function(theMeeting) {
                         if (!theMeeting) {
                            throw new Error("The meeting wasn\'t added in the database.");
                         }
 
-                        theMeeting.getAttendees().then(function(attendees) {
+                        theMeeting.getAttendees().then(function(records) {
+                           if (!records) {
+                              throw new Error("There were no attendees for the meeting.");
+                           }
+
+                           var attendees = [];
+                           var i;
+                           for (i = 0; i < records.length; i++) {
+                              attendees.push(records[i].id);
+                           }
+
                            attendees.should.have.lengthOf(meeting.attendees.length);
+                           attendees.sort(function(a, b) { return a - b; });
 
                            var valid = true;
-                           for (var i = 0; i <= meeting.attendees.length && valid; i++) {
-                              valid = false;
-                              for (var j = 0; j < attendees.length && !valid; j++) {
-                                 if (attendees[j].id === meeting.attendees[i]) {
-                                    valid = true;
-                                 }
+                           for (i = 0; i < attendees.length && valid; i++) {
+                              if (attendees[i] != meeting.attendees[i]) {
+                                 valid = false;
                               }
                            }
 
-                           if (!valid) {
+                           if (valid === false) {
                               throw new Error("The wrong attendees were assigned to the meeting.");
                            }
 
                            done();
+                        }).catch(function(error) {
+                           done(error);
                         });
+                     }).catch(function(error) {
+                        done(error);
                      });
                   } catch(error) {
                      done(error);
@@ -455,7 +489,7 @@ module.exports = function(args) {
 
          });
 
-         it('Should add the meeting in the database (High Board Authentication)', function(done) {
+         it('Should add the meeting in the database (High Board Authentication).', function(done) {
             fn.clearTable('meetings', function() {
                var meeting = {
                   start_date: "2017-2-25 08:00:00",
@@ -478,30 +512,42 @@ module.exports = function(args) {
                      res.body.should.not.have.property('errors');
                      should.not.exist(err);
 
-                     Meeting.findById(1).then(function(theMeeting) {
+                     models.Meeting.findById(1).then(function(theMeeting) {
                         if (!theMeeting) {
                            throw new Error("The meeting wasn\'t added in the database.");
                         }
 
-                        theMeeting.getAttendees().then(function(attendees) {
+                        theMeeting.getAttendees().then(function(records) {
+                           if (!records) {
+                              throw new Error("There were no attendees for the meeting.");
+                           }
+
+                           var attendees = [];
+                           var i;
+                           for (i = 0; i < records.length; i++) {
+                              attendees.push(records[i].id);
+                           }
+
                            attendees.should.have.lengthOf(meeting.attendees.length);
+                           attendees.sort(function(a, b) { return a - b; });
 
                            var valid = true;
-                           for (var i = 0; i <= meeting.attendees.length && valid; i++) {
-                              valid = false;
-                              for (var j = 0; j < attendees.length && !valid; j++) {
-                                 if (attendees[j].id === meeting.attendees[i]) {
-                                    valid = true;
-                                 }
+                           for (i = 0; i < attendees.length && valid; i++) {
+                              if (attendees[i] != meeting.attendees[i]) {
+                                 valid = false;
                               }
                            }
 
-                           if (!valid) {
+                           if (valid === false) {
                               throw new Error("The wrong attendees were assigned to the meeting.");
                            }
 
                            done();
+                        }).catch(function(error) {
+                           done(error);
                         });
+                     }).catch(function(error) {
+                        done(error);
                      });
                   } catch(error) {
                      done(error);
@@ -516,8 +562,12 @@ module.exports = function(args) {
       * Other Tests *
       ***************/
       {
-         it('Should not add the meeting if the requester is in the attendees', function(done) {
-            fn.clearTable('meetings', function() {
+         it('Should not add the meeting if the requester is in the attendees.', function(done) {
+            fn.clearTable('meetings', function(err) {
+               if (err) {
+                  done(err);
+               }
+
                var meeting = {
                   start_date: "2017-2-25 08:00:00",
                   end_date: "2017-2-25 10:00:00",
@@ -536,8 +586,9 @@ module.exports = function(args) {
                   try {
                      res.should.have.status(400);
                      res.body.should.have.property('status').and.equal('failed');
-                     res.body.should.not.have.property('errors');
+                     res.body.should.have.property('errors');
                      should.exist(err);
+                     done();
                   } catch(error) {
                      done(error);
                   }
