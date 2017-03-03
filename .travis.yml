@@ -1,3 +1,14 @@
+dist: trusty
+
+sudo: false
+
 language: node_js
+
 node_js:
   - "node"
+
+services:
+  - mysql
+
+before_install:
+  - mysql -e 'CREATE DATABASE ieeeguc_system_test;'
