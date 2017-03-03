@@ -1,7 +1,11 @@
 module.exports = function(callback) {
 
    /* loading the environment variables */
-   require('dotenv').load();
+   try{
+      require('dotenv').load();
+   } catch(error){
+      console.log(".env was not found in the root directory.");
+   }
 
    var express          = require('express');
    var app              = express();
