@@ -113,7 +113,6 @@ module.exports.login = function(req, res, next) {
 
                             user.getCommittee().then(function(committee) {
                                 var curUser = user.toJSON(true, true);
-
                                 if(committee){
                                     curUser.committee = { id: committee.id, name: committee.name };
                                 }
@@ -159,11 +158,9 @@ module.exports.login = function(req, res, next) {
 
                         user.getCommittee().then(function(committee) {
                             var curUser = user.toJSON(true, true);
-
                             if(committee){
                                 curUser.committee = { id: committee.id, name: committee.name };
                             }
-
                             res.status(200).json({
                                 status: 'succeeded',
                                 token: identity.token,

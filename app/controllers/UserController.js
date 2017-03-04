@@ -13,6 +13,10 @@ var Meeting    = require('../models/Meeting').Meeting;
 var jwt        = require('jsonwebtoken');
 var path       = require('path');
 var nodemailer = require('nodemailer');
+var mkdirp     = require('mkdirp');
+var fs   = require('fs');
+
+
 
 /**
 * This function gets a list of all users currently in the database.
@@ -122,7 +126,6 @@ module.exports.show = function(req, res, next) {
    req.sanitizeParams('id').escape();
    req.sanitizeParams('id').trim();
    req.checkParams('id', 'validity').isInt();
-
    var errors = req.validationErrors();
    errors = format(errors);
    if (errors) {
@@ -243,7 +246,6 @@ module.exports.show = function(req, res, next) {
 
       }).catch(function(err) {
          /* failed to find the user's joined tables.*/
-         console.log(err);
          res.status(500).json({
             status:'failed',
             message: 'Internal server error'
@@ -338,10 +340,10 @@ module.exports.store = function(req, res, next) {
 
     var defaultURL ;
    if(req.body.gender == 'Male'){
-      defaultURL = '../../public/images/general/male.png';
+      defaultURL = '/general/male.jpg';
    }else
    {
-      defaultURL = '../../public/images/general/female.png';
+      defaultURL = '/general/female.jpg';
    }
    
   
@@ -386,9 +388,8 @@ module.exports.store = function(req, res, next) {
 
             var transporter = nodemailer.createTransport('smtps://' + process.env.EMAIL + ':' + process.env.PASSWORD + '@' + process.env.MAIL_SERVER);
             var EmailTemplate = require('email-templates').EmailTemplate;
-            var path = require('path');
 
-            var templateDir = path.join(__dirname, '../../', 'public', 'emails', 'generatePasswordMail');
+            var templateDir = path.join(__dirname, '../../', 'public', 'emails', 'welcoming');
             var mail = new EmailTemplate(templateDir);
             var variables = {
                 domain: process.env.DOMAIN,
@@ -415,7 +416,7 @@ module.exports.store = function(req, res, next) {
                 var mailOptions = {
                     from: process.env.FROM , // sender address
                     to: user.email, // list of receivers
-                    subject:'Reset password request', // Subject line
+                    subject:'IEEE GUC', // Subject line
                     text: result.text, // plaintext body
                     html: result.html // html body
                 };
@@ -424,10 +425,20 @@ module.exports.store = function(req, res, next) {
                 transporter.sendMail(mailOptions);
 
 
-});
+            });
 
-
-
+          
+            var dirPath = path.resolve( '../IEEEGUCSB-System/public/images/'+user.id);
+            mkdirp(dirPath, function(err) { 
+               if(err){
+               res.status(400).json({
+                  status:'failed',
+                  error: 'can not make user directory' 
+               });
+               req.err = 'UserController.js, Line: 441\nThe user violated some database constraints.\n' + JSON.stringify(err);
+               next();
+             }
+            });
 
 
 
@@ -460,7 +471,6 @@ module.exports.store = function(req, res, next) {
       }
       else {
          /* failed to save the user in the database */
-         console.log(String(err));
          res.status(500).json({
             status:'failed',
             message: 'Internal server error'
@@ -494,7 +504,7 @@ module.exports.update = function(req, res, next) {
    if (req.body.IEEE_membership_ID) {
       req.sanitizeBody('IEEE_membership_ID').escape();
       req.sanitizeBody('IEEE_membership_ID').trim();
-      obj.IEEE_membership_ID = req.body.IEEE_membership_ID;
+      objIEEE_membership_ID = req.body.IEEE_membership_ID;
    }
 
    /*Sanitizing Phone Number Input*/
@@ -505,7 +515,7 @@ module.exports.update = function(req, res, next) {
       obj.phone_number = req.body.phone_number;
    }
 
-
+   
    var errors = req.validationErrors();
    errors = format(errors);
    if (errors) {
@@ -535,32 +545,63 @@ module.exports.update = function(req, res, next) {
       return;
    }
 
-   User.update(obj, { where : { id : req.user.id } }).then(function(affected) {
-      if (affected[0] == 1) {
-         res.status(200).json({
-            status: 'succeeded',
-            message: 'user successfully updated'
-         });
-      }
-      else {
-         res.status(404).json({
-            status:'failed',
-            message: 'The requested route was not found.'
-         });
 
-         req.err = 'UserController.js, Line: 442\nThe requested user was not found in the database.';
-      }
 
-      next();
-   }).catch(function(err) {
-      /* failed to update the user in the database */
-      res.status(500).json({
-         status:'failed',
-         message: 'Internal server error'
+      var id  =  req.user.id ;
+      Media.findOne({where :{user_id :id,type:'Image'}}).then(function(profilePicture){
+         
+         var oldExt = path.basename(profilePicture.url);
+         var newExt = req.file.filename;
+
+         if(oldExt != newExt){
+             var deletePath = path.resolve( '../IEEEGUCSB-System/public/images'+profilePicture.url);
+             fs.unlink(deletePath,function(err){
+             });
+         }
+
+         var newURL = path.resolve('/'+id,req.file.filename);
+         var sequelize = require('../../config/database/Database').Seq;
+
+         sequelize.transaction(function (t) {
+
+          return sequelize.Promise.all([
+
+           User.update(obj, 
+            { where      : { id : req.user.id } },
+            { transaction: t }), 
+           profilePicture.update({url:newURL},
+            {where :{user_id :id,type:'Image'}},
+            { transaction: t }) 
+
+           ]).then(function(affected,newPic){
+              if (affected[0] == 1)   {
+               res.status(200).json({
+                  status: 'succeeded',
+                  message: 'user successfully updated'
+               });
+            }else{
+
+               res.status(404).json({
+                  status:'failed',
+                  message: 'The requested route was not found.'
+               });
+
+               req.err = 'UserController.js, Line: 442\nThe requested user was not found in the database.';
+
+            }
+            next();
+         }).catch(function(err){
+                  //    /* failed to update the user in the database */
+                  res.status(500).json({
+                     status:'failed',
+                     message: 'Internal server error'
+                  });
+
+                  req.err = 'UserController.js, Line: 453\nCouldn\'t update the user in the database.\n' + String(err);
+
+                  next(); 
+               });
+         });
       });
-
-      req.err = 'UserController.js, Line: 453\nCouldn\'t update the user in the database.\n' + String(err);
-
-      next();
-   });
+  
 };

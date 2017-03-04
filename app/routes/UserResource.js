@@ -6,6 +6,7 @@ module.exports = function(app) {
     var UserController = require('../controllers/UserController');
     var auth           = require('../middlewares/AuthMiddleware');
     var upper          = require('../middlewares/UpperBoardMiddleware');
+    var upload         = require('../middlewares/UploadMiddleware');
 
     /**
     * A GET route responsible for getting all users currently in the database
@@ -138,5 +139,6 @@ module.exports = function(app) {
     * 	]
     * }
     */
-    app.put('/api/user', auth, UserController.update);
+    app.put('/api/user', auth,upload.Image, upload.validate,UserController.update);
+
 };

@@ -12,7 +12,7 @@ var sequelize = new Sequelize(process.env.DB_NAME, process.env.DB_USER, process.
         charset: 'utf8'
     }
 });
-
+module.exports.Seq = sequelize ;
 module.exports.initialize = function(callback) {
 
     /* define the models */

@@ -127,19 +127,16 @@ module.exports.defineUser = function(sequelize) {
         var settings = JSON.parse(this.settings);
         var type = 'Basic' ;
         
+        
+        if(mine==true){
+              type = 'mine';
+           }else{
+              delete settings.private ;  
+              if(detailed==true)           
+                type ='Detailed';
+               }
 
-           
-            if(mine==true){
-                  type = 'mine';
-               }else{
-                  delete settings.private ;  
-                  if(detailed==true)           
-                    type ='Detailed';
-                   }
-     
-
-
-           
+          
           res.profile_type       = type;
           res.id                 = this.id;
           res.type               = this.type;
