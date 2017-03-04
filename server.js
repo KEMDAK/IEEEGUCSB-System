@@ -1,7 +1,7 @@
 module.exports = function(callback) {
 
    /* loading the environment variables */
-   require('dotenv').load();
+   require('dotenv').config({silent: true});
 
    var express          = require('express');
    var app              = express();
