@@ -20,7 +20,7 @@ module.exports = function(app) {
     *      {
     *
     *      },
-    * 	error:
+    * 	errors:
     * 	[
     * 	  {
     * 	     param: the field that caused the error,
@@ -30,7 +30,7 @@ module.exports = function(app) {
     * 	]
     * }
     */
-    app.get('/api/task/:id', auth, high, TaskController.show);
+    app.get('/api/task/:id', auth, TaskController.show);
 
     /**
     * A DELETE route to delete a specific task
@@ -41,7 +41,7 @@ module.exports = function(app) {
     * {
     *   status: succeeded/failed,
     *   message: String showing a descriptive text,
-    *   error:
+    *   errors:
     * 	[
     * 	  {
     * 	     param: the field that caused the error,
