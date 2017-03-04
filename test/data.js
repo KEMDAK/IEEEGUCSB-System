@@ -170,9 +170,9 @@ module.exports = function() {
    }
 
 
-   /*******************
+   /******************
    * Creating Tokens *
-   *******************/
+   ******************/
    data.identities = [];
    for (i = 0; i < 15; i++) {
       var jwt = require('jsonwebtoken');
@@ -200,6 +200,35 @@ module.exports = function() {
       };
 
       data.identities.push(identity);
+   }
+
+
+   /*********************
+    * Creating Meetings *
+    *********************/
+    data.meetings = [];
+    for (i = 0; i < 5; i++) {
+      var meeting = {
+         start_date: "2017-2-25 08:00:00",
+         end_date: "2017-2-25 10:00:00",
+         goals: ["Goal 1", "Goal 2", "Goal 3"],
+         location: "Location " + (i+1),
+         description: "Description " + (i+1),
+         supervisor: (i+1),
+         evaluation: (i+1)
+      };
+
+      data.meetings.push(meeting);
+   }
+
+   data.meeting_user = [];
+   for (i = 0; i < 5; i++) {
+      var obj = {
+         meeting_id: (i+1),
+         user_id: (i+1) + 4
+      };
+
+      data.meeting_user.push([i+1+4, i+1+8]);
    }
 
    return data;

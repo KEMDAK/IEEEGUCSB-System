@@ -12,18 +12,24 @@ module.exports = function(args) {
          chai = args.chai;
          should = chai.should();
 
-         models.Committee.bulkCreate(data.committees).then(function() {
-            models.User.bulkCreate(data.users).then(function() {
-               models.Identity.bulkCreate(data.identities).then(function() {
-                  done();
+         fn.clearAll(function(err) {
+            if (err) {
+               done(err);
+            }
+
+            models.Committee.bulkCreate(data.committees).then(function() {
+               models.User.bulkCreate(data.users).then(function() {
+                  models.Identity.bulkCreate(data.identities).then(function() {
+                     done();
+                  }).catch(function(err) {
+                     done(err);
+                  });
                }).catch(function(err) {
                   done(err);
                });
             }).catch(function(err) {
                done(err);
             });
-         }).catch(function(err) {
-            done(err);
          });
       });
 
@@ -343,6 +349,40 @@ module.exports = function(args) {
                }
             });
          });
+
+         it('Should not add the meeting if the requester is in the attendees.', function(done) {
+            fn.clearTable('meetings', function(err) {
+               if (err) {
+                  done(err);
+               }
+
+               var meeting = {
+                  start_date: "2017-2-25 08:00:00",
+                  end_date: "2017-2-25 10:00:00",
+                  goals: ["Goal 1", "Goal 2", "Goal 3"],
+                  location: "Location",
+                  description: "Description",
+                  attendees: [1, 2, 3, 4, 5, 6]
+               };
+
+               chai.request(app)
+               .post('/api/meeting')
+               .set('User_Agent', 'Web')
+               .set('Authorization', data.identities[0].token)
+               .send(meeting)
+               .end(function(err, res) {
+                  try {
+                     res.should.have.status(400);
+                     res.body.should.have.property('status').and.equal('failed');
+                     res.body.should.have.property('errors');
+                     should.exist(err);
+                     done();
+                  } catch(error) {
+                     done(error);
+                  }
+               });
+            });
+         });
       }
 
       /*******************
@@ -555,45 +595,6 @@ module.exports = function(args) {
                });
             });
 
-         });
-      }
-
-      /**************
-      * Other Tests *
-      ***************/
-      {
-         it('Should not add the meeting if the requester is in the attendees.', function(done) {
-            fn.clearTable('meetings', function(err) {
-               if (err) {
-                  done(err);
-               }
-
-               var meeting = {
-                  start_date: "2017-2-25 08:00:00",
-                  end_date: "2017-2-25 10:00:00",
-                  goals: ["Goal 1", "Goal 2", "Goal 3"],
-                  location: "Location",
-                  description: "Description",
-                  attendees: [1, 2, 3, 4, 5, 6]
-               };
-
-               chai.request(app)
-               .post('/api/meeting')
-               .set('User_Agent', 'Web')
-               .set('Authorization', data.identities[0].token)
-               .send(meeting)
-               .end(function(err, res) {
-                  try {
-                     res.should.have.status(400);
-                     res.body.should.have.property('status').and.equal('failed');
-                     res.body.should.have.property('errors');
-                     should.exist(err);
-                     done();
-                  } catch(error) {
-                     done(error);
-                  }
-               });
-            });
          });
       }
    });
