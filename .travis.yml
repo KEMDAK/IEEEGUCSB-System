@@ -1,6 +1,6 @@
 dist: trusty
 
-sudo: required
+sudo: true
 
 language: node_js
 
