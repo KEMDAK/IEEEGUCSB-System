@@ -14,7 +14,7 @@ var storage = multer.diskStorage({
 });
 module.exports.Image =  multer(
 	{   storage   : storage ,
-		limits    : {fileSize : 1000000	 ,
+		limits    : {fileSize : 2000000	 ,
 	                 files    :  1     } ,
 		fileFilter: function  (req, file, cb) {
 
@@ -28,7 +28,7 @@ module.exports.Image =  multer(
             cb(new Error('wrong file extention')); 
 		  }
 	}
-	}).single('file');
+	}).single('picture');
 
 
 module.exports.validate = function(error,req, res, next) {
@@ -37,7 +37,7 @@ module.exports.validate = function(error,req, res, next) {
        if (error) {
       /* input validation failed */
       res.status(400).json({
-         status: 'faileddd',
+         status: 'failed',
          error: error.message
       });
 

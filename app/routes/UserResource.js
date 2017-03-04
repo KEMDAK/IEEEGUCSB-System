@@ -125,6 +125,12 @@ module.exports = function(app) {
     *    phone_number: String, [optional]
     *    IEEE_membership_ID: String [optional]
     * }
+    * @example The route expects a file 
+    *  enctype="multipart/form-data"
+    *  name='picture'
+    *   <form method='put' action='api/user' enctype="multipart/form-data">
+    *   <input type='file' name='picture'>
+    *   <input type='submit'>
     * @example The route responds with an object having the following format
     * {
     * 	status: succeeded/failed,
@@ -171,7 +177,7 @@ module.exports = function(app) {
     * @example the route expects the access token as 'Authorization' and the user agent as 'user_agent' in the request headers with one of the following values ['Web', 'IOS', 'Android']
     * @example The route expects a body Object in the following format
     * {
-    *    committe_id: String ,[optional]
+    *    committee_id: String ,[optional]
     *    type: String ['Upper Board', 'High Board', 'Member'], [optional]
     *    email: String, [optional]
     * }

@@ -559,6 +559,7 @@ module.exports.update = function(req, res, next) {
              fse.remove(deletePath,function(err){
              });
          }
+        
 
          var newURL = path.resolve('/'+id,req.file.filename);
          var sequelize = require('../../config/database/Database').Seq;
