@@ -548,6 +548,8 @@ module.exports.update = function(req, res, next) {
 
 
       var id  =  req.user.id ;
+
+      if(req.file){
       Media.findOne({where :{user_id :id,type:'Image'}}).then(function(profilePicture){
          
          var oldExt = path.basename(profilePicture.url);
@@ -603,5 +605,34 @@ module.exports.update = function(req, res, next) {
                });
          });
       });
-  
+    }else{
+           User.update(obj, { where : { id : req.user.id } }).then(function(affected) {
+            if (affected[0] == 1) {
+               res.status(200).json({
+                  status: 'succeeded',
+                  message: 'user successfully updated'
+               });
+            }
+            else {
+               res.status(404).json({
+                  status:'failed',
+                  message: 'The requested route was not found.'
+               });
+
+               req.err = 'UserController.js, Line: 442\nThe requested user was not found in the database.';
+            }
+
+            next();
+         }).catch(function(err) {
+            /* failed to update the user in the database */
+            res.status(500).json({
+               status:'failed',
+               message: 'Internal server error'
+            });
+
+            req.err = 'UserController.js, Line: 453\nCouldn\'t update the user in the database.\n' + String(err);
+
+            next();
+         });
+    }
 };
