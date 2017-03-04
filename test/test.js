@@ -17,6 +17,7 @@ before(function(done) {
          args.models = {
             User : require('../app/models/User').User,
             Meeting : require('../app/models/Meeting').Meeting,
+            Task : require('../app/models/Task').Task,
             Committee : require('../app/models/Committee').Committee,
             Identity : require('../app/models/Identity').Identity
          };
