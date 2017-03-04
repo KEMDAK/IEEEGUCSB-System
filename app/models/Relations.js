@@ -15,7 +15,7 @@ User.hasMany(Identity, { as: 'Identities', foreignKey: { allowNull: false } });
 Identity.belongsTo(User, { as: 'User', foreignKey: { allowNull: false } });
 
 /* Media_User relation */
-User.hasMany(Media, { as: 'Media', foreignKey: { allowNull: true } });
+User.hasMany(Media,{ as: 'Media', foreignKey: { allowNull: true } });
 Media.belongsTo(User, { as: 'User', foreignKey: { allowNull: true } });
 
 /* Task_User relation */

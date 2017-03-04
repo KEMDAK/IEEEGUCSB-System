@@ -13,8 +13,7 @@ var Meeting    = require('../models/Meeting').Meeting;
 var jwt        = require('jsonwebtoken');
 var path       = require('path');
 var nodemailer = require('nodemailer');
-var mkdirp     = require('mkdirp');
-var fs   = require('fs');
+var fse        = require('fs-extra'); 
 
 
 
@@ -276,7 +275,7 @@ module.exports.show = function(req, res, next) {
 * @param  {Function} next Callback function that is called once done with handling the request
 */
 module.exports.store = function(req, res, next) {
-   /*Validate and sanitizing email Input*/
+   // /*Validate and sanitizing email Input*/
    req.checkBody('email', 'required').notEmpty();
    req.checkBody('email', 'validity').isEmail();
    req.sanitizeBody('email').escape();
@@ -356,9 +355,9 @@ module.exports.store = function(req, res, next) {
       first_name : req.body.first_name,
       last_name : req.body.last_name,
       birthdate : req.body.birthdate,
-      password  : pass,
       phone_number: req.body.phone_number,
       gender : req.body.gender,
+      password :pass,
       IEEE_membership_ID : req.body.IEEE_membership_ID,
       settings: {
          public: {
@@ -429,13 +428,13 @@ module.exports.store = function(req, res, next) {
 
           
             var dirPath = path.resolve( '../IEEEGUCSB-System/public/images/'+user.id);
-            mkdirp(dirPath, function(err) { 
+            fse.ensureDir(dirPath, function(err) { 
                if(err){
                res.status(400).json({
                   status:'failed',
                   error: 'can not make user directory' 
                });
-               req.err = 'UserController.js, Line: 441\nThe user violated some database constraints.\n' + JSON.stringify(err);
+               req.err = 'UserController.js, Line: 441\n can not make user directory.\n' + JSON.stringify(err);
                next();
              }
             });
@@ -490,7 +489,7 @@ module.exports.store = function(req, res, next) {
 * @param  {Function} next Callback function that is called once done with handling the request
 */
 module.exports.update = function(req, res, next) {
-   /*Validate Old Password Input*/
+   // /*Validate Old Password Input*/
    req.checkBody('old_password', 'required').notEmpty();
 
    var obj = {};
@@ -557,7 +556,7 @@ module.exports.update = function(req, res, next) {
 
          if(oldExt != newExt){
              var deletePath = path.resolve( '../IEEEGUCSB-System/public/images'+profilePicture.url);
-             fs.unlink(deletePath,function(err){
+             fse.remove(deletePath,function(err){
              });
          }
 
@@ -635,4 +634,169 @@ module.exports.update = function(req, res, next) {
             next();
          });
     }
+};
+
+/**
+* This function deletes a user from the database
+* @param  {HTTP}   req  The request object
+* @param  {HTTP}   res  The response object
+* @param  {Function} next Callback function that is called once done with handling the request
+*/
+module.exports.delete = function(req, res, next) {
+   /*Validate and sanitizing ID Input*/
+   req.checkParams   ('id','required').notEmpty();
+   req.sanitizeParams('id').escape();
+   req.sanitizeParams('id').trim();
+   req.checkParams   ('id','validity').isInt();
+
+   var errors = req.validationErrors();
+   errors = format(errors);
+   if (errors) {
+      /* input validation failed */
+      res.status(400).json({
+         status: 'failed',
+         errors: errors
+      });
+
+      req.err = 'UserController.js, Line: 662\nSome validation errors occurred.\n' + JSON.stringify(errors);
+
+      next();
+
+      return;
+   }
+
+   var id = req.params.id ;
+   User.destroy({where : {id :id }}).then(function(destroyedRowsNum){
+
+      if(destroyedRowsNum == 0){
+       res.status(400).json({
+         status: 'failed',
+         errors: 'User not Found'
+      });
+
+       req.err = 'UserController.js, Line: 678\nThe specified User is not found in the database.\n' + JSON.stringify(errors);
+
+       next();
+    }else{
+      var deletePath = path.resolve( '../IEEEGUCSB-System/public/images/'+id);
+      fse.remove(deletePath,function(err){
+         res.status(200).json({
+         status: 'succeeded',
+         message: 'The User has been deleted.'
+      });
+        next();
+     });
+
+   }
+     
+   }).catch(function(err){
+ /* failed to delete the user from the database */
+      res.status(500).json({
+         status:'failed',
+         message: 'Internal server error'
+      });
+
+      req.err = 'UserController.js, Line: 697\nCan not delete the User from the database.\n' + String(err);
+
+      next();
+   });
+
+
+};
+
+
+/**
+* This function updates the specific user's information in the database
+* @param  {HTTP}   req  The request object
+* @param  {HTTP}   res  The response object
+* @param  {Function} next Callback function that is called once done with handling the request
+*/
+module.exports.updateAuth = function(req, res, next) {
+   var obj ={};
+// /*Validate and sanitizing email Input*/
+  if(req.body.email){
+   req.checkBody('email', 'validity').isEmail();
+   req.sanitizeBody('email').escape();
+   req.sanitizeBody('email').trim();
+   req.sanitizeBody('email').normalizeEmail({ lowercase: true });
+   obj.email = req.body.email ;
+   }
+
+   /*Validate and sanitizing type Input*/
+   if(req.body.type){
+   req.checkBody('type', 'required').notEmpty();
+   req.checkBody('type', 'validity').isIn(['Upper Board', 'High Board', 'Member']);
+   req.sanitizeBody('type').escape();
+   req.sanitizeBody('type').trim();
+   obj.type = req.body.type ;
+   }
+
+   /*Validate and sanitizing ID Input*/
+   if(req.body.committee_id){
+   req.sanitizeParams('id').escape();
+   req.sanitizeParams('id').trim();
+   req.checkParams('id', 'validity').isInt();
+   obj.committee_id = req.body.committee_id ;
+   }
+
+    var errors = req.validationErrors();
+   errors = format(errors);
+   if (errors) {
+      /* input validation failed */
+      res.status(400).json({
+         status: 'failed',
+         errors: errors
+      });
+
+      req.err = 'UserController.js, Line: 662\nSome validation errors occurred.\n' + JSON.stringify(errors);
+
+      next();
+
+      return;
+   }
+
+   Committee.findById(req.body.committee_id).then(function(committee){
+      if(committee){
+         User.update(obj, { where : { id : req.params.id } }).then(function(affected) {
+            if (affected[0] == 1) {
+               res.status(200).json({
+                  status: 'succeeded',
+                  message: 'user successfully updated'
+               });
+            }
+            else {
+               res.status(404).json({
+                  status:'failed',
+                  message: 'The requested route was not found.'
+               });
+
+               req.err = 'UserController.js, Line: 442\nThe requested user was not found in the database.';
+            }
+
+            next();
+         }).catch(function(err) {
+            /* failed to update the user in the database */
+            res.status(500).json({
+               status:'failed',
+               message: 'Internal server error'
+            });
+
+            req.err = 'UserController.js, Line: 453\nCouldn\'t update the user in the database.\n' + String(err);
+
+            next();
+         });
+      }else{
+       /* input validation failed */
+       res.status(400).json({
+         status: 'failed',
+         error:  'this committee is not found in the database'
+      });
+
+       req.err = 'UserController.js, Line: 662\nSome validation errors occurred.\n' + JSON.stringify(errors);
+
+       next();
+
+       return;
+      }
+   });
 };

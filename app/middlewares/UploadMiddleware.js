@@ -37,7 +37,7 @@ module.exports.validate = function(error,req, res, next) {
        if (error) {
       /* input validation failed */
       res.status(400).json({
-         status: 'failed',
+         status: 'faileddd',
          error: error.message
       });
 

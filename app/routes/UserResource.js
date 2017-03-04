@@ -140,5 +140,55 @@ module.exports = function(app) {
     * }
     */
     app.put('/api/user', auth,upload.Image, upload.validate,UserController.update);
+     /**
+    * A DELETE route responsible for deleting user from the database and deleting his folder
+    * @var /api/user/{id} DELETE
+    * @name /api/user/{id} DELETE
+    * @example The user requesting the route has to be of type 'Upper Board' at least.
+    * @example the route expects the access token as 'Authorization' and the user agent as 'user_agent' in the request headers with one of the following values ['Web', 'IOS', 'Android']
+    * @example The route expects a body Object in the following format
+    * @example The route expects the id of the desired user in the URL in replace of '{id}'
+    * @example The route responds with an object having the following format
+    * {
+    *   status: succeeded/failed,
+    *   message: String showing a descriptive text,
+    *   error:
+    *   [
+    *     {
+    *        param: the field that caused the error,
+    *        value: the value that was provided for that field,
+    *        type: the type of error that was caused ['required', 'validity', 'unique violation']
+    *     }, {...}, ...
+    *   ]
+    * }
+    */
+    app.delete('/api/user/:id', auth,upper,UserController.delete);
+        /**
+    * A PUT route responsible for updating the information of a specified authenticated user
+    * @var /api/user/{id} PUT
+    * @name /api/user/{id} PUT
+    * @example The user requesting the route has to be of type 'Upper Board' at least.
+    * @example the route expects the access token as 'Authorization' and the user agent as 'user_agent' in the request headers with one of the following values ['Web', 'IOS', 'Android']
+    * @example The route expects a body Object in the following format
+    * {
+    *    committe_id: String ,[optional]
+    *    type: String ['Upper Board', 'High Board', 'Member'], [optional]
+    *    email: String, [optional]
+    * }
+    * @example The route responds with an object having the following format
+    * {
+    *   status: succeeded/failed,
+    *   message: String showing a descriptive text,
+    *   error:
+    *   [
+    *     {
+    *        param: the field that caused the error,
+    *        value: the value that was provided for that field,
+    *        type: the type of error that was caused ['required', 'validity', 'unique violation']
+    *     }, {...}, ...
+    *   ]
+    * }
+    */
+    app.put('/api/user/:id', auth,upper,UserController.updateAuth);
 
 };
