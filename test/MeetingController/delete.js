@@ -98,7 +98,7 @@ module.exports = function(args) {
             chai.request(app)
             .delete('/api/meeting/' + meeting_id)
             .set('User_Agent', 'Web')
-            .set('Authorization', data.identities[0].Stoken)
+            .set('Authorization', data.identities[0].token)
             .end(function(err, res) {
                try {
                   res.should.have.status(403);
@@ -121,7 +121,7 @@ module.exports = function(args) {
             chai.request(app)
             .delete('/api/meeting/' + meeting_id)
             .set('User_Agent', 'Web')
-            .set('Authorization', data.identities[1].Stoken)
+            .set('Authorization', data.identities[1].token)
             .end(function(err, res) {
                try {
                   res.should.have.status(403);
@@ -144,7 +144,7 @@ module.exports = function(args) {
             chai.request(app)
             .delete('/api/meeting/' + meeting_id)
             .set('User_Agent', 'Web')
-            .set('Authorization', data.identities[3].Stoken)
+            .set('Authorization', data.identities[3].token)
             .end(function(err, res) {
                try {
                   res.should.have.status(403);
