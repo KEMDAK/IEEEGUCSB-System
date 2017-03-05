@@ -15,6 +15,7 @@ module.exports = function(args) {
          fn.clearAll(function(err) {
             if (err) {
                done(err);
+               return;
             }
 
             models.Committee.bulkCreate(data.committees).then(function() {
@@ -33,6 +34,17 @@ module.exports = function(args) {
          });
       });
 
+      beforeEach(function(done) {
+         fn.clearTable('meetings', function(err) {
+            if (err) {
+               done(err);
+            }
+            else {
+               done();
+            }
+         });
+      });
+
       /***********************
       * Authentication Tests *
       ************************/
@@ -46,7 +58,15 @@ module.exports = function(args) {
                   res.should.have.status(401);
                   res.body.should.have.property('status').and.equal('failed');
                   should.exist(err);
-                  done();
+
+                  models.Meeting.findAll().then(function(records) {
+                     if (records > 0) {
+                        throw new Error("The meeting shouldn\'t be added.");
+                     }
+
+                     done();
+                  });
+
                } catch(error) {
                   done(error);
                }
@@ -63,7 +83,13 @@ module.exports = function(args) {
                   res.should.have.status(403);
                   res.body.should.have.property('status').and.equal('failed');
                   should.exist(err);
-                  done();
+                  models.Meeting.findAll().then(function(records) {
+                     if (records > 0) {
+                        throw new Error("The meeting shouldn\'t be added.");
+                     }
+
+                     done();
+                  });
                } catch(error) {
                   done(error);
                }
@@ -89,11 +115,18 @@ module.exports = function(args) {
                   res.should.have.status(401);
                   res.body.should.have.property('status').and.equal('failed');
                   should.exist(err);
-                  done();
+                  models.Meeting.findAll().then(function(records) {
+                     if (records > 0) {
+                        throw new Error("The meeting shouldn\'t be added.");
+                     }
+
+                     done();
+                  });
                } catch(error) {
                   done(error);
                }
             });
+
          });
 
          it('Should deny access due to invalid User Agent header.', function(done) {
@@ -116,7 +149,13 @@ module.exports = function(args) {
                   res.should.have.status(401);
                   res.body.should.have.property('status').and.equal('failed');
                   should.exist(err);
-                  done();
+                  models.Meeting.findAll().then(function(records) {
+                     if (records > 0) {
+                        throw new Error("The meeting shouldn\'t be added.");
+                     }
+
+                     done();
+                  });
                } catch(error) {
                   done(error);
                }
@@ -149,7 +188,13 @@ module.exports = function(args) {
                   res.body.should.have.property('status').and.equal('failed');
                   res.body.should.have.property('errors');  // TODO: Test the errors themselves
                   should.exist(err);
-                  done();
+                  models.Meeting.findAll().then(function(records) {
+                     if (records > 0) {
+                        throw new Error("The meeting shouldn\'t be added.");
+                     }
+
+                     done();
+                  });
                } catch(error) {
                   done(error);
                }
@@ -176,7 +221,13 @@ module.exports = function(args) {
                   res.body.should.have.property('status').and.equal('failed');
                   res.body.should.have.property('errors');  // TODO: Test the errors themselves
                   should.exist(err);
-                  done();
+                  models.Meeting.findAll().then(function(records) {
+                     if (records > 0) {
+                        throw new Error("The meeting shouldn\'t be added.");
+                     }
+
+                     done();
+                  });
                } catch(error) {
                   done(error);
                }
@@ -204,7 +255,13 @@ module.exports = function(args) {
                   res.body.should.have.property('status').and.equal('failed');
                   res.body.should.have.property('errors');  // TODO: Test the errors themselves
                   should.exist(err);
-                  done();
+                  models.Meeting.findAll().then(function(records) {
+                     if (records > 0) {
+                        throw new Error("The meeting shouldn\'t be added.");
+                     }
+
+                     done();
+                  });
                } catch(error) {
                   done(error);
                }
@@ -231,7 +288,13 @@ module.exports = function(args) {
                   res.body.should.have.property('status').and.equal('failed');
                   res.body.should.have.property('errors');  // TODO: Test the errors themselves
                   should.exist(err);
-                  done();
+                  models.Meeting.findAll().then(function(records) {
+                     if (records > 0) {
+                        throw new Error("The meeting shouldn\'t be added.");
+                     }
+
+                     done();
+                  });
                } catch(error) {
                   done(error);
                }
@@ -259,7 +322,13 @@ module.exports = function(args) {
                   res.body.should.have.property('status').and.equal('failed');
                   res.body.should.have.property('errors');  // TODO: Test the errors themselves
                   should.exist(err);
-                  done();
+                  models.Meeting.findAll().then(function(records) {
+                     if (records > 0) {
+                        throw new Error("The meeting shouldn\'t be added.");
+                     }
+
+                     done();
+                  });
                } catch(error) {
                   done(error);
                }
@@ -287,7 +356,13 @@ module.exports = function(args) {
                   res.body.should.have.property('status').and.equal('failed');
                   res.body.should.have.property('errors');  // TODO: Test the errors themselves
                   should.exist(err);
-                  done();
+                  models.Meeting.findAll().then(function(records) {
+                     if (records > 0) {
+                        throw new Error("The meeting shouldn\'t be added.");
+                     }
+
+                     done();
+                  });
                } catch(error) {
                   done(error);
                }
@@ -315,7 +390,13 @@ module.exports = function(args) {
                   res.body.should.have.property('status').and.equal('failed');
                   res.body.should.have.property('errors');  // TODO: Test the errors themselves
                   should.exist(err);
-                  done();
+                  models.Meeting.findAll().then(function(records) {
+                     if (records > 0) {
+                        throw new Error("The meeting shouldn\'t be added.");
+                     }
+
+                     done();
+                  });
                } catch(error) {
                   done(error);
                }
@@ -343,7 +424,13 @@ module.exports = function(args) {
                   res.body.should.have.property('status').and.equal('failed');
                   res.body.should.have.property('errors');  // TODO: Test the errors themselves
                   should.exist(err);
-                  done();
+                  models.Meeting.findAll().then(function(records) {
+                     if (records > 0) {
+                        throw new Error("The meeting shouldn\'t be added.");
+                     }
+
+                     done();
+                  });
                } catch(error) {
                   done(error);
                }
@@ -351,36 +438,40 @@ module.exports = function(args) {
          });
 
          it('Should not add the meeting if the requester is in the attendees.', function(done) {
-            fn.clearTable('meetings', function(err) {
-               if (err) {
-                  done(err);
-               }
+            if (err) {
+               done(err);
+            }
 
-               var meeting = {
-                  start_date: "2017-2-25 08:00:00",
-                  end_date: "2017-2-25 10:00:00",
-                  goals: ["Goal 1", "Goal 2", "Goal 3"],
-                  location: "Location",
-                  description: "Description",
-                  attendees: [1, 2, 3, 4, 5, 6]
-               };
+            var meeting = {
+               start_date: "2017-2-25 08:00:00",
+               end_date: "2017-2-25 10:00:00",
+               goals: ["Goal 1", "Goal 2", "Goal 3"],
+               location: "Location",
+               description: "Description",
+               attendees: [1, 2, 3, 4, 5, 6]
+            };
 
-               chai.request(app)
-               .post('/api/meeting')
-               .set('User_Agent', 'Web')
-               .set('Authorization', data.identities[0].token)
-               .send(meeting)
-               .end(function(err, res) {
-                  try {
-                     res.should.have.status(400);
-                     res.body.should.have.property('status').and.equal('failed');
-                     res.body.should.have.property('errors');
-                     should.exist(err);
+            chai.request(app)
+            .post('/api/meeting')
+            .set('User_Agent', 'Web')
+            .set('Authorization', data.identities[0].token)
+            .send(meeting)
+            .end(function(err, res) {
+               try {
+                  res.should.have.status(400);
+                  res.body.should.have.property('status').and.equal('failed');
+                  res.body.should.have.property('errors');
+                  should.exist(err);
+                  models.Meeting.findAll().then(function(records) {
+                     if (records > 0) {
+                        throw new Error("The meeting shouldn\'t be added.");
+                     }
+
                      done();
-                  } catch(error) {
-                     done(error);
-                  }
-               });
+                  });
+               } catch(error) {
+                  done(error);
+               }
             });
          });
       }
@@ -390,209 +481,203 @@ module.exports = function(args) {
       ********************/
       {
          it('Should add the meeting in the database (Admin Authentication).', function(done) {
-            fn.clearTable('meetings', function(err) {
-               if (err) {
-                  done(err);
-               }
+            if (err) {
+               done(err);
+            }
 
-               var meeting = {
-                  start_date: "2017-2-25 08:00:00",
-                  end_date: "2017-2-25 10:00:00",
-                  goals: ["Goal 1", "Goal 2", "Goal 3"],
-                  location: "Location",
-                  description: "Description",
-                  attendees: [2, 3, 4, 5, 6]
-               };
+            var meeting = {
+               start_date: "2017-2-25 08:00:00",
+               end_date: "2017-2-25 10:00:00",
+               goals: ["Goal 1", "Goal 2", "Goal 3"],
+               location: "Location",
+               description: "Description",
+               attendees: [2, 3, 4, 5, 6]
+            };
 
-               chai.request(app)
-               .post('/api/meeting')
-               .set('User_Agent', 'Web')
-               .set('Authorization', data.identities[0].token)
-               .send(meeting)
-               .end(function(err, res) {
-                  try {
-                     res.should.have.status(200);
-                     res.body.should.have.property('status').and.equal('succeeded');
-                     res.body.should.not.have.property('errors');
-                     should.not.exist(err);
+            chai.request(app)
+            .post('/api/meeting')
+            .set('User_Agent', 'Web')
+            .set('Authorization', data.identities[0].token)
+            .send(meeting)
+            .end(function(err, res) {
+               try {
+                  res.should.have.status(200);
+                  res.body.should.have.property('status').and.equal('succeeded');
+                  res.body.should.not.have.property('errors');
+                  should.not.exist(err);
 
-                     models.Meeting.findById(1).then(function(theMeeting) {
-                        if (!theMeeting) {
-                           throw new Error("The meeting wasn\'t added in the database.");
+                  models.Meeting.findById(1).then(function(theMeeting) {
+                     if (!theMeeting) {
+                        throw new Error("The meeting wasn\'t added in the database.");
+                     }
+
+                     theMeeting.getAttendees().then(function(records) {
+                        if (!records) {
+                           throw new Error("There were no attendees for the meeting.");
                         }
 
-                        theMeeting.getAttendees().then(function(records) {
-                           if (!records) {
-                              throw new Error("There were no attendees for the meeting.");
+                        var attendees = [];
+                        var i;
+                        for (i = 0; i < records.length; i++) {
+                           attendees.push(records[i].id);
+                        }
+
+                        attendees.should.have.lengthOf(meeting.attendees.length);
+                        attendees.sort(function(a, b) { return a - b; });
+
+                        var valid = true;
+                        for (i = 0; i < attendees.length && valid; i++) {
+                           if (attendees[i] != meeting.attendees[i]) {
+                              valid = false;
                            }
+                        }
 
-                           var attendees = [];
-                           var i;
-                           for (i = 0; i < records.length; i++) {
-                              attendees.push(records[i].id);
-                           }
+                        if (valid === false) {
+                           throw new Error("The wrong attendees were assigned to the meeting.");
+                        }
 
-                           attendees.should.have.lengthOf(meeting.attendees.length);
-                           attendees.sort(function(a, b) { return a - b; });
-
-                           var valid = true;
-                           for (i = 0; i < attendees.length && valid; i++) {
-                              if (attendees[i] != meeting.attendees[i]) {
-                                 valid = false;
-                              }
-                           }
-
-                           if (valid === false) {
-                              throw new Error("The wrong attendees were assigned to the meeting.");
-                           }
-
-                           done();
-                        }).catch(function(error) {
-                           done(error);
-                        });
+                        done();
                      }).catch(function(error) {
                         done(error);
                      });
-                  } catch(error) {
+                  }).catch(function(error) {
                      done(error);
-                  }
+                  });
+               } catch(error) {
+                  done(error);
+               }
 
-               });
             });
          });
 
          it('Should add the meeting in the database (Upper Board Authentication).', function(done) {
-            fn.clearTable('meetings', function() {
-               var meeting = {
-                  start_date: "2017-2-25 08:00:00",
-                  end_date: "2017-2-25 10:00:00",
-                  goals: ["Goal 1", "Goal 2", "Goal 3"],
-                  location: "Location",
-                  description: "Description",
-                  attendees: [3, 4, 5, 6]
-               };
+            var meeting = {
+               start_date: "2017-2-25 08:00:00",
+               end_date: "2017-2-25 10:00:00",
+               goals: ["Goal 1", "Goal 2", "Goal 3"],
+               location: "Location",
+               description: "Description",
+               attendees: [3, 4, 5, 6]
+            };
 
-               chai.request(app)
-               .post('/api/meeting')
-               .set('User_Agent', 'Web')
-               .set('Authorization', data.identities[1].token)
-               .send(meeting)
-               .end(function(err, res) {
-                  try {
-                     res.should.have.status(200);
-                     res.body.should.have.property('status').and.equal('succeeded');
-                     res.body.should.not.have.property('errors');
-                     should.not.exist(err);
+            chai.request(app)
+            .post('/api/meeting')
+            .set('User_Agent', 'Web')
+            .set('Authorization', data.identities[1].token)
+            .send(meeting)
+            .end(function(err, res) {
+               try {
+                  res.should.have.status(200);
+                  res.body.should.have.property('status').and.equal('succeeded');
+                  res.body.should.not.have.property('errors');
+                  should.not.exist(err);
 
-                     models.Meeting.findById(1).then(function(theMeeting) {
-                        if (!theMeeting) {
-                           throw new Error("The meeting wasn\'t added in the database.");
+                  models.Meeting.findById(1).then(function(theMeeting) {
+                     if (!theMeeting) {
+                        throw new Error("The meeting wasn\'t added in the database.");
+                     }
+
+                     theMeeting.getAttendees().then(function(records) {
+                        if (!records) {
+                           throw new Error("There were no attendees for the meeting.");
                         }
 
-                        theMeeting.getAttendees().then(function(records) {
-                           if (!records) {
-                              throw new Error("There were no attendees for the meeting.");
+                        var attendees = [];
+                        var i;
+                        for (i = 0; i < records.length; i++) {
+                           attendees.push(records[i].id);
+                        }
+
+                        attendees.should.have.lengthOf(meeting.attendees.length);
+                        attendees.sort(function(a, b) { return a - b; });
+
+                        var valid = true;
+                        for (i = 0; i < attendees.length && valid; i++) {
+                           if (attendees[i] != meeting.attendees[i]) {
+                              valid = false;
                            }
+                        }
 
-                           var attendees = [];
-                           var i;
-                           for (i = 0; i < records.length; i++) {
-                              attendees.push(records[i].id);
-                           }
+                        if (valid === false) {
+                           throw new Error("The wrong attendees were assigned to the meeting.");
+                        }
 
-                           attendees.should.have.lengthOf(meeting.attendees.length);
-                           attendees.sort(function(a, b) { return a - b; });
-
-                           var valid = true;
-                           for (i = 0; i < attendees.length && valid; i++) {
-                              if (attendees[i] != meeting.attendees[i]) {
-                                 valid = false;
-                              }
-                           }
-
-                           if (valid === false) {
-                              throw new Error("The wrong attendees were assigned to the meeting.");
-                           }
-
-                           done();
-                        }).catch(function(error) {
-                           done(error);
-                        });
+                        done();
                      }).catch(function(error) {
                         done(error);
                      });
-                  } catch(error) {
+                  }).catch(function(error) {
                      done(error);
-                  }
-               });
+                  });
+               } catch(error) {
+                  done(error);
+               }
             });
 
          });
 
          it('Should add the meeting in the database (High Board Authentication).', function(done) {
-            fn.clearTable('meetings', function() {
-               var meeting = {
-                  start_date: "2017-2-25 08:00:00",
-                  end_date: "2017-2-25 10:00:00",
-                  goals: ["Goal 1", "Goal 2", "Goal 3"],
-                  location: "Location",
-                  description: "Description",
-                  attendees: [8, 12]
-               };
+            var meeting = {
+               start_date: "2017-2-25 08:00:00",
+               end_date: "2017-2-25 10:00:00",
+               goals: ["Goal 1", "Goal 2", "Goal 3"],
+               location: "Location",
+               description: "Description",
+               attendees: [8, 12]
+            };
 
-               chai.request(app)
-               .post('/api/meeting')
-               .set('User_Agent', 'Web')
-               .set('Authorization', data.identities[3].token)
-               .send(meeting)
-               .end(function(err, res) {
-                  try {
-                     res.should.have.status(200);
-                     res.body.should.have.property('status').and.equal('succeeded');
-                     res.body.should.not.have.property('errors');
-                     should.not.exist(err);
+            chai.request(app)
+            .post('/api/meeting')
+            .set('User_Agent', 'Web')
+            .set('Authorization', data.identities[3].token)
+            .send(meeting)
+            .end(function(err, res) {
+               try {
+                  res.should.have.status(200);
+                  res.body.should.have.property('status').and.equal('succeeded');
+                  res.body.should.not.have.property('errors');
+                  should.not.exist(err);
 
-                     models.Meeting.findById(1).then(function(theMeeting) {
-                        if (!theMeeting) {
-                           throw new Error("The meeting wasn\'t added in the database.");
+                  models.Meeting.findById(1).then(function(theMeeting) {
+                     if (!theMeeting) {
+                        throw new Error("The meeting wasn\'t added in the database.");
+                     }
+
+                     theMeeting.getAttendees().then(function(records) {
+                        if (!records) {
+                           throw new Error("There were no attendees for the meeting.");
                         }
 
-                        theMeeting.getAttendees().then(function(records) {
-                           if (!records) {
-                              throw new Error("There were no attendees for the meeting.");
+                        var attendees = [];
+                        var i;
+                        for (i = 0; i < records.length; i++) {
+                           attendees.push(records[i].id);
+                        }
+
+                        attendees.should.have.lengthOf(meeting.attendees.length);
+                        attendees.sort(function(a, b) { return a - b; });
+
+                        var valid = true;
+                        for (i = 0; i < attendees.length && valid; i++) {
+                           if (attendees[i] != meeting.attendees[i]) {
+                              valid = false;
                            }
+                        }
 
-                           var attendees = [];
-                           var i;
-                           for (i = 0; i < records.length; i++) {
-                              attendees.push(records[i].id);
-                           }
+                        if (valid === false) {
+                           throw new Error("The wrong attendees were assigned to the meeting.");
+                        }
 
-                           attendees.should.have.lengthOf(meeting.attendees.length);
-                           attendees.sort(function(a, b) { return a - b; });
-
-                           var valid = true;
-                           for (i = 0; i < attendees.length && valid; i++) {
-                              if (attendees[i] != meeting.attendees[i]) {
-                                 valid = false;
-                              }
-                           }
-
-                           if (valid === false) {
-                              throw new Error("The wrong attendees were assigned to the meeting.");
-                           }
-
-                           done();
-                        }).catch(function(error) {
-                           done(error);
-                        });
+                        done();
                      }).catch(function(error) {
                         done(error);
                      });
-                  } catch(error) {
+                  }).catch(function(error) {
                      done(error);
-                  }
-               });
+                  });
+               } catch(error) {
+                  done(error);
+               }
             });
 
          });

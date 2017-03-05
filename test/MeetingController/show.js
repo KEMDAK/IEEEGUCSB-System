@@ -14,6 +14,7 @@ module.exports = function(args) {
          fn.clearAll(function(err) {
             if (err) {
                done(err);
+               return;
             }
 
             models.Committee.bulkCreate(data.committees).then(function() {
@@ -55,6 +56,7 @@ module.exports = function(args) {
                 try {
                    res.should.have.status(401);
                    res.body.should.have.property('status').and.equal('failed');
+                   res.body.should.not.have.property('meeting');
                    should.exist(err);
                    done();
                 } catch(error) {
@@ -72,6 +74,7 @@ module.exports = function(args) {
                 try {
                    res.should.have.status(403);
                    res.body.should.have.property('status').and.equal('failed');
+                   res.body.should.not.have.property('meeting');
                    should.exist(err);
                    done();
                 } catch(error) {
@@ -89,6 +92,7 @@ module.exports = function(args) {
                 try {
                    res.should.have.status(403);
                    res.body.should.have.property('status').and.equal('failed');
+                   res.body.should.not.have.property('meeting');
                    should.exist(err);
                    done();
                 } catch(error) {
@@ -105,6 +109,7 @@ module.exports = function(args) {
                 try {
                    res.should.have.status(401);
                    res.body.should.have.property('status').and.equal('failed');
+                   res.body.should.not.have.property('meeting');
                    should.exist(err);
                    done();
                 } catch(error) {
@@ -115,13 +120,14 @@ module.exports = function(args) {
 
           it('Should deny access due to invalid User Agent header.', function(done) {
              chai.request(app)
-             .get('/api/meeting')
+             .get('/api/meeting/1')
              .set('User_Agent', 'Windows Phone')
              .set('Authorization', data.identities[0].token)
              .end(function(err, res) {
                 try {
                    res.should.have.status(401);
                    res.body.should.have.property('status').and.equal('failed');
+                   res.body.should.not.have.property('meeting');
                    should.exist(err);
                    done();
                 } catch(error) {
@@ -145,6 +151,7 @@ module.exports = function(args) {
                    res.should.have.status(400);
                    res.body.should.have.property('status').and.equal('failed');
                    res.body.should.have.property('errors');  // TODO: Test the errors themselves
+                   res.body.should.not.have.property('meeting');
                    should.exist(err);
                    done();
                 } catch(error) {
@@ -152,7 +159,6 @@ module.exports = function(args) {
                 }
              });
           });
-
       }
 
       /*******************
