@@ -22,12 +22,7 @@ before(function(done) {
             Identity : require('../app/models/Identity').Identity
          };
 
-         args.fn.clearAll(function(err) {
-            if(err)
-               done(err);
-            else
-               done();
-         });
+         done();
       }
    });
 });
@@ -37,6 +32,8 @@ args.chai.use(require('chai-http'));
 
 describe('Meeting Controller', function() {
    require('./MeetingController/store')(args);
+   require('./MeetingController/show')(args);
+   require('./MeetingController/delete')(args);
 });
 
 describe('Task Controller', function() {
