@@ -205,7 +205,7 @@ module.exports.store = function(req, res, next) {
 
       for (var i = 0; i < req.body.goals.length; i++) {
          goals.push({
-            goal: req.body.goals[i],
+            name: req.body.goals[i],
             isDone: false
          });
       }
@@ -557,7 +557,7 @@ module.exports.delete = function(req, res, next) {
             message: 'Access denied'
          });
 
-         req.err = 'MeetingController.js, Line: 95\nThe requesting user has no authority to delete the meeting.';
+         req.err = 'MeetingController.js, Line: 560\nThe requesting user has no authority to delete the meeting.';
 
          next();
       } else {
@@ -575,7 +575,7 @@ module.exports.delete = function(req, res, next) {
                message: 'Internal server error'
             });
 
-            req.err = 'MeetingController.js, Line: 566\nCouldn\'t delete the meeting from the database.\n' + String(err);
+            req.err = 'MeetingController.js, Line: 578\nCouldn\'t delete the meeting from the database.\n' + String(err);
 
             next();
          });
@@ -587,7 +587,7 @@ module.exports.delete = function(req, res, next) {
          message: 'Internal server error'
       });
 
-      req.err = 'MeetingController.js, Line: 566\nCouldn\'t find the meeting in the database.\n' + String(err);
+      req.err = 'MeetingController.js, Line: 590\nCouldn\'t find the meeting in the database.\n' + String(err);
 
       next();
    });
@@ -620,7 +620,7 @@ module.exports.rate = function(req, res, next) {
             message: 'The requested route was not found.'
          });
 
-         req.err = 'MeetingController.js, Line: 599\nThe requested meeting was not found in the database or the user has no authority to rate it.';
+         req.err = 'MeetingController.js, Line: 623\nThe requested meeting was not found in the database or the user has no authority to rate it.';
          
          next();
       } else {
@@ -664,7 +664,7 @@ module.exports.rate = function(req, res, next) {
                   errors: errors
                });
 
-               req.err = 'MeetingController.js, Line: 643\nSome validation errors occurred.\n' + JSON.stringify(errors);
+               req.err = 'MeetingController.js, Line: 667\nSome validation errors occurred.\n' + JSON.stringify(errors);
 
                next();
             } else {
@@ -696,7 +696,7 @@ module.exports.rate = function(req, res, next) {
                      message: 'Internal server error'
                   });
 
-                  req.err = 'MeetingController.js, Line: 675\nfailed to save the meeting in the database.\n' + String(err);
+                  req.err = 'MeetingController.js, Line: 699\nfailed to save the meeting in the database.\n' + String(err);
 
                   next();
                });
@@ -708,7 +708,7 @@ module.exports.rate = function(req, res, next) {
                message: 'Internal server error'
             });
 
-            req.err = 'MeetingController.js, Line: 687\nfailed to find the meeting attendees in the database.\n' + String(err);
+            req.err = 'MeetingController.js, Line: 711\nfailed to find the meeting attendees in the database.\n' + String(err);
 
             next();
          });
@@ -720,7 +720,7 @@ module.exports.rate = function(req, res, next) {
          message: 'Internal server error'
       });
 
-      req.err = 'MeetingController.js, Line: 699\nCouldn\'t find the meeting in the database.\n' + String(err);
+      req.err = 'MeetingController.js, Line: 723\nCouldn\'t find the meeting in the database.\n' + String(err);
 
       next();
    });

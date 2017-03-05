@@ -29,7 +29,7 @@ module.exports = function(app) {
     *           evaluation: the meeting's evaluation,
     *           goals: [
     *               {
-    *                   goal: The goal itself,
+    *                   name: The goal itself,
     *                   isDone: Boolean flag indicating the goal's status
     *               }, {}, ...
     *           ],
