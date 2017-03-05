@@ -1,11 +1,11 @@
 {
   "name": "IEEE_GUC_online_system",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Backend API for IEEE GUC SB online system to manage interactions with all related applications and includes the API required to all main application functionalities and Database management.",
   "main": "server.js",
   "scripts": {
-    "test": "nodemon server.js",
-    "start": "node server.js"
+    "test": "mocha",
+    "start": "node -e 'process.env.ENV=\"dev\"; require(\"./server.js\")(function() {})'"
   },
   "repository": {
     "type": "git",
@@ -32,5 +32,10 @@
     "mysql": "^2.11.1",
     "nodemailer": "^2.7.0",
     "sequelize": "^3.30.2"
+  },
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "chai-http": "^3.0.0",
+    "mocha": "^3.2.0"
   }
 }

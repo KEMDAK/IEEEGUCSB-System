@@ -25,11 +25,9 @@ module.exports.defineMedia = function(sequelize)
          {
             type:Sequelize.STRING,
             allowNull: false,
-           // unique: true
          }
       },
       {
-          paranoid: true,
           underscored: true,
           underscoredALL: true
       }

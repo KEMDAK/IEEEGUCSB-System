@@ -303,7 +303,7 @@ module.exports.forgotPassword = function (req, res, next) {
             var mail = new EmailTemplate(templateDir);
             var variables = {
                 domain: process.env.DOMAIN,
-                port: process.env.PORT,
+                port: (process.env.ENV === 'dev')? process.env.PORT : 80,
                 token: token
             };
 
