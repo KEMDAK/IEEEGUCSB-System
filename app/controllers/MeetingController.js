@@ -86,10 +86,10 @@ module.exports.show = function(req, res, next) {
          }
 
          if(!(req.user.isAdmin() || req.user.isUpperBoard() || req.user.isHighBoard() && req.user.id == meeting.supervisor || attendee)) {
-            /* Requested meeting was not found in the database */
-            res.status(404).json({
+            /* The requesting user has no authority to show the meeting */
+            res.status(403).json({
                status:'failed',
-               message: 'The requested route was not found.'
+               message: 'Access denied'
             });
 
             req.err = 'MeetingController.js, Line: 95\nThe requesting user has no authority to show the meeting.';
@@ -540,30 +540,54 @@ module.exports.delete = function(req, res, next) {
       return;
    }
 
-   Meeting.destroy({ where: { id: req.params.id, supervisor: req.user.id } }).then(function(affectedRows) {
-      if(affectedRows == 0){
+   Meeting.findById(req.params.id).then(function(meeting) {
+      if(!meeting){
          res.status(404).json({
             status:'failed',
             message: 'The requested route was not found.'
          });
 
          req.err = 'MeetingController.js, Line: 550\nThe requested meeting was not found in the database or the user has no authority to delete it.';
+
+         next();
+      } else if(meeting.supervisor != req.user.id) {
+         /* The requesting user has no authority to delete the meeting */
+         res.status(403).json({
+            status:'failed',
+            message: 'Access denied'
+         });
+
+         req.err = 'MeetingController.js, Line: 95\nThe requesting user has no authority to delete the meeting.';
+
+         next();
       } else {
-         res.status(200).json({
-            status: 'succeeded',
-            message: 'The Meeting has been deleted.'
+         meeting.destroy().then(function() {
+            res.status(200).json({
+               status: 'succeeded',
+               message: 'The Meeting has been deleted.'
+            });
+
+            next();
+         }).catch(function(err) {
+            /* failed to delete the meeting from the database */
+            res.status(500).json({
+               status:'failed',
+               message: 'Internal server error'
+            });
+
+            req.err = 'MeetingController.js, Line: 566\nCouldn\'t delete the meeting from the database.\n' + String(err);
+
+            next();
          });
       }
-
-      next();
    }).catch(function(err) {
-      /* failed to delete the meeting from the database */
+      /* failed to find the meeting in the database */
       res.status(500).json({
          status:'failed',
          message: 'Internal server error'
       });
 
-      req.err = 'MeetingController.js, Line: 566\nCouldn\'t delete the meeting from the database.\n' + String(err);
+      req.err = 'MeetingController.js, Line: 566\nCouldn\'t find the meeting in the database.\n' + String(err);
 
       next();
    });
