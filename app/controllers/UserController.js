@@ -235,10 +235,10 @@ module.exports.show = function(req, res, next) {
          include   :include      
       }).then(function(results){
 
-         var s = results[0].toJSON(detailedFlag,mineFlag);
+         var finalResult = results[0].toJSON(detailedFlag,mineFlag);
          res.status(200).json({
             status:'succeeded',
-            results:s
+            results:finalResult
          });
 
          next();
@@ -548,7 +548,7 @@ module.exports.update = function(req, res, next) {
 
       var id  =  req.user.id ;
 
-      if(req.file){
+    if(req.file){
       Media.findOne({where :{user_id :id,type:'Image'}}).then(function(profilePicture){
          
          var oldExt = path.basename(profilePicture.url);
@@ -593,7 +593,7 @@ module.exports.update = function(req, res, next) {
             }
             next();
          }).catch(function(err){
-                  //    /* failed to update the user in the database */
+                /* failed to update the user in the database */
                   res.status(500).json({
                      status:'failed',
                      message: 'Internal server error'

@@ -124,6 +124,7 @@ module.exports.defineUser = function(sequelize) {
       */
       toJSON: function(detailed,mine) {
         var res = {};
+        if(this.settings)
         var settings = JSON.parse(this.settings);
         var type = 'Basic' ;
         
@@ -131,6 +132,7 @@ module.exports.defineUser = function(sequelize) {
         if(mine==true){
               type = 'mine';
            }else{
+             if(this.settings)
               delete settings.private ;  
               if(detailed==true)           
                 type ='Detailed';
@@ -147,6 +149,7 @@ module.exports.defineUser = function(sequelize) {
           res.phone_number       = this.phone_number;
           res.birthdate          = this.birthdate;
           res.IEEE_membership_ID = this.IEEE_membership_ID;
+          if(this.settings)
           res.settings           = settings;
           res.committee          = this.Committee;
           res.profile_picture    = this.Media;
