@@ -438,10 +438,6 @@ module.exports = function(args) {
          });
 
          it('Should not add the meeting if the requester is in the attendees.', function(done) {
-            if (err) {
-               done(err);
-            }
-
             var meeting = {
                start_date: "2017-2-25 08:00:00",
                end_date: "2017-2-25 10:00:00",
@@ -481,10 +477,6 @@ module.exports = function(args) {
       ********************/
       {
          it('Should add the meeting in the database (Admin Authentication).', function(done) {
-            if (err) {
-               done(err);
-            }
-
             var meeting = {
                start_date: "2017-2-25 08:00:00",
                end_date: "2017-2-25 10:00:00",
