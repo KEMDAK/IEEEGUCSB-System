@@ -40,4 +40,5 @@ describe('Meeting Controller', function() {
 describe('Task Controller', function() {
    require('./TaskController/store')(args);
    require('./TaskController/show')(args);
+   require('./TaskController/delete')(args);
 });

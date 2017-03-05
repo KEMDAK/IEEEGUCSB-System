@@ -1,7 +1,7 @@
 module.exports = function(args) {
    var app, fn, data, models, chai, should;
 
-   describe('POST /api/task', function() {
+   describe('GET /api/task/:id', function() {
       this.timeout(1000);
       
       before(function(done) {
@@ -136,6 +136,28 @@ module.exports = function(args) {
             .end(function(err, res) {
                try {
                   res.should.have.status(403);
+                  res.body.should.have.property('status').and.equal('failed');
+                  res.body.should.have.property('errors');  // TODO: Test the errors themselves
+                  should.exist(err);
+               } catch(error) {
+                  done(error);
+               }
+            });
+         });
+      }
+
+      /*******************
+      * Validation Tests *
+      ********************/
+      {
+         it('Should not show the task due to invalid task ID in the URL.', function(done) {
+            chai.request(app)
+            .get('/api/task/a')
+            .set('User_Agent', 'Web')
+            .set('Authorization', data.identities[0].token)
+            .end(function(err, res) {
+               try {
+                  res.should.have.status(400);
                   res.body.should.have.property('status').and.equal('failed');
                   res.body.should.have.property('errors');  // TODO: Test the errors themselves
                   should.exist(err);
