@@ -221,10 +221,10 @@ module.exports = function() {
       data.tasks.push(task);
    }
 
-   data.tasks_users[0].push([3, 6, 9]);
-   data.tasks_users[1].push([4, 7, 10]);
-   data.tasks_users[2].push([]);
-   data.tasks_users[3].push([8]);
+   data.tasks_users.push([3, 6, 9]);
+   data.tasks_users.push([4, 7, 10]);
+   data.tasks_users.push([]);
+   data.tasks_users.push([8]);
 
    /********************
    * Creating Comments *
@@ -238,6 +238,7 @@ module.exports = function() {
       };
 
       data.comments.push(comment);
+   }
 
    /*********************
     * Creating Meetings *
@@ -281,4 +282,4 @@ module.exports = function() {
    }
 
    return data;
-}
+};
