@@ -267,7 +267,6 @@ module.exports = function(args) {
                   }).catch(function(error) {
                      done(error);
                   });
-                  done();
                } catch(error) {
                   done(error);
                }
