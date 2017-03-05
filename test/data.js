@@ -202,5 +202,43 @@ module.exports = function() {
       data.identities.push(identity);
    }
 
+   /*****************
+   * Creating Tasks *
+   ******************/
+   data.tasks = [];
+   data.tasks_users = [];
+   for (var i = 1; i <= 4; i++) {
+      var task = {
+         title: "Task " + i,
+         description: "Description " + i,
+         deadline: "2017-3-25 08:00:00",
+         priority: 5,
+         status: "New",
+         evaluation: 3,
+         supervisor: i
+      };
+
+      data.tasks.push(task);
+   }
+
+   data.tasks_users[0].push([3, 6, 9]);
+   data.tasks_users[1].push([4, 7, 10]);
+   data.tasks_users[2].push([]);
+   data.tasks_users[3].push([8]);
+
+   /********************
+   * Creating Comments *
+   *********************/
+   data.comments = [];
+   for (var i = 0; i < 8; i++) {
+      var comment = {
+         content: "Content " + (i + 1),
+         user_id: (i + 1),
+         task_id: (i % 2) +  1
+      };
+
+      data.comments.push(comment);
+   }
+
    return data;
 };

@@ -38,3 +38,8 @@ args.chai.use(require('chai-http'));
 describe('Meeting Controller', function() {
    require('./MeetingController/store')(args);
 });
+
+describe('Task Controller', function() {
+   require('./TaskController/store')(args);
+   require('./TaskController/show')(args);
+});
