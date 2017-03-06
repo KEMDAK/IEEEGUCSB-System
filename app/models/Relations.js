@@ -34,14 +34,8 @@ Meeting.belongsTo(User, { as: 'Supervisor', foreignKey: { name: 'supervisor', al
 User.belongsToMany(Meeting, { as: 'Meetings', through: 'meeting_user', onDelete: 'CASCADE' });
 Meeting.belongsToMany(User, { as: 'Attendees', through: 'meeting_user', onDelete: 'CASCADE' });
 
-/* Committee_User relation */
-<<<<<<< HEAD
-User.belongsTo(Committee, { as: 'Committee', foreignKey: { allowNull: true } });
-Committee.hasMany(User,   { as: 'Users', foreignKey: { allowNull: true } });
-=======
 Committee.hasMany(User, { as: 'Users', foreignKey: { allowNull: true }, onDelete: 'SET NULL' });
 User.belongsTo(Committee, { as: 'Committee', foreignKey: { allowNull: true }, onDelete: 'NO ACTION' });
->>>>>>> 5ac7a644068706f0c58eeb85cb14e9b314ffba70
 
 /* Notification_User relation */
 User.belongsToMany(Notification, { as: 'Notifications', through: 'notification_user', onDelete: 'CASCADE' });
