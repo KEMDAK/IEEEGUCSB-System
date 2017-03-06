@@ -19,15 +19,11 @@ before(function(done) {
             Meeting : require('../app/models/Meeting').Meeting,
             Task : require('../app/models/Task').Task,
             Committee : require('../app/models/Committee').Committee,
-            Identity : require('../app/models/Identity').Identity
+            Identity : require('../app/models/Identity').Identity,
+            Comment : require('../app/models/Comment').Comment
          };
 
-         args.fn.clearAll(function(err) {
-            if(err)
-               done(err);
-            else
-               done();
-         });
+         done();
       }
    });
 });
@@ -37,4 +33,12 @@ args.chai.use(require('chai-http'));
 
 describe('Meeting Controller', function() {
    require('./MeetingController/store')(args);
+   require('./MeetingController/show')(args);
+   require('./MeetingController/delete')(args);
+});
+
+describe('Task Controller', function() {
+   require('./TaskController/store')(args);
+   require('./TaskController/show')(args);
+   require('./TaskController/delete')(args);
 });
