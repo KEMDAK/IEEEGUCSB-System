@@ -2,6 +2,8 @@ module.exports = function(args) {
    var app, fn, data, models, chai, should;
 
    describe('DELETE /api/task/:id', function() {
+      this.timeout(500);
+
       before(function(done) {
          this.timeout(10000);
          app = args.app;
@@ -72,8 +74,8 @@ module.exports = function(args) {
                   res.should.have.status(401);
                   res.body.should.have.property('status').and.equal('failed');
                   should.exist(err);
-                  models.Task.findAll().then(function(records) {
-                     records.should.have.lengthOf(4);
+                  models.Task.findById(task_id).then(function(record) {
+                     should.exist(record);
                      done();
                   }).catch(function(error) {
                      done(error);
@@ -95,8 +97,8 @@ module.exports = function(args) {
                   res.should.have.status(403);
                   res.body.should.have.property('status').and.equal('failed');
                   should.exist(err);
-                  models.Task.findAll().then(function(records) {
-                     records.should.have.lengthOf(4);
+                  models.Task.findById(task_id).then(function(record) {
+                     should.exist(record);
                      done();
                   }).catch(function(error) {
                      done(error);
@@ -118,8 +120,8 @@ module.exports = function(args) {
                   res.should.have.status(403);
                   res.body.should.have.property('status').and.equal('failed');
                   should.exist(err);
-                  models.Task.findAll().then(function(records) {
-                     records.should.have.lengthOf(4);
+                  models.Task.findById(task_id).then(function(record) {
+                     should.exist(record);
                      done();
                   }).catch(function(error) {
                      done(error);
@@ -141,8 +143,8 @@ module.exports = function(args) {
                   res.should.have.status(403);
                   res.body.should.have.property('status').and.equal('failed');
                   should.exist(err);
-                  models.Task.findAll().then(function(records) {
-                     records.should.have.lengthOf(4);
+                  models.Task.findById(task_id).then(function(record) {
+                     should.exist(record);
                      done();
                   }).catch(function(error) {
                      done(error);
@@ -164,8 +166,8 @@ module.exports = function(args) {
                   res.should.have.status(403);
                   res.body.should.have.property('status').and.equal('failed');
                   should.exist(err);
-                  models.Task.findAll().then(function(records) {
-                     records.should.have.lengthOf(4);
+                  models.Task.findById(task_id).then(function(record) {
+                     should.exist(record);
                      done();
                   }).catch(function(error) {
                      done(error);
@@ -186,8 +188,8 @@ module.exports = function(args) {
                   res.should.have.status(401);
                   res.body.should.have.property('status').and.equal('failed');
                   should.exist(err);
-                  models.Task.findAll().then(function(records) {
-                     records.should.have.lengthOf(4);
+                  models.Task.findById(task_id).then(function(record) {
+                     should.exist(record);
                      done();
                   }).catch(function(error) {
                      done(error);
@@ -209,8 +211,8 @@ module.exports = function(args) {
                   res.should.have.status(401);
                   res.body.should.have.property('status').and.equal('failed');
                   should.exist(err);
-                  models.Task.findAll().then(function(records) {
-                     records.should.have.lengthOf(4);
+                  models.Task.findById(task_id).then(function(record) {
+                     should.exist(record);
                      done();
                   }).catch(function(error) {
                      done(error);
@@ -272,8 +274,8 @@ module.exports = function(args) {
                         throw new Error("The task should be deleted.");
                      }
 
-                     models.Task.findAll().then(function(records) {
-                        records.should.have.lengthOf(3);
+                     models.Task.findById(task_id).then(function(record) {
+                        should.not.exist(record);
                         done();
                      }).catch(function(error) {
                         done(error);
