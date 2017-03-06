@@ -75,7 +75,21 @@ module.exports = function(args) {
                      record.should.have.property('description').and.equal("Description " + meeting_id);
                      record.should.have.property('evaluation').and.equal(meeting_id);
                      record.should.have.property('supervisor').and.equal(meeting_id);
-                     done();
+                     record.getAttendees().then(function(attendees) {
+                        attendees.should.have.lengthOf(2);
+                        attendees.sort(function(a, b) {
+                           return a.id - b.id;
+                        });
+
+                        for (i = 0; i < attendees.length; i++) {
+                           var attendee_id = meeting_id + (4 * (i+1));
+                           attendees[i].should.have.property('id').and.equal(attendee_id);
+                        }
+
+                        done();
+                     }).catch(function(error) {
+                        done(error);
+                     });
                   }).catch(function(error) {
                      done(error);
                   });
@@ -113,7 +127,21 @@ module.exports = function(args) {
                      record.should.have.property('description').and.equal("Description " + meeting_id);
                      record.should.have.property('evaluation').and.equal(meeting_id);
                      record.should.have.property('supervisor').and.equal(meeting_id);
-                     done();
+                     record.getAttendees().then(function(attendees) {
+                        attendees.should.have.lengthOf(2);
+                        attendees.sort(function(a, b) {
+                           return a.id - b.id;
+                        });
+
+                        for (i = 0; i < attendees.length; i++) {
+                           var attendee_id = meeting_id + (4 * (i+1));
+                           attendees[i].should.have.property('id').and.equal(attendee_id);
+                        }
+
+                        done();
+                     }).catch(function(error) {
+                        done(error);
+                     });
                   }).catch(function(error) {
                      done(error);
                   });
@@ -151,7 +179,21 @@ module.exports = function(args) {
                      record.should.have.property('description').and.equal("Description " + meeting_id);
                      record.should.have.property('evaluation').and.equal(meeting_id);
                      record.should.have.property('supervisor').and.equal(meeting_id);
-                     done();
+                     record.getAttendees().then(function(attendees) {
+                        attendees.should.have.lengthOf(2);
+                        attendees.sort(function(a, b) {
+                           return a.id - b.id;
+                        });
+
+                        for (i = 0; i < attendees.length; i++) {
+                           var attendee_id = meeting_id + (4 * (i+1));
+                           attendees[i].should.have.property('id').and.equal(attendee_id);
+                        }
+
+                        done();
+                     }).catch(function(error) {
+                        done(error);
+                     });
                   }).catch(function(error) {
                      done(error);
                   });
@@ -189,7 +231,21 @@ module.exports = function(args) {
                      record.should.have.property('description').and.equal("Description " + meeting_id);
                      record.should.have.property('evaluation').and.equal(meeting_id);
                      record.should.have.property('supervisor').and.equal(meeting_id);
-                     done();
+                     record.getAttendees().then(function(attendees) {
+                        attendees.should.have.lengthOf(2);
+                        attendees.sort(function(a, b) {
+                           return a.id - b.id;
+                        });
+
+                        for (i = 0; i < attendees.length; i++) {
+                           var attendee_id = meeting_id + (4 * (i+1));
+                           attendees[i].should.have.property('id').and.equal(attendee_id);
+                        }
+
+                        done();
+                     }).catch(function(error) {
+                        done(error);
+                     });
                   }).catch(function(error) {
                      done(error);
                   });
@@ -227,7 +283,21 @@ module.exports = function(args) {
                      record.should.have.property('description').and.equal("Description " + meeting_id);
                      record.should.have.property('evaluation').and.equal(meeting_id);
                      record.should.have.property('supervisor').and.equal(meeting_id);
-                     done();
+                     record.getAttendees().then(function(attendees) {
+                        attendees.should.have.lengthOf(2);
+                        attendees.sort(function(a, b) {
+                           return a.id - b.id;
+                        });
+
+                        for (i = 0; i < attendees.length; i++) {
+                           var attendee_id = meeting_id + (4 * (i+1));
+                           attendees[i].should.have.property('id').and.equal(attendee_id);
+                        }
+
+                        done();
+                     }).catch(function(error) {
+                        done(error);
+                     });
                   }).catch(function(error) {
                      done(error);
                   });
@@ -264,7 +334,21 @@ module.exports = function(args) {
                      record.should.have.property('description').and.equal("Description " + meeting_id);
                      record.should.have.property('evaluation').and.equal(meeting_id);
                      record.should.have.property('supervisor').and.equal(meeting_id);
-                     done();
+                     record.getAttendees().then(function(attendees) {
+                        attendees.should.have.lengthOf(2);
+                        attendees.sort(function(a, b) {
+                           return a.id - b.id;
+                        });
+
+                        for (i = 0; i < attendees.length; i++) {
+                           var attendee_id = meeting_id + (4 * (i+1));
+                           attendees[i].should.have.property('id').and.equal(attendee_id);
+                        }
+
+                        done();
+                     }).catch(function(error) {
+                        done(error);
+                     });
                   }).catch(function(error) {
                      done(error);
                   });
@@ -302,7 +386,21 @@ module.exports = function(args) {
                      record.should.have.property('description').and.equal("Description " + meeting_id);
                      record.should.have.property('evaluation').and.equal(meeting_id);
                      record.should.have.property('supervisor').and.equal(meeting_id);
-                     done();
+                     record.getAttendees().then(function(attendees) {
+                        attendees.should.have.lengthOf(2);
+                        attendees.sort(function(a, b) {
+                           return a.id - b.id;
+                        });
+
+                        for (i = 0; i < attendees.length; i++) {
+                           var attendee_id = meeting_id + (4 * (i+1));
+                           attendees[i].should.have.property('id').and.equal(attendee_id);
+                        }
+
+                        done();
+                     }).catch(function(error) {
+                        done(error);
+                     });
                   }).catch(function(error) {
                      done(error);
                   });
@@ -376,6 +474,372 @@ module.exports = function(args) {
                         }
 
                         done();
+                     }).catch(function(error) {
+                        done(error);
+                     });
+                  }).catch(function(error) {
+                     done(error);
+                  });
+               } catch(error) {
+                  done(error);
+               }
+            });
+         });
+
+         it('Should not allow the meeting to be updated due to invalid \'start_date\' parameter in the body.', function(done) {
+            var meeting_id = 1;
+            chai.request(app)
+            .put('/api/meeting/' + meeting_id)
+            .set('User_Agent', 'Web')
+            .set('Authorization', data.identities[0].token)
+            .send('start_date', 'Invalid')
+            .end(function(err, res) {
+               try {
+                  res.should.have.status(400);
+                  res.body.should.have.property('status').and.equal('failed');
+                  res.body.should.have.property('errors');  // TODO: Test the errors themselves
+                  should.exist(err);
+                  models.Meeting.findById(meeting_id).then(function(record) {
+                     record.should.have.property('id').and.equal(meeting_id);
+                     record.should.have.property('start_date');
+                     record.should.have.property('end_date');
+                     record.should.have.property('goals');
+                     record.goals.should.have.lengthOf(3);
+                     var i;
+                     for (i = 0; i < record.goals.length; i++) {
+                        record.goals[i].should.have.property('name');
+                        record.goals[i].should.have.property('isDone').and.equal(false);
+                     }
+                     record.should.have.property('location').and.equal("Location " + meeting_id);
+                     record.should.have.property('description').and.equal("Description " + meeting_id);
+                     record.should.have.property('evaluation').and.equal(meeting_id);
+                     record.should.have.property('supervisor').and.equal(meeting_id);
+                     record.getAttendees().then(function(attendees) {
+                        attendees.should.have.lengthOf(2);
+                        attendees.sort(function(a, b) {
+                           return a.id - b.id;
+                        });
+
+                        for (i = 0; i < attendees.length; i++) {
+                           var attendee_id = meeting_id + (4 * (i+1));
+                           attendees[i].should.have.property('id').and.equal(attendee_id);
+                        }
+
+                        done();
+                     }).catch(function(error) {
+                        done(error);
+                     });
+                  }).catch(function(error) {
+                     done(error);
+                  });
+               } catch(error) {
+                  done(error);
+               }
+            });
+         });
+
+         it('Should not allow the meeting to be updated due to invalid \'end_date\' parameter in the body.', function(done) {
+            var meeting_id = 1;
+            chai.request(app)
+            .put('/api/meeting/' + meeting_id)
+            .set('User_Agent', 'Web')
+            .set('Authorization', data.identities[0].token)
+            .send('end_date', 'Invalid')
+            .end(function(err, res) {
+               try {
+                  res.should.have.status(400);
+                  res.body.should.have.property('status').and.equal('failed');
+                  res.body.should.have.property('errors');  // TODO: Test the errors themselves
+                  should.exist(err);
+                  models.Meeting.findById(meeting_id).then(function(record) {
+                     record.should.have.property('id').and.equal(meeting_id);
+                     record.should.have.property('start_date');
+                     record.should.have.property('end_date');
+                     record.should.have.property('goals');
+                     record.goals.should.have.lengthOf(3);
+                     var i;
+                     for (i = 0; i < record.goals.length; i++) {
+                        record.goals[i].should.have.property('name');
+                        record.goals[i].should.have.property('isDone').and.equal(false);
+                     }
+                     record.should.have.property('location').and.equal("Location " + meeting_id);
+                     record.should.have.property('description').and.equal("Description " + meeting_id);
+                     record.should.have.property('evaluation').and.equal(meeting_id);
+                     record.should.have.property('supervisor').and.equal(meeting_id);
+                     record.getAttendees().then(function(attendees) {
+                        attendees.should.have.lengthOf(2);
+                        attendees.sort(function(a, b) {
+                           return a.id - b.id;
+                        });
+
+                        for (i = 0; i < attendees.length; i++) {
+                           var attendee_id = meeting_id + (4 * (i+1));
+                           attendees[i].should.have.property('id').and.equal(attendee_id);
+                        }
+
+                        done();
+                     }).catch(function(error) {
+                        done(error);
+                     });
+                  }).catch(function(error) {
+                     done(error);
+                  });
+               } catch(error) {
+                  done(error);
+               }
+            });
+         });
+
+         it('Should not allow the meeting to be updated due to invalid \'goals\' parameter in the body. I', function(done) {
+            var meeting_id = 1;
+            chai.request(app)
+            .put('/api/meeting/' + meeting_id)
+            .set('User_Agent', 'Web')
+            .set('Authorization', data.identities[0].token)
+            .send('goals', 'Invalid')
+            .end(function(err, res) {
+               try {
+                  res.should.have.status(400);
+                  res.body.should.have.property('status').and.equal('failed');
+                  res.body.should.have.property('errors');  // TODO: Test the errors themselves
+                  should.exist(err);
+                  models.Meeting.findById(meeting_id).then(function(record) {
+                     record.should.have.property('id').and.equal(meeting_id);
+                     record.should.have.property('start_date');
+                     record.should.have.property('end_date');
+                     record.should.have.property('goals');
+                     record.goals.should.have.lengthOf(3);
+                     var i;
+                     for (i = 0; i < record.goals.length; i++) {
+                        record.goals[i].should.have.property('name');
+                        record.goals[i].should.have.property('isDone').and.equal(false);
+                     }
+                     record.should.have.property('location').and.equal("Location " + meeting_id);
+                     record.should.have.property('description').and.equal("Description " + meeting_id);
+                     record.should.have.property('evaluation').and.equal(meeting_id);
+                     record.should.have.property('supervisor').and.equal(meeting_id);
+                     record.getAttendees().then(function(attendees) {
+                        attendees.should.have.lengthOf(2);
+                        attendees.sort(function(a, b) {
+                           return a.id - b.id;
+                        });
+
+                        for (i = 0; i < attendees.length; i++) {
+                           var attendee_id = meeting_id + (4 * (i+1));
+                           attendees[i].should.have.property('id').and.equal(attendee_id);
+                        }
+
+                        done();
+                     }).catch(function(error) {
+                        done(error);
+                     });
+                  }).catch(function(error) {
+                     done(error);
+                  });
+               } catch(error) {
+                  done(error);
+               }
+            });
+         });
+
+         it('Should not allow the meeting to be updated due to invalid \'goals\' parameter in the body. II', function(done) {
+            var meeting_id = 1;
+            chai.request(app)
+            .put('/api/meeting/' + meeting_id)
+            .set('User_Agent', 'Web')
+            .set('Authorization', data.identities[0].token)
+            .send('goals', ['This', 'is', 'invalid'])
+            .end(function(err, res) {
+               try {
+                  res.should.have.status(400);
+                  res.body.should.have.property('status').and.equal('failed');
+                  res.body.should.have.property('errors');  // TODO: Test the errors themselves
+                  should.exist(err);
+                  models.Meeting.findById(meeting_id).then(function(record) {
+                     record.should.have.property('id').and.equal(meeting_id);
+                     record.should.have.property('start_date');
+                     record.should.have.property('end_date');
+                     record.should.have.property('goals');
+                     record.goals.should.have.lengthOf(3);
+                     var i;
+                     for (i = 0; i < record.goals.length; i++) {
+                        record.goals[i].should.have.property('name');
+                        record.goals[i].should.have.property('isDone').and.equal(false);
+                     }
+                     record.should.have.property('location').and.equal("Location " + meeting_id);
+                     record.should.have.property('description').and.equal("Description " + meeting_id);
+                     record.should.have.property('evaluation').and.equal(meeting_id);
+                     record.should.have.property('supervisor').and.equal(meeting_id);
+                     record.getAttendees().then(function(attendees) {
+                        attendees.should.have.lengthOf(2);
+                        attendees.sort(function(a, b) {
+                           return a.id - b.id;
+                        });
+
+                        for (i = 0; i < attendees.length; i++) {
+                           var attendee_id = meeting_id + (4 * (i+1));
+                           attendees[i].should.have.property('id').and.equal(attendee_id);
+                        }
+
+                        done();
+                     }).catch(function(error) {
+                        done(error);
+                     });
+                  }).catch(function(error) {
+                     done(error);
+                  });
+               } catch(error) {
+                  done(error);
+               }
+            });
+         });
+
+         it('Should not allow the meeting to be updated due to invalid \'goals\' parameter in the body. III', function(done) {
+            var meeting_id = 1;
+            chai.request(app)
+            .put('/api/meeting/' + meeting_id)
+            .set('User_Agent', 'Web')
+            .set('Authorization', data.identities[0].token)
+            .send('goals', [ true, true ])
+            .end(function(err, res) {
+               try {
+                  res.should.have.status(400);
+                  res.body.should.have.property('status').and.equal('failed');
+                  res.body.should.have.property('errors');  // TODO: Test the errors themselves
+                  should.exist(err);
+                  models.Meeting.findById(meeting_id).then(function(record) {
+                     record.should.have.property('id').and.equal(meeting_id);
+                     record.should.have.property('start_date');
+                     record.should.have.property('end_date');
+                     record.should.have.property('goals');
+                     record.goals.should.have.lengthOf(3);
+                     var i;
+                     for (i = 0; i < record.goals.length; i++) {
+                        record.goals[i].should.have.property('name');
+                        record.goals[i].should.have.property('isDone').and.equal(false);
+                     }
+                     record.should.have.property('location').and.equal("Location " + meeting_id);
+                     record.should.have.property('description').and.equal("Description " + meeting_id);
+                     record.should.have.property('evaluation').and.equal(meeting_id);
+                     record.should.have.property('supervisor').and.equal(meeting_id);
+                     record.getAttendees().then(function(attendees) {
+                        attendees.should.have.lengthOf(2);
+                        attendees.sort(function(a, b) {
+                           return a.id - b.id;
+                        });
+
+                        for (i = 0; i < attendees.length; i++) {
+                           var attendee_id = meeting_id + (4 * (i+1));
+                           attendees[i].should.have.property('id').and.equal(attendee_id);
+                        }
+
+                        done();
+                     }).catch(function(error) {
+                        done(error);
+                     });
+                  }).catch(function(error) {
+                     done(error);
+                  });
+               } catch(error) {
+                  done(error);
+               }
+            });
+         });
+
+         it('Should not allow the meeting to be updated due to invalid \'location\' parameter in the body.', function(done) {
+            var meeting_id = 1;
+            chai.request(app)
+            .put('/api/meeting/' + meeting_id)
+            .set('User_Agent', 'Web')
+            .set('Authorization', data.identities[0].token)
+            .send('location', 1)
+            .end(function(err, res) {
+               try {
+                  res.should.have.status(400);
+                  res.body.should.have.property('status').and.equal('failed');
+                  res.body.should.have.property('errors');  // TODO: Test the errors themselves
+                  should.exist(err);
+                  models.Meeting.findById(meeting_id).then(function(record) {
+                     record.should.have.property('id').and.equal(meeting_id);
+                     record.should.have.property('start_date');
+                     record.should.have.property('end_date');
+                     record.should.have.property('goals');
+                     record.goals.should.have.lengthOf(3);
+                     var i;
+                     for (i = 0; i < record.goals.length; i++) {
+                        record.goals[i].should.have.property('name');
+                        record.goals[i].should.have.property('isDone').and.equal(false);
+                     }
+                     record.should.have.property('location').and.equal("Location " + meeting_id);
+                     record.should.have.property('description').and.equal("Description " + meeting_id);
+                     record.should.have.property('evaluation').and.equal(meeting_id);
+                     record.should.have.property('supervisor').and.equal(meeting_id);
+                     record.getAttendees().then(function(attendees) {
+                        attendees.should.have.lengthOf(2);
+                        attendees.sort(function(a, b) {
+                           return a.id - b.id;
+                        });
+
+                        for (i = 0; i < attendees.length; i++) {
+                           var attendee_id = meeting_id + (4 * (i+1));
+                           attendees[i].should.have.property('id').and.equal(attendee_id);
+                        }
+
+                        done();
+                     }).catch(function(error) {
+                        done(error);
+                     });
+                  }).catch(function(error) {
+                     done(error);
+                  });
+               } catch(error) {
+                  done(error);
+               }
+            });
+         });
+
+         it('Should not update the meeting if the requester is in the attendees.', function(done) {
+            var meeting_id = 1;
+            chai.request(app)
+            .put('/api/meeting/' + meeting_id)
+            .set('User_Agent', 'Web')
+            .set('Authorization', data.identities[0].token)
+            .send('attendees', [1, 2, 3, 4])
+            .end(function(err, res) {
+               try {
+                  res.should.have.status(400);
+                  res.body.should.have.property('status').and.equal('failed');
+                  res.body.should.have.property('errors');
+                  should.exist(err);
+                  models.Meeting.findById(meeting_id).then(function(record) {
+                     record.should.have.property('id').and.equal(meeting_id);
+                     record.should.have.property('start_date');
+                     record.should.have.property('end_date');
+                     record.should.have.property('goals');
+                     record.goals.should.have.lengthOf(3);
+                     var i;
+                     for (i = 0; i < record.goals.length; i++) {
+                        record.goals[i].should.have.property('name');
+                        record.goals[i].should.have.property('isDone').and.equal(false);
+                     }
+                     record.should.have.property('location').and.equal("Location " + meeting_id);
+                     record.should.have.property('description').and.equal("Description " + meeting_id);
+                     record.should.have.property('evaluation').and.equal(meeting_id);
+                     record.should.have.property('supervisor').and.equal(meeting_id);
+                     record.getAttendees().then(function(attendees) {
+                        attendees.should.have.lengthOf(2);
+                        attendees.sort(function(a, b) {
+                           return a.id - b.id;
+                        });
+
+                        for (i = 0; i < attendees.length; i++) {
+                           var attendee_id = meeting_id + (4 * (i+1));
+                           attendees[i].should.have.property('id').and.equal(attendee_id);
+                        }
+
+                        done();
+                     }).catch(function(error) {
+                        done(error);
                      });
                   }).catch(function(error) {
                      done(error);
@@ -391,7 +855,158 @@ module.exports = function(args) {
       * Acceptance Tests *
       ********************/
       {
+         it('Should update the meeting (Admin Authentication).', function(done) {
+            var meeting_id = 1;
+            var updatedMeeting = {
+               location: "Updated Location",
+               description: "Updated Description",
+               attendees: [2]
+            };
 
+            chai.request(app)
+            .put('/api/meeting/' + meeting_id)
+            .set('User_Agent', 'Web')
+            .set('Authorization', data.identities[0].token)
+            .send(updatedMeeting)
+            .end(function(err, res) {
+               try {
+                  res.should.have.status(200);
+                  res.body.should.have.property('status').and.equal('succeeded');
+                  res.body.should.not.have.property('errors');
+                  should.not.exist(err);
+                  models.Meeting.findById(meeting_id).then(function(record) {
+                     record.should.have.property('id').and.equal(meeting_id);
+                     record.should.have.property('start_date');
+                     record.should.have.property('end_date');
+                     record.should.have.property('goals');
+                     record.goals.should.have.lengthOf(3);
+                     var i;
+                     for (i = 0; i < record.goals.length; i++) {
+                        record.goals[i].should.have.property('name');
+                        record.goals[i].should.have.property('isDone').and.equal(false);
+                     }
+                     record.should.have.property('location').and.equal("Updated Location");
+                     record.should.have.property('description').and.equal("Updated Description");
+                     record.should.have.property('evaluation').and.equal(meeting_id);
+                     record.should.have.property('supervisor').and.equal(meeting_id);
+                     record.getAttendees().then(function(attendees) {
+                        attendees.should.have.lengthOf(1);
+                        attendees[0].should.equal(2);
+                        done();
+                     }).catch(function(error) {
+                        done(error);
+                     });
+                  }).catch(function(error) {
+                     done(error);
+                  });
+               } catch(error) {
+                  done(error);
+               }
+
+            });
+         });
+
+         it('Should update the meeting (Upper Board Authentication).', function(done) {
+            var meeting_id = 2;
+            var updatedMeeting = {
+               location: "Updated Location",
+               description: "Updated Description",
+               attendees: [3]
+            };
+
+            chai.request(app)
+            .put('/api/meeting/' + meeting_id)
+            .set('User_Agent', 'Web')
+            .set('Authorization', data.identities[1].token)
+            .send(updatedMeeting)
+            .end(function(err, res) {
+               try {
+                  res.should.have.status(200);
+                  res.body.should.have.property('status').and.equal('succeeded');
+                  res.body.should.not.have.property('errors');
+                  should.not.exist(err);
+                  models.Meeting.findById(meeting_id).then(function(record) {
+                     record.should.have.property('id').and.equal(meeting_id);
+                     record.should.have.property('start_date');
+                     record.should.have.property('end_date');
+                     record.should.have.property('goals');
+                     record.goals.should.have.lengthOf(3);
+                     var i;
+                     for (i = 0; i < record.goals.length; i++) {
+                        record.goals[i].should.have.property('name');
+                        record.goals[i].should.have.property('isDone').and.equal(false);
+                     }
+                     record.should.have.property('location').and.equal("Updated Location");
+                     record.should.have.property('description').and.equal("Updated Description");
+                     record.should.have.property('evaluation').and.equal(meeting_id);
+                     record.should.have.property('supervisor').and.equal(meeting_id);
+                     record.getAttendees().then(function(attendees) {
+                        attendees.should.have.lengthOf(1);
+                        attendees[0].should.equal(3);
+                        done();
+                     }).catch(function(error) {
+                        done(error);
+                     });
+                  }).catch(function(error) {
+                     done(error);
+                  });
+               } catch(error) {
+                  done(error);
+               }
+
+            });
+         });
+
+         it('Should add the meeting (High Board Authentication).', function(done) {
+            var meeting_id = 4;
+            var updatedMeeting = {
+               location: "Updated Location",
+               description: "Updated Description",
+               attendees: [5]
+            };
+
+            chai.request(app)
+            .put('/api/meeting/' + meeting_id)
+            .set('User_Agent', 'Web')
+            .set('Authorization', data.identities[3].token)
+            .send(updatedMeeting)
+            .end(function(err, res) {
+               try {
+                  res.should.have.status(200);
+                  res.body.should.have.property('status').and.equal('succeeded');
+                  res.body.should.not.have.property('errors');
+                  should.not.exist(err);
+                  models.Meeting.findById(meeting_id).then(function(record) {
+                     record.should.have.property('id').and.equal(meeting_id);
+                     record.should.have.property('start_date');
+                     record.should.have.property('end_date');
+                     record.should.have.property('goals');
+                     record.goals.should.have.lengthOf(3);
+                     var i;
+                     for (i = 0; i < record.goals.length; i++) {
+                        record.goals[i].should.have.property('name');
+                        record.goals[i].should.have.property('isDone').and.equal(false);
+                     }
+                     record.should.have.property('location').and.equal("Updated Location");
+                     record.should.have.property('description').and.equal("Updated Description");
+                     record.should.have.property('evaluation').and.equal(meeting_id);
+                     record.should.have.property('supervisor').and.equal(meeting_id);
+                     record.getAttendees().then(function(attendees) {
+                        attendees.should.have.lengthOf(1);
+                        attendees[0].should.equal(5);
+                        done();
+                     }).catch(function(error) {
+                        done(error);
+                     });
+                  }).catch(function(error) {
+                     done(error);
+                  });
+               } catch(error) {
+                  done(error);
+               }
+
+            });
+         });
       }
    });
 };
