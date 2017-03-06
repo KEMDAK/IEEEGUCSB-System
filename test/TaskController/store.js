@@ -152,7 +152,7 @@ module.exports = function(args) {
                description: "Description",
                deadline: "2017-2-25 08:00:00",
                priority: "5",
-               assignedTo: [1]
+               assigned_to: [1]
             };
 
             chai.request(app)
@@ -186,7 +186,7 @@ module.exports = function(args) {
                description: "Description",
                deadline: "2017-2-25 08:00:00",
                priority: "5",
-               assignedTo: [2]
+               assigned_to: [2]
             };
 
             chai.request(app)
@@ -220,7 +220,7 @@ module.exports = function(args) {
                description: "Description",
                deadline: "2017-2-25 08:00:00",
                priority: "5",
-               assignedTo: [5]
+               assigned_to: [5]
             };
 
             chai.request(app)
@@ -254,7 +254,7 @@ module.exports = function(args) {
                description: "Description",
                deadline: "2017-2-25 08:00:00",
                priority: "5",
-               assignedTo: [9, 12]
+               assigned_to: [9, 12]
             };
 
             chai.request(app)
@@ -287,7 +287,7 @@ module.exports = function(args) {
                description: "Description",
                deadline: "2017-2-25 08:00:00",
                priority: "5",
-               assignedTo: [9, 12]
+               assigned_to: [9, 12]
             };
 
             chai.request(app)
@@ -321,7 +321,7 @@ module.exports = function(args) {
                description: "Description",
                deadline: "2017-2-25 08:00:00",
                priority: "5",
-               assignedTo: [9, 12]
+               assigned_to: [9, 12]
             };
 
             chai.request(app)
@@ -355,7 +355,7 @@ module.exports = function(args) {
                description: 8,
                deadline: "2017-2-25 08:00:00",
                priority: "5",
-               assignedTo: [9, 12]
+               assigned_to: [9, 12]
             };
 
             chai.request(app)
@@ -388,7 +388,7 @@ module.exports = function(args) {
                title: "Task",
                description: "Description",
                priority: "5",
-               assignedTo: [9, 12]
+               assigned_to: [9, 12]
             };
 
             chai.request(app)
@@ -422,7 +422,7 @@ module.exports = function(args) {
                description: "Description",
                deadline: "This is an invalid date.",
                priority: "5",
-               assignedTo: [9, 12]
+               assigned_to: [9, 12]
             };
 
             chai.request(app)
@@ -455,7 +455,7 @@ module.exports = function(args) {
                task: "Task",
                description: "Description",
                deadline: "2017-2-25 08:00:00",
-               assignedTo: [9, 12]
+               assigned_to: [9, 12]
             };
 
             chai.request(app)
@@ -489,7 +489,75 @@ module.exports = function(args) {
                description: "Description",
                deadline: "2017-2-25 08:00:00",
                priority: 7,
-               assignedTo: [9, 12]
+               assigned_to: [9, 12]
+            };
+
+            chai.request(app)
+            .post('/api/task')
+            .set('User_Agent', 'Web')
+            .set('Authorization', data.identities[0].token)
+            .send(task)
+            .end(function(err, res) {
+               try {
+                  res.should.have.status(400);
+                  res.body.should.have.property('status').and.equal('failed');
+                  res.body.should.have.property('errors');  // TODO: Test the errors themselves
+                  should.exist(err);
+                  models.Task.count().then(function(count) {
+                     if(count !== 0)
+                        throw new Error("The Task has been added to the database.");
+                     else
+                        done();
+                  }).catch(function(err) {
+                     done(err);
+                  });
+               } catch(error) {
+                  done(error);
+               }
+            });
+         });
+
+         it('Should not allow the task to be added due to invalid \'assigned_to\' parameter in the body.', function(done) {
+            var task = {
+               task: "Task",
+               description: "Description",
+               deadline: "2017-2-25 08:00:00",
+               priority: "5",
+               assigned_to: "invalid"
+            };
+
+            chai.request(app)
+            .post('/api/task')
+            .set('User_Agent', 'Web')
+            .set('Authorization', data.identities[0].token)
+            .send(task)
+            .end(function(err, res) {
+               try {
+                  res.should.have.status(400);
+                  res.body.should.have.property('status').and.equal('failed');
+                  res.body.should.have.property('errors');  // TODO: Test the errors themselves
+                  should.exist(err);
+                  models.Task.count().then(function(count) {
+                     if(count !== 0)
+                        throw new Error("The Task has been added to the database.");
+                     else
+                        done();
+                  }).catch(function(err) {
+                     done(err);
+                  });
+               } catch(error) {
+                  done(error);
+               }
+            });
+         });
+
+         it('Should not allow the task to be added due to invalid \'assigned_to\' parameter in the body.', function(done) {
+            var task = {
+               task: "Task",
+               description: "Description",
+               deadline: "2017-2-25 08:00:00",
+               priority: "5",
+               assigned_to: [9, "invalid"]
             };
 
             chai.request(app)
@@ -528,7 +596,7 @@ module.exports = function(args) {
                description: "Description",
                deadline: "2017-2-25 08:00:00",
                priority: "5",
-               assignedTo: [2, 3, 4, 5, 6]
+               assigned_to: [1, 2, 3, 4, 5, 6]
             };
 
             chai.request(app)
@@ -563,12 +631,12 @@ module.exports = function(args) {
                            assignedUsers.push(records[i].id);
                         }
 
-                        assignedUsers.should.have.lengthOf(task.assignedUsers.length);
+                        assignedUsers.should.have.lengthOf(task.assigned_to.length);
                         assignedUsers.sort(function(a, b) { return a - b; });
 
                         var valid = true;
                         for (i = 0; i < assignedUsers.length && valid; i++) {
-                           if (assignedUsers[i] != task.assignedUsers[i]) {
+                           if (assignedUsers[i] != task.assigned_to[i]) {
                               valid = false;
                            }
                         }
@@ -597,7 +665,7 @@ module.exports = function(args) {
                description: "Description",
                deadline: "2017-2-25 08:00:00",
                priority: "5",
-               assignedTo: [1, 3, 4, 5, 6]
+               assigned_to: [1, 2, 3, 4, 5, 6]
             };
 
             chai.request(app)
@@ -632,12 +700,12 @@ module.exports = function(args) {
                            assignedUsers.push(records[i].id);
                         }
 
-                        assignedUsers.should.have.lengthOf(task.assignedUsers.length);
+                        assignedUsers.should.have.lengthOf(task.assigned_to.length);
                         assignedUsers.sort(function(a, b) { return a - b; });
 
                         var valid = true;
                         for (i = 0; i < assignedUsers.length && valid; i++) {
-                           if (assignedUsers[i] != task.assignedUsers[i]) {
+                           if (assignedUsers[i] != task.assigned_to[i]) {
                               valid = false;
                            }
                         }
@@ -666,7 +734,7 @@ module.exports = function(args) {
                description: "Description",
                deadline: "2017-2-25 08:00:00",
                priority: "5",
-               assignedTo: [8, 12]
+               assigned_to: [4, 8, 12]
             };
 
             chai.request(app)
@@ -701,12 +769,12 @@ module.exports = function(args) {
                            assignedUsers.push(records[i].id);
                         }
 
-                        assignedUsers.should.have.lengthOf(task.assignedUsers.length);
+                        assignedUsers.should.have.lengthOf(task.assigned_to.length);
                         assignedUsers.sort(function(a, b) { return a - b; });
 
                         var valid = true;
                         for (i = 0; i < assignedUsers.length && valid; i++) {
-                           if (assignedUsers[i] != task.assignedUsers[i]) {
+                           if (assignedUsers[i] != task.assigned_to[i]) {
                               valid = false;
                            }
                         }
@@ -734,7 +802,7 @@ module.exports = function(args) {
                title: "Task",
                deadline: "2017-2-25 08:00:00",
                priority: "5",
-               assignedTo: [2, 3, 4, 5, 6]
+               assigned_to: [2, 3, 4, 5, 6]
             };
 
             chai.request(app)
@@ -773,12 +841,12 @@ module.exports = function(args) {
                            assignedUsers.push(records[i].id);
                         }
 
-                        assignedUsers.should.have.lengthOf(task.assignedUsers.length);
+                        assignedUsers.should.have.lengthOf(task.assigned_to.length);
                         assignedUsers.sort(function(a, b) { return a - b; });
 
                         var valid = true;
                         for (i = 0; i < assignedUsers.length && valid; i++) {
-                           if (assignedUsers[i] != task.assignedUsers[i]) {
+                           if (assignedUsers[i] != task.assigned_to[i]) {
                               valid = false;
                            }
                         }

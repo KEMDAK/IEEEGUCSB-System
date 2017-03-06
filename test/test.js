@@ -31,14 +31,15 @@ before(function(done) {
 args.chai = require('chai');
 args.chai.use(require('chai-http'));
 
-describe('Meeting Controller', function() {
-   require('./MeetingController/store')(args);
-   require('./MeetingController/show')(args);
-   require('./MeetingController/delete')(args);
-});
+// describe('Meeting Controller', function() {
+//    require('./MeetingController/store')(args);
+//    require('./MeetingController/show')(args);
+//    require('./MeetingController/delete')(args);
+// });
 
 describe('Task Controller', function() {
    require('./TaskController/store')(args);
    require('./TaskController/show')(args);
+   require('./TaskController/update')(args);
    require('./TaskController/delete')(args);
 });
