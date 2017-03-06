@@ -2,7 +2,7 @@ module.exports = function(args) {
    var app, fn, data, models, chai, should;
 
    describe('GET /api/task/:id', function() {
-      this.timeout(1000);
+      this.timeout(500);
       
       before(function(done) {
          this.timeout(10000);
@@ -74,6 +74,7 @@ module.exports = function(args) {
                   res.should.have.status(401);
                   res.body.should.have.property('status').and.equal('failed');
                   should.exist(err);
+                  done();
                } catch(error) {
                   done(error);
                }
@@ -89,6 +90,7 @@ module.exports = function(args) {
                   res.should.have.status(401);
                   res.body.should.have.property('status').and.equal('failed');
                   should.exist(err);
+                  done();
                } catch(error) {
                   done(error);
                }
@@ -105,6 +107,7 @@ module.exports = function(args) {
                   res.should.have.status(401);
                   res.body.should.have.property('status').and.equal('failed');
                   should.exist(err);
+                  done();
                } catch(error) {
                   done(error);
                }
@@ -122,6 +125,7 @@ module.exports = function(args) {
                   res.body.should.have.property('status').and.equal('failed');
                   res.body.should.have.property('errors');  // TODO: Test the errors themselves
                   should.exist(err);
+                  done();
                } catch(error) {
                   done(error);
                }
@@ -139,6 +143,7 @@ module.exports = function(args) {
                   res.body.should.have.property('status').and.equal('failed');
                   res.body.should.have.property('errors');  // TODO: Test the errors themselves
                   should.exist(err);
+                  done();
                } catch(error) {
                   done(error);
                }
@@ -161,6 +166,7 @@ module.exports = function(args) {
                   res.body.should.have.property('status').and.equal('failed');
                   res.body.should.have.property('errors');  // TODO: Test the errors themselves
                   should.exist(err);
+                  done();
                } catch(error) {
                   done(error);
                }
