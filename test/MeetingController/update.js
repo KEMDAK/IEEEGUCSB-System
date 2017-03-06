@@ -53,7 +53,7 @@ module.exports = function(args) {
             chai.request(app)
             .put('/api/meeting/' + meeting_id)
             .set('User_Agent', 'Web')
-            .send('location', 'No Location')
+            .send({ location: 'No Location' })
             .end(function(err, res) {
                try {
                   res.should.have.status(401);
@@ -105,7 +105,7 @@ module.exports = function(args) {
             .put('/api/meeting/' + meeting_id)
             .set('User_Agent', 'Web')
             .set('Authorization', data.identities[7].token)
-            .send('location', 'No Location')
+            .send({ location: 'No Location' })
             .end(function(err, res) {
                try {
                   res.should.have.status(403);
@@ -157,7 +157,7 @@ module.exports = function(args) {
             .put('/api/meeting/' + meeting_id)
             .set('User_Agent', 'Web')
             .set('Authorization', data.identities[0].token)
-            .send('location', 'No Location')
+            .send({ location: 'No Location' })
             .end(function(err, res) {
                try {
                   res.should.have.status(403);
@@ -184,7 +184,7 @@ module.exports = function(args) {
                         attendees.sort(function(a, b) {
                            return a.id - b.id;
                         });
-
+                        
                         for (i = 0; i < attendees.length; i++) {
                            var attendee_id = meeting_id + (4 * (i+1));
                            attendees[i].should.have.property('id').and.equal(attendee_id);
@@ -209,7 +209,7 @@ module.exports = function(args) {
             .put('/api/meeting/' + meeting_id)
             .set('User_Agent', 'Web')
             .set('Authorization', data.identities[1].token)
-            .send('location', 'No Location')
+            .send({ location: 'No Location' })
             .end(function(err, res) {
                try {
                   res.should.have.status(403);
@@ -261,7 +261,7 @@ module.exports = function(args) {
             .put('/api/meeting/' + meeting_id)
             .set('User_Agent', 'Web')
             .set('Authorization', data.identities[3].token)
-            .send('location', 'No Location')
+            .send({ location: 'No Location' })
             .end(function(err, res) {
                try {
                   res.should.have.status(403);
@@ -312,8 +312,7 @@ module.exports = function(args) {
             chai.request(app)
             .put('/api/meeting/' + meeting_id)
             .set('Authorization', data.identities[0].token)
-            .send('location', 'No Location')
-            .send(meeting)
+            .send({ location: 'No Location' })
             .end(function(err, res) {
                try {
                   res.should.have.status(401);
@@ -364,8 +363,7 @@ module.exports = function(args) {
             .put('/api/meeting/' + meeting_id)
             .set('User_Agent', 'Windows Phone')
             .set('Authorization', data.identities[0].token)
-            .send('location', 'No Location')
-            .send(meeting)
+            .send({ location: 'No Location' })
             .end(function(err, res) {
                try {
                   res.should.have.status(401);
@@ -420,7 +418,7 @@ module.exports = function(args) {
             .put('/api/meeting/a')
             .set('User_Agent', 'Web')
             .set('Authorization', data.identities[0].token)
-            .send('location', 'No Location')
+            .send({ location: 'No Location' })
             .end(function(err, res) {
                try {
                   res.should.have.status(400);
@@ -492,7 +490,7 @@ module.exports = function(args) {
             .put('/api/meeting/' + meeting_id)
             .set('User_Agent', 'Web')
             .set('Authorization', data.identities[0].token)
-            .send('start_date', 'Invalid')
+            .send({ start_date: 'Invalid' })
             .end(function(err, res) {
                try {
                   res.should.have.status(400);
@@ -544,7 +542,7 @@ module.exports = function(args) {
             .put('/api/meeting/' + meeting_id)
             .set('User_Agent', 'Web')
             .set('Authorization', data.identities[0].token)
-            .send('end_date', 'Invalid')
+            .send({ end_date: 'Invalid' })
             .end(function(err, res) {
                try {
                   res.should.have.status(400);
@@ -596,7 +594,7 @@ module.exports = function(args) {
             .put('/api/meeting/' + meeting_id)
             .set('User_Agent', 'Web')
             .set('Authorization', data.identities[0].token)
-            .send('goals', 'Invalid')
+            .send({ goals: 'Invalid' })
             .end(function(err, res) {
                try {
                   res.should.have.status(400);
@@ -648,7 +646,7 @@ module.exports = function(args) {
             .put('/api/meeting/' + meeting_id)
             .set('User_Agent', 'Web')
             .set('Authorization', data.identities[0].token)
-            .send('goals', ['This', 'is', 'invalid'])
+            .send({ goals: ['This', 'is', 'invalid'] })
             .end(function(err, res) {
                try {
                   res.should.have.status(400);
@@ -700,7 +698,7 @@ module.exports = function(args) {
             .put('/api/meeting/' + meeting_id)
             .set('User_Agent', 'Web')
             .set('Authorization', data.identities[0].token)
-            .send('goals', [ true, true ])
+            .send({ goals: [ true, true ] })
             .end(function(err, res) {
                try {
                   res.should.have.status(400);
@@ -752,7 +750,7 @@ module.exports = function(args) {
             .put('/api/meeting/' + meeting_id)
             .set('User_Agent', 'Web')
             .set('Authorization', data.identities[0].token)
-            .send('location', 1)
+            .send({ location: 1 })
             .end(function(err, res) {
                try {
                   res.should.have.status(400);
@@ -804,7 +802,7 @@ module.exports = function(args) {
             .put('/api/meeting/' + meeting_id)
             .set('User_Agent', 'Web')
             .set('Authorization', data.identities[0].token)
-            .send('attendees', [1, 2, 3, 4])
+            .send({ attendees: [1, 2, 3, 4] })
             .end(function(err, res) {
                try {
                   res.should.have.status(400);
