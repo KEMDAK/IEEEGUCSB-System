@@ -179,8 +179,8 @@ module.exports = function(args) {
                   res.body.should.not.have.property('errors');
                   res.body.should.have.property('meeting');
                   res.body.meeting.should.have.property('id').and.equal(meeting_id);
-                  res.body.meeting.should.have.property('start_date').and.equal("2017-02-25T06:00:00.000Z");
-                  res.body.meeting.should.have.property('end_date').and.equal("2017-02-25T08:00:00.000Z");
+                  res.body.meeting.should.have.property('start_date');
+                  res.body.meeting.should.have.property('end_date');
                   res.body.meeting.should.have.property('goals');
                   res.body.meeting.goals.should.have.lengthOf(3);
                   var i;
@@ -231,8 +231,8 @@ module.exports = function(args) {
                   res.body.should.not.have.property('errors');
                   res.body.should.have.property('meeting');
                   res.body.meeting.should.have.property('id').and.equal(meeting_id);
-                  res.body.meeting.should.have.property('start_date').and.equal("2017-02-25T06:00:00.000Z");
-                  res.body.meeting.should.have.property('end_date').and.equal("2017-02-25T08:00:00.000Z");
+                  res.body.meeting.should.have.property('start_date');
+                  res.body.meeting.should.have.property('end_date');
                   res.body.meeting.should.have.property('goals');
                   res.body.meeting.goals.should.have.lengthOf(3);
                   var i;
@@ -283,8 +283,8 @@ module.exports = function(args) {
                   res.body.should.not.have.property('errors');
                   res.body.should.have.property('meeting');
                   res.body.meeting.should.have.property('id').and.equal(meeting_id);
-                  res.body.meeting.should.have.property('start_date').and.equal("2017-02-25T06:00:00.000Z");
-                  res.body.meeting.should.have.property('end_date').and.equal("2017-02-25T08:00:00.000Z");
+                  res.body.meeting.should.have.property('start_date');
+                  res.body.meeting.should.have.property('end_date');
                   res.body.meeting.should.have.property('goals');
                   res.body.meeting.goals.should.have.lengthOf(3);
                   var i;
@@ -335,8 +335,8 @@ module.exports = function(args) {
                   res.body.should.not.have.property('errors');
                   res.body.should.have.property('meeting');
                   res.body.meeting.should.have.property('id').and.equal(meeting_id);
-                  res.body.meeting.should.have.property('start_date').and.equal("2017-02-25T06:00:00.000Z");
-                  res.body.meeting.should.have.property('end_date').and.equal("2017-02-25T08:00:00.000Z");
+                  res.body.meeting.should.have.property('start_date');
+                  res.body.meeting.should.have.property('end_date');
                   res.body.meeting.should.have.property('goals');
                   res.body.meeting.goals.should.have.lengthOf(3);
                   var i;

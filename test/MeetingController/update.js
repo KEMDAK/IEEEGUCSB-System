@@ -1,0 +1,397 @@
+module.exports = function(args) {
+   var app, fn, data, models, chai, should;
+
+   describe('PUT /api/meeting/:id', function() {
+      before(function(done) {
+         this.timeout(10000);
+         app = args.app;
+         fn = args.fn;
+         data = args.data;
+         models = args.models;
+         chai = args.chai;
+         should = chai.should();
+
+         fn.clearAll(function(err) {
+            if (err) {
+               done(err);
+               return;
+            }
+
+            models.Committee.bulkCreate(data.committees).then(function() {
+               models.User.bulkCreate(data.users).then(function() {
+                  models.Identity.bulkCreate(data.identities).then(function() {
+                     models.Meeting.bulkCreate(data.meetings).then(function() {
+                        return models.Meeting.findAll();
+                     }).then(function(meetings) {
+
+                        for (var i = 0; i < data.meeting_user.length; i++) {
+                           meetings[i].addAttendees(data.meeting_user[i], { rating: 4, review: "Good" });
+                        }
+
+                        done();
+                     }).catch(function(err) {
+                        done(err);
+                     });
+                  }).catch(function(err) {
+                     done(err);
+                  });
+               }).catch(function(err) {
+                  done(err);
+               });
+            }).catch(function(err) {
+               done(err);
+            });
+         });
+      });
+
+      /***********************
+      * Authentication Tests *
+      ************************/
+      {
+         it('Should not allow a visitor to update a meeting.', function(done) {
+            var meeting_id = 1;
+            chai.request(app)
+            .put('/api/meeting/' + meeting_id)
+            .set('User_Agent', 'Web')
+            .send('location', 'No Location')
+            .end(function(err, res) {
+               try {
+                  res.should.have.status(401);
+                  res.body.should.have.property('status').and.equal('failed');
+                  should.exist(err);
+
+                  models.Meeting.findById(meeting_id).then(function(record) {
+                     record.should.have.property('id').and.equal(meeting_id);
+                     record.should.have.property('start_date');
+                     record.should.have.property('end_date');
+                     record.should.have.property('goals');
+                     record.goals.should.have.lengthOf(3);
+                     var i;
+                     for (i = 0; i < record.goals.length; i++) {
+                        record.goals[i].should.have.property('name');
+                        record.goals[i].should.have.property('isDone').and.equal(false);
+                     }
+                     record.should.have.property('location').and.equal("Location " + meeting_id);
+                     record.should.have.property('description').and.equal("Description " + meeting_id);
+                     record.should.have.property('evaluation').and.equal(meeting_id);
+                     record.should.have.property('supervisor').and.equal(meeting_id);
+                     done();
+                  }).catch(function(error) {
+                     done(error);
+                  });
+               } catch(error) {
+                  done(error);
+               }
+            });
+         });
+
+         it('Should not allow a Member to update a meeting.', function(done) {
+            var meeting_id = 1;
+            chai.request(app)
+            .put('/api/meeting/' + meeting_id)
+            .set('User_Agent', 'Web')
+            .set('Authorization', data.identities[7].token)
+            .send('location', 'No Location')
+            .end(function(err, res) {
+               try {
+                  res.should.have.status(403);
+                  res.body.should.have.property('status').and.equal('failed');
+                  should.exist(err);
+
+                  models.Meeting.findById(meeting_id).then(function(record) {
+                     record.should.have.property('id').and.equal(meeting_id);
+                     record.should.have.property('start_date');
+                     record.should.have.property('end_date');
+                     record.should.have.property('goals');
+                     record.goals.should.have.lengthOf(3);
+                     var i;
+                     for (i = 0; i < record.goals.length; i++) {
+                        record.goals[i].should.have.property('name');
+                        record.goals[i].should.have.property('isDone').and.equal(false);
+                     }
+                     record.should.have.property('location').and.equal("Location " + meeting_id);
+                     record.should.have.property('description').and.equal("Description " + meeting_id);
+                     record.should.have.property('evaluation').and.equal(meeting_id);
+                     record.should.have.property('supervisor').and.equal(meeting_id);
+                     done();
+                  }).catch(function(error) {
+                     done(error);
+                  });
+               } catch(error) {
+                  done(error);
+               }
+            });
+         });
+
+         it('Should not allow the updating of the meeting non-supervisor (Admin).', function(done) {
+            var meeting_id = 2;
+            chai.request(app)
+            .put('/api/meeting/' + meeting_id)
+            .set('User_Agent', 'Web')
+            .set('Authorization', data.identities[0].token)
+            .send('location', 'No Location')
+            .end(function(err, res) {
+               try {
+                  res.should.have.status(403);
+                  res.body.should.have.property('status').and.equal('failed');
+                  should.exist(err);
+
+                  models.Meeting.findById(meeting_id).then(function(record) {
+                     record.should.have.property('id').and.equal(meeting_id);
+                     record.should.have.property('start_date');
+                     record.should.have.property('end_date');
+                     record.should.have.property('goals');
+                     record.goals.should.have.lengthOf(3);
+                     var i;
+                     for (i = 0; i < record.goals.length; i++) {
+                        record.goals[i].should.have.property('name');
+                        record.goals[i].should.have.property('isDone').and.equal(false);
+                     }
+                     record.should.have.property('location').and.equal("Location " + meeting_id);
+                     record.should.have.property('description').and.equal("Description " + meeting_id);
+                     record.should.have.property('evaluation').and.equal(meeting_id);
+                     record.should.have.property('supervisor').and.equal(meeting_id);
+                     done();
+                  }).catch(function(error) {
+                     done(error);
+                  });
+               } catch(error) {
+                  done(error);
+               }
+            });
+         });
+
+         it('Should not allow the updating of the meeting non-supervisor (Upper Board).', function(done) {
+            var meeting_id = 1;
+            chai.request(app)
+            .put('/api/meeting/' + meeting_id)
+            .set('User_Agent', 'Web')
+            .set('Authorization', data.identities[1].token)
+            .send('location', 'No Location')
+            .end(function(err, res) {
+               try {
+                  res.should.have.status(403);
+                  res.body.should.have.property('status').and.equal('failed');
+                  should.exist(err);
+
+                  models.Meeting.findById(meeting_id).then(function(record) {
+                     record.should.have.property('id').and.equal(meeting_id);
+                     record.should.have.property('start_date');
+                     record.should.have.property('end_date');
+                     record.should.have.property('goals');
+                     record.goals.should.have.lengthOf(3);
+                     var i;
+                     for (i = 0; i < record.goals.length; i++) {
+                        record.goals[i].should.have.property('name');
+                        record.goals[i].should.have.property('isDone').and.equal(false);
+                     }
+                     record.should.have.property('location').and.equal("Location " + meeting_id);
+                     record.should.have.property('description').and.equal("Description " + meeting_id);
+                     record.should.have.property('evaluation').and.equal(meeting_id);
+                     record.should.have.property('supervisor').and.equal(meeting_id);
+                     done();
+                  }).catch(function(error) {
+                     done(error);
+                  });
+               } catch(error) {
+                  done(error);
+               }
+            });
+         });
+
+         it('Should not allow the updating of the meeting non-supervisor (High Board).', function(done) {
+            var meeting_id = 1;
+            chai.request(app)
+            .put('/api/meeting/' + meeting_id)
+            .set('User_Agent', 'Web')
+            .set('Authorization', data.identities[3].token)
+            .send('location', 'No Location')
+            .end(function(err, res) {
+               try {
+                  res.should.have.status(403);
+                  res.body.should.have.property('status').and.equal('failed');
+                  should.exist(err);
+
+                  models.Meeting.findById(meeting_id).then(function(record) {
+                     record.should.have.property('id').and.equal(meeting_id);
+                     record.should.have.property('start_date');
+                     record.should.have.property('end_date');
+                     record.should.have.property('goals');
+                     record.goals.should.have.lengthOf(3);
+                     var i;
+                     for (i = 0; i < record.goals.length; i++) {
+                        record.goals[i].should.have.property('name');
+                        record.goals[i].should.have.property('isDone').and.equal(false);
+                     }
+                     record.should.have.property('location').and.equal("Location " + meeting_id);
+                     record.should.have.property('description').and.equal("Description " + meeting_id);
+                     record.should.have.property('evaluation').and.equal(meeting_id);
+                     record.should.have.property('supervisor').and.equal(meeting_id);
+                     done();
+                  }).catch(function(error) {
+                     done(error);
+                  });
+               } catch(error) {
+                  done(error);
+               }
+            });
+         });
+
+         it('Should deny access due to missing User Agent header.', function(done) {
+            var meeting_id = 1;
+            chai.request(app)
+            .put('/api/meeting/' + meeting_id)
+            .set('Authorization', data.identities[0].token)
+            .send('location', 'No Location')
+            .send(meeting)
+            .end(function(err, res) {
+               try {
+                  res.should.have.status(401);
+                  res.body.should.have.property('status').and.equal('failed');
+                  should.exist(err);
+                  models.Meeting.findById(meeting_id).then(function(record) {
+                     record.should.have.property('id').and.equal(meeting_id);
+                     record.should.have.property('start_date');
+                     record.should.have.property('end_date');
+                     record.should.have.property('goals');
+                     record.goals.should.have.lengthOf(3);
+                     var i;
+                     for (i = 0; i < record.goals.length; i++) {
+                        record.goals[i].should.have.property('name');
+                        record.goals[i].should.have.property('isDone').and.equal(false);
+                     }
+                     record.should.have.property('location').and.equal("Location " + meeting_id);
+                     record.should.have.property('description').and.equal("Description " + meeting_id);
+                     record.should.have.property('evaluation').and.equal(meeting_id);
+                     record.should.have.property('supervisor').and.equal(meeting_id);
+                     done();
+                  }).catch(function(error) {
+                     done(error);
+                  });
+               } catch(error) {
+                  done(error);
+               }
+            });
+         });
+
+         it('Should deny access due to invalid User Agent header.', function(done) {
+            var meeting_id = 1;
+            chai.request(app)
+            .put('/api/meeting/' + meeting_id)
+            .set('User_Agent', 'Windows Phone')
+            .set('Authorization', data.identities[0].token)
+            .send('location', 'No Location')
+            .send(meeting)
+            .end(function(err, res) {
+               try {
+                  res.should.have.status(401);
+                  res.body.should.have.property('status').and.equal('failed');
+                  should.exist(err);
+                  models.Meeting.findById(meeting_id).then(function(record) {
+                     record.should.have.property('id').and.equal(meeting_id);
+                     record.should.have.property('start_date');
+                     record.should.have.property('end_date');
+                     record.should.have.property('goals');
+                     record.goals.should.have.lengthOf(3);
+                     var i;
+                     for (i = 0; i < record.goals.length; i++) {
+                        record.goals[i].should.have.property('name');
+                        record.goals[i].should.have.property('isDone').and.equal(false);
+                     }
+                     record.should.have.property('location').and.equal("Location " + meeting_id);
+                     record.should.have.property('description').and.equal("Description " + meeting_id);
+                     record.should.have.property('evaluation').and.equal(meeting_id);
+                     record.should.have.property('supervisor').and.equal(meeting_id);
+                     done();
+                  }).catch(function(error) {
+                     done(error);
+                  });
+               } catch(error) {
+                  done(error);
+               }
+            });
+         });
+      }
+
+      /*******************
+      * Validation Tests *
+      ********************/
+      {
+         it('Should not update the meeting due to invalid meeting ID in the URL.', function(done) {
+            chai.request(app)
+            .put('/api/meeting/a')
+            .set('User_Agent', 'Web')
+            .set('Authorization', data.identities[0].token)
+            .send('location', 'No Location')
+            .end(function(err, res) {
+               try {
+                  res.should.have.status(400);
+                  res.body.should.have.property('status').and.equal('failed');
+                  res.body.should.have.property('errors');  // TODO: Test the errors themselves
+                  should.exist(err);
+                  done();
+               } catch(error) {
+                  done(error);
+               }
+            });
+         });
+
+         it('Should not allow a High Board to update the meeting attendees from outside his/her committee.', function(done) {
+            var meeting_id = 4;
+            chai.request(app)
+            .put('/api/meeting/' + meeting_id)
+            .set('User_Agent', 'Web')
+            .set('Authorization', data.identities[3].token)
+            .send('attendees', [9, 10])
+            .end(function(err, res) {
+               try {
+                  res.should.have.status(400);
+                  res.body.should.have.property('status').and.equal('failed');
+                  res.body.should.have.property('errors');  // TODO: Test the errors themselves
+                  should.exist(err);
+                  models.Meeting.findById(meeting_id).then(function(record) {
+                     record.should.have.property('id').and.equal(meeting_id);
+                     record.should.have.property('start_date');
+                     record.should.have.property('end_date');
+                     record.should.have.property('goals');
+                     record.goals.should.have.lengthOf(3);
+                     var i;
+                     for (i = 0; i < record.goals.length; i++) {
+                        record.goals[i].should.have.property('name');
+                        record.goals[i].should.have.property('isDone').and.equal(false);
+                     }
+                     record.should.have.property('location').and.equal("Location " + meeting_id);
+                     record.should.have.property('description').and.equal("Description " + meeting_id);
+                     record.should.have.property('evaluation').and.equal(meeting_id);
+                     record.should.have.property('supervisor').and.equal(meeting_id);
+                     record.getAttendees().then(function(attendees) {
+                        attendees.should.have.lengthOf(2);
+                        attendees.sort(function(a, b) {
+                           return a.id - b.id;
+                        });
+
+                        for (i = 0; i < attendees.length; i++) {
+                           var attendee_id = meeting_id + (4 * (i+1));
+                           attendees[i].should.have.property('id').and.equal(attendee_id);
+                        }
+
+                        done();
+                     });
+                  }).catch(function(error) {
+                     done(error);
+                  });
+               } catch(error) {
+                  done(error);
+               }
+            });
+         });
+      }
+
+      /*******************
+      * Acceptance Tests *
+      ********************/
+      {
+
+      }
+   });
+};
