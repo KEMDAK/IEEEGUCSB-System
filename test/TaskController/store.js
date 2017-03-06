@@ -2,7 +2,7 @@ module.exports = function(args) {
    var app, fn, data, models, chai, should;
 
    describe('POST /api/task', function() {
-      this.timeout(1000);
+      this.timeout(500);
       
       before(function(done) {
          this.timeout(10000);
