@@ -75,7 +75,7 @@ module.exports = function(args) {
                   res.body.should.have.property('status').and.equal('failed');
                   should.exist(err);
                   models.Task.findById(task_id).then(function(record) {
-                     record.should.be.ok;
+                     should.exist(record);
                      done();
                   }).catch(function(error) {
                      done(error);
@@ -98,7 +98,7 @@ module.exports = function(args) {
                   res.body.should.have.property('status').and.equal('failed');
                   should.exist(err);
                   models.Task.findById(task_id).then(function(record) {
-                     record.should.be.ok;
+                     should.exist(record);
                      done();
                   }).catch(function(error) {
                      done(error);
@@ -121,7 +121,7 @@ module.exports = function(args) {
                   res.body.should.have.property('status').and.equal('failed');
                   should.exist(err);
                   models.Task.findById(task_id).then(function(record) {
-                     record.should.be.ok;
+                     should.exist(record);
                      done();
                   }).catch(function(error) {
                      done(error);
@@ -144,7 +144,7 @@ module.exports = function(args) {
                   res.body.should.have.property('status').and.equal('failed');
                   should.exist(err);
                   models.Task.findById(task_id).then(function(record) {
-                     record.should.be.ok;
+                     should.exist(record);
                      done();
                   }).catch(function(error) {
                      done(error);
@@ -167,7 +167,7 @@ module.exports = function(args) {
                   res.body.should.have.property('status').and.equal('failed');
                   should.exist(err);
                   models.Task.findById(task_id).then(function(record) {
-                     record.should.be.ok;
+                     should.exist(record);
                      done();
                   }).catch(function(error) {
                      done(error);
@@ -189,7 +189,7 @@ module.exports = function(args) {
                   res.body.should.have.property('status').and.equal('failed');
                   should.exist(err);
                   models.Task.findById(task_id).then(function(record) {
-                     record.should.be.ok;
+                     should.exist(record);
                      done();
                   }).catch(function(error) {
                      done(error);
@@ -212,7 +212,7 @@ module.exports = function(args) {
                   res.body.should.have.property('status').and.equal('failed');
                   should.exist(err);
                   models.Task.findById(task_id).then(function(record) {
-                     record.should.be.ok;
+                     should.exist(record);
                      done();
                   }).catch(function(error) {
                      done(error);
@@ -275,7 +275,7 @@ module.exports = function(args) {
                      }
 
                      models.Task.findById(task_id).then(function(record) {
-                        record.should.not.be.ok;
+                        should.not.exist(record);
                         done();
                      }).catch(function(error) {
                         done(error);
