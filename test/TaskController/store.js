@@ -2,7 +2,7 @@ module.exports = function(args) {
    var app, fn, data, models, chai, should;
 
    describe('POST /api/task', function() {
-      this.timeout(1000);
+      this.timeout(500);
       
       before(function(done) {
          this.timeout(10000);
@@ -13,24 +13,29 @@ module.exports = function(args) {
          chai = args.chai;
          should = chai.should();
 
-         models.Committee.bulkCreate(data.committees).then(function() {
-            models.User.bulkCreate(data.users).then(function() {
-               models.Identity.bulkCreate(data.identities).then(function() {
-                  done();
+         fn.clearAll(function(err) {
+            if(err)
+               done(err);
+            else {
+               models.Committee.bulkCreate(data.committees).then(function() {
+                  models.User.bulkCreate(data.users).then(function() {
+                     models.Identity.bulkCreate(data.identities).then(function() {
+                        done();
+                     }).catch(function(err) {
+                        done(err);
+                     });
+                  }).catch(function(err) {
+                     done(err);
+                  });
                }).catch(function(err) {
                   done(err);
                });
-            }).catch(function(err) {
-               done(err);
-            });
-         }).catch(function(err) {
-            done(err);
+            }
          });
       });
 
-      after(function(done) {
-         this.timeout(10000);
-         fn.clearAll(function(err) {
+      beforeEach(function(done) {
+         fn.clearTable('tasks', function(err) {
             if(err)
                done(err);
             else
@@ -518,358 +523,328 @@ module.exports = function(args) {
       ********************/
       {
          it('Should add the task in the database (Admin Authentication).', function(done) {
-            fn.clearTable('tasks', function(err) {
-               if (err) {
-                  done(err);
-               }
+            var task = {
+               title: "Task",
+               description: "Description",
+               deadline: "2017-2-25 08:00:00",
+               priority: "5",
+               assignedTo: [2, 3, 4, 5, 6]
+            };
 
-               var task = {
-                  title: "Task",
-                  description: "Description",
-                  deadline: "2017-2-25 08:00:00",
-                  priority: "5",
-                  assignedTo: [2, 3, 4, 5, 6]
-               };
+            chai.request(app)
+            .post('/api/task')
+            .set('User_Agent', 'Web')
+            .set('Authorization', data.identities[0].token)
+            .send(task)
+            .end(function(err, res) {
+               try {
+                  res.should.have.status(200);
+                  res.body.should.have.property('status').and.equal('succeeded');
+                  res.body.should.not.have.property('errors');
+                  should.not.exist(err);
 
-               chai.request(app)
-               .post('/api/task')
-               .set('User_Agent', 'Web')
-               .set('Authorization', data.identities[0].token)
-               .send(task)
-               .end(function(err, res) {
-                  try {
-                     res.should.have.status(200);
-                     res.body.should.have.property('status').and.equal('succeeded');
-                     res.body.should.not.have.property('errors');
-                     should.not.exist(err);
+                  models.Task.findById(1).then(function(theTask) {
+                     if (!theTask) {
+                        throw new Error("The task wasn\'t added in the database.");
+                     }
 
-                     models.Task.findById(1).then(function(theTask) {
-                        if (!theTask) {
-                           throw new Error("The task wasn\'t added in the database.");
+                     if(theTask.status != 'New') {
+                        throw new Error("The status of the task is not New.");
+                     }
+
+                     theTask.getAssignedUsers().then(function(records) {
+                        if (!records) {
+                           throw new Error("There were no assigned users for the task.");
                         }
 
-                        if(theTask.status != 'New') {
-                           throw new Error("The status of the task is not New.");
+                        var assignedUsers = [];
+                        var i;
+                        for (i = 0; i < records.length; i++) {
+                           assignedUsers.push(records[i].id);
                         }
 
-                        theTask.getAssignedUsers().then(function(records) {
-                           if (!records) {
-                              throw new Error("There were no assigned users for the task.");
+                        assignedUsers.should.have.lengthOf(task.assignedUsers.length);
+                        assignedUsers.sort(function(a, b) { return a - b; });
+
+                        var valid = true;
+                        for (i = 0; i < assignedUsers.length && valid; i++) {
+                           if (assignedUsers[i] != task.assignedUsers[i]) {
+                              valid = false;
                            }
+                        }
 
-                           var assignedUsers = [];
-                           var i;
-                           for (i = 0; i < records.length; i++) {
-                              assignedUsers.push(records[i].id);
-                           }
+                        if (valid === false) {
+                           throw new Error("The wrong users were assigned to the task.");
+                        }
 
-                           assignedUsers.should.have.lengthOf(task.assignedUsers.length);
-                           assignedUsers.sort(function(a, b) { return a - b; });
-
-                           var valid = true;
-                           for (i = 0; i < assignedUsers.length && valid; i++) {
-                              if (assignedUsers[i] != task.assignedUsers[i]) {
-                                 valid = false;
-                              }
-                           }
-
-                           if (valid === false) {
-                              throw new Error("The wrong users were assigned to the task.");
-                           }
-
-                           done();
-                        }).catch(function(error) {
-                           done(error);
-                        });
+                        done();
                      }).catch(function(error) {
                         done(error);
                      });
-                  } catch(error) {
+                  }).catch(function(error) {
                      done(error);
-                  }
+                  });
+               } catch(error) {
+                  done(error);
+               }
 
-               });
             });
          });
 
          it('Should add the task in the database (Upper Board Authentication).', function(done) {
-            fn.clearTable('tasks', function(err) {
-               if (err) {
-                  done(err);
-               }
+            var task = {
+               title: "Task",
+               description: "Description",
+               deadline: "2017-2-25 08:00:00",
+               priority: "5",
+               assignedTo: [1, 3, 4, 5, 6]
+            };
 
-               var task = {
-                  title: "Task",
-                  description: "Description",
-                  deadline: "2017-2-25 08:00:00",
-                  priority: "5",
-                  assignedTo: [1, 3, 4, 5, 6]
-               };
+            chai.request(app)
+            .post('/api/task')
+            .set('User_Agent', 'Web')
+            .set('Authorization', data.identities[1].token)
+            .send(task)
+            .end(function(err, res) {
+               try {
+                  res.should.have.status(200);
+                  res.body.should.have.property('status').and.equal('succeeded');
+                  res.body.should.not.have.property('errors');
+                  should.not.exist(err);
 
-               chai.request(app)
-               .post('/api/task')
-               .set('User_Agent', 'Web')
-               .set('Authorization', data.identities[1].token)
-               .send(task)
-               .end(function(err, res) {
-                  try {
-                     res.should.have.status(200);
-                     res.body.should.have.property('status').and.equal('succeeded');
-                     res.body.should.not.have.property('errors');
-                     should.not.exist(err);
+                  models.Task.findById(1).then(function(theTask) {
+                     if (!theTask) {
+                        throw new Error("The task wasn\'t added in the database.");
+                     }
 
-                     models.Task.findById(1).then(function(theTask) {
-                        if (!theTask) {
-                           throw new Error("The task wasn\'t added in the database.");
+                     if(theTask.status != 'New') {
+                        throw new Error("The status of the task is not New.");
+                     }
+
+                     theTask.getAssignedUsers().then(function(records) {
+                        if (!records) {
+                           throw new Error("There were no assigned users for the task.");
                         }
 
-                        if(theTask.status != 'New') {
-                           throw new Error("The status of the task is not New.");
+                        var assignedUsers = [];
+                        var i;
+                        for (i = 0; i < records.length; i++) {
+                           assignedUsers.push(records[i].id);
                         }
 
-                        theTask.getAssignedUsers().then(function(records) {
-                           if (!records) {
-                              throw new Error("There were no assigned users for the task.");
+                        assignedUsers.should.have.lengthOf(task.assignedUsers.length);
+                        assignedUsers.sort(function(a, b) { return a - b; });
+
+                        var valid = true;
+                        for (i = 0; i < assignedUsers.length && valid; i++) {
+                           if (assignedUsers[i] != task.assignedUsers[i]) {
+                              valid = false;
                            }
+                        }
 
-                           var assignedUsers = [];
-                           var i;
-                           for (i = 0; i < records.length; i++) {
-                              assignedUsers.push(records[i].id);
-                           }
+                        if (valid === false) {
+                           throw new Error("The wrong users were assigned to the task.");
+                        }
 
-                           assignedUsers.should.have.lengthOf(task.assignedUsers.length);
-                           assignedUsers.sort(function(a, b) { return a - b; });
-
-                           var valid = true;
-                           for (i = 0; i < assignedUsers.length && valid; i++) {
-                              if (assignedUsers[i] != task.assignedUsers[i]) {
-                                 valid = false;
-                              }
-                           }
-
-                           if (valid === false) {
-                              throw new Error("The wrong users were assigned to the task.");
-                           }
-
-                           done();
-                        }).catch(function(error) {
-                           done(error);
-                        });
+                        done();
                      }).catch(function(error) {
                         done(error);
                      });
-                  } catch(error) {
+                  }).catch(function(error) {
                      done(error);
-                  }
+                  });
+               } catch(error) {
+                  done(error);
+               }
 
-               });
             });
          });
 
          it('Should add the task in the database (High Board Authentication).', function(done) {
-            fn.clearTable('tasks', function(err) {
-               if (err) {
-                  done(err);
-               }
+            var task = {
+               title: "Task",
+               description: "Description",
+               deadline: "2017-2-25 08:00:00",
+               priority: "5",
+               assignedTo: [8, 12]
+            };
 
-               var task = {
-                  title: "Task",
-                  description: "Description",
-                  deadline: "2017-2-25 08:00:00",
-                  priority: "5",
-                  assignedTo: [8, 12]
-               };
+            chai.request(app)
+            .post('/api/task')
+            .set('User_Agent', 'Web')
+            .set('Authorization', data.identities[3].token)
+            .send(task)
+            .end(function(err, res) {
+               try {
+                  res.should.have.status(200);
+                  res.body.should.have.property('status').and.equal('succeeded');
+                  res.body.should.not.have.property('errors');
+                  should.not.exist(err);
 
-               chai.request(app)
-               .post('/api/task')
-               .set('User_Agent', 'Web')
-               .set('Authorization', data.identities[3].token)
-               .send(task)
-               .end(function(err, res) {
-                  try {
-                     res.should.have.status(200);
-                     res.body.should.have.property('status').and.equal('succeeded');
-                     res.body.should.not.have.property('errors');
-                     should.not.exist(err);
+                  models.Task.findById(1).then(function(theTask) {
+                     if (!theTask) {
+                        throw new Error("The task wasn\'t added in the database.");
+                     }
 
-                     models.Task.findById(1).then(function(theTask) {
-                        if (!theTask) {
-                           throw new Error("The task wasn\'t added in the database.");
+                     if(theTask.status != 'New') {
+                        throw new Error("The status of the task is not New.");
+                     }
+
+                     theTask.getAssignedUsers().then(function(records) {
+                        if (!records) {
+                           throw new Error("There were no assigned users for the task.");
                         }
 
-                        if(theTask.status != 'New') {
-                           throw new Error("The status of the task is not New.");
+                        var assignedUsers = [];
+                        var i;
+                        for (i = 0; i < records.length; i++) {
+                           assignedUsers.push(records[i].id);
                         }
 
-                        theTask.getAssignedUsers().then(function(records) {
-                           if (!records) {
-                              throw new Error("There were no assigned users for the task.");
+                        assignedUsers.should.have.lengthOf(task.assignedUsers.length);
+                        assignedUsers.sort(function(a, b) { return a - b; });
+
+                        var valid = true;
+                        for (i = 0; i < assignedUsers.length && valid; i++) {
+                           if (assignedUsers[i] != task.assignedUsers[i]) {
+                              valid = false;
                            }
+                        }
 
-                           var assignedUsers = [];
-                           var i;
-                           for (i = 0; i < records.length; i++) {
-                              assignedUsers.push(records[i].id);
-                           }
+                        if (valid === false) {
+                           throw new Error("The wrong users were assigned to the task.");
+                        }
 
-                           assignedUsers.should.have.lengthOf(task.assignedUsers.length);
-                           assignedUsers.sort(function(a, b) { return a - b; });
-
-                           var valid = true;
-                           for (i = 0; i < assignedUsers.length && valid; i++) {
-                              if (assignedUsers[i] != task.assignedUsers[i]) {
-                                 valid = false;
-                              }
-                           }
-
-                           if (valid === false) {
-                              throw new Error("The wrong users were assigned to the task.");
-                           }
-
-                           done();
-                        }).catch(function(error) {
-                           done(error);
-                        });
+                        done();
                      }).catch(function(error) {
                         done(error);
                      });
-                  } catch(error) {
+                  }).catch(function(error) {
                      done(error);
-                  }
+                  });
+               } catch(error) {
+                  done(error);
+               }
 
-               });
             });
          });
 
          it('Should add the task in the database (without description).', function(done) {
-            fn.clearTable('tasks', function(err) {
-               if (err) {
-                  done(err);
-               }
+            var task = {
+               title: "Task",
+               deadline: "2017-2-25 08:00:00",
+               priority: "5",
+               assignedTo: [2, 3, 4, 5, 6]
+            };
 
-               var task = {
-                  title: "Task",
-                  deadline: "2017-2-25 08:00:00",
-                  priority: "5",
-                  assignedTo: [2, 3, 4, 5, 6]
-               };
+            chai.request(app)
+            .post('/api/task')
+            .set('User_Agent', 'Web')
+            .set('Authorization', data.identities[0].token)
+            .send(task)
+            .end(function(err, res) {
+               try {
+                  res.should.have.status(200);
+                  res.body.should.have.property('status').and.equal('succeeded');
+                  res.body.should.not.have.property('errors');
+                  should.not.exist(err);
 
-               chai.request(app)
-               .post('/api/task')
-               .set('User_Agent', 'Web')
-               .set('Authorization', data.identities[0].token)
-               .send(task)
-               .end(function(err, res) {
-                  try {
-                     res.should.have.status(200);
-                     res.body.should.have.property('status').and.equal('succeeded');
-                     res.body.should.not.have.property('errors');
-                     should.not.exist(err);
+                  models.Task.findById(1).then(function(theTask) {
+                     if (!theTask) {
+                        throw new Error("The task wasn\'t added in the database.");
+                     }
 
-                     models.Task.findById(1).then(function(theTask) {
-                        if (!theTask) {
-                           throw new Error("The task wasn\'t added in the database.");
+                     if(theTask.status != 'New') {
+                        throw new Error("The status of the task is not New.");
+                     }
+
+                     if(theTask.description) {
+                        throw new Error("The task was added with a description in the database.");
+                     }
+
+                     theTask.getAssignedUsers().then(function(records) {
+                        if (!records) {
+                           throw new Error("There were no assigned users for the task.");
                         }
 
-                        if(theTask.status != 'New') {
-                           throw new Error("The status of the task is not New.");
+                        var assignedUsers = [];
+                        var i;
+                        for (i = 0; i < records.length; i++) {
+                           assignedUsers.push(records[i].id);
                         }
 
-                        if(theTask.description) {
-                           throw new Error("The task was added with a description in the database.");
+                        assignedUsers.should.have.lengthOf(task.assignedUsers.length);
+                        assignedUsers.sort(function(a, b) { return a - b; });
+
+                        var valid = true;
+                        for (i = 0; i < assignedUsers.length && valid; i++) {
+                           if (assignedUsers[i] != task.assignedUsers[i]) {
+                              valid = false;
+                           }
                         }
 
-                        theTask.getAssignedUsers().then(function(records) {
-                           if (!records) {
-                              throw new Error("There were no assigned users for the task.");
-                           }
+                        if (valid === false) {
+                           throw new Error("The wrong users were assigned to the task.");
+                        }
 
-                           var assignedUsers = [];
-                           var i;
-                           for (i = 0; i < records.length; i++) {
-                              assignedUsers.push(records[i].id);
-                           }
-
-                           assignedUsers.should.have.lengthOf(task.assignedUsers.length);
-                           assignedUsers.sort(function(a, b) { return a - b; });
-
-                           var valid = true;
-                           for (i = 0; i < assignedUsers.length && valid; i++) {
-                              if (assignedUsers[i] != task.assignedUsers[i]) {
-                                 valid = false;
-                              }
-                           }
-
-                           if (valid === false) {
-                              throw new Error("The wrong users were assigned to the task.");
-                           }
-
-                           done();
-                        }).catch(function(error) {
-                           done(error);
-                        });
+                        done();
                      }).catch(function(error) {
                         done(error);
                      });
-                  } catch(error) {
+                  }).catch(function(error) {
                      done(error);
-                  }
-               });
+                  });
+               } catch(error) {
+                  done(error);
+               }
             });
          });
 
          it('Should add the task in the database (without assigned users).', function(done) {
-            fn.clearTable('tasks', function(err) {
-               if (err) {
-                  done(err);
-               }
+            var task = {
+               title: "Task",
+               description: "Description",
+               deadline: "2017-2-25 08:00:00",
+               priority: "5"
+            };
 
-               var task = {
-                  title: "Task",
-                  description: "Description",
-                  deadline: "2017-2-25 08:00:00",
-                  priority: "5"
-               };
+            chai.request(app)
+            .post('/api/task')
+            .set('User_Agent', 'Web')
+            .set('Authorization', data.identities[0].token)
+            .send(task)
+            .end(function(err, res) {
+               try {
+                  res.should.have.status(200);
+                  res.body.should.have.property('status').and.equal('succeeded');
+                  res.body.should.not.have.property('errors');
+                  should.not.exist(err);
 
-               chai.request(app)
-               .post('/api/task')
-               .set('User_Agent', 'Web')
-               .set('Authorization', data.identities[0].token)
-               .send(task)
-               .end(function(err, res) {
-                  try {
-                     res.should.have.status(200);
-                     res.body.should.have.property('status').and.equal('succeeded');
-                     res.body.should.not.have.property('errors');
-                     should.not.exist(err);
+                  models.Task.findById(1).then(function(theTask) {
+                     if (!theTask) {
+                        throw new Error("The task wasn\'t added in the database.");
+                     }
 
-                     models.Task.findById(1).then(function(theTask) {
-                        if (!theTask) {
-                           throw new Error("The task wasn\'t added in the database.");
+                     if(theTask.status != 'New') {
+                        throw new Error("The status of the task is not New.");
+                     }
+
+                     theTask.getAssignedUsers().then(function(records) {
+                        if (!records) {
+                           done();
                         }
-
-                        if(theTask.status != 'New') {
-                           throw new Error("The status of the task is not New.");
+                        else{
+                           throw new Error("The wrong users were assigned to the task.");
                         }
-
-                        theTask.getAssignedUsers().then(function(records) {
-                           if (!records) {
-                              done();
-                           }
-                           else{
-                              throw new Error("The wrong users were assigned to the task.");
-                           }
-                        }).catch(function(error) {
-                           done(error);
-                        });
                      }).catch(function(error) {
                         done(error);
                      });
-                  } catch(error) {
+                  }).catch(function(error) {
                      done(error);
-                  }
-               });
+                  });
+               } catch(error) {
+                  done(error);
+               }
             });
          });
       }
