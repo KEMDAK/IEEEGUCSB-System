@@ -36,7 +36,6 @@ module.exports.defineIdentity = function(sequelize) {
         }
     },
     {
-        paranoid: true,
         underscored: true,
         underscoredALL: true,
         charset: 'latin1'
