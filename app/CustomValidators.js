@@ -11,13 +11,13 @@ module.exports = {
       /* validator to check if the given value is an array */
       isArray: function(value, length) {
          if(!length && length != 0)
-            return Array.isArray(value) && !typeof value === "string";
+            return Array.isArray(value) && typeof value !== "string";
          else
-            return Array.isArray(value) && !typeof value === "string" && value.length == length;
+            return Array.isArray(value) && typeof value !== "string" && value.length == length;
       },
       /* validator to check if the given value is a String */
       isString: function(value) {
-            return typeof value === "string"
+            return typeof value === "string";
       }
    }
 };

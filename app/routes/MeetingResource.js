@@ -161,9 +161,9 @@ module.exports = function(app) {
     * @example the route expects the access token as 'Authorization' and the user agent as 'user_agent' in the request headers with one of the following values ['Web', 'IOS', 'Android']
     * @example The route expects a body Object in the following format
     * {
-    *     meeting_evaluation: Integer the meeting evaluation [1...5] [required],
+    *     evaluation: Integer the meeting evaluation [1...5] [required],
     *     goals: Array of Booleans to indicate the status of the goals [required],
-    *     ratings: [
+    *     attendees: [
     *         {
     *             rating: Integer the attendee's rating [1...5] [required],
     *             review: String the attendee's rating [required if rating less than 4]

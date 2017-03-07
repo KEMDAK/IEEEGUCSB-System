@@ -251,7 +251,7 @@ module.exports.store = function(req, res, next) {
             });
          }
       }
-      
+
       var attributes = {
          start_date: req.body.start_date,
          end_date: req.body.end_date,
@@ -510,7 +510,6 @@ module.exports.update = function(req, res, next) {
       User.findAll({ where: { id: { in: req.body.attendees } } }).then(function(attendees) {
          req.checkBody('attendees', 'validity').isArray(attendees.length);
          errors = req.validationErrors();
-
          for (var i = 0; i < attendees.length; i++) {
             if(!req.user.isAdmin() && !req.user.isUpperBoard() && req.user.committee_id != attendees[i].committee_id || req.user.id == attendees[i].id){
                if(!errors){
@@ -640,14 +639,14 @@ module.exports.rate = function(req, res, next) {
    req.checkParams('id', 'validity').isInt();
 
    /*validating the meeting evaluation*/
-   req.checkBody('meeting_evaluation', 'required').notEmpty();
-   req.sanitizeBody('meeting_evaluation').escape();
-   req.sanitizeBody('meeting_evaluation').trim();
-   req.checkBody('meeting_evaluation', 'validity').isInt({ min: 0, max: 5 });
+   req.checkBody('evaluation', 'required').notEmpty();
+   req.sanitizeBody('evaluation').escape();
+   req.sanitizeBody('evaluation').trim();
+   req.checkBody('evaluation', 'validity').isInt({ min: 1, max: 5 });
 
 
    Meeting.findById(req.params.id).then(function(meeting) {
-      if(!meeting || meeting.supervisor != req.user.id) {
+      if(!meeting) {
          res.status(404).json({
             status:'failed',
             message: 'The requested route was not found.'
@@ -656,7 +655,19 @@ module.exports.rate = function(req, res, next) {
          req.err = 'MeetingController.js, Line: 623\nThe requested meeting was not found in the database or the user has no authority to rate it.';
          
          next();
-      } else {
+      } 
+      else if(meeting.supervisor != req.user.id) {
+         /* The requesting user has no authority to rate the meeting */
+         res.status(403).json({
+            status:'failed',
+            message: 'Access denied'
+         });
+
+         req.err = 'MeetingController.js, Line: 560\nThe requesting user has no authority to rate the meeting.';
+
+         next();
+      }
+      else {
          meeting.goals = JSON.parse(meeting.goals);
 
          /*validating the goals*/
@@ -671,19 +682,19 @@ module.exports.rate = function(req, res, next) {
          }
 
          MeetingUser.findAll({ where: { meeting_id: req.params.id } }).then(function(attendees) {
-            /*validating the ratings*/
-            req.checkBody('ratings', 'required').notEmpty();
+            /*validating the attendees*/
+            req.checkBody('attendees', 'required').notEmpty();
 
-            if(req.body.ratings){
-               req.checkBody('ratings', 'validity').isArray(attendees.length);
+            if(req.body.attendees){
+               req.checkBody('attendees', 'validity').isArray(attendees.length);
 
-               for (var i = 0; i < req.body.ratings.length && typeof req.body.ratings !== "string"; i++) {
-                  req.checkBody('ratings[' + i + '].rating', 'validity').notEmpty().isInt({ min: 0, max: 5 });
-                  if(req.body.ratings[i].rating && req.body.ratings[i].rating <= 3)
-                     req.checkBody('ratings[' + i + '].review', 'validity').notEmpty();
-                  if(req.body.ratings[i].review){
-                     req.checkBody('ratings[' + i + '].review', 'validity').isString();
-                     req.sanitizeBody('ratings[' + i + '].review').escape().trim();
+               for (var i = 0; i < req.body.attendees.length && typeof req.body.attendees !== "string"; i++) {
+                  req.checkBody('attendees[' + i + '].rating', 'validity').notEmpty().isInt({ min: 1, max: 5 });
+                  if(req.body.attendees[i].rating && req.body.attendees[i].rating <= 3)
+                     req.checkBody('attendees[' + i + '].review', 'validity').notEmpty();
+                  if(req.body.attendees[i].review){
+                     req.checkBody('attendees[' + i + '].review', 'validity').isString();
+                     req.sanitizeBody('attendees[' + i + '].review').escape().trim();
                   }
                }
             }
@@ -702,7 +713,7 @@ module.exports.rate = function(req, res, next) {
                next();
             } else {
                /*adding the meeting evaluation*/
-               meeting.evaluation = req.body.meeting_evaluation;
+               meeting.evaluation = req.body.evaluation;
 
                /*changing goals status*/
                for (var i = 0; i < meeting.goals.length; i++) {
@@ -710,8 +721,8 @@ module.exports.rate = function(req, res, next) {
                }
 
                for (var i = 0; i < attendees.length; i++) {
-                  attendees[i].rating = req.body.ratings[i].rating;
-                  attendees[i].review = req.body.ratings[i].review;
+                  attendees[i].rating = req.body.attendees[i].rating;
+                  attendees[i].review = req.body.attendees[i].review;
                   attendees[i].save();
                }
 
