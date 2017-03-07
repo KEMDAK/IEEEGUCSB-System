@@ -122,6 +122,11 @@ module.exports.save = function(req, res) {
             console.log(res.body);
             console.log();
 
+            if(req.err){
+                console.log("Server internal error: ");
+                console.log(req.err);
+                console.log();
+            }
         }
 
         if(process.env.SERVER_LOG === 'true' || process.env.DETAILED_LOG === 'true'){

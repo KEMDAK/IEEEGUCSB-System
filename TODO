@@ -2,7 +2,12 @@ TODO:
 
 + validate IEEEMembershipID
 
-+ Routes to:
-      assign a user to a committee.
-      assign user as high board.
-      assign user as upper board.
++ validate date formats to match "YYYY-MM-DD" and check that is it in the future if needed.
+
++ Integrate the settings in update functions
+
++ change the phone number regex to be the equivilant to this "\\+?\\d\\d\\d-?\\d\\d\\d-?\\d\\d\\d?\\d?\\d?\\d?"
+
++ submit excuses
+
++ allow members of the same committee to see each others tasks

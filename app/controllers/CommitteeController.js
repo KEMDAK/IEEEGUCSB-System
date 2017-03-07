@@ -266,13 +266,35 @@ module.exports.update = function(req, res, next){
 
       next();
    }).catch(function(err){
-      /* failed to update the committee in the database */
-      res.status(500).json({
-         status:'failed',
-         message: 'Internal server error'
-      });
+      if (err.message === 'Validation error') {
+         /* The committee violated database constraints */
+         var errors = [];
+         for (var i = 0; i < err.errors.length; i++) {
+            var curError = err.errors[i];
 
-      req.err = 'UserController.js, Line: 275\nCouldn\'t update the committee in the database.\n' + String(err);
+            errors.push({
+               param: curError.path,
+               value: curError.value,
+               type: curError.type
+            });
+         }
+
+         res.status(400).json({
+            status:'failed',
+            error: errors
+         });
+
+         req.err = 'CommitteeController.js, Line: 287\nThe committee violated some database constraints.\n' + JSON.stringify(errors);
+      }
+      else {
+         /* failed to update the committee in the database */
+         res.status(500).json({
+            status:'failed',
+            message: 'Internal server error'
+         });
+
+         req.err = 'CommitteeController.js, Line: 296\nCouldn\'t update the committee in the database.\n' + String(err);
+      }
 
       next();
    });

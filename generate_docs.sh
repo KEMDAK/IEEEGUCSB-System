@@ -10,7 +10,7 @@ find ./documentation -type f -exec sed -i -e 's/\Modules\b/Controllers/g' {} \;
 find ./documentation -type f -exec sed -i -e 's/\Module\b/Controller/g' {} \;
 find ./documentation -type f -exec sed -i -e 's/\modules\b/controllers/g' {} \;
 find ./documentation -type f -exec sed -i -e 's/\module\b/controller/g' {} \;
-rename 's/global/routes/' ./documentation/IEEE_GUC_online_system/1.0.0/*
-rename 's/mixins/models/' ./documentation/IEEE_GUC_online_system/1.0.0/*
-rename 's/modules/controllers/' ./documentation/IEEE_GUC_online_system/1.0.0/*
-rename 's/module/controller/' ./documentation/IEEE_GUC_online_system/1.0.0/*
+rename 's/global/routes/' ./documentation/IEEE_GUC_online_system/*/*
+rename 's/mixins/models/' ./documentation/IEEE_GUC_online_system/*/*
+rename 's/modules/controllers/' ./documentation/IEEE_GUC_online_system/*/*
+rename 's/module/controller/' ./documentation/IEEE_GUC_online_system/*/*

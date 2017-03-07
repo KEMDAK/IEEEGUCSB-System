@@ -50,6 +50,14 @@ module.exports = function(app) {
     ****************************/
 
     require('./CommitteeResource')(app);
+
+    /*************************
+    *                        *
+    * MeetingResource routes *
+    *                        *
+    **************************/
+
+    require('./MeetingResource')(app);
     /*====================================================================================================================================*/
 
     /* any other request will be treated as not found (404) */
