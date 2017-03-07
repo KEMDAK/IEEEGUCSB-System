@@ -184,7 +184,7 @@ module.exports = function(args) {
                         attendees.sort(function(a, b) {
                            return a.id - b.id;
                         });
-                        
+
                         for (i = 0; i < attendees.length; i++) {
                            var attendee_id = meeting_id + (4 * (i+1));
                            attendees[i].should.have.property('id').and.equal(attendee_id);
@@ -588,7 +588,7 @@ module.exports = function(args) {
             });
          });
 
-         it('Should not allow the meeting to be updated due to invalid \'goals\' parameter in the body. I', function(done) {
+         it('Should not allow the meeting to be updated due to invalid \'goals\' parameter in the body. (Invalid Type)', function(done) {
             var meeting_id = 1;
             chai.request(app)
             .put('/api/meeting/' + meeting_id)
@@ -640,13 +640,13 @@ module.exports = function(args) {
             });
          });
 
-         it('Should not allow the meeting to be updated due to invalid \'goals\' parameter in the body. II', function(done) {
+         it('Should not allow the meeting to be updated due to invalid \'goals\' parameter in the body. (Element invalid type)', function(done) {
             var meeting_id = 1;
             chai.request(app)
             .put('/api/meeting/' + meeting_id)
             .set('User_Agent', 'Web')
             .set('Authorization', data.identities[0].token)
-            .send({ goals: ['This', 'is', 'invalid'] })
+            .send({ goals: [1, 2, 3] })
             .end(function(err, res) {
                try {
                   res.should.have.status(400);
@@ -692,13 +692,13 @@ module.exports = function(args) {
             });
          });
 
-         it('Should not allow the meeting to be updated due to invalid \'goals\' parameter in the body. III', function(done) {
+         it('Should not allow the meeting to be updated due to invalid \'goals\' parameter in the body. (Wrong number of elements)', function(done) {
             var meeting_id = 1;
             chai.request(app)
             .put('/api/meeting/' + meeting_id)
             .set('User_Agent', 'Web')
             .set('Authorization', data.identities[0].token)
-            .send({ goals: [ true, true ] })
+            .send({ goals: [ 'Its', 'invalid' ] })
             .end(function(err, res) {
                try {
                   res.should.have.status(400);
@@ -955,12 +955,12 @@ module.exports = function(args) {
             });
          });
 
-         it('Should add the meeting (High Board Authentication).', function(done) {
+         it('Should update the meeting (High Board Authentication).', function(done) {
             var meeting_id = 4;
             var updatedMeeting = {
                location: "Updated Location",
                description: "Updated Description",
-               attendees: [5]
+               attendees: [8]
             };
 
             chai.request(app)
@@ -991,7 +991,7 @@ module.exports = function(args) {
                      record.should.have.property('supervisor').and.equal(meeting_id);
                      record.getAttendees().then(function(attendees) {
                         attendees.should.have.lengthOf(1);
-                        attendees[0].should.equal(5);
+                        attendees[0].should.equal(8);
                         done();
                      }).catch(function(error) {
                         done(error);
