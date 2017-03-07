@@ -5,7 +5,7 @@
   "main": "server.js",
   "scripts": {
     "test": "mocha",
-    "start": "node -e 'process.env.ENV=\"dev\"; require(\"./server.js\")(function() {})'"
+    "start": "node -e 'require(\"./server.js\")(function() {})'"
   },
   "repository": {
     "type": "git",
