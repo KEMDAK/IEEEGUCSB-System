@@ -199,15 +199,11 @@ module.exports.store = function(req, res, next) {
    req.sanitizeBody('end_date').trim();
 
    /*Validate and sanitizing goals Input*/
-   var goals = [];
-   if(req.body.goals) {
+   if(req.body.goals){  
       req.checkBody('goals', 'validity').isArray();
 
       for (var i = 0; i < req.body.goals.length; i++) {
-         goals.push({
-            name: req.body.goals[i],
-            isDone: false
-         });
+         req.checkBody('goals[' + i + ']', 'validity').isString();
       }
    }
    
@@ -245,7 +241,17 @@ module.exports.store = function(req, res, next) {
 
          return;
       }
-
+  
+      var goals = [];
+      if(req.body.goals){  
+         for (var i = 0; i < req.body.goals.length; i++) {
+            goals.push({
+               name: req.body.goals[i],
+               isDone: false
+            });
+         }
+      }
+      
       var attributes = {
          start_date: req.body.start_date,
          end_date: req.body.end_date,
@@ -298,7 +304,7 @@ module.exports.store = function(req, res, next) {
       });
    };
    
-   var errors;
+   var errors = req.validationErrors();
    
    if(req.body.attendees){
       /*validating the user list*/
@@ -374,12 +380,8 @@ module.exports.update = function(req, res, next) {
    if(req.body.goals){  
       req.checkBody('goals', 'validity').isArray();
 
-      attributes.goals = [];
       for (var i = 0; i < req.body.goals.length; i++) {
-         attributes.goals.push({
-            goal: req.body.goals[i],
-            isDone: false
-         });
+         req.checkBody('goals[' + i + ']', 'validity').isString();
       }
    }
 
@@ -416,62 +418,93 @@ module.exports.update = function(req, res, next) {
          return;
       }
 
-      Meeting.update(attributes, { where : { supervisor : req.user.id } }).then(function(affected) {
-         if (affected[0] == 1) {
-            if(req.body.attendees){
-               meeting.setAttendees(req.body.attendees, { rating: null, review: null }).then(function(){
-                  res.status(200).json({
-                     status: 'succeeded',
-                     message: 'meeting successfully updated'
-                  });
-
-                  next();
-               }).catch(function(err) {
-                  /* failed to update the meeting attendees in the database */
-                  res.status(500).json({
-                     status:'failed',
-                     message: 'Internal server error'
-                  });
-
-                  req.err = 'MeetingController.js, Line: 436\nfailed to update the meeting attendees in the database.\n' + String(err);
-
-                  next();
-               });
-            } else {
-               res.status(200).json({
-                  status: 'succeeded',
-                  message: 'meeting successfully updated'
-               });
-
-               next();
-            }
+      if(req.body.goals){  
+         attributes.goals = [];
+         for (var i = 0; i < req.body.goals.length; i++) {
+            attributes.goals.push({
+               goal: req.body.goals[i],
+               isDone: false
+            });
          }
-         else {
+      }
+
+      Meeting.findById(req.params.id).then(function(meeting) {
+         if(!meeting) {
             res.status(404).json({
                status:'failed',
                message: 'The requested route was not found.'
             });
 
             req.err = 'MeetingController.js, Line: 455\nThe requested meeting was not found in the database or the user has no authority to edit it.';
-            
-            next();
-         }
 
+            next();
+         } 
+         else if(meeting.supervisor != req.user.id) {
+            /* The requesting user has no authority to update the meeting */
+            res.status(403).json({
+               status:'failed',
+               message: 'Access denied'
+            });
+
+            req.err = 'MeetingController.js, Line: 560\nThe requesting user has no authority to update the meeting.';
+
+            next();
+         } 
+         else {
+            meeting.update(attributes).then(function(meeting) {
+               if(req.body.attendees){
+                  meeting.setAttendees(req.body.attendees, { rating: null, review: null }).then(function(){
+                     res.status(200).json({
+                        status: 'succeeded',
+                        message: 'meeting successfully updated'
+                     });
+
+                     next();
+                  }).catch(function(err) {
+                     /* failed to update the meeting attendees in the database */
+                     res.status(500).json({
+                        status:'failed',
+                        message: 'Internal server error'
+                     });
+
+                     req.err = 'MeetingController.js, Line: 436\nfailed to update the meeting attendees in the database.\n' + String(err);
+
+                     next();
+                  });
+               } else {
+                  res.status(200).json({
+                     status: 'succeeded',
+                     message: 'meeting successfully updated'
+                  });
+
+                  next();
+               }
+            }).catch(function(err) {
+               /* failed to update the meeting in the database */
+               res.status(500).json({
+                  status:'failed',
+                  message: 'Internal server error'
+               });
+
+               req.err = 'MeetingController.js, Line: 467\nCouldn\'t update the meeting in the database.\n' + String(err);
+
+               next();
+            });
+         }
       }).catch(function(err) {
-         /* failed to update the meeting in the database */
+         /* failed to find the meeting in the database */
          res.status(500).json({
             status:'failed',
             message: 'Internal server error'
          });
 
-         req.err = 'MeetingController.js, Line: 467\nCouldn\'t update the meeting in the database.\n' + String(err);
+         req.err = 'MeetingController.js, Line: 467\nCouldn\'t find the meeting in the database.\n' + String(err);
 
          next();
       });
    };
    
-   var errors;
-   
+   var errors = req.validationErrors();
    if(req.body.attendees){
       /*validating the user list*/
       User.findAll({ where: { id: { in: req.body.attendees } } }).then(function(attendees) {
