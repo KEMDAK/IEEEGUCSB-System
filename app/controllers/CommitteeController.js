@@ -293,7 +293,7 @@ module.exports.update = function(req, res, next){
             message: 'Internal server error'
          });
 
-         req.err = 'UserController.js, Line: 296\nCouldn\'t update the committee in the database.\n' + String(err);
+         req.err = 'CommitteeController.js, Line: 296\nCouldn\'t update the committee in the database.\n' + String(err);
       }
 
       next();

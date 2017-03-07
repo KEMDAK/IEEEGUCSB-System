@@ -32,10 +32,10 @@ args.chai = require('chai');
 args.chai.use(require('chai-http'));
 
 describe('Meeting Controller', function() {
-   // require('./MeetingController/store')(args);
-   // require('./MeetingController/show')(args);
-   // require('./MeetingController/delete')(args);
-   // require('./MeetingController/update')(args);
+   require('./MeetingController/store')(args);
+   require('./MeetingController/show')(args);
+   require('./MeetingController/delete')(args);
+   require('./MeetingController/update')(args);
    require('./MeetingController/rate')(args);
 });
 

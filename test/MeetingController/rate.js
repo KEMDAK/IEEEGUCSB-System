@@ -1034,8 +1034,8 @@ module.exports = function(args) {
 
                         record.getAttendees().then(function(attendees) {
                            for (i = 0; i < attendees.length; i++) {
-                              attendees[i].meeting_user.should.have.property('rating').and.equal(5);
-                              attendees[i].meeting_user.should.have.property('review').and.equal("Good");
+                              attendees[i].meeting_user.should.have.property('rating').and.equal(1);
+                              attendees[i].meeting_user.should.have.property('review').and.equal("Bad");
                            }
 
                            done();

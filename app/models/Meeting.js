@@ -39,7 +39,6 @@ module.exports.defineMeeting = function(sequelize)
          duration:
          {
             type: Sequelize.VIRTUAL,
-            allowNull: false,
             get: function ()
             {
                // duration in mins
@@ -49,12 +48,12 @@ module.exports.defineMeeting = function(sequelize)
          location:
          {
             type: Sequelize.STRING,
-            allowNull: false
+            allowNull: true
          },
          description:
          {
             type: Sequelize.TEXT,
-            allowNull: false
+            allowNull: true
          },
          evaluation:
          {
