@@ -19,17 +19,17 @@
   "homepage": "https://github.com/KEMDAK/IEEEGUCSB-System#readme",
   "dependencies": {
     "bcrypt-nodejs": "0.0.3",
-    "body-parser": "^1.15.2",
+    "body-parser": "^1.17.1",
     "dotenv": "^2.0.0",
-    "ejs": "^2.5.5",
+    "ejs": "^2.5.6",
     "email-templates": "^2.5.4",
-    "express": "^4.14.0",
+    "express": "^4.15.2",
     "express-validator": "^2.20.10",
-    "jsonwebtoken": "^7.1.9",
+    "jsonwebtoken": "^7.3.0",
     "method-override": "^2.3.6",
-    "mysql": "^2.11.1",
-    "nodemailer": "^2.7.0",
-    "sequelize": "^3.24.3"
+    "mysql": "^2.13.0",
+    "nodemailer": "^2.7.2",
+    "sequelize": "^3.30.2"
   },
   "devDependencies": {
     "chai": "^3.5.0",
