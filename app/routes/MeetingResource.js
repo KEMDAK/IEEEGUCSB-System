@@ -42,8 +42,8 @@ module.exports = function(app) {
     *                       type: "Image",
     *                       url: the image url
     *                   },
-    *                   rating: The attendee's rating in this meeting,
-    *                   review: The attendee's review in this meeting
+    *                   rating: The attendee's rating in this meeting, [only available for Upper Board or above or the supervisor]
+    *                   review: The attendee's review in this meeting  [only available for Upper Board or above or the supervisor]
     *               }, {}, ...
     *           ],
     *           supervisor: {
