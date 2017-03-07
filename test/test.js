@@ -36,7 +36,7 @@ describe('Meeting Controller', function() {
    // require('./MeetingController/show')(args);
    // require('./MeetingController/delete')(args);
    // require('./MeetingController/update')(args);
-   // require('./MeetingController/rate')(args);
+   require('./MeetingController/rate')(args);
 });
 
 // describe('Task Controller', function() {
