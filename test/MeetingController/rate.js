@@ -51,7 +51,7 @@ module.exports = function(args) {
            it('Should not allow a visitor to make a rating.', function(done) {
               var meeting_id = 1;
               chai.request(app)
-              .post('/api/meeting/' + meeting_id + '/rating')
+              .post('/api/meeting/' + meeting_id + '/rate')
               .set('User_Agent', 'Web')
               .end(function(err, res) {
                  try {
@@ -68,7 +68,7 @@ module.exports = function(args) {
            it('Should not allow a Member to make a rating.', function(done) {
               var meeting_id = 1;
               chai.request(app)
-              .post('/api/meeting/' + meeting_id + '/rating')
+              .post('/api/meeting/' + meeting_id + '/rate')
               .set('User_Agent', 'Web')
               .set('Authorization', data.identities[7].token)
               .end(function(err, res) {
@@ -86,7 +86,7 @@ module.exports = function(args) {
            it('Should not allow a non-supervisor to make a rating (Admin).', function(done) {
               var meeting_id = 2;
               chai.request(app)
-              .post('/api/meeting/' + meeting_id + '/rating')
+              .post('/api/meeting/' + meeting_id + '/rate')
               .set('User_Agent', 'Web')
               .set('Authorization', data.identities[0].token)
               .end(function(err, res) {
@@ -97,6 +97,7 @@ module.exports = function(args) {
                     models.Meeting.findById(meeting_id).then(function(record) {
                         record.should.have.property('evaluation').and.equal(meeting_id);
                         record.should.have.property('goals');
+                        record.goals = JSON.parse(record.goals);
                         record.goals.should.have.lengthOf(3);
                         var i;
                         for (i = 0; i < record.goals.length; i++) {
@@ -106,8 +107,8 @@ module.exports = function(args) {
 
                         record.getAttendees().then(function(attendees) {
                            for (i = 0; i < attendees.length; i++) {
-                              attendees[i].should.have.property('rating').and.equal(null);
-                              attendees[i].should.have.property('review').and.equal(null);
+                              attendees[i].meeting_user.should.have.property('rating').and.equal(null);
+                              attendees[i].meeting_user.should.have.property('review').and.equal(null);
                            }
 
                            done();
@@ -126,7 +127,7 @@ module.exports = function(args) {
            it('Should not allow a non-supervisor to make a rating (Upper Board).', function(done) {
               var meeting_id = 1;
               chai.request(app)
-              .post('/api/meeting/' + meeting_id + '/rating')
+              .post('/api/meeting/' + meeting_id + '/rate')
               .set('User_Agent', 'Web')
               .set('Authorization', data.identities[1].token)
               .end(function(err, res) {
@@ -137,6 +138,7 @@ module.exports = function(args) {
                     models.Meeting.findById(meeting_id).then(function(record) {
                         record.should.have.property('evaluation').and.equal(meeting_id);
                         record.should.have.property('goals');
+                        record.goals = JSON.parse(record.goals);
                         record.goals.should.have.lengthOf(3);
                         var i;
                         for (i = 0; i < record.goals.length; i++) {
@@ -146,8 +148,8 @@ module.exports = function(args) {
 
                         record.getAttendees().then(function(attendees) {
                            for (i = 0; i < attendees.length; i++) {
-                              attendees[i].should.have.property('rating').and.equal(null);
-                              attendees[i].should.have.property('review').and.equal(null);
+                              attendees[i].meeting_user.should.have.property('rating').and.equal(null);
+                              attendees[i].meeting_user.should.have.property('review').and.equal(null);
                            }
 
                            done();
@@ -166,7 +168,7 @@ module.exports = function(args) {
            it('Should not allow a non-supervisor to make a rating (High Board).', function(done) {
               var meeting_id = 1;
               chai.request(app)
-              .post('/api/meeting/' + meeting_id + '/rating')
+              .post('/api/meeting/' + meeting_id + '/rate')
               .set('User_Agent', 'Web')
               .set('Authorization', data.identities[3].token)
               .end(function(err, res) {
@@ -177,6 +179,7 @@ module.exports = function(args) {
                     models.Meeting.findById(meeting_id).then(function(record) {
                         record.should.have.property('evaluation').and.equal(meeting_id);
                         record.should.have.property('goals');
+                        record.goals = JSON.parse(record.goals);
                         record.goals.should.have.lengthOf(3);
                         var i;
                         for (i = 0; i < record.goals.length; i++) {
@@ -186,8 +189,8 @@ module.exports = function(args) {
 
                         record.getAttendees().then(function(attendees) {
                            for (i = 0; i < attendees.length; i++) {
-                              attendees[i].should.have.property('rating').and.equal(null);
-                              attendees[i].should.have.property('review').and.equal(null);
+                              attendees[i].meeting_user.should.have.property('rating').and.equal(null);
+                              attendees[i].meeting_user.should.have.property('review').and.equal(null);
                            }
 
                            done();
@@ -216,7 +219,7 @@ module.exports = function(args) {
               };
 
               chai.request(app)
-              .post('/api/meeting/' + meeting_id + '/rating')
+              .post('/api/meeting/' + meeting_id + '/rate')
               .set('User_Agent', 'Web')
               .set('Authorization', data.identities[0].token)
               .send(obj)
@@ -229,6 +232,7 @@ module.exports = function(args) {
                     models.Meeting.findById(meeting_id).then(function(record) {
                         record.should.have.property('evaluation').and.equal(meeting_id);
                         record.should.have.property('goals');
+                        record.goals = JSON.parse(record.goals);
                         record.goals.should.have.lengthOf(3);
 
                         for (i = 0; i < record.goals.length; i++) {
@@ -238,8 +242,8 @@ module.exports = function(args) {
 
                         record.getAttendees().then(function(attendees) {
                            for (i = 0; i < attendees.length; i++) {
-                              attendees[i].should.have.property('rating').and.equal(null);
-                              attendees[i].should.have.property('review').and.equal(null);
+                              attendees[i].meeting_user.should.have.property('rating').and.equal(null);
+                              attendees[i].meeting_user.should.have.property('review').and.equal(null);
                            }
 
                            done();
@@ -264,7 +268,7 @@ module.exports = function(args) {
               };
 
               chai.request(app)
-              .post('/api/meeting/' + meeting_id + '/rating')
+              .post('/api/meeting/' + meeting_id + '/rate')
               .set('User_Agent', 'Web')
               .set('Authorization', data.identities[0].token)
               .send(obj)
@@ -277,6 +281,7 @@ module.exports = function(args) {
                     models.Meeting.findById(meeting_id).then(function(record) {
                         record.should.have.property('evaluation').and.equal(meeting_id);
                         record.should.have.property('goals');
+                        record.goals = JSON.parse(record.goals);
                         record.goals.should.have.lengthOf(3);
 
                         for (i = 0; i < record.goals.length; i++) {
@@ -286,8 +291,8 @@ module.exports = function(args) {
 
                         record.getAttendees().then(function(attendees) {
                            for (i = 0; i < attendees.length; i++) {
-                              attendees[i].should.have.property('rating').and.equal(null);
-                              attendees[i].should.have.property('review').and.equal(null);
+                              attendees[i].meeting_user.should.have.property('rating').and.equal(null);
+                              attendees[i].meeting_user.should.have.property('review').and.equal(null);
                            }
 
                            done();
@@ -312,7 +317,7 @@ module.exports = function(args) {
               };
 
               chai.request(app)
-              .post('/api/meeting/' + meeting_id + '/rating')
+              .post('/api/meeting/' + meeting_id + '/rate')
               .set('User_Agent', 'Web')
               .set('Authorization', data.identities[0].token)
               .send(obj)
@@ -325,6 +330,7 @@ module.exports = function(args) {
                     models.Meeting.findById(meeting_id).then(function(record) {
                         record.should.have.property('evaluation').and.equal(meeting_id);
                         record.should.have.property('goals');
+                        record.goals = JSON.parse(record.goals);
                         record.goals.should.have.lengthOf(3);
 
                         for (i = 0; i < record.goals.length; i++) {
@@ -334,8 +340,8 @@ module.exports = function(args) {
 
                         record.getAttendees().then(function(attendees) {
                            for (i = 0; i < attendees.length; i++) {
-                              attendees[i].should.have.property('rating').and.equal(null);
-                              attendees[i].should.have.property('review').and.equal(null);
+                              attendees[i].meeting_user.should.have.property('rating').and.equal(null);
+                              attendees[i].meeting_user.should.have.property('review').and.equal(null);
                            }
 
                            done();
@@ -359,7 +365,7 @@ module.exports = function(args) {
               };
 
               chai.request(app)
-              .post('/api/meeting/' + meeting_id + '/rating')
+              .post('/api/meeting/' + meeting_id + '/rate')
               .set('User_Agent', 'Web')
               .set('Authorization', data.identities[0].token)
               .send(obj)
@@ -372,6 +378,7 @@ module.exports = function(args) {
                     models.Meeting.findById(meeting_id).then(function(record) {
                         record.should.have.property('evaluation').and.equal(meeting_id);
                         record.should.have.property('goals');
+                        record.goals = JSON.parse(record.goals);
                         record.goals.should.have.lengthOf(3);
 
                         for (i = 0; i < record.goals.length; i++) {
@@ -381,8 +388,8 @@ module.exports = function(args) {
 
                         record.getAttendees().then(function(attendees) {
                            for (i = 0; i < attendees.length; i++) {
-                              attendees[i].should.have.property('rating').and.equal(null);
-                              attendees[i].should.have.property('review').and.equal(null);
+                              attendees[i].meeting_user.should.have.property('rating').and.equal(null);
+                              attendees[i].meeting_user.should.have.property('review').and.equal(null);
                            }
 
                            done();
@@ -407,7 +414,7 @@ module.exports = function(args) {
                };
 
                chai.request(app)
-               .post('/api/meeting/' + meeting_id + '/rating')
+               .post('/api/meeting/' + meeting_id + '/rate')
                .set('User_Agent', 'Web')
                .set('Authorization', data.identities[0].token)
                .send(obj)
@@ -420,6 +427,7 @@ module.exports = function(args) {
                     models.Meeting.findById(meeting_id).then(function(record) {
                         record.should.have.property('evaluation').and.equal(meeting_id);
                         record.should.have.property('goals');
+                        record.goals = JSON.parse(record.goals);
                         record.goals.should.have.lengthOf(3);
 
                         for (i = 0; i < record.goals.length; i++) {
@@ -429,8 +437,8 @@ module.exports = function(args) {
 
                         record.getAttendees().then(function(attendees) {
                            for (i = 0; i < attendees.length; i++) {
-                              attendees[i].should.have.property('rating').and.equal(null);
-                              attendees[i].should.have.property('review').and.equal(null);
+                              attendees[i].meeting_user.should.have.property('rating').and.equal(null);
+                              attendees[i].meeting_user.should.have.property('review').and.equal(null);
                            }
 
                            done();
@@ -455,7 +463,7 @@ module.exports = function(args) {
                };
 
                chai.request(app)
-               .post('/api/meeting/' + meeting_id + '/rating')
+               .post('/api/meeting/' + meeting_id + '/rate')
                .set('User_Agent', 'Web')
                .set('Authorization', data.identities[0].token)
                .send(obj)
@@ -468,6 +476,7 @@ module.exports = function(args) {
                     models.Meeting.findById(meeting_id).then(function(record) {
                         record.should.have.property('evaluation').and.equal(meeting_id);
                         record.should.have.property('goals');
+                        record.goals = JSON.parse(record.goals);
                         record.goals.should.have.lengthOf(3);
 
                         for (i = 0; i < record.goals.length; i++) {
@@ -477,8 +486,8 @@ module.exports = function(args) {
 
                         record.getAttendees().then(function(attendees) {
                            for (i = 0; i < attendees.length; i++) {
-                              attendees[i].should.have.property('rating').and.equal(null);
-                              attendees[i].should.have.property('review').and.equal(null);
+                              attendees[i].meeting_user.should.have.property('rating').and.equal(null);
+                              attendees[i].meeting_user.should.have.property('review').and.equal(null);
                            }
 
                            done();
@@ -503,7 +512,7 @@ module.exports = function(args) {
                };
 
                chai.request(app)
-               .post('/api/meeting/' + meeting_id + '/rating')
+               .post('/api/meeting/' + meeting_id + '/rate')
                .set('User_Agent', 'Web')
                .set('Authorization', data.identities[0].token)
                .send(obj)
@@ -516,6 +525,7 @@ module.exports = function(args) {
                     models.Meeting.findById(meeting_id).then(function(record) {
                         record.should.have.property('evaluation').and.equal(meeting_id);
                         record.should.have.property('goals');
+                        record.goals = JSON.parse(record.goals);
                         record.goals.should.have.lengthOf(3);
 
                         for (i = 0; i < record.goals.length; i++) {
@@ -525,8 +535,8 @@ module.exports = function(args) {
 
                         record.getAttendees().then(function(attendees) {
                            for (i = 0; i < attendees.length; i++) {
-                              attendees[i].should.have.property('rating').and.equal(null);
-                              attendees[i].should.have.property('review').and.equal(null);
+                              attendees[i].meeting_user.should.have.property('rating').and.equal(null);
+                              attendees[i].meeting_user.should.have.property('review').and.equal(null);
                            }
 
                            done();
@@ -551,7 +561,7 @@ module.exports = function(args) {
                };
 
                chai.request(app)
-               .post('/api/meeting/' + meeting_id + '/rating')
+               .post('/api/meeting/' + meeting_id + '/rate')
                .set('User_Agent', 'Web')
                .set('Authorization', data.identities[0].token)
                .send(obj)
@@ -564,6 +574,7 @@ module.exports = function(args) {
                     models.Meeting.findById(meeting_id).then(function(record) {
                         record.should.have.property('evaluation').and.equal(meeting_id);
                         record.should.have.property('goals');
+                        record.goals = JSON.parse(record.goals);
                         record.goals.should.have.lengthOf(3);
 
                         for (i = 0; i < record.goals.length; i++) {
@@ -573,8 +584,8 @@ module.exports = function(args) {
 
                         record.getAttendees().then(function(attendees) {
                            for (i = 0; i < attendees.length; i++) {
-                              attendees[i].should.have.property('rating').and.equal(null);
-                              attendees[i].should.have.property('review').and.equal(null);
+                              attendees[i].meeting_user.should.have.property('rating').and.equal(null);
+                              attendees[i].meeting_user.should.have.property('review').and.equal(null);
                            }
 
                            done();
@@ -599,7 +610,7 @@ module.exports = function(args) {
                };
 
                chai.request(app)
-               .post('/api/meeting/' + meeting_id + '/rating')
+               .post('/api/meeting/' + meeting_id + '/rate')
                .set('User_Agent', 'Web')
                .set('Authorization', data.identities[0].token)
                .send(obj)
@@ -612,6 +623,7 @@ module.exports = function(args) {
                     models.Meeting.findById(meeting_id).then(function(record) {
                         record.should.have.property('evaluation').and.equal(meeting_id);
                         record.should.have.property('goals');
+                        record.goals = JSON.parse(record.goals);
                         record.goals.should.have.lengthOf(3);
 
                         for (i = 0; i < record.goals.length; i++) {
@@ -621,8 +633,8 @@ module.exports = function(args) {
 
                         record.getAttendees().then(function(attendees) {
                            for (i = 0; i < attendees.length; i++) {
-                              attendees[i].should.have.property('rating').and.equal(null);
-                              attendees[i].should.have.property('review').and.equal(null);
+                              attendees[i].meeting_user.should.have.property('rating').and.equal(null);
+                              attendees[i].meeting_user.should.have.property('review').and.equal(null);
                            }
 
                            done();
@@ -647,7 +659,7 @@ module.exports = function(args) {
                };
 
                chai.request(app)
-               .post('/api/meeting/' + meeting_id + '/rating')
+               .post('/api/meeting/' + meeting_id + '/rate')
                .set('User_Agent', 'Web')
                .set('Authorization', data.identities[0].token)
                .send(obj)
@@ -660,6 +672,7 @@ module.exports = function(args) {
                     models.Meeting.findById(meeting_id).then(function(record) {
                         record.should.have.property('evaluation').and.equal(meeting_id);
                         record.should.have.property('goals');
+                        record.goals = JSON.parse(record.goals);
                         record.goals.should.have.lengthOf(3);
 
                         for (i = 0; i < record.goals.length; i++) {
@@ -669,8 +682,8 @@ module.exports = function(args) {
 
                         record.getAttendees().then(function(attendees) {
                            for (i = 0; i < attendees.length; i++) {
-                              attendees[i].should.have.property('rating').and.equal(null);
-                              attendees[i].should.have.property('review').and.equal(null);
+                              attendees[i].meeting_user.should.have.property('rating').and.equal(null);
+                              attendees[i].meeting_user.should.have.property('review').and.equal(null);
                            }
 
                            done();
@@ -695,7 +708,7 @@ module.exports = function(args) {
                };
 
                chai.request(app)
-               .post('/api/meeting/' + meeting_id + '/rating')
+               .post('/api/meeting/' + meeting_id + '/rate')
                .set('User_Agent', 'Web')
                .set('Authorization', data.identities[0].token)
                .send(obj)
@@ -708,6 +721,7 @@ module.exports = function(args) {
                     models.Meeting.findById(meeting_id).then(function(record) {
                         record.should.have.property('evaluation').and.equal(meeting_id);
                         record.should.have.property('goals');
+                        record.goals = JSON.parse(record.goals);
                         record.goals.should.have.lengthOf(3);
 
                         for (i = 0; i < record.goals.length; i++) {
@@ -717,8 +731,8 @@ module.exports = function(args) {
 
                         record.getAttendees().then(function(attendees) {
                            for (i = 0; i < attendees.length; i++) {
-                              attendees[i].should.have.property('rating').and.equal(null);
-                              attendees[i].should.have.property('review').and.equal(null);
+                              attendees[i].meeting_user.should.have.property('rating').and.equal(null);
+                              attendees[i].meeting_user.should.have.property('review').and.equal(null);
                            }
 
                            done();
@@ -743,7 +757,7 @@ module.exports = function(args) {
                };
 
                chai.request(app)
-               .post('/api/meeting/' + meeting_id + '/rating')
+               .post('/api/meeting/' + meeting_id + '/rate')
                .set('User_Agent', 'Web')
                .set('Authorization', data.identities[0].token)
                .send(obj)
@@ -756,6 +770,7 @@ module.exports = function(args) {
                     models.Meeting.findById(meeting_id).then(function(record) {
                         record.should.have.property('evaluation').and.equal(meeting_id);
                         record.should.have.property('goals');
+                        record.goals = JSON.parse(record.goals);
                         record.goals.should.have.lengthOf(3);
 
                         for (i = 0; i < record.goals.length; i++) {
@@ -765,8 +780,8 @@ module.exports = function(args) {
 
                         record.getAttendees().then(function(attendees) {
                            for (i = 0; i < attendees.length; i++) {
-                              attendees[i].should.have.property('rating').and.equal(null);
-                              attendees[i].should.have.property('review').and.equal(null);
+                              attendees[i].meeting_user.should.have.property('rating').and.equal(null);
+                              attendees[i].meeting_user.should.have.property('review').and.equal(null);
                            }
 
                            done();
@@ -796,7 +811,7 @@ module.exports = function(args) {
                };
 
                chai.request(app)
-               .post('/api/meeting/' + meeting_id + '/rating')
+               .post('/api/meeting/' + meeting_id + '/rate')
                .set('User_Agent', 'Web')
                .set('Authorization', data.identities[0].token)
                .send(obj)
@@ -809,6 +824,7 @@ module.exports = function(args) {
                     models.Meeting.findById(meeting_id).then(function(record) {
                         record.should.have.property('evaluation').and.equal(5);
                         record.should.have.property('goals');
+                        record.goals = JSON.parse(record.goals);
                         record.goals.should.have.lengthOf(3);
 
                         for (i = 0; i < record.goals.length; i++) {
@@ -818,8 +834,8 @@ module.exports = function(args) {
 
                         record.getAttendees().then(function(attendees) {
                            for (i = 0; i < attendees.length; i++) {
-                              attendees[i].should.have.property('rating').and.equal(5);
-                              attendees[i].should.have.property('review').and.equal("Good");
+                              attendees[i].meeting_user.should.have.property('rating').and.equal(5);
+                              attendees[i].meeting_user.should.have.property('review').and.equal("Good");
                            }
 
                            done();
@@ -845,7 +861,7 @@ module.exports = function(args) {
                };
 
                chai.request(app)
-               .post('/api/meeting/' + meeting_id + '/rating')
+               .post('/api/meeting/' + meeting_id + '/rate')
                .set('User_Agent', 'Web')
                .set('Authorization', data.identities[1].token)
                .send(obj)
@@ -858,6 +874,7 @@ module.exports = function(args) {
                     models.Meeting.findById(meeting_id).then(function(record) {
                         record.should.have.property('evaluation').and.equal(5);
                         record.should.have.property('goals');
+                        record.goals = JSON.parse(record.goals);
                         record.goals.should.have.lengthOf(3);
 
                         for (i = 0; i < record.goals.length; i++) {
@@ -867,8 +884,8 @@ module.exports = function(args) {
 
                         record.getAttendees().then(function(attendees) {
                            for (i = 0; i < attendees.length; i++) {
-                              attendees[i].should.have.property('rating').and.equal(5);
-                              attendees[i].should.have.property('review').and.equal("Good");
+                              attendees[i].meeting_user.should.have.property('rating').and.equal(5);
+                              attendees[i].meeting_user.should.have.property('review').and.equal("Good");
                            }
 
                            done();
@@ -894,7 +911,7 @@ module.exports = function(args) {
                };
 
                chai.request(app)
-               .post('/api/meeting/' + meeting_id + '/rating')
+               .post('/api/meeting/' + meeting_id + '/rate')
                .set('User_Agent', 'Web')
                .set('Authorization', data.identities[3].token)
                .send(obj)
@@ -907,6 +924,7 @@ module.exports = function(args) {
                     models.Meeting.findById(meeting_id).then(function(record) {
                         record.should.have.property('evaluation').and.equal(5);
                         record.should.have.property('goals');
+                        record.goals = JSON.parse(record.goals);
                         record.goals.should.have.lengthOf(3);
 
                         for (i = 0; i < record.goals.length; i++) {
@@ -916,8 +934,8 @@ module.exports = function(args) {
 
                         record.getAttendees().then(function(attendees) {
                            for (i = 0; i < attendees.length; i++) {
-                              attendees[i].should.have.property('rating').and.equal(5);
-                              attendees[i].should.have.property('review').and.equal("Good");
+                              attendees[i].meeting_user.should.have.property('rating').and.equal(5);
+                              attendees[i].meeting_user.should.have.property('review').and.equal("Good");
                            }
 
                            done();
@@ -943,7 +961,7 @@ module.exports = function(args) {
                };
 
                chai.request(app)
-               .post('/api/meeting/' + meeting_id + '/rating')
+               .post('/api/meeting/' + meeting_id + '/rate')
                .set('User_Agent', 'Web')
                .set('Authorization', data.identities[0].token)
                .send(obj)
@@ -956,6 +974,7 @@ module.exports = function(args) {
                     models.Meeting.findById(meeting_id).then(function(record) {
                         record.should.have.property('evaluation').and.equal(5);
                         record.should.have.property('goals');
+                        record.goals = JSON.parse(record.goals);
                         record.goals.should.have.lengthOf(3);
 
                         for (i = 0; i < record.goals.length; i++) {
@@ -965,8 +984,8 @@ module.exports = function(args) {
 
                         record.getAttendees().then(function(attendees) {
                            for (i = 0; i < attendees.length; i++) {
-                              attendees[i].should.have.property('rating').and.equal(5);
-                              attendees[i].should.have.property('review').and.equal("Good");
+                              attendees[i].meeting_user.should.have.property('rating').and.equal(5);
+                              attendees[i].meeting_user.should.have.property('review').and.equal("Good");
                            }
 
                            done();
@@ -992,7 +1011,7 @@ module.exports = function(args) {
                };
 
                chai.request(app)
-               .post('/api/meeting/' + meeting_id + '/rating')
+               .post('/api/meeting/' + meeting_id + '/rate')
                .set('User_Agent', 'Web')
                .set('Authorization', data.identities[0].token)
                .send(obj)
@@ -1005,6 +1024,7 @@ module.exports = function(args) {
                     models.Meeting.findById(meeting_id).then(function(record) {
                         record.should.have.property('evaluation').and.equal(5);
                         record.should.have.property('goals');
+                        record.goals = JSON.parse(record.goals);
                         record.goals.should.have.lengthOf(3);
 
                         for (i = 0; i < record.goals.length; i++) {
@@ -1014,8 +1034,8 @@ module.exports = function(args) {
 
                         record.getAttendees().then(function(attendees) {
                            for (i = 0; i < attendees.length; i++) {
-                              attendees[i].should.have.property('rating').and.equal(5);
-                              attendees[i].should.have.property('review').and.equal("Good");
+                              attendees[i].meeting_user.should.have.property('rating').and.equal(5);
+                              attendees[i].meeting_user.should.have.property('review').and.equal("Good");
                            }
 
                            done();

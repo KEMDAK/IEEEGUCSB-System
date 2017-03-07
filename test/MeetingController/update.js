@@ -65,6 +65,7 @@ module.exports = function(args) {
                      record.should.have.property('start_date');
                      record.should.have.property('end_date');
                      record.should.have.property('goals');
+                     record.goals = JSON.parse(record.goals);
                      record.goals.should.have.lengthOf(3);
                      var i;
                      for (i = 0; i < record.goals.length; i++) {
@@ -117,6 +118,7 @@ module.exports = function(args) {
                      record.should.have.property('start_date');
                      record.should.have.property('end_date');
                      record.should.have.property('goals');
+                     record.goals = JSON.parse(record.goals);
                      record.goals.should.have.lengthOf(3);
                      var i;
                      for (i = 0; i < record.goals.length; i++) {
@@ -169,6 +171,7 @@ module.exports = function(args) {
                      record.should.have.property('start_date');
                      record.should.have.property('end_date');
                      record.should.have.property('goals');
+                     record.goals = JSON.parse(record.goals);
                      record.goals.should.have.lengthOf(3);
                      var i;
                      for (i = 0; i < record.goals.length; i++) {
@@ -221,6 +224,7 @@ module.exports = function(args) {
                      record.should.have.property('start_date');
                      record.should.have.property('end_date');
                      record.should.have.property('goals');
+                     record.goals = JSON.parse(record.goals);
                      record.goals.should.have.lengthOf(3);
                      var i;
                      for (i = 0; i < record.goals.length; i++) {
@@ -273,6 +277,7 @@ module.exports = function(args) {
                      record.should.have.property('start_date');
                      record.should.have.property('end_date');
                      record.should.have.property('goals');
+                     record.goals = JSON.parse(record.goals);
                      record.goals.should.have.lengthOf(3);
                      var i;
                      for (i = 0; i < record.goals.length; i++) {
@@ -323,6 +328,7 @@ module.exports = function(args) {
                      record.should.have.property('start_date');
                      record.should.have.property('end_date');
                      record.should.have.property('goals');
+                     record.goals = JSON.parse(record.goals);
                      record.goals.should.have.lengthOf(3);
                      var i;
                      for (i = 0; i < record.goals.length; i++) {
@@ -374,6 +380,7 @@ module.exports = function(args) {
                      record.should.have.property('start_date');
                      record.should.have.property('end_date');
                      record.should.have.property('goals');
+                     record.goals = JSON.parse(record.goals);
                      record.goals.should.have.lengthOf(3);
                      var i;
                      for (i = 0; i < record.goals.length; i++) {
@@ -438,7 +445,7 @@ module.exports = function(args) {
             .put('/api/meeting/' + meeting_id)
             .set('User_Agent', 'Web')
             .set('Authorization', data.identities[3].token)
-            .send('attendees', [9, 10])
+            .send({ attendees: [9, 10] })
             .end(function(err, res) {
                try {
                   res.should.have.status(400);
@@ -450,6 +457,7 @@ module.exports = function(args) {
                      record.should.have.property('start_date');
                      record.should.have.property('end_date');
                      record.should.have.property('goals');
+                     record.goals = JSON.parse(record.goals);
                      record.goals.should.have.lengthOf(3);
                      var i;
                      for (i = 0; i < record.goals.length; i++) {
@@ -502,6 +510,7 @@ module.exports = function(args) {
                      record.should.have.property('start_date');
                      record.should.have.property('end_date');
                      record.should.have.property('goals');
+                     record.goals = JSON.parse(record.goals);
                      record.goals.should.have.lengthOf(3);
                      var i;
                      for (i = 0; i < record.goals.length; i++) {
@@ -554,6 +563,7 @@ module.exports = function(args) {
                      record.should.have.property('start_date');
                      record.should.have.property('end_date');
                      record.should.have.property('goals');
+                     record.goals = JSON.parse(record.goals);
                      record.goals.should.have.lengthOf(3);
                      var i;
                      for (i = 0; i < record.goals.length; i++) {
@@ -606,6 +616,7 @@ module.exports = function(args) {
                      record.should.have.property('start_date');
                      record.should.have.property('end_date');
                      record.should.have.property('goals');
+                     record.goals = JSON.parse(record.goals);
                      record.goals.should.have.lengthOf(3);
                      var i;
                      for (i = 0; i < record.goals.length; i++) {
@@ -658,6 +669,7 @@ module.exports = function(args) {
                      record.should.have.property('start_date');
                      record.should.have.property('end_date');
                      record.should.have.property('goals');
+                     record.goals = JSON.parse(record.goals);
                      record.goals.should.have.lengthOf(3);
                      var i;
                      for (i = 0; i < record.goals.length; i++) {
@@ -710,6 +722,7 @@ module.exports = function(args) {
                      record.should.have.property('start_date');
                      record.should.have.property('end_date');
                      record.should.have.property('goals');
+                     record.goals = JSON.parse(record.goals);
                      record.goals.should.have.lengthOf(3);
                      var i;
                      for (i = 0; i < record.goals.length; i++) {
@@ -762,6 +775,7 @@ module.exports = function(args) {
                      record.should.have.property('start_date');
                      record.should.have.property('end_date');
                      record.should.have.property('goals');
+                     record.goals = JSON.parse(record.goals);
                      record.goals.should.have.lengthOf(3);
                      var i;
                      for (i = 0; i < record.goals.length; i++) {
@@ -814,6 +828,7 @@ module.exports = function(args) {
                      record.should.have.property('start_date');
                      record.should.have.property('end_date');
                      record.should.have.property('goals');
+                     record.goals = JSON.parse(record.goals);
                      record.goals.should.have.lengthOf(3);
                      var i;
                      for (i = 0; i < record.goals.length; i++) {
@@ -877,6 +892,7 @@ module.exports = function(args) {
                      record.should.have.property('start_date');
                      record.should.have.property('end_date');
                      record.should.have.property('goals');
+                     record.goals = JSON.parse(record.goals);
                      record.goals.should.have.lengthOf(3);
                      var i;
                      for (i = 0; i < record.goals.length; i++) {
@@ -928,6 +944,7 @@ module.exports = function(args) {
                      record.should.have.property('start_date');
                      record.should.have.property('end_date');
                      record.should.have.property('goals');
+                     record.goals = JSON.parse(record.goals);
                      record.goals.should.have.lengthOf(3);
                      var i;
                      for (i = 0; i < record.goals.length; i++) {
@@ -979,6 +996,7 @@ module.exports = function(args) {
                      record.should.have.property('start_date');
                      record.should.have.property('end_date');
                      record.should.have.property('goals');
+                     record.goals = JSON.parse(record.goals);
                      record.goals.should.have.lengthOf(3);
                      var i;
                      for (i = 0; i < record.goals.length; i++) {
