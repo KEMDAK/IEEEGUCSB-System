@@ -32,16 +32,16 @@ args.chai = require('chai');
 args.chai.use(require('chai-http'));
 
 describe('Meeting Controller', function() {
-   require('./MeetingController/store')(args);
-   require('./MeetingController/show')(args);
-   require('./MeetingController/delete')(args);
-   require('./MeetingController/update')(args);
-   require('./MeetingController/rate')(args);
+   // require('./MeetingController/store')(args);
+   // require('./MeetingController/show')(args);
+   // require('./MeetingController/delete')(args);
+   // require('./MeetingController/update')(args);
+   // require('./MeetingController/rate')(args);
 });
 
-describe('Task Controller', function() {
-   require('./TaskController/store')(args);
-   require('./TaskController/show')(args);
-   require('./TaskController/update')(args);
-   require('./TaskController/delete')(args);
-});
+// describe('Task Controller', function() {
+//    require('./TaskController/store')(args);
+//    require('./TaskController/show')(args);
+//    require('./TaskController/update')(args);
+//    require('./TaskController/delete')(args);
+// });
