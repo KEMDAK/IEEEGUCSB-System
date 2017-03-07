@@ -704,59 +704,6 @@ module.exports = function(args) {
             });
          });
 
-         it('Should not allow the meeting to be updated due to invalid \'goals\' parameter in the body. (Wrong number of elements)', function(done) {
-            var meeting_id = 1;
-            chai.request(app)
-            .put('/api/meeting/' + meeting_id)
-            .set('User_Agent', 'Web')
-            .set('Authorization', data.identities[0].token)
-            .send({ goals: [ 'Its', 'invalid' ] })
-            .end(function(err, res) {
-               try {
-                  res.should.have.status(400);
-                  res.body.should.have.property('status').and.equal('failed');
-                  res.body.should.have.property('errors');  // TODO: Test the errors themselves
-                  should.exist(err);
-                  models.Meeting.findById(meeting_id).then(function(record) {
-                     record.should.have.property('id').and.equal(meeting_id);
-                     record.should.have.property('start_date');
-                     record.should.have.property('end_date');
-                     record.should.have.property('goals');
-                     record.goals = JSON.parse(record.goals);
-                     record.goals.should.have.lengthOf(3);
-                     var i;
-                     for (i = 0; i < record.goals.length; i++) {
-                        record.goals[i].should.have.property('name');
-                        record.goals[i].should.have.property('isDone').and.equal(false);
-                     }
-                     record.should.have.property('location').and.equal("Location " + meeting_id);
-                     record.should.have.property('description').and.equal("Description " + meeting_id);
-                     record.should.have.property('evaluation').and.equal(meeting_id);
-                     record.should.have.property('supervisor').and.equal(meeting_id);
-                     record.getAttendees().then(function(attendees) {
-                        attendees.should.have.lengthOf(2);
-                        attendees.sort(function(a, b) {
-                           return a.id - b.id;
-                        });
-
-                        for (i = 0; i < attendees.length; i++) {
-                           var attendee_id = meeting_id + (4 * (i+1));
-                           attendees[i].should.have.property('id').and.equal(attendee_id);
-                        }
-
-                        done();
-                     }).catch(function(error) {
-                        done(error);
-                     });
-                  }).catch(function(error) {
-                     done(error);
-                  });
-               } catch(error) {
-                  done(error);
-               }
-            });
-         });
-
          it('Should not allow the meeting to be updated due to invalid \'location\' parameter in the body.', function(done) {
             var meeting_id = 1;
             chai.request(app)
@@ -905,7 +852,7 @@ module.exports = function(args) {
                      record.should.have.property('supervisor').and.equal(meeting_id);
                      record.getAttendees().then(function(attendees) {
                         attendees.should.have.lengthOf(1);
-                        attendees[0].should.equal(2);
+                        attendees[0].should.have.property('id').and.equal(2);
                         done();
                      }).catch(function(error) {
                         done(error);
@@ -957,7 +904,7 @@ module.exports = function(args) {
                      record.should.have.property('supervisor').and.equal(meeting_id);
                      record.getAttendees().then(function(attendees) {
                         attendees.should.have.lengthOf(1);
-                        attendees[0].should.equal(3);
+                        attendees[0].should.have.property('id').and.equal(3);
                         done();
                      }).catch(function(error) {
                         done(error);
@@ -1009,7 +956,7 @@ module.exports = function(args) {
                      record.should.have.property('supervisor').and.equal(meeting_id);
                      record.getAttendees().then(function(attendees) {
                         attendees.should.have.lengthOf(1);
-                        attendees[0].should.equal(8);
+                        attendees[0].should.have.property('id').and.equal(8);
                         done();
                      }).catch(function(error) {
                         done(error);
