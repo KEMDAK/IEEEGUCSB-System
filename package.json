@@ -5,6 +5,7 @@
   "main": "server.js",
   "scripts": {
     "test": "mocha",
+    "test-cov": "istanbul cover _mocha",
     "start": "node -e 'require(\"./server.js\")(function() {})'"
   },
   "repository": {
