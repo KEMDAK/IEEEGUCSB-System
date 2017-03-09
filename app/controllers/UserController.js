@@ -236,7 +236,6 @@ module.exports.show = function(req, res, next) {
       }).then(function(results){
 
          var finalResult = results[0].toJSON(detailedFlag,mineFlag);
-         console.log(finalResult);
          res.status(200).json({
             status:'succeeded',
             results:finalResult

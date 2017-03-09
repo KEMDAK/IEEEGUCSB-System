@@ -137,7 +137,6 @@ module.exports.defineUser = function(sequelize) {
                 type ='Detailed';
                }
 
-          
           res.profile_type       = type;
           res.id                 = this.id;
           res.type               = this.type;
@@ -155,7 +154,6 @@ module.exports.defineUser = function(sequelize) {
           res.honors             = this.Honors ;
           res.tasks              = this.Tasks ;
           res.meetings           = this.Meetings;
-
 
         return res;
       }
