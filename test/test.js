@@ -31,13 +31,13 @@ before(function(done) {
 args.chai = require('chai');
 args.chai.use(require('chai-http'));
 
-// describe('Meeting Controller', function() {
-//     require('./MeetingController/store')(args);
-//     require('./MeetingController/show')(args);
-//     require('./MeetingController/update')(args);
-//     require('./MeetingController/delete')(args);
-//     require('./MeetingController/rate')(args);
-// });
+describe('Meeting Controller', function() {
+    require('./MeetingController/store')(args);
+    require('./MeetingController/show')(args);
+    require('./MeetingController/update')(args);
+    require('./MeetingController/delete')(args);
+    require('./MeetingController/rate')(args);
+});
 
 // describe('Task Controller', function() {
 //     require('./TaskController/store')(args);
@@ -47,8 +47,8 @@ args.chai.use(require('chai-http'));
 // });
 
 describe('Committee Controller', function() {
-    // require('./CommitteeController/store')(args);
+    require('./CommitteeController/store')(args);
     require('./CommitteeController/show')(args);
-    // require('./CommitteeController/update')(args);
-    // require('./CommitteeController/delete')(args);
+    require('./CommitteeController/update')(args);
+    require('./CommitteeController/delete')(args);
 });
