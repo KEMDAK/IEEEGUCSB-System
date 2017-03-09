@@ -207,7 +207,7 @@ module.exports = function() {
    ******************/
    data.tasks = [];
    data.tasks_users = [];
-   for (var i = 1; i <= 4; i++) {
+   for (i = 1; i <= 4; i++) {
       var task = {
          title: "Task " + i,
          description: "Description " + i,
@@ -230,7 +230,7 @@ module.exports = function() {
    * Creating Comments *
    *********************/
    data.comments = [];
-   for (var i = 0; i < 8; i++) {
+   for (i = 0; i < 8; i++) {
       var comment = {
          content: "Content " + (i + 1),
          user_id: (i + 1),
@@ -280,6 +280,152 @@ module.exports = function() {
 
       data.meeting_user.push([i+1+4, i+1+8]);
    }
+
+   /*****************************
+    * Creating unassigned users *
+    *****************************/
+    data.unassigned_users = [];
+    c = 1;
+    /* Admin */
+    for (i = 0; i < 1; i++) {
+       var unassigned_admin = {
+          email: 'ex' + c + '@outlook.com',
+          password: '1234567',
+          type: 'Admin',
+          first_name : 'First Name ' + c,
+          last_name : 'Last Name ' + c,
+          birthdate : '1111-11-11',
+          phone_number: '+200000000000',
+          gender : 'Male',
+          IEEE_membership_ID : null,
+          settings: {
+             public: {
+                background: "The background of the profile"
+             },
+             private: {
+                notifications: {
+                   email: {
+                      comment: "boolean sent email on comments",
+                      lastSent: "timestamp",
+                      meetingDay: "boolean sent email on meeting day",
+                      taskDeadline: "boolean sent a reminder email before the task deadline",
+                      taskAssignment: "boolean sent email on task assignment",
+                      meetingAssignment: "boolean sent email on meetings"
+                   }
+                }
+             }
+          }
+       };
+
+       data.unassigned_users.push(unassigned_admin);
+       c++;
+    }
+
+    /* Upper Board */
+    for (i = 0; i < 2; i++) {
+       var unassigned_upper = {
+          email: 'ex' + c + '@outlook.com',
+          password: '1234567',
+          type: 'Upper Board',
+          first_name : 'First Name ' + c,
+          last_name : 'Last Name ' + c,
+          birthdate : '1111-11-11',
+          phone_number: '+200000000000',
+          gender : 'Male',
+          IEEE_membership_ID : null,
+          settings: {
+             public: {
+                background: "The background of the profile"
+             },
+             private: {
+                notifications: {
+                   email: {
+                      comment: "boolean sent email on comments",
+                      lastSent: "timestamp",
+                      meetingDay: "boolean sent email on meeting day",
+                      taskDeadline: "boolean sent a reminder email before the task deadline",
+                      taskAssignment: "boolean sent email on task assignment",
+                      meetingAssignment: "boolean sent email on meetings"
+                   }
+                }
+             }
+          }
+       };
+
+       data.unassigned_users.push(unassigned_upper);
+       c++;
+    }
+
+    /* High Board */
+    for (i = 0; i < 4; i++) {
+       var unassigned_high = {
+          email: 'ex' + c + '@outlook.com',
+          password: '1234567',
+          type: 'High Board',
+          first_name : 'First Name ' + c,
+          last_name : 'Last Name ' + c,
+          birthdate : '1111-11-11',
+          phone_number: '+200000000000',
+          gender : 'Male',
+          IEEE_membership_ID : null,
+          settings: {
+             public: {
+                background: "The background of the profile"
+             },
+             private: {
+                notifications: {
+                   email: {
+                      comment: "boolean sent email on comments",
+                      lastSent: "timestamp",
+                      meetingDay: "boolean sent email on meeting day",
+                      taskDeadline: "boolean sent a reminder email before the task deadline",
+                      taskAssignment: "boolean sent email on task assignment",
+                      meetingAssignment: "boolean sent email on meetings"
+                   }
+                }
+             }
+          }
+       };
+
+       data.unassigned_users.push(unassigned_high);
+       c++;
+    }
+
+    /* Member */
+    for (i = 0; i < 8; i++) {
+       var unassigned_member = {
+          email: 'ex' + c + '@outlook.com',
+          password: '1234567',
+          type: 'Member',
+          first_name : 'First Name ' + c,
+          last_name : 'Last Name ' + c,
+          birthdate : '1111-11-11',
+          phone_number: '+200000000000',
+          gender : 'Male',
+          IEEE_membership_ID : null,
+          settings: {
+             public: {
+                background: "The background of the profile"
+             },
+             private: {
+                notifications: {
+                   email: {
+                      comment: "boolean sent email on comments",
+                      lastSent: "timestamp",
+                      meetingDay: "boolean sent email on meeting day",
+                      taskDeadline: "boolean sent a reminder email before the task deadline",
+                      taskAssignment: "boolean sent email on task assignment",
+                      meetingAssignment: "boolean sent email on meetings"
+                   }
+                }
+             }
+          }
+       };
+
+       data.unassigned_users.push(unassigned_member);
+       c++;
+    }
+
 
    return data;
 };

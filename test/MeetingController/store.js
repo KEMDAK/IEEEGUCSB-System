@@ -60,7 +60,7 @@ module.exports = function(args) {
                   should.exist(err);
 
                   models.Meeting.findAll().then(function(records) {
-                     if (records > 0) {
+                     if (records.length > 0) {
                         throw new Error("The meeting shouldn\'t be added.");
                      }
 
@@ -84,7 +84,7 @@ module.exports = function(args) {
                   res.body.should.have.property('status').and.equal('failed');
                   should.exist(err);
                   models.Meeting.findAll().then(function(records) {
-                     if (records > 0) {
+                     if (records.length > 0) {
                         throw new Error("The meeting shouldn\'t be added.");
                      }
 
@@ -116,7 +116,7 @@ module.exports = function(args) {
                   res.body.should.have.property('status').and.equal('failed');
                   should.exist(err);
                   models.Meeting.findAll().then(function(records) {
-                     if (records > 0) {
+                     if (records.length > 0) {
                         throw new Error("The meeting shouldn\'t be added.");
                      }
 
@@ -150,7 +150,7 @@ module.exports = function(args) {
                   res.body.should.have.property('status').and.equal('failed');
                   should.exist(err);
                   models.Meeting.findAll().then(function(records) {
-                     if (records > 0) {
+                     if (records.length > 0) {
                         throw new Error("The meeting shouldn\'t be added.");
                      }
 
@@ -189,7 +189,7 @@ module.exports = function(args) {
                   res.body.should.have.property('errors');  // TODO: Test the errors themselves
                   should.exist(err);
                   models.Meeting.findAll().then(function(records) {
-                     if (records > 0) {
+                     if (records.length > 0) {
                         throw new Error("The meeting shouldn\'t be added.");
                      }
 
@@ -222,7 +222,7 @@ module.exports = function(args) {
                   res.body.should.have.property('errors');  // TODO: Test the errors themselves
                   should.exist(err);
                   models.Meeting.findAll().then(function(records) {
-                     if (records > 0) {
+                     if (records.length > 0) {
                         throw new Error("The meeting shouldn\'t be added.");
                      }
 
@@ -256,7 +256,7 @@ module.exports = function(args) {
                   res.body.should.have.property('errors');  // TODO: Test the errors themselves
                   should.exist(err);
                   models.Meeting.findAll().then(function(records) {
-                     if (records > 0) {
+                     if (records.length > 0) {
                         throw new Error("The meeting shouldn\'t be added.");
                      }
 
@@ -289,7 +289,7 @@ module.exports = function(args) {
                   res.body.should.have.property('errors');  // TODO: Test the errors themselves
                   should.exist(err);
                   models.Meeting.findAll().then(function(records) {
-                     if (records > 0) {
+                     if (records.length > 0) {
                         throw new Error("The meeting shouldn\'t be added.");
                      }
 
@@ -323,7 +323,7 @@ module.exports = function(args) {
                   res.body.should.have.property('errors');  // TODO: Test the errors themselves
                   should.exist(err);
                   models.Meeting.findAll().then(function(records) {
-                     if (records > 0) {
+                     if (records.length > 0) {
                         throw new Error("The meeting shouldn\'t be added.");
                      }
 
@@ -357,7 +357,7 @@ module.exports = function(args) {
                   res.body.should.have.property('errors');  // TODO: Test the errors themselves
                   should.exist(err);
                   models.Meeting.findAll().then(function(records) {
-                     if (records > 0) {
+                     if (records.length > 0) {
                         throw new Error("The meeting shouldn\'t be added.");
                      }
 
@@ -391,7 +391,7 @@ module.exports = function(args) {
                   res.body.should.have.property('errors');  // TODO: Test the errors themselves
                   should.exist(err);
                   models.Meeting.findAll().then(function(records) {
-                     if (records > 0) {
+                     if (records.length > 0) {
                         throw new Error("The meeting shouldn\'t be added.");
                      }
 
@@ -425,7 +425,7 @@ module.exports = function(args) {
                   res.body.should.have.property('errors');  // TODO: Test the errors themselves
                   should.exist(err);
                   models.Meeting.findAll().then(function(records) {
-                     if (records > 0) {
+                     if (records.length > 0) {
                         throw new Error("The meeting shouldn\'t be added.");
                      }
 
@@ -459,7 +459,7 @@ module.exports = function(args) {
                   res.body.should.have.property('errors');
                   should.exist(err);
                   models.Meeting.findAll().then(function(records) {
-                     if (records > 0) {
+                     if (records.length > 0) {
                         throw new Error("The meeting shouldn\'t be added.");
                      }
 

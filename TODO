@@ -2,6 +2,8 @@ TODO:
 
 + validate IEEEMembershipID
 
++ validate date formats to match "YYYY-MM-DD" and check that is it in the future if needed.
+
 + Integrate the settings in update functions
 
 + change the phone number regex to be the equivilant to this "\\+?\\d\\d\\d-?\\d\\d\\d-?\\d\\d\\d?\\d?\\d?\\d?"
