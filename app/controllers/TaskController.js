@@ -94,7 +94,7 @@ module.exports.show = function(req, res, next)
                            assigned_user.profile_picture = assigned_user.profilePicture;
                         });
 
-                      result.assignedTo = assigned_users;
+                      result.assignedUsers = assigned_users;
 
                       // Authorization
                      var flag = false;
@@ -102,8 +102,8 @@ module.exports.show = function(req, res, next)
                       || req.user.isUpperBoard() || req.user.isAdmin())
                         flag = true;
                      else
-                        for (var i = 0; i < result.assignedTo.length; i++)
-                           if(result.assignedTo[i].id === req.user.id)
+                        for (var i = 0; i < result.assignedUsers.length; i++)
+                           if(result.assignedUsers[i].id === req.user.id)
                            {
                               flag = true;
                               break;
@@ -187,6 +187,145 @@ module.exports.show = function(req, res, next)
                 req.err = 'TaskController.js, Line: 111\nfailed to get the task from the database.\n' + String(err);
                 next();
              });
+};
+
+/**
+* This function stores the provided task in the database
+* @param  {HTTP}   req  The request object
+* @param  {HTTP}   res  The response object
+* @param  {Function} next Callback function that is called once done with handling the request
+*/
+module.exports.store = function(req, res, next) {
+   /*Validate and sanitizing title Input*/
+   req.checkBody('title', 'required').notEmpty();
+   req.sanitizeBody('title').escape();
+   req.sanitizeBody('title').trim();
+
+   /*Validate and sanitizing description Input*/
+   req.checkBody('description', 'required').notEmpty();
+   req.sanitizeBody('description').escape();
+   req.sanitizeBody('description').trim();
+
+   /*Validate and sanitizing deadline Input*/
+   req.checkBody('deadline', 'required').notEmpty();
+   req.checkBody('deadline', 'validity').isDate();
+   req.sanitizeBody('deadline').escape();
+   req.sanitizeBody('deadline').trim();
+
+   /*Validate and sanitizing end date Input*/
+   req.checkBody('priority', 'required').notEmpty();
+   req.sanitizeBody('priority').escape();
+   req.sanitizeBody('priority').trim();
+
+   /*Validate and sanitizing end date Input*/
+   req.checkBody('priority', 'required').notEmpty();
+   req.sanitizeBody('priority').escape();
+   req.sanitizeBody('priority').trim();
+
+   var p = req.body.priority;
+   if(p!=1 && p!= 3&& p!= 5&& p!= 8&& p!= 13&& p!= 21)
+   {
+      // error
+   }
+
+   /*Validate and sanitizing end date Input*/
+   if(req.body.evaluation)
+   {
+      req.sanitizeBody('evaluation').escape();
+      req.sanitizeBody('evaluation').trim();
+   }
+   else {
+      req.body.evaluation = null;
+   }
+
+   var errors = req.validationErrors();
+   var assignedUsers = null;
+
+   var rest = function()
+   {
+      /*sending validation errors*/
+      errors = format(errors);
+      if (errors) {
+         /* input validation failed */
+         res.status(400).json({
+            status: 'failed',
+            errors: errors
+         });
+
+         req.err = 'TaskController.js, Line: 238\nSome validation errors occurred.\n' + JSON.stringify(errors);
+         next();
+         return;
+      }
+
+      var attributes =
+      {
+         title: req.body.title,
+         description: req.body.description,
+         deadline: req.body.deadline,
+         priority: req.body.priority,
+         status: 'New',
+         evaluation: req.body.evaluation,
+         supervisor: req.user.id,
+         assignedUsers: assigned_users
+      };
+
+      Task.create(attributes).then(function(task)
+       {
+         res.status(200).json(
+         {
+            status: 'succeeded',
+            message: 'task successfully added'
+         });
+
+         next();
+      }).catch(function(err)
+      {
+         /* failed to save the task in the database */
+         res.status(500).json({
+            status:'failed',
+            message: 'Internal server error'
+         });
+
+         req.err = 'TaskController.js, Line: 301\nCouldn\'t save the task in the database.\n' + String(err);
+         next();
+      });
+   };
+
+   if(req.body.assignedUsers)
+   {
+      /*validating the user list*/
+      User.findAll({ where: { id: { in: req.body.assignedUsers } } }).then(function(assignedUsers) {
+         req.checkBody('assignedUsers', 'validity').isArray(assignedUsers.length);
+         errors = req.validationErrors();
+
+         for (var i = 0; i < assignedUsers.length; i++) {
+            if(!req.user.isAdmin() && !req.user.isUpperBoard() && req.user.committee_id != assignedUsers[i].committee_id || req.user.id == assignedUsers[i].id){
+               if(!errors){
+                  errors = [];
+               }
+
+               errors.push({
+                  param: 'assignedUsers',
+                  value: req.body.assignedUsers,
+                  msg: 'validity'
+               });
+               break;
+            }
+         }
+         assigned_users = assignedUsers;
+      }).catch(function(err) {
+         /* failed to validate the assignedUsers in the database */
+         res.status(500).json({
+            status:'failed',
+            message: 'Internal server error'
+         });
+
+         req.err = 'TaskController.js, Line: 338\nfailed to validate the assignedUsers in the database.\n' + String(err);
+         next();
+         return;
+      });
+   }
+   rest();
 };
 
 /**
