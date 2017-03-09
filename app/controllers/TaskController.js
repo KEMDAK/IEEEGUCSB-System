@@ -94,7 +94,7 @@ module.exports.show = function(req, res, next)
                            assigned_user.profile_picture = assigned_user.profilePicture;
                         });
 
-                      result.assignedUsers = assigned_users;
+                      result.assigned_to = assigned_users;
 
                       // Authorization
                      var flag = false;
@@ -102,12 +102,13 @@ module.exports.show = function(req, res, next)
                       || req.user.isUpperBoard() || req.user.isAdmin())
                         flag = true;
                      else
-                        for (var i = 0; i < result.assignedUsers.length; i++)
-                           if(result.assignedUsers[i].id === req.user.id)
+                        for (var i = 0; i < result.assigned_to.length; i++)
+                           if(result.assigned_to[i].id === req.user.id)
                            {
                               flag = true;
                               break;
                            }
+                           // or the same committee
 
                      // not autharized
                      if(!flag)
@@ -202,7 +203,6 @@ module.exports.store = function(req, res, next) {
    req.sanitizeBody('title').trim();
 
    /*Validate and sanitizing description Input*/
-   req.checkBody('description', 'required').notEmpty();
    req.sanitizeBody('description').escape();
    req.sanitizeBody('description').trim();
 
@@ -217,13 +217,8 @@ module.exports.store = function(req, res, next) {
    req.sanitizeBody('priority').escape();
    req.sanitizeBody('priority').trim();
 
-   /*Validate and sanitizing end date Input*/
-   req.checkBody('priority', 'required').notEmpty();
-   req.sanitizeBody('priority').escape();
-   req.sanitizeBody('priority').trim();
-
    var p = req.body.priority;
-   if(p!=1 && p!= 3&& p!= 5&& p!= 8&& p!= 13&& p!= 21)
+   if(p!=1 && p!= 3&& p!= 5&& p!= 8)
    {
       // error
    }
@@ -234,7 +229,8 @@ module.exports.store = function(req, res, next) {
       req.sanitizeBody('evaluation').escape();
       req.sanitizeBody('evaluation').trim();
    }
-   else {
+   else
+   {
       req.body.evaluation = null;
    }
 

@@ -809,6 +809,26 @@ module.exports = function(args) {
                }
             });
          });
+
+         it('Should not update a non-existing meeting.', function(done) {
+            var meeting_id = 10;
+            chai.request(app)
+            .put('/api/meeting/' + meeting_id)
+            .set('User_Agent', 'Web')
+            .set('Authorization', data.identities[0].token)
+            .send({ location: "Updated Location" })
+            .end(function(err, res) {
+               try {
+                  res.should.have.status(404);
+                  res.body.should.have.property('status').and.equal('failed');
+                  res.body.should.not.have.property('meeting');
+                  should.exist(err);
+                  done();
+               } catch(error) {
+                  done(error);
+               }
+            });
+         });
       }
 
       /*******************
