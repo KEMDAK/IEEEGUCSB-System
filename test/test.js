@@ -1,31 +1,32 @@
 var args = {};
 
 before(function(done) {
-    this.timeout(10000);
-    process.env.ENV = 'test';
-    require('../server')(function(MyApp, sq, err) {
-        if (err) {
-            console.log('Unable to start Tests.');
-            done(err);
-        }
-        else {
-            console.log('Starting Tests...');
-            args.app = MyApp;
-            args.fn = require('./functions')(sq);
-            args.data = require('./data.js')();
+   this.timeout(10000);
+   process.env.ENV = 'test';
+   require('../server')(function(MyApp, sq, err) {
+      if (err) {
+         console.log('Unable to start Tests.');
+         done(err);
+      }
+      else {
+         console.log('Starting Tests...');
+         args.app = MyApp;
+         args.fn = require('./functions')(sq);
+         args.data = require('./data.js')();
 
-            args.models = {
-                User : require('../app/models/User').User,
-                Meeting : require('../app/models/Meeting').Meeting,
-                Task : require('../app/models/Task').Task,
-                Committee : require('../app/models/Committee').Committee,
-                Identity : require('../app/models/Identity').Identity,
-                Comment : require('../app/models/Comment').Comment
-            };
+         args.models = {
+            User : require('../app/models/User').User,
+            Meeting : require('../app/models/Meeting').Meeting,
+            Task : require('../app/models/Task').Task,
+            Committee : require('../app/models/Committee').Committee,
+            Identity : require('../app/models/Identity').Identity,
+            Comment : require('../app/models/Comment').Comment,
+            Media : require('../app/models/Media').Media
+         };
 
-            done();
-        }
-    });
+         done();
+      }
+   });
 });
 
 args.chai = require('chai');
@@ -47,8 +48,8 @@ args.chai.use(require('chai-http'));
 // });
 
 describe('Committee Controller', function() {
-    require('./CommitteeController/store')(args);
-    require('./CommitteeController/show')(args);
-    require('./CommitteeController/update')(args);
-    require('./CommitteeController/delete')(args);
+   require('./CommitteeController/store')(args);
+   require('./CommitteeController/show')(args);
+   require('./CommitteeController/update')(args);
+   require('./CommitteeController/delete')(args);
 });
