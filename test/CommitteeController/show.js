@@ -53,6 +53,23 @@ module.exports = function(args) {
                     }
                 });
             });
+
+            it('Should not get a non-existing committee.', function(done) {
+                var committee_id = 10;
+                chai.request(app)
+                .get('/api/committee/' + committee_id)
+                .set('Authorization', data.identities[0].token)
+                .end(function(err, res) {
+                    try {
+                        res.should.have.status(404);
+                        res.body.should.have.property('status').and.equal('failed');
+                        should.exist(err);
+                        done();
+                    } catch(error) {
+                        done(error);
+                    }
+                });
+            });
         }
 
         /*******************

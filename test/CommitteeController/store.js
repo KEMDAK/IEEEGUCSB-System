@@ -39,6 +39,7 @@ module.exports = function(args) {
                 }
             });
         });
+
         /***********************
         * Authentication Tests *
         ************************/
@@ -232,6 +233,7 @@ module.exports = function(args) {
                     try {
                         res.should.have.status(400);
                         res.body.should.have.property('status').and.equal('failed');
+                        res.body.should.have.property('errors');  // TODO: Test the errors themselves
                         should.exist(err);
 
                         models.Committee.findAll().then(function(records) {
@@ -266,6 +268,7 @@ module.exports = function(args) {
                     try {
                         res.should.have.status(400);
                         res.body.should.have.property('status').and.equal('failed');
+                        res.body.should.have.property('errors');  // TODO: Test the errors themselves
                         should.exist(err);
 
                         models.Committee.findAll().then(function(records) {
@@ -299,6 +302,7 @@ module.exports = function(args) {
                     try {
                         res.should.have.status(400);
                         res.body.should.have.property('status').and.equal('failed');
+                        res.body.should.have.property('errors');  // TODO: Test the errors themselves
                         should.exist(err);
 
                         models.Committee.findAll().then(function(records) {
@@ -333,6 +337,7 @@ module.exports = function(args) {
                     try {
                         res.should.have.status(400);
                         res.body.should.have.property('status').and.equal('failed');
+                        res.body.should.have.property('errors');  // TODO: Test the errors themselves
                         should.exist(err);
 
                         models.Committee.findAll().then(function(records) {
@@ -367,6 +372,7 @@ module.exports = function(args) {
                     try {
                         res.should.have.status(400);
                         res.body.should.have.property('status').and.equal('failed');
+                        res.body.should.have.property('errors');  // TODO: Test the errors themselves
                         should.exist(err);
 
                         models.Committee.findAll().then(function(records) {
@@ -389,6 +395,111 @@ module.exports = function(args) {
                     name: "Committee",
                     description: 1,
                     members: ["This", "is", "Invalid"],
+                    head_id: 4
+                };
+
+                chai.request(app)
+                .post('/api/committee')
+                .set('User_Agent', 'Web')
+                .set('Authorization', data.identities[0].token)
+                .send(committee)
+                .end(function(err, res) {
+                    try {
+                        res.should.have.status(400);
+                        res.body.should.have.property('status').and.equal('failed');
+                        res.body.should.have.property('errors');  // TODO: Test the errors themselves
+                        should.exist(err);
+
+                        models.Committee.findAll().then(function(records) {
+                            if (records.length > 0) {
+                               throw new Error("The committee shouldn\'t be stored.");
+                            }
+
+                            done();
+                        }).catch(function(error) {
+                            done(error);
+                        });
+                    } catch(error) {
+                        done(error);
+                    }
+                });
+            });
+
+            it('Should not allow the committee to be stored due to invalid \'members\' parameter in the body. (High Board as part of the members\' list)', function(done) {
+                var committee = {
+                    name: "Committee",
+                    description: 1,
+                    members: [4],
+                    head_id: 4
+                };
+
+                chai.request(app)
+                .post('/api/committee')
+                .set('User_Agent', 'Web')
+                .set('Authorization', data.identities[0].token)
+                .send(committee)
+                .end(function(err, res) {
+                    try {
+                        res.should.have.status(400);
+                        res.body.should.have.property('status').and.equal('failed');
+                        res.body.should.have.property('errors');  // TODO: Test the errors themselves
+                        should.exist(err);
+
+                        models.Committee.findAll().then(function(records) {
+                            if (records.length > 0) {
+                               throw new Error("The committee shouldn\'t be stored.");
+                            }
+
+                            done();
+                        }).catch(function(error) {
+                            done(error);
+                        });
+                    } catch(error) {
+                        done(error);
+                    }
+                });
+            });
+
+            it('Should not allow the committee to be stored due to invalid \'members\' parameter in the body. (Upper Board as part of the members\' list)', function(done) {
+                var committee = {
+                    name: "Committee",
+                    description: 1,
+                    members: [2],
+                    head_id: 4
+                };
+
+                chai.request(app)
+                .post('/api/committee')
+                .set('User_Agent', 'Web')
+                .set('Authorization', data.identities[0].token)
+                .send(committee)
+                .end(function(err, res) {
+                    try {
+                        res.should.have.status(400);
+                        res.body.should.have.property('status').and.equal('failed');
+                        res.body.should.have.property('errors');  // TODO: Test the errors themselves
+                        should.exist(err);
+
+                        models.Committee.findAll().then(function(records) {
+                            if (records.length > 0) {
+                               throw new Error("The committee shouldn\'t be stored.");
+                            }
+
+                            done();
+                        }).catch(function(error) {
+                            done(error);
+                        });
+                    } catch(error) {
+                        done(error);
+                    }
+                });
+            });
+
+            it('Should not allow the committee to be stored due to invalid \'members\' parameter in the body. (Admin as part of the members\' list)', function(done) {
+                var committee = {
+                    name: "Committee",
+                    description: 1,
+                    members: [1],
                     head_id: 4
                 };
 
