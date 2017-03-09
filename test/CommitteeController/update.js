@@ -1,8 +1,3 @@
-<<<<<<< HEAD
-module.exports = function(args) {
-
-};
-=======
 module.exports = function(args) {
     var app, fn, data, models, chai, should;
 
@@ -703,4 +698,3 @@ module.exports = function(args) {
         }
     });
 };
->>>>>>> 96381cba33ec1cca1962fac754cda4245cef9493
