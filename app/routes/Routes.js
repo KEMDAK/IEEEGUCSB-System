@@ -58,6 +58,13 @@ module.exports = function(app) {
     ****************************/
 
     require('./TaskResource')(app);
+    /*************************
+    *                        *
+    * MeetingResource routes *
+    *                        *
+    **************************/
+
+    require('./MeetingResource')(app);
     /*====================================================================================================================================*/
 
     /* any other request will be treated as not found (404) */

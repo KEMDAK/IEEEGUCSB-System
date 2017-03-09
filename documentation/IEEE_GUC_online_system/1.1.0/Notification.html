@@ -4,7 +4,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width">
-	<title>IEEE GUC Controller: Committee Controller</title>
+	<title>IEEE GUC Model: Notification</title>
 
 	<!--[if lt IE 9]>
 	<script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
@@ -33,7 +33,7 @@
 			<li class="dropdown">
 				<a href="controllers.list.html" class="dropdown-toggle" data-toggle="dropdown">Controllers<b class="caret"></b></a>
 				<ul class="dropdown-menu inline">
-					<li><a href="controller-Auth%2520Controller.html">Auth Controller</a></li><li><a href="controller-Committee%2520Controller.html">Committee Controller</a></li><li><a href="controller-User%2520Controller.html">User Controller</a></li>
+					<li><a href="controller-Auth%2520Controller.html">Auth Controller</a></li><li><a href="controller-Committee%2520Controller.html">Committee Controller</a></li><li><a href="controller-Meeting%2520Controller.html">Meeting Controller</a></li><li><a href="controller-User%2520Controller.html">User Controller</a></li>
 				</ul>
 			</li>
 			
@@ -47,7 +47,7 @@
 			<li class="dropdown">
 				<a href="routes.html" class="dropdown-toggle" data-toggle="dropdown">Routes<b class="caret"></b></a>
 				<ul class="dropdown-menu inline">
-					<li><a href="routes.html#/api/committeeGET">/api/committee GET</a></li><li><a href="routes.html#/api/committeePOST">/api/committee POST</a></li><li><a href="routes.html#/api/committee/%257Bid%257DGET">/api/committee/{id} GET</a></li><li><a href="routes.html#/api/committee/%257Bid%257DPUT">/api/committee/{id} PUT</a></li><li><a href="routes.html#/api/forgotPasswordPOST">/api/forgotPassword POST</a></li><li><a href="routes.html#/api/loginPOST">/api/login POST</a></li><li><a href="routes.html#/api/logoutGET">/api/logout GET</a></li><li><a href="routes.html#/api/resetPasswordPOST">/api/resetPassword POST</a></li><li><a href="routes.html#/api/userGET">/api/user GET</a></li><li><a href="routes.html#/api/userPOST">/api/user POST</a></li><li><a href="routes.html#/api/userPUT">/api/user PUT</a></li><li><a href="routes.html#/api/user/%257Bid%257DGET">/api/user/{id} GET</a></li>
+					<li><a href="routes.html#/api/committeeGET">/api/committee GET</a></li><li><a href="routes.html#/api/committeePOST">/api/committee POST</a></li><li><a href="routes.html#/api/committee/%257Bid%257DGET">/api/committee/{id} GET</a></li><li><a href="routes.html#/api/committee/%257Bid%257DPUT">/api/committee/{id} PUT</a></li><li><a href="routes.html#/api/forgotPasswordPOST">/api/forgotPassword POST</a></li><li><a href="routes.html#/api/loginPOST">/api/login POST</a></li><li><a href="routes.html#/api/logoutGET">/api/logout GET</a></li><li><a href="routes.html#/api/meetingPOST">/api/meeting POST</a></li><li><a href="routes.html#/api/meeting/%257Bid%257DDELETE">/api/meeting/{id} DELETE</a></li><li><a href="routes.html#/api/meeting/%257Bid%257DGET">/api/meeting/{id} GET</a></li><li><a href="routes.html#/api/meeting/%257Bid%257DPUT">/api/meeting/{id} PUT</a></li><li><a href="routes.html#/api/meeting/%257Bid%257D/ratePOST">/api/meeting/{id}/rate POST</a></li><li><a href="routes.html#/api/resetPasswordPOST">/api/resetPassword POST</a></li><li><a href="routes.html#/api/userGET">/api/user GET</a></li><li><a href="routes.html#/api/userPOST">/api/user POST</a></li><li><a href="routes.html#/api/userPUT">/api/user PUT</a></li><li><a href="routes.html#/api/user/%257Bid%257DGET">/api/user/{id} GET</a></li>
 				</ul>
 			</li>
 			
@@ -79,10 +79,15 @@
 		<div id="main">
 			
 
-	<h1 class="page-title">Controller: Committee Controller</h1>
+	<h1 class="page-title">Model: Notification</h1>
 <section>
 
 <header>
+    
+        <h2>
+        Notification
+        </h2>
+        
     
 </header>
 
@@ -91,11 +96,110 @@
     <div class="container-overview">
     
         
-            <div class="description">The controller that is responsible of handling committee's requests</div>
-        
 
         
 <dl class="details">
+    
+
+    <h5 class="subsection-title">Properties:</h5>
+
+    <dl>
+
+<table class="props table table-striped">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>content</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The notification's content</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>type</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The notification's type</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>url</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Date</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The notification's url</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+</dl>
+
     
 
 	
@@ -157,7 +261,7 @@
             
 <hr>
 <dt>
-    <h4 class="name" id=".index"><span class="type-signature">&lt;static> </span>index(req, res, next)</h4>
+    <h4 class="name" id="isAnnouncement"><span class="type-signature"></span>isAnnouncement()</h4>
     
     
 </dt>
@@ -165,7 +269,7 @@
 
     
     <div class="description">
-        This function gets a list of all committees currently in the database.
+        This function checks if the notification is a announcement.
     </div>
     
 
@@ -174,104 +278,6 @@
     
 
     
-    
-        <h5>Parameters:</h5>
-        
-
-<table class="params table table-striped">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>req</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">HTTP</span>
-
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">The request object</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>res</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">HTTP</span>
-
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">The response object</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>next</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">function</span>
-
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Callback function that is called once done with handling the request</td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
     
 
     
@@ -329,7 +335,7 @@
     
             
 <div class="param-desc">
-    result The committees currently in the database
+    true if it is a new announcement.
 </div>
 
 
@@ -340,7 +346,7 @@
     </dt>
     <dd>
         
-<span class="param-type">Array</span>
+<span class="param-type">Boolean</span>
 
 
 
@@ -357,7 +363,7 @@
             
 <hr>
 <dt>
-    <h4 class="name" id=".show"><span class="type-signature">&lt;static> </span>show(req, res, next)</h4>
+    <h4 class="name" id="isComment"><span class="type-signature"></span>isComment()</h4>
     
     
 </dt>
@@ -365,7 +371,7 @@
 
     
     <div class="description">
-        This function gets a specifid committee currently in the database.
+        This function checks if the notification is a comment.
     </div>
     
 
@@ -374,104 +380,6 @@
     
 
     
-    
-        <h5>Parameters:</h5>
-        
-
-<table class="params table table-striped">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>req</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">HTTP</span>
-
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">The request object</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>res</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">HTTP</span>
-
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">The response object</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>next</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">function</span>
-
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Callback function that is called once done with handling the request</td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
     
 
     
@@ -525,6 +433,30 @@
     
 
     
+    <h5>Returns:</h5>
+    
+            
+<div class="param-desc">
+    true if it is a comment.
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Boolean</span>
+
+
+
+    </dd>
+</dl>
+
+
+        
 
     
 </dd>
@@ -533,7 +465,7 @@
             
 <hr>
 <dt>
-    <h4 class="name" id=".store"><span class="type-signature">&lt;static> </span>store(req, res, next)</h4>
+    <h4 class="name" id="isEvent"><span class="type-signature"></span>isEvent()</h4>
     
     
 </dt>
@@ -541,7 +473,7 @@
 
     
     <div class="description">
-        This function stores the provided committe in the database
+        This function checks if the notification is a event.
     </div>
     
 
@@ -550,104 +482,6 @@
     
 
     
-    
-        <h5>Parameters:</h5>
-        
-
-<table class="params table table-striped">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>req</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">HTTP</span>
-
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">The request object</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>res</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">HTTP</span>
-
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">The response object</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>next</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">function</span>
-
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Callback function that is called once done with handling the request</td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
     
 
     
@@ -701,6 +535,30 @@
     
 
     
+    <h5>Returns:</h5>
+    
+            
+<div class="param-desc">
+    true if it is a new event.
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Boolean</span>
+
+
+
+    </dd>
+</dl>
+
+
+        
 
     
 </dd>
@@ -709,7 +567,7 @@
             
 <hr>
 <dt>
-    <h4 class="name" id=".update"><span class="type-signature">&lt;static> </span>update(req, res, next)</h4>
+    <h4 class="name" id="isMeeting"><span class="type-signature"></span>isMeeting()</h4>
     
     
 </dt>
@@ -717,7 +575,7 @@
 
     
     <div class="description">
-        This function updates a committees's information in the database
+        This function checks if the notification is a meeting.
     </div>
     
 
@@ -726,104 +584,6 @@
     
 
     
-    
-        <h5>Parameters:</h5>
-        
-
-<table class="params table table-striped">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>req</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">HTTP</span>
-
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">The request object</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>res</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">HTTP</span>
-
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">The response object</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>next</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">function</span>
-
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Callback function that is called once done with handling the request</td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
     
 
     
@@ -877,6 +637,132 @@
     
 
     
+    <h5>Returns:</h5>
+    
+            
+<div class="param-desc">
+    true if it is a new meeting.
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Boolean</span>
+
+
+
+    </dd>
+</dl>
+
+
+        
+
+    
+</dd>
+
+        
+            
+<hr>
+<dt>
+    <h4 class="name" id="isTask"><span class="type-signature"></span>isTask()</h4>
+    
+    
+</dt>
+<dd>
+
+    
+    <div class="description">
+        This function checks if the notification is a task.
+    </div>
+    
+
+    
+
+    
+
+    
+    
+
+    
+<dl class="details">
+    
+
+	
+
+	
+
+	
+
+    
+
+    
+
+    
+
+    
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+
+	
+
+	
+
+	
+</dl>
+
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <h5>Returns:</h5>
+    
+            
+<div class="param-desc">
+    true if it is a new task.
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Boolean</span>
+
+
+
+    </dd>
+</dl>
+
+
+        
 
     
 </dd>
