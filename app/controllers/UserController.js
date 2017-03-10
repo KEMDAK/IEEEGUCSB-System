@@ -57,11 +57,10 @@ module.exports.index = function(req, res, next) {
                
                return curUser ;
 
-            }).then(function(curUser){
-              
+            }).then(function(curUser){ 
              users[i].getProfilePicture({where:{type:'Image'}}).then(function(media){
                var image = media;
-             
+
                if(image){
                   curUser.profile_picture = { url : image.url,type : 'Image' }; 
                }
@@ -165,7 +164,7 @@ module.exports.show = function(req, res, next) {
    var honorsInclude =
         {model : Honor     ,
         as :'Honors'      ,
-        attributes :['id','name'],
+        attributes :['id','title'],
         through:{
         attributes:[]
          }
