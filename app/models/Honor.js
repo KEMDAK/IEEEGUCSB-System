@@ -16,7 +16,7 @@ module.exports.defineHonor = function(sequelize)
 
   module.exports.Honor = sequelize.define('honor',
   {
-    name:
+    title:
     {
       type: Sequelize.STRING,
       allowNull: false,

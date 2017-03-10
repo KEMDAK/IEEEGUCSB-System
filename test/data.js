@@ -216,6 +216,24 @@ module.exports = function() {
       data.profile_pictures.push(profile_picture);
    }
 
+   /******************
+   * Creating Honors *
+   ******************/
+   data.honors = [];
+   data.honors_users = [];
+   for (var i = 0; i < 3; i++) {
+      var honor = {
+         title: "Honor " + (i + 1),
+         description: "Description " + (i + 1)
+      };
+
+      data.honors.push(honor);
+   }
+
+   data.honors_users.push([1, 2, 3]);
+   data.honors_users.push([4, 5, 6]);
+   data.honors_users.push([7, 8, 9]);
+
    /*****************
    * Creating Tasks *
    ******************/

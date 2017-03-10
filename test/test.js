@@ -22,7 +22,8 @@ before(function(done) {
             Committee : require('../app/models/Committee').Committee,
             Identity : require('../app/models/Identity').Identity,
             Comment : require('../app/models/Comment').Comment,
-            Media : require('../app/models/Media').Media
+            Media : require('../app/models/Media').Media,
+            Honor : require('../app/models/Honor').Honor
          };
 
          done();
@@ -36,6 +37,7 @@ args.chai.use(require('chai-http'));
 describe('User Controller', function() {
     require('./UserController/index')(args);
     require('./UserController/store')(args);
+    require('./UserController/show')(args);
 });
 
 describe('Meeting Controller', function() {
