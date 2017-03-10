@@ -157,7 +157,7 @@ module.exports.show = function(req, res, next) {
 
    var mediaInclude =
         {model : Media     ,
-        as :"Media"       , 
+        as :"profilePicture"       , 
         where : {type :"Image"},
         attributes :['url','type'],
         required : false
@@ -165,7 +165,7 @@ module.exports.show = function(req, res, next) {
    var honorsInclude =
         {model : Honor     ,
         as :'Honors'      ,
-        attributes :['id','name'],
+        attributes :['id','title'],
         through:{
         attributes:[]
          }
