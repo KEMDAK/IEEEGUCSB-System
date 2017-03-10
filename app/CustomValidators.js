@@ -18,6 +18,12 @@ module.exports = {
       /* validator to check if the given value is a String */
       isString: function(value) {
             return typeof value === "string";
-      }
+      },
+      /* validator to check if the given value is a birthdate in the following format (yyyy-mm-dd) */
+      isBirthdate:function(dateString) {
+            if(!dateString || typeof dateString != "string") return false ;
+             var regEx = /^\d{4}-\d{2}-\d{2}$/;
+             return dateString.match(regEx) != null;
+          }
    }
 };

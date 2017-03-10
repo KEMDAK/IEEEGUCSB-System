@@ -98,7 +98,7 @@ module.exports.show = function(req, res, next){
 
       	var mediaInclude =
       	{   model : Media     ,
-      		as :"Media"       , 
+      		as :"profilePicture"       , 
       		where : {type :"Image"},
       		attributes :['url','type'],
       		required : false
@@ -168,16 +168,17 @@ module.exports.show = function(req, res, next){
 module.exports.store = function(req, res, next){
    /*Validate and sanitizing committee name Input*/
    req.checkBody('name', 'required').notEmpty();
+   req.checkBody('name', 'validity').isString();
    req.sanitizeBody('name').escape();
    req.sanitizeBody('name').trim();
 
    /*Validate and sanitizing committee description Input*/
    req.checkBody('description', 'required').notEmpty();
+   req.checkBody('description', 'validity').isString();
    req.sanitizeBody('description').escape();
    req.sanitizeBody('description').trim();
 
-   /*Validate and sanitizing members IDs integer array Input*/
-   req.checkBody('members', 'required').notEmpty();
+   if(!req.body.members) req.body.members = [];
 
 
 
@@ -187,7 +188,7 @@ module.exports.store = function(req, res, next){
       /* input validation failed */
       res.status(400).json({
          status: 'failed',
-         error: errors
+         errors: errors
       });
 
       req.err = 'CommitteeController.js, Line: 143\nSome validation errors occured.\n' + JSON.stringify(errors);

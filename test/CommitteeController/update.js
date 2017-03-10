@@ -2,8 +2,9 @@ module.exports = function(args) {
     var app, fn, data, models, chai, should;
 
     describe('PUT /api/committee/:id', function() {
+        this.timeout(500); 
         before(function(done) {
-            this.timeout(10000);
+            this.timeout(20000);
             app = args.app;
             fn = args.fn;
             data = args.data;
@@ -30,7 +31,9 @@ module.exports = function(args) {
                 }).catch(function(err) {
                     done(err);
                 });
+                done();
             });
+            done();
         });
 
         /***********************

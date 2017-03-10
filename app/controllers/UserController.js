@@ -54,16 +54,16 @@ module.exports.index = function(req, res, next) {
 
                if (committee)
                   curUser.committee = { id: committee.id, name: committee.name };
-
+               
                return curUser ;
 
             }).then(function(curUser){
-
-
-             users[i].getMedia({where:{type:'Image'}}).then(function(media){
-               var image = media[0];
+              
+             users[i].getProfilePicture({where:{type:'Image'}}).then(function(media){
+               var image = media;
+             
                if(image){
-                  curUser.profile_picture = { url : image.url,type : 'Image' }; 
+                  curUser.profilePicture = { url : image.url,type : 'Image' }; 
                }
                result.push(curUser);
                addUsers(i+1, callback);
@@ -88,7 +88,7 @@ module.exports.index = function(req, res, next) {
                req.err = 'UserController.js, Line: 62\nCouldn\'t retreive the users from the database.\n' + String(err);
 
                next();
-
+              
                return;
             }
 
@@ -157,7 +157,7 @@ module.exports.show = function(req, res, next) {
 
    var mediaInclude =
         {model : Media     ,
-        as :"Media"       , 
+        as :"profilePicture"       , 
         where : {type :"Image"},
         attributes :['url','type'],
         required : false
@@ -275,6 +275,7 @@ module.exports.show = function(req, res, next) {
 * @param  {Function} next Callback function that is called once done with handling the request
 */
 module.exports.store = function(req, res, next) {
+
    // /*Validate and sanitizing email Input*/
    req.checkBody('email', 'required').notEmpty();
    req.checkBody('email', 'validity').isEmail();
@@ -290,16 +291,19 @@ module.exports.store = function(req, res, next) {
 
    /*Validate and sanitizing first name Input*/
    req.checkBody('first_name', 'required').notEmpty();
+   req.checkBody('first_name', 'validity').isString();
    req.sanitizeBody('first_name').escape();
    req.sanitizeBody('first_name').trim();
 
    /*Validate and sanitizing last name Input*/
    req.checkBody('last_name', 'required').notEmpty();
+   req.checkBody('last_name', 'validity').isString();
    req.sanitizeBody('last_name').escape();
    req.sanitizeBody('last_name').trim();
 
    /*Validate and sanitizing birthdate Input*/
    req.checkBody('birthdate', 'required').notEmpty();
+   req.checkBody('birthdate', 'validity').isString().isBirthdate();
    req.sanitizeBody('birthdate').escape();
    req.sanitizeBody('birthdate').trim();
 
@@ -330,7 +334,7 @@ module.exports.store = function(req, res, next) {
       /* input validation failed */
       res.status(400).json({
          status: 'failed',
-         error: errors
+         errors: errors
       });
 
       req.err = 'UserController.js, Line: 292\nSome validation errors occured.\n' + JSON.stringify(errors);
@@ -385,7 +389,7 @@ module.exports.store = function(req, res, next) {
       }]
    };
 
-   User.create(obj,{include: [{model: Media,as:'Media'}]}).then(function(user) {
+   User.create(obj,{include: [{model: Media,as:'profilePicture'}]}).then(function(user) {
           
 
             var transporter = nodemailer.createTransport('smtps://' + process.env.EMAIL + ':' + process.env.PASSWORD + '@' + process.env.MAIL_SERVER);

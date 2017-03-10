@@ -36,6 +36,7 @@ args.chai.use(require('chai-http'));
 describe('User Controller', function() {
     require('./UserController/index')(args);
     require('./UserController/store')(args);
+     
 });
 
 describe('Meeting Controller', function() {
@@ -55,7 +56,7 @@ describe('Task Controller', function() {
 
 describe('Committee Controller', function() {
    require('./CommitteeController/store')(args);
-   require('./CommitteeController/show')(args);
-   require('./CommitteeController/update')(args);
-   require('./CommitteeController/delete')(args);
+  require('./CommitteeController/show')(args);
+  require('./CommitteeController/update')(args);
+  require('./CommitteeController/delete')(args);
 });

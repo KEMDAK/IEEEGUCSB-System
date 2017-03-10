@@ -126,7 +126,7 @@ module.exports.defineUser = function(sequelize) {
         if(this.settings)
         var settings = JSON.parse(this.settings);
         var type = 'Basic' ;
-        
+        console.log(JSON.stringify(this.get()));
         
         if(mine==true){
               type = 'mine';
@@ -150,7 +150,7 @@ module.exports.defineUser = function(sequelize) {
           if(this.settings)
           res.settings           = settings;
           res.committee          = this.Committee;
-          res.profile_picture    = this.Media;
+          res.profilePicture    = this.profilePicture;
           res.honors             = this.Honors ;
           res.tasks              = this.Tasks ;
           res.meetings           = this.Meetings;
