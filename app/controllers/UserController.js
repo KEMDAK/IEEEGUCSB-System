@@ -63,7 +63,7 @@ module.exports.index = function(req, res, next) {
                var image = media;
              
                if(image){
-                  curUser.profilePicture = { url : image.url,type : 'Image' }; 
+                  curUser.profile_picture = { url : image.url,type : 'Image' }; 
                }
                result.push(curUser);
                addUsers(i+1, callback);
@@ -383,7 +383,7 @@ module.exports.store = function(req, res, next) {
             }
          }
       },
-      Media:[{
+      profilePicture:[{
          type : 'Image',
          url  : defaultURL
       }]

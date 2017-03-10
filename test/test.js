@@ -22,7 +22,8 @@ before(function(done) {
             Committee : require('../app/models/Committee').Committee,
             Identity : require('../app/models/Identity').Identity,
             Comment : require('../app/models/Comment').Comment,
-            Media : require('../app/models/Media').Media
+            Media : require('../app/models/Media').Media,
+            Honor : require('../app/models/Honor').Honor
          };
 
          done();
@@ -36,27 +37,28 @@ args.chai.use(require('chai-http'));
 describe('User Controller', function() {
     require('./UserController/index')(args);
     require('./UserController/store')(args);
-     
+   // require('./UserController/show')(args);
+
 });
 
-describe('Meeting Controller', function() {
-    require('./MeetingController/store')(args);
-    require('./MeetingController/show')(args);
-    require('./MeetingController/update')(args);
-    require('./MeetingController/delete')(args);
-    require('./MeetingController/rate')(args);
-});
+// describe('Meeting Controller', function() {
+//     require('./MeetingController/store')(args);
+//     require('./MeetingController/show')(args);
+//     require('./MeetingController/update')(args);
+//     require('./MeetingController/delete')(args);
+//     require('./MeetingController/rate')(args);
+// });
 
-describe('Task Controller', function() {
-    require('./TaskController/store')(args);
-    require('./TaskController/show')(args);
-    require('./TaskController/update')(args);
-    require('./TaskController/delete')(args);
-});
+// describe('Task Controller', function() {
+//     require('./TaskController/store')(args);
+//     require('./TaskController/show')(args);
+//     require('./TaskController/update')(args);
+//     require('./TaskController/delete')(args);
+// });
 
-describe('Committee Controller', function() {
-   require('./CommitteeController/store')(args);
-  require('./CommitteeController/show')(args);
-  require('./CommitteeController/update')(args);
-  require('./CommitteeController/delete')(args);
-});
+// describe('Committee Controller', function() {
+//    require('./CommitteeController/store')(args);
+//   require('./CommitteeController/show')(args);
+//   require('./CommitteeController/update')(args);
+//   require('./CommitteeController/delete')(args);
+// });

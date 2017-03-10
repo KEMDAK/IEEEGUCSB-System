@@ -150,7 +150,7 @@ module.exports.defineUser = function(sequelize) {
           if(this.settings)
           res.settings           = settings;
           res.committee          = this.Committee;
-          res.profilePicture    = this.profilePicture;
+          res.profile_picture    = this.profilePicture;
           res.honors             = this.Honors ;
           res.tasks              = this.Tasks ;
           res.meetings           = this.Meetings;

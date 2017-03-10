@@ -26,7 +26,7 @@ module.exports = function(app) {
     *          id: the users's committee id,
     *          name: the user's committee name
     *        },
-    *        profilePicture:{                            [if found]
+    *        profile_picture:{                            [if found]
     *          url:the user's profile pic url
     *          type:the media type 
     *        }
