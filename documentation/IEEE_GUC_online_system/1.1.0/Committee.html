@@ -4,7 +4,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width">
-	<title>IEEE GUC Model: Media</title>
+	<title>IEEE GUC Model: Committee</title>
 
 	<!--[if lt IE 9]>
 	<script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
@@ -33,7 +33,7 @@
 			<li class="dropdown">
 				<a href="controllers.list.html" class="dropdown-toggle" data-toggle="dropdown">Controllers<b class="caret"></b></a>
 				<ul class="dropdown-menu inline">
-					<li><a href="controller-Auth%2520Controller.html">Auth Controller</a></li><li><a href="controller-Committee%2520Controller.html">Committee Controller</a></li><li><a href="controller-User%2520Controller.html">User Controller</a></li>
+					<li><a href="controller-Auth%2520Controller.html">Auth Controller</a></li><li><a href="controller-Committee%2520Controller.html">Committee Controller</a></li><li><a href="controller-Meeting%2520Controller.html">Meeting Controller</a></li><li><a href="controller-User%2520Controller.html">User Controller</a></li>
 				</ul>
 			</li>
 			
@@ -47,7 +47,7 @@
 			<li class="dropdown">
 				<a href="routes.html" class="dropdown-toggle" data-toggle="dropdown">Routes<b class="caret"></b></a>
 				<ul class="dropdown-menu inline">
-					<li><a href="routes.html#/api/committeeGET">/api/committee GET</a></li><li><a href="routes.html#/api/committeePOST">/api/committee POST</a></li><li><a href="routes.html#/api/committee/%257Bid%257DGET">/api/committee/{id} GET</a></li><li><a href="routes.html#/api/committee/%257Bid%257DPUT">/api/committee/{id} PUT</a></li><li><a href="routes.html#/api/forgotPasswordPOST">/api/forgotPassword POST</a></li><li><a href="routes.html#/api/loginPOST">/api/login POST</a></li><li><a href="routes.html#/api/logoutGET">/api/logout GET</a></li><li><a href="routes.html#/api/resetPasswordPOST">/api/resetPassword POST</a></li><li><a href="routes.html#/api/userGET">/api/user GET</a></li><li><a href="routes.html#/api/userPOST">/api/user POST</a></li><li><a href="routes.html#/api/userPUT">/api/user PUT</a></li><li><a href="routes.html#/api/user/%257Bid%257DGET">/api/user/{id} GET</a></li>
+					<li><a href="routes.html#/api/committeeGET">/api/committee GET</a></li><li><a href="routes.html#/api/committeePOST">/api/committee POST</a></li><li><a href="routes.html#/api/committee/%257Bid%257DGET">/api/committee/{id} GET</a></li><li><a href="routes.html#/api/committee/%257Bid%257DPUT">/api/committee/{id} PUT</a></li><li><a href="routes.html#/api/forgotPasswordPOST">/api/forgotPassword POST</a></li><li><a href="routes.html#/api/loginPOST">/api/login POST</a></li><li><a href="routes.html#/api/logoutGET">/api/logout GET</a></li><li><a href="routes.html#/api/meetingPOST">/api/meeting POST</a></li><li><a href="routes.html#/api/meeting/%257Bid%257DDELETE">/api/meeting/{id} DELETE</a></li><li><a href="routes.html#/api/meeting/%257Bid%257DGET">/api/meeting/{id} GET</a></li><li><a href="routes.html#/api/meeting/%257Bid%257DPUT">/api/meeting/{id} PUT</a></li><li><a href="routes.html#/api/meeting/%257Bid%257D/ratePOST">/api/meeting/{id}/rate POST</a></li><li><a href="routes.html#/api/resetPasswordPOST">/api/resetPassword POST</a></li><li><a href="routes.html#/api/userGET">/api/user GET</a></li><li><a href="routes.html#/api/userPOST">/api/user POST</a></li><li><a href="routes.html#/api/userPUT">/api/user PUT</a></li><li><a href="routes.html#/api/user/%257Bid%257DGET">/api/user/{id} GET</a></li>
 				</ul>
 			</li>
 			
@@ -79,13 +79,13 @@
 		<div id="main">
 			
 
-	<h1 class="page-title">Model: Media</h1>
+	<h1 class="page-title">Model: Committee</h1>
 <section>
 
 <header>
     
         <h2>
-        Media
+        Committee
         </h2>
         
     
@@ -127,7 +127,7 @@
 
         <tr>
             
-                <td class="name"><code>type</code></td>
+                <td class="name"><code>name</code></td>
             
 
             <td class="type">
@@ -144,14 +144,14 @@
 
             
 
-            <td class="description last">Type of the media</td>
+            <td class="description last">The committee's name</td>
         </tr>
 
     
 
         <tr>
             
-                <td class="name"><code>url</code></td>
+                <td class="name"><code>description</code></td>
             
 
             <td class="type">
@@ -168,7 +168,7 @@
 
             
 
-            <td class="description last">URL of the media</td>
+            <td class="description last">The committee's description</td>
         </tr>
 
     
@@ -230,6 +230,99 @@
 
     
 
+    
+        <h3 class="subsection-title">Methods</h3>
+
+        <dl>
+            
+<hr>
+<dt>
+    <h4 class="name" id="head"><span class="type-signature"></span>head()</h4>
+    
+    
+</dt>
+<dd>
+
+    
+    <div class="description">
+        This function calls the callback function 'callback' with the head of this committee.
+    </div>
+    
+
+    
+
+    
+
+    
+    
+
+    
+<dl class="details">
+    
+
+	
+
+	
+
+	
+
+    
+
+    
+
+    
+
+    
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+
+	
+
+	
+
+	
+</dl>
+
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <h5>Returns:</h5>
+    
+            
+<div class="param-desc">
+    User
+</div>
+
+
+
+
+        
+
+    
+</dd>
+
+        </dl>
     
 
     

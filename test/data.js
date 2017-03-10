@@ -183,31 +183,63 @@ module.exports = function() {
 
       /* generating a login token */
       var payload = {
-       type: 'login-token',
-       userAgent: 'Web',
-       userId: (i+1),
-       exp: exp_date.getTime()
-    };
+         type: 'login-token',
+         userAgent: 'Web',
+         userId: (i+1),
+         exp: exp_date.getTime()
+      };
 
-    var token = jwt.sign(payload, process.env.JWTSECRET);
+      var token = jwt.sign(payload, process.env.JWTSECRET);
 
-    var identity = {
-       token: token,
-       token_exp_date: exp_date,
-       user_agent: 'Web',
-       last_logged_in: now,
-       user_id: (i+1)
-    };
+      var identity = {
+         token: token,
+         token_exp_date: exp_date,
+         user_agent: 'Web',
+         last_logged_in: now,
+         user_id: (i+1)
+      };
 
-    data.identities.push(identity);
- }
+      data.identities.push(identity);
+   }
+
+   /****************************
+   * Creating Profile Pictures *
+   ****************************/
+   data.profile_pictures = [];
+   for (var i = 0; i < 15; i++) {
+      var profile_picture = {
+         type: "Image",
+         url: "url " + (i + 1),
+         user_id: (i + 1)
+      };
+
+      data.profile_pictures.push(profile_picture);
+   }
+
+   /******************
+   * Creating Honors *
+   ******************/
+   data.honors = [];
+   data.honors_users = [];
+   for (var i = 0; i < 3; i++) {
+      var honor = {
+         title: "Honor " + (i + 1),
+         description: "Description " + (i + 1)
+      };
+
+      data.honors.push(honor);
+   }
+
+   data.honors_users.push([1, 2, 3]);
+   data.honors_users.push([4, 5, 6]);
+   data.honors_users.push([7, 8, 9]);
 
    /*****************
    * Creating Tasks *
    ******************/
    data.tasks = [];
    data.tasks_users = [];
-   for (var i = 1; i <= 4; i++) {
+   for (i = 1; i <= 4; i++) {
       var task = {
          title: "Task " + i,
          description: "Description " + i,
@@ -230,7 +262,7 @@ module.exports = function() {
    * Creating Comments *
    *********************/
    data.comments = [];
-   for (var i = 0; i < 8; i++) {
+   for (i = 0; i < 8; i++) {
       var comment = {
          content: "Content " + (i + 1),
          user_id: (i + 1),
@@ -241,10 +273,10 @@ module.exports = function() {
    }
 
    /*********************
-    * Creating Meetings *
-    *********************/
-    data.meetings = [];
-    for (i = 0; i < 5; i++) {
+   * Creating Meetings *
+   *********************/
+   data.meetings = [];
+   for (i = 0; i < 5; i++) {
       var meeting = {
          start_date: "2017-2-25 08:00:00",
          end_date: "2017-2-25 10:00:00",
@@ -280,6 +312,152 @@ module.exports = function() {
 
       data.meeting_user.push([i+1+4, i+1+8]);
    }
+
+   /*****************************
+    * Creating unassigned users *
+    *****************************/
+    data.unassigned_users = [];
+    c = 1;
+    /* Admin */
+    for (i = 0; i < 1; i++) {
+       var unassigned_admin = {
+          email: 'ex' + c + '@outlook.com',
+          password: '1234567',
+          type: 'Admin',
+          first_name : 'First Name ' + c,
+          last_name : 'Last Name ' + c,
+          birthdate : '1111-11-11',
+          phone_number: '+200000000000',
+          gender : 'Male',
+          IEEE_membership_ID : null,
+          settings: {
+             public: {
+                background: "The background of the profile"
+             },
+             private: {
+                notifications: {
+                   email: {
+                      comment: "boolean sent email on comments",
+                      lastSent: "timestamp",
+                      meetingDay: "boolean sent email on meeting day",
+                      taskDeadline: "boolean sent a reminder email before the task deadline",
+                      taskAssignment: "boolean sent email on task assignment",
+                      meetingAssignment: "boolean sent email on meetings"
+                   }
+                }
+             }
+          }
+       };
+
+       data.unassigned_users.push(unassigned_admin);
+       c++;
+    }
+
+    /* Upper Board */
+    for (i = 0; i < 2; i++) {
+       var unassigned_upper = {
+          email: 'ex' + c + '@outlook.com',
+          password: '1234567',
+          type: 'Upper Board',
+          first_name : 'First Name ' + c,
+          last_name : 'Last Name ' + c,
+          birthdate : '1111-11-11',
+          phone_number: '+200000000000',
+          gender : 'Male',
+          IEEE_membership_ID : null,
+          settings: {
+             public: {
+                background: "The background of the profile"
+             },
+             private: {
+                notifications: {
+                   email: {
+                      comment: "boolean sent email on comments",
+                      lastSent: "timestamp",
+                      meetingDay: "boolean sent email on meeting day",
+                      taskDeadline: "boolean sent a reminder email before the task deadline",
+                      taskAssignment: "boolean sent email on task assignment",
+                      meetingAssignment: "boolean sent email on meetings"
+                   }
+                }
+             }
+          }
+       };
+
+       data.unassigned_users.push(unassigned_upper);
+       c++;
+    }
+
+    /* High Board */
+    for (i = 0; i < 4; i++) {
+       var unassigned_high = {
+          email: 'ex' + c + '@outlook.com',
+          password: '1234567',
+          type: 'High Board',
+          first_name : 'First Name ' + c,
+          last_name : 'Last Name ' + c,
+          birthdate : '1111-11-11',
+          phone_number: '+200000000000',
+          gender : 'Male',
+          IEEE_membership_ID : null,
+          settings: {
+             public: {
+                background: "The background of the profile"
+             },
+             private: {
+                notifications: {
+                   email: {
+                      comment: "boolean sent email on comments",
+                      lastSent: "timestamp",
+                      meetingDay: "boolean sent email on meeting day",
+                      taskDeadline: "boolean sent a reminder email before the task deadline",
+                      taskAssignment: "boolean sent email on task assignment",
+                      meetingAssignment: "boolean sent email on meetings"
+                   }
+                }
+             }
+          }
+       };
+
+       data.unassigned_users.push(unassigned_high);
+       c++;
+    }
+
+    /* Member */
+    for (i = 0; i < 8; i++) {
+       var unassigned_member = {
+          email: 'ex' + c + '@outlook.com',
+          password: '1234567',
+          type: 'Member',
+          first_name : 'First Name ' + c,
+          last_name : 'Last Name ' + c,
+          birthdate : '1111-11-11',
+          phone_number: '+200000000000',
+          gender : 'Male',
+          IEEE_membership_ID : null,
+          settings: {
+             public: {
+                background: "The background of the profile"
+             },
+             private: {
+                notifications: {
+                   email: {
+                      comment: "boolean sent email on comments",
+                      lastSent: "timestamp",
+                      meetingDay: "boolean sent email on meeting day",
+                      taskDeadline: "boolean sent a reminder email before the task deadline",
+                      taskAssignment: "boolean sent email on task assignment",
+                      meetingAssignment: "boolean sent email on meetings"
+                   }
+                }
+             }
+          }
+       };
+
+       data.unassigned_users.push(unassigned_member);
+       c++;
+    }
+
 
    return data;
 };

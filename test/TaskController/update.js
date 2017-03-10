@@ -8,7 +8,7 @@ module.exports = function(args) {
          this.timeout(10000);
          app = args.app;
          fn = args.fn;
-         data = args.data;
+         data = JSON.parse(JSON.stringify(args.data));
          models = args.models;
          chai = args.chai;
          should = chai.should();

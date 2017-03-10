@@ -4,7 +4,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width">
-	<title>IEEE GUC Controller: User Controller</title>
+	<title>IEEE GUC Model: Meeting</title>
 
 	<!--[if lt IE 9]>
 	<script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
@@ -33,7 +33,7 @@
 			<li class="dropdown">
 				<a href="controllers.list.html" class="dropdown-toggle" data-toggle="dropdown">Controllers<b class="caret"></b></a>
 				<ul class="dropdown-menu inline">
-					<li><a href="controller-Auth%2520Controller.html">Auth Controller</a></li><li><a href="controller-Committee%2520Controller.html">Committee Controller</a></li><li><a href="controller-User%2520Controller.html">User Controller</a></li>
+					<li><a href="controller-Auth%2520Controller.html">Auth Controller</a></li><li><a href="controller-Committee%2520Controller.html">Committee Controller</a></li><li><a href="controller-Meeting%2520Controller.html">Meeting Controller</a></li><li><a href="controller-User%2520Controller.html">User Controller</a></li>
 				</ul>
 			</li>
 			
@@ -47,7 +47,7 @@
 			<li class="dropdown">
 				<a href="routes.html" class="dropdown-toggle" data-toggle="dropdown">Routes<b class="caret"></b></a>
 				<ul class="dropdown-menu inline">
-					<li><a href="routes.html#/api/committeeGET">/api/committee GET</a></li><li><a href="routes.html#/api/committeePOST">/api/committee POST</a></li><li><a href="routes.html#/api/committee/%257Bid%257DGET">/api/committee/{id} GET</a></li><li><a href="routes.html#/api/committee/%257Bid%257DPUT">/api/committee/{id} PUT</a></li><li><a href="routes.html#/api/forgotPasswordPOST">/api/forgotPassword POST</a></li><li><a href="routes.html#/api/loginPOST">/api/login POST</a></li><li><a href="routes.html#/api/logoutGET">/api/logout GET</a></li><li><a href="routes.html#/api/resetPasswordPOST">/api/resetPassword POST</a></li><li><a href="routes.html#/api/userGET">/api/user GET</a></li><li><a href="routes.html#/api/userPOST">/api/user POST</a></li><li><a href="routes.html#/api/userPUT">/api/user PUT</a></li><li><a href="routes.html#/api/user/%257Bid%257DGET">/api/user/{id} GET</a></li>
+					<li><a href="routes.html#/api/committeeGET">/api/committee GET</a></li><li><a href="routes.html#/api/committeePOST">/api/committee POST</a></li><li><a href="routes.html#/api/committee/%257Bid%257DGET">/api/committee/{id} GET</a></li><li><a href="routes.html#/api/committee/%257Bid%257DPUT">/api/committee/{id} PUT</a></li><li><a href="routes.html#/api/forgotPasswordPOST">/api/forgotPassword POST</a></li><li><a href="routes.html#/api/loginPOST">/api/login POST</a></li><li><a href="routes.html#/api/logoutGET">/api/logout GET</a></li><li><a href="routes.html#/api/meetingPOST">/api/meeting POST</a></li><li><a href="routes.html#/api/meeting/%257Bid%257DDELETE">/api/meeting/{id} DELETE</a></li><li><a href="routes.html#/api/meeting/%257Bid%257DGET">/api/meeting/{id} GET</a></li><li><a href="routes.html#/api/meeting/%257Bid%257DPUT">/api/meeting/{id} PUT</a></li><li><a href="routes.html#/api/meeting/%257Bid%257D/ratePOST">/api/meeting/{id}/rate POST</a></li><li><a href="routes.html#/api/resetPasswordPOST">/api/resetPassword POST</a></li><li><a href="routes.html#/api/userGET">/api/user GET</a></li><li><a href="routes.html#/api/userPOST">/api/user POST</a></li><li><a href="routes.html#/api/userPUT">/api/user PUT</a></li><li><a href="routes.html#/api/user/%257Bid%257DGET">/api/user/{id} GET</a></li>
 				</ul>
 			</li>
 			
@@ -79,10 +79,15 @@
 		<div id="main">
 			
 
-	<h1 class="page-title">Controller: User Controller</h1>
+	<h1 class="page-title">Model: Meeting</h1>
 <section>
 
 <header>
+    
+        <h2>
+        Meeting
+        </h2>
+        
     
 </header>
 
@@ -91,94 +96,16 @@
     <div class="container-overview">
     
         
-            <div class="description">The controller that is responsible of handling user's requests</div>
-        
 
         
 <dl class="details">
     
 
-	
+    <h5 class="subsection-title">Properties:</h5>
 
-	
+    <dl>
 
-	
-
-    
-
-    
-
-    
-
-    
-
-	
-
-	
-
-	
-
-	
-
-	
-
-
-
-	
-
-	
-
-	
-
-	
-</dl>
-
-
-        
-    
-    </div>
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-        <h3 class="subsection-title">Methods</h3>
-
-        <dl>
-            
-<hr>
-<dt>
-    <h4 class="name" id=".index"><span class="type-signature">&lt;static> </span>index(req, res, next)</h4>
-    
-    
-</dt>
-<dd>
-
-    
-    <div class="description">
-        This function gets a list of all users currently in the database.
-    </div>
-    
-
-    
-
-    
-
-    
-    
-        <h5>Parameters:</h5>
-        
-
-<table class="params table table-striped">
+<table class="props table table-striped">
     <thead>
     <tr>
         
@@ -200,13 +127,13 @@
 
         <tr>
             
-                <td class="name"><code>req</code></td>
+                <td class="name"><code>start_date</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">HTTP</span>
+<span class="param-type">Date</span>
 
 
 
@@ -217,20 +144,20 @@
 
             
 
-            <td class="description last">The request object</td>
+            <td class="description last">The date and time when the meeting starts</td>
         </tr>
 
     
 
         <tr>
             
-                <td class="name"><code>res</code></td>
+                <td class="name"><code>end_date</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">HTTP</span>
+<span class="param-type">Date</span>
 
 
 
@@ -241,20 +168,20 @@
 
             
 
-            <td class="description last">The response object</td>
+            <td class="description last">The date and time when the meeting ends</td>
         </tr>
 
     
 
         <tr>
             
-                <td class="name"><code>next</code></td>
+                <td class="name"><code>goals</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">function</span>
+<span class="param-type">Text</span>
 
 
 
@@ -265,17 +192,110 @@
 
             
 
-            <td class="description last">Callback function that is called once done with handling the request</td>
+            <td class="description last">JSON object representing the goals of the meeting</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>duration</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Duration of the meeting (Virtual)</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>location</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Location of the meeting</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>description</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Text</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Description of the meeting</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>evalutaion</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Integer</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Evalutaion of the meeting</td>
         </tr>
 
     
     </tbody>
 </table>
+</dl>
 
-    
-
-    
-<dl class="details">
     
 
 	
@@ -314,535 +334,9 @@
 </dl>
 
 
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dd>
-
         
-            
-<hr>
-<dt>
-    <h4 class="name" id=".show"><span class="type-signature">&lt;static> </span>show(req, res, next)</h4>
     
-    
-</dt>
-<dd>
-
-    
-    <div class="description">
-        This function gets a specifid user currently in the database.
     </div>
-    
-
-    
-
-    
-
-    
-    
-        <h5>Parameters:</h5>
-        
-
-<table class="params table table-striped">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>req</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">HTTP</span>
-
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">The request object</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>res</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">HTTP</span>
-
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">The response object</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>next</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">function</span>
-
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Callback function that is called once done with handling the request</td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-    
-
-    
-<dl class="details">
-    
-
-	
-
-	
-
-	
-
-    
-
-    
-
-    
-
-    
-
-	
-
-	
-
-	
-
-	
-
-	
-
-
-
-	
-
-	
-
-	
-
-	
-</dl>
-
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dd>
-
-        
-            
-<hr>
-<dt>
-    <h4 class="name" id=".store"><span class="type-signature">&lt;static> </span>store(req, res, next)</h4>
-    
-    
-</dt>
-<dd>
-
-    
-    <div class="description">
-        This function stores the provided user in the database
-    </div>
-    
-
-    
-
-    
-
-    
-    
-        <h5>Parameters:</h5>
-        
-
-<table class="params table table-striped">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>req</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">HTTP</span>
-
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">The request object</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>res</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">HTTP</span>
-
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">The response object</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>next</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">function</span>
-
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Callback function that is called once done with handling the request</td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-    
-
-    
-<dl class="details">
-    
-
-	
-
-	
-
-	
-
-    
-
-    
-
-    
-
-    
-
-	
-
-	
-
-	
-
-	
-
-	
-
-
-
-	
-
-	
-
-	
-
-	
-</dl>
-
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dd>
-
-        
-            
-<hr>
-<dt>
-    <h4 class="name" id=".update"><span class="type-signature">&lt;static> </span>update(req, res, next)</h4>
-    
-    
-</dt>
-<dd>
-
-    
-    <div class="description">
-        This function updates a user's information in the database
-    </div>
-    
-
-    
-
-    
-
-    
-    
-        <h5>Parameters:</h5>
-        
-
-<table class="params table table-striped">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>req</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">HTTP</span>
-
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">The request object</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>res</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">HTTP</span>
-
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">The response object</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>next</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">function</span>
-
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Callback function that is called once done with handling the request</td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-    
-
-    
-<dl class="details">
-    
-
-	
-
-	
-
-	
-
-    
-
-    
-
-    
-
-    
-
-	
-
-	
-
-	
-
-	
-
-	
-
-
-
-	
-
-	
-
-	
-
-	
-</dl>
-
-
-    
 
     
 
@@ -855,9 +349,7 @@
     
 
     
-</dd>
 
-        </dl>
     
 
     
