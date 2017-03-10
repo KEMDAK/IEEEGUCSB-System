@@ -211,9 +211,10 @@ module.exports = function(args) {
                   res.body.user.first_name.should.equal(data.users[user_id - 1].first_name);
                   res.body.user.last_name.should.equal(data.users[user_id - 1].last_name);
                   res.body.user.email.should.equal(data.users[user_id - 1].email);
-                  res.body.user.IEEE_membership_ID.should.equal(data.users[user_id - 1].IEEE_membership_ID);
+                  if(!(res.body.user.IEEE_membership_ID === null && data.users[user_id - 1].IEEE_membership_ID === null))
+                     res.body.user.IEEE_membership_ID.should.equal(data.users[user_id - 1].IEEE_membership_ID);
                   res.body.user.gender.should.equal(data.users[user_id - 1].gender);
-                  JSON.parse(res.body.user.settings).should.eql({
+                  res.body.user.settings.should.eql({
                      public: data.users[user_id - 1].settings.public,
                      private: data.users[user_id - 1].settings.private
                   });
@@ -227,23 +228,15 @@ module.exports = function(args) {
                   }
                  
                   /* Cheking media */
-                  var url;
-                  if (data.users[user_id - 1].gender == 'Male'){
-                     defaultURL = '/general/male.jpg';
-                  }
-                  else {
-                     defaultURL = '/general/female.jpg';
-                  }
-
-                  res.body.user.profilePicture.should.eql({
+                  res.body.user.profile_picture.should.eql({
                      type: "Image",
-                     url: url
+                     url: "url " + user_id
                   });
 
                   /* Cecking honors */
                   var count = 0;
                   for (var i = 0; i < data.honors_users.length; i++) {
-                     if(data.honors_users[i].find(user_id)) {
+                     if(data.honors_users[i].indexOf(user_id) != -1) {
                         count++;
                         var honor_id = i + 1;
                         res.body.user.honors.should.contain({
@@ -260,7 +253,7 @@ module.exports = function(args) {
                   /* Checking tasks */
                   count = 0;
                   for (var i = 0; i < data.tasks_users.length; i++) {
-                     if(data.tasks_users[i].find(user_id)) {
+                     if(data.tasks_users[i].indexOf(user_id) != -1) {
                         count++;
                         var task_id = i + 1;
                         res.body.user.tasks.should.contain({
@@ -279,7 +272,7 @@ module.exports = function(args) {
                   /* Checking meetings */
                   count = 0;
                   for (var i = 0; i < data.meetings_users.length; i++) {
-                     if(data.meetings_users[i].find(user_id)) {
+                     if(data.meetings_users[i].indexOf(user_id) != -1) {
                         count++;
                         var meeting_id = i + 1;
                         res.body.user.meetings.should.contain({
@@ -319,9 +312,10 @@ module.exports = function(args) {
                   res.body.user.first_name.should.equal(data.users[user_id - 1].first_name);
                   res.body.user.last_name.should.equal(data.users[user_id - 1].last_name);
                   res.body.user.email.should.equal(data.users[user_id - 1].email);
-                  res.body.user.IEEE_membership_ID.should.equal(data.users[user_id - 1].IEEE_membership_ID);
+                  if(!(res.body.user.IEEE_membership_ID === null && data.users[user_id - 1].IEEE_membership_ID === null))
+                     res.body.user.IEEE_membership_ID.should.equal(data.users[user_id - 1].IEEE_membership_ID);
                   res.body.user.gender.should.equal(data.users[user_id - 1].gender);
-                  JSON.parse(res.body.user.settings).should.eql({
+                  res.body.user.settings.should.eql({
                      public: data.users[user_id - 1].settings.public
                   });
 
@@ -334,23 +328,15 @@ module.exports = function(args) {
                   }
                  
                   /* Cheking media */
-                  var url;
-                  if (data.users[user_id - 1].gender == 'Male'){
-                     defaultURL = '/general/male.jpg';
-                  }
-                  else {
-                     defaultURL = '/general/female.jpg';
-                  }
-
-                  res.body.user.profilePicture.should.eql({
+                  res.body.user.profile_picture.should.eql({
                      type: "Image",
-                     url: url
+                     url: "url " + user_id
                   });
 
                   /* Cecking honors */
                   var count = 0;
                   for (var i = 0; i < data.honors_users.length; i++) {
-                     if(data.honors_users[i].find(user_id)) {
+                     if(data.honors_users[i].indexOf(user_id) != -1) {
                         count++;
                         var honor_id = i + 1;
                         res.body.user.honors.should.contain({
@@ -367,7 +353,7 @@ module.exports = function(args) {
                   /* Checking tasks */
                   count = 0;
                   for (var i = 0; i < data.tasks_users.length; i++) {
-                     if(data.tasks_users[i].find(user_id)) {
+                     if(data.tasks_users[i].indexOf(user_id) != -1) {
                         count++;
                         var task_id = i + 1;
                         res.body.user.tasks.should.contain({
@@ -386,7 +372,7 @@ module.exports = function(args) {
                   /* Checking meetings */
                   count = 0;
                   for (var i = 0; i < data.meetings_users.length; i++) {
-                     if(data.meetings_users[i].find(user_id)) {
+                     if(data.meetings_users[i].indexOf(user_id) != -1) {
                         count++;
                         var meeting_id = i + 1;
                         res.body.user.meetings.should.contain({
@@ -426,9 +412,10 @@ module.exports = function(args) {
                   res.body.user.first_name.should.equal(data.users[user_id - 1].first_name);
                   res.body.user.last_name.should.equal(data.users[user_id - 1].last_name);
                   res.body.user.email.should.equal(data.users[user_id - 1].email);
-                  res.body.user.IEEE_membership_ID.should.equal(data.users[user_id - 1].IEEE_membership_ID);
+                  if(!(res.body.user.IEEE_membership_ID === null && data.users[user_id - 1].IEEE_membership_ID === null))
+                     res.body.user.IEEE_membership_ID.should.equal(data.users[user_id - 1].IEEE_membership_ID);
                   res.body.user.gender.should.equal(data.users[user_id - 1].gender);
-                  JSON.parse(res.body.user.settings).should.eql({
+                  res.body.user.settings.should.eql({
                      public: data.users[user_id - 1].settings.public
                   });
 
@@ -441,23 +428,15 @@ module.exports = function(args) {
                   }
                  
                   /* Cheking media */
-                  var url;
-                  if (data.users[user_id - 1].gender == 'Male'){
-                     defaultURL = '/general/male.jpg';
-                  }
-                  else {
-                     defaultURL = '/general/female.jpg';
-                  }
-
-                  res.body.user.profilePicture.should.eql({
+                  res.body.user.profile_picture.should.eql({
                      type: "Image",
-                     url: url
+                     url: "url " + user_id
                   });
 
                   /* Cecking honors */
                   var count = 0;
                   for (var i = 0; i < data.honors_users.length; i++) {
-                     if(data.honors_users[i].find(user_id)) {
+                     if(data.honors_users[i].indexOf(user_id) != -1) {
                         count++;
                         var honor_id = i + 1;
                         res.body.user.honors.should.contain({
@@ -474,7 +453,7 @@ module.exports = function(args) {
                   /* Checking tasks */
                   count = 0;
                   for (var i = 0; i < data.tasks_users.length; i++) {
-                     if(data.tasks_users[i].find(user_id)) {
+                     if(data.tasks_users[i].indexOf(user_id) != -1) {
                         count++;
                         var task_id = i + 1;
                         res.body.user.tasks.should.contain({
@@ -493,7 +472,7 @@ module.exports = function(args) {
                   /* Checking meetings */
                   count = 0;
                   for (var i = 0; i < data.meetings_users.length; i++) {
-                     if(data.meetings_users[i].find(user_id)) {
+                     if(data.meetings_users[i].indexOf(user_id) != -1) {
                         count++;
                         var meeting_id = i + 1;
                         res.body.user.meetings.should.contain({
@@ -533,9 +512,10 @@ module.exports = function(args) {
                   res.body.user.first_name.should.equal(data.users[user_id - 1].first_name);
                   res.body.user.last_name.should.equal(data.users[user_id - 1].last_name);
                   res.body.user.email.should.equal(data.users[user_id - 1].email);
-                  res.body.user.IEEE_membership_ID.should.equal(data.users[user_id - 1].IEEE_membership_ID);
+                  if(!(res.body.user.IEEE_membership_ID === null && data.users[user_id - 1].IEEE_membership_ID === null))
+                     res.body.user.IEEE_membership_ID.should.equal(data.users[user_id - 1].IEEE_membership_ID);
                   res.body.user.gender.should.equal(data.users[user_id - 1].gender);
-                  JSON.parse(res.body.user.settings).should.eql({
+                  res.body.user.settings.should.eql({
                      public: data.users[user_id - 1].settings.public
                   });
 
@@ -548,23 +528,15 @@ module.exports = function(args) {
                   }
                  
                   /* Cheking media */
-                  var url;
-                  if (data.users[user_id - 1].gender == 'Male'){
-                     defaultURL = '/general/male.jpg';
-                  }
-                  else {
-                     defaultURL = '/general/female.jpg';
-                  }
-
-                  res.body.user.profilePicture.should.eql({
+                  res.body.user.profile_picture.should.eql({
                      type: "Image",
-                     url: url
+                     url: "url " + user_id
                   });
 
                   /* Cecking honors */
                   var count = 0;
                   for (var i = 0; i < data.honors_users.length; i++) {
-                     if(data.honors_users[i].find(user_id)) {
+                     if(data.honors_users[i].indexOf(user_id) != -1) {
                         count++;
                         var honor_id = i + 1;
                         res.body.user.honors.should.contain({
@@ -581,7 +553,7 @@ module.exports = function(args) {
                   /* Checking tasks */
                   count = 0;
                   for (var i = 0; i < data.tasks_users.length; i++) {
-                     if(data.tasks_users[i].find(user_id)) {
+                     if(data.tasks_users[i].indexOf(user_id) != -1) {
                         count++;
                         var task_id = i + 1;
                         res.body.user.tasks.should.contain({
@@ -600,7 +572,7 @@ module.exports = function(args) {
                   /* Checking meetings */
                   count = 0;
                   for (var i = 0; i < data.meetings_users.length; i++) {
-                     if(data.meetings_users[i].find(user_id)) {
+                     if(data.meetings_users[i].indexOf(user_id) != -1) {
                         count++;
                         var meeting_id = i + 1;
                         res.body.user.meetings.should.contain({
@@ -640,9 +612,10 @@ module.exports = function(args) {
                   res.body.user.first_name.should.equal(data.users[user_id - 1].first_name);
                   res.body.user.last_name.should.equal(data.users[user_id - 1].last_name);
                   res.body.user.email.should.equal(data.users[user_id - 1].email);
-                  res.body.user.IEEE_membership_ID.should.equal(data.users[user_id - 1].IEEE_membership_ID);
+                  if(!(res.body.user.IEEE_membership_ID === null && data.users[user_id - 1].IEEE_membership_ID === null))
+                     res.body.user.IEEE_membership_ID.should.equal(data.users[user_id - 1].IEEE_membership_ID);
                   res.body.user.gender.should.equal(data.users[user_id - 1].gender);
-                  JSON.parse(res.body.user.settings).should.eql({
+                  res.body.user.settings.should.eql({
                      public: data.users[user_id - 1].settings.public
                   });
 
@@ -655,23 +628,15 @@ module.exports = function(args) {
                   }
                  
                   /* Cheking media */
-                  var url;
-                  if (data.users[user_id - 1].gender == 'Male'){
-                     defaultURL = '/general/male.jpg';
-                  }
-                  else {
-                     defaultURL = '/general/female.jpg';
-                  }
-
-                  res.body.user.profilePicture.should.eql({
+                  res.body.user.profile_picture.should.eql({
                      type: "Image",
-                     url: url
+                     url: "url " + user_id
                   });
 
                   /* Cecking honors */
                   var count = 0;
                   for (var i = 0; i < data.honors_users.length; i++) {
-                     if(data.honors_users[i].find(user_id)) {
+                     if(data.honors_users[i].indexOf(user_id) != -1) {
                         count++;
                         var honor_id = i + 1;
                         res.body.user.honors.should.contain({
@@ -688,7 +653,7 @@ module.exports = function(args) {
                   /* Checking tasks */
                   count = 0;
                   for (var i = 0; i < data.tasks_users.length; i++) {
-                     if(data.tasks_users[i].find(user_id)) {
+                     if(data.tasks_users[i].indexOf(user_id) != -1) {
                         count++;
                         var task_id = i + 1;
                         res.body.user.tasks.should.contain({
@@ -707,7 +672,7 @@ module.exports = function(args) {
                   /* Checking meetings */
                   count = 0;
                   for (var i = 0; i < data.meetings_users.length; i++) {
-                     if(data.meetings_users[i].find(user_id)) {
+                     if(data.meetings_users[i].indexOf(user_id) != -1) {
                         count++;
                         var meeting_id = i + 1;
                         res.body.user.meetings.should.contain({
@@ -747,9 +712,10 @@ module.exports = function(args) {
                   res.body.user.first_name.should.equal(data.users[user_id - 1].first_name);
                   res.body.user.last_name.should.equal(data.users[user_id - 1].last_name);
                   res.body.user.email.should.equal(data.users[user_id - 1].email);
-                  res.body.user.IEEE_membership_ID.should.equal(data.users[user_id - 1].IEEE_membership_ID);
+                  if(!(res.body.user.IEEE_membership_ID === null && data.users[user_id - 1].IEEE_membership_ID === null))
+                     res.body.user.IEEE_membership_ID.should.equal(data.users[user_id - 1].IEEE_membership_ID);
                   res.body.user.gender.should.equal(data.users[user_id - 1].gender);
-                  JSON.parse(res.body.user.settings).should.eql({
+                  res.body.user.settings.should.eql({
                      public: data.users[user_id - 1].settings.public,
                      private: data.users[user_id - 1].settings.private
                   });
@@ -763,23 +729,15 @@ module.exports = function(args) {
                   }
                  
                   /* Cheking media */
-                  var url;
-                  if (data.users[user_id - 1].gender == 'Male'){
-                     defaultURL = '/general/male.jpg';
-                  }
-                  else {
-                     defaultURL = '/general/female.jpg';
-                  }
-
-                  res.body.user.profilePicture.should.eql({
+                  res.body.user.profile_picture.should.eql({
                      type: "Image",
-                     url: url
+                     url: "url " + user_id
                   });
 
                   /* Cecking honors */
                   var count = 0;
                   for (var i = 0; i < data.honors_users.length; i++) {
-                     if(data.honors_users[i].find(user_id)) {
+                     if(data.honors_users[i].indexOf(user_id) != -1) {
                         count++;
                         var honor_id = i + 1;
                         res.body.user.honors.should.contain({
@@ -796,7 +754,7 @@ module.exports = function(args) {
                   /* Checking tasks */
                   count = 0;
                   for (var i = 0; i < data.tasks_users.length; i++) {
-                     if(data.tasks_users[i].find(user_id)) {
+                     if(data.tasks_users[i].indexOf(user_id) != -1) {
                         count++;
                         var task_id = i + 1;
                         res.body.user.tasks.should.contain({
@@ -815,7 +773,7 @@ module.exports = function(args) {
                   /* Checking meetings */
                   count = 0;
                   for (var i = 0; i < data.meetings_users.length; i++) {
-                     if(data.meetings_users[i].find(user_id)) {
+                     if(data.meetings_users[i].indexOf(user_id) != -1) {
                         count++;
                         var meeting_id = i + 1;
                         res.body.user.meetings.should.contain({
@@ -855,9 +813,10 @@ module.exports = function(args) {
                   res.body.user.first_name.should.equal(data.users[user_id - 1].first_name);
                   res.body.user.last_name.should.equal(data.users[user_id - 1].last_name);
                   res.body.user.email.should.equal(data.users[user_id - 1].email);
-                  res.body.user.IEEE_membership_ID.should.equal(data.users[user_id - 1].IEEE_membership_ID);
+                  if(!(res.body.user.IEEE_membership_ID === null && data.users[user_id - 1].IEEE_membership_ID === null))
+                     res.body.user.IEEE_membership_ID.should.equal(data.users[user_id - 1].IEEE_membership_ID);
                   res.body.user.gender.should.equal(data.users[user_id - 1].gender);
-                  JSON.parse(res.body.user.settings).should.eql({
+                  res.body.user.settings.should.eql({
                      public: data.users[user_id - 1].settings.public
                   });
 
@@ -870,23 +829,15 @@ module.exports = function(args) {
                   }
                  
                   /* Cheking media */
-                  var url;
-                  if (data.users[user_id - 1].gender == 'Male'){
-                     defaultURL = '/general/male.jpg';
-                  }
-                  else {
-                     defaultURL = '/general/female.jpg';
-                  }
-
-                  res.body.user.profilePicture.should.eql({
+                  res.body.user.profile_picture.should.eql({
                      type: "Image",
-                     url: url
+                     url: "url " + user_id
                   });
 
                   /* Cecking honors */
                   var count = 0;
                   for (var i = 0; i < data.honors_users.length; i++) {
-                     if(data.honors_users[i].find(user_id)) {
+                     if(data.honors_users[i].indexOf(user_id) != -1) {
                         count++;
                         var honor_id = i + 1;
                         res.body.user.honors.should.contain({
@@ -903,7 +854,7 @@ module.exports = function(args) {
                   /* Checking tasks */
                   count = 0;
                   for (var i = 0; i < data.tasks_users.length; i++) {
-                     if(data.tasks_users[i].find(user_id)) {
+                     if(data.tasks_users[i].indexOf(user_id) != -1) {
                         count++;
                         var task_id = i + 1;
                         res.body.user.tasks.should.contain({
@@ -922,7 +873,7 @@ module.exports = function(args) {
                   /* Checking meetings */
                   count = 0;
                   for (var i = 0; i < data.meetings_users.length; i++) {
-                     if(data.meetings_users[i].find(user_id)) {
+                     if(data.meetings_users[i].indexOf(user_id) != -1) {
                         count++;
                         var meeting_id = i + 1;
                         res.body.user.meetings.should.contain({
@@ -962,9 +913,10 @@ module.exports = function(args) {
                   res.body.user.first_name.should.equal(data.users[user_id - 1].first_name);
                   res.body.user.last_name.should.equal(data.users[user_id - 1].last_name);
                   res.body.user.email.should.equal(data.users[user_id - 1].email);
-                  res.body.user.IEEE_membership_ID.should.equal(data.users[user_id - 1].IEEE_membership_ID);
+                  if(!(res.body.user.IEEE_membership_ID === null && data.users[user_id - 1].IEEE_membership_ID === null))
+                     res.body.user.IEEE_membership_ID.should.equal(data.users[user_id - 1].IEEE_membership_ID);
                   res.body.user.gender.should.equal(data.users[user_id - 1].gender);
-                  JSON.parse(res.body.user.settings).should.eql({
+                  res.body.user.settings.should.eql({
                      public: data.users[user_id - 1].settings.public
                   });
 
@@ -977,23 +929,15 @@ module.exports = function(args) {
                   }
                  
                   /* Cheking media */
-                  var url;
-                  if (data.users[user_id - 1].gender == 'Male'){
-                     defaultURL = '/general/male.jpg';
-                  }
-                  else {
-                     defaultURL = '/general/female.jpg';
-                  }
-
-                  res.body.user.profilePicture.should.eql({
+                  res.body.user.profile_picture.should.eql({
                      type: "Image",
-                     url: url
+                     url: "url " + user_id
                   });
 
                   /* Cecking honors */
                   var count = 0;
                   for (var i = 0; i < data.honors_users.length; i++) {
-                     if(data.honors_users[i].find(user_id)) {
+                     if(data.honors_users[i].indexOf(user_id) != -1) {
                         count++;
                         var honor_id = i + 1;
                         res.body.user.honors.should.contain({
@@ -1010,7 +954,7 @@ module.exports = function(args) {
                   /* Checking tasks */
                   count = 0;
                   for (var i = 0; i < data.tasks_users.length; i++) {
-                     if(data.tasks_users[i].find(user_id)) {
+                     if(data.tasks_users[i].indexOf(user_id) != -1) {
                         count++;
                         var task_id = i + 1;
                         res.body.user.tasks.should.contain({
@@ -1029,7 +973,7 @@ module.exports = function(args) {
                   /* Checking meetings */
                   count = 0;
                   for (var i = 0; i < data.meetings_users.length; i++) {
-                     if(data.meetings_users[i].find(user_id)) {
+                     if(data.meetings_users[i].indexOf(user_id) != -1) {
                         count++;
                         var meeting_id = i + 1;
                         res.body.user.meetings.should.contain({
@@ -1069,9 +1013,10 @@ module.exports = function(args) {
                   res.body.user.first_name.should.equal(data.users[user_id - 1].first_name);
                   res.body.user.last_name.should.equal(data.users[user_id - 1].last_name);
                   res.body.user.email.should.equal(data.users[user_id - 1].email);
-                  res.body.user.IEEE_membership_ID.should.equal(data.users[user_id - 1].IEEE_membership_ID);
+                  if(!(res.body.user.IEEE_membership_ID === null && data.users[user_id - 1].IEEE_membership_ID === null))
+                     res.body.user.IEEE_membership_ID.should.equal(data.users[user_id - 1].IEEE_membership_ID);
                   res.body.user.gender.should.equal(data.users[user_id - 1].gender);
-                  JSON.parse(res.body.user.settings).should.eql({
+                  res.body.user.settings.should.eql({
                      public: data.users[user_id - 1].settings.public
                   });
 
@@ -1084,23 +1029,15 @@ module.exports = function(args) {
                   }
                  
                   /* Cheking media */
-                  var url;
-                  if (data.users[user_id - 1].gender == 'Male'){
-                     defaultURL = '/general/male.jpg';
-                  }
-                  else {
-                     defaultURL = '/general/female.jpg';
-                  }
-
-                  res.body.user.profilePicture.should.eql({
+                  res.body.user.profile_picture.should.eql({
                      type: "Image",
-                     url: url
+                     url: "url " + user_id
                   });
 
                   /* Cecking honors */
                   var count = 0;
                   for (var i = 0; i < data.honors_users.length; i++) {
-                     if(data.honors_users[i].find(user_id)) {
+                     if(data.honors_users[i].indexOf(user_id) != -1) {
                         count++;
                         var honor_id = i + 1;
                         res.body.user.honors.should.contain({
@@ -1117,7 +1054,7 @@ module.exports = function(args) {
                   /* Checking tasks */
                   count = 0;
                   for (var i = 0; i < data.tasks_users.length; i++) {
-                     if(data.tasks_users[i].find(user_id)) {
+                     if(data.tasks_users[i].indexOf(user_id) != -1) {
                         count++;
                         var task_id = i + 1;
                         res.body.user.tasks.should.contain({
@@ -1136,7 +1073,7 @@ module.exports = function(args) {
                   /* Checking meetings */
                   count = 0;
                   for (var i = 0; i < data.meetings_users.length; i++) {
-                     if(data.meetings_users[i].find(user_id)) {
+                     if(data.meetings_users[i].indexOf(user_id) != -1) {
                         count++;
                         var meeting_id = i + 1;
                         res.body.user.meetings.should.contain({
@@ -1176,9 +1113,10 @@ module.exports = function(args) {
                   res.body.user.first_name.should.equal(data.users[user_id - 1].first_name);
                   res.body.user.last_name.should.equal(data.users[user_id - 1].last_name);
                   res.body.user.email.should.equal(data.users[user_id - 1].email);
-                  res.body.user.IEEE_membership_ID.should.equal(data.users[user_id - 1].IEEE_membership_ID);
+                  if(!(res.body.user.IEEE_membership_ID === null && data.users[user_id - 1].IEEE_membership_ID === null))
+                     res.body.user.IEEE_membership_ID.should.equal(data.users[user_id - 1].IEEE_membership_ID);
                   res.body.user.gender.should.equal(data.users[user_id - 1].gender);
-                  JSON.parse(res.body.user.settings).should.eql({
+                  res.body.user.settings.should.eql({
                      public: data.users[user_id - 1].settings.public
                   });
 
@@ -1191,23 +1129,15 @@ module.exports = function(args) {
                   }
                  
                   /* Cheking media */
-                  var url;
-                  if (data.users[user_id - 1].gender == 'Male'){
-                     defaultURL = '/general/male.jpg';
-                  }
-                  else {
-                     defaultURL = '/general/female.jpg';
-                  }
-
-                  res.body.user.profilePicture.should.eql({
+                  res.body.user.profile_picture.should.eql({
                      type: "Image",
-                     url: url
+                     url: "url " + user_id
                   });
 
                   /* Cecking honors */
                   var count = 0;
                   for (var i = 0; i < data.honors_users.length; i++) {
-                     if(data.honors_users[i].find(user_id)) {
+                     if(data.honors_users[i].indexOf(user_id) != -1) {
                         count++;
                         var honor_id = i + 1;
                         res.body.user.honors.should.contain({
@@ -1224,7 +1154,7 @@ module.exports = function(args) {
                   /* Checking tasks */
                   count = 0;
                   for (var i = 0; i < data.tasks_users.length; i++) {
-                     if(data.tasks_users[i].find(user_id)) {
+                     if(data.tasks_users[i].indexOf(user_id) != -1) {
                         count++;
                         var task_id = i + 1;
                         res.body.user.tasks.should.contain({
@@ -1243,7 +1173,7 @@ module.exports = function(args) {
                   /* Checking meetings */
                   count = 0;
                   for (var i = 0; i < data.meetings_users.length; i++) {
-                     if(data.meetings_users[i].find(user_id)) {
+                     if(data.meetings_users[i].indexOf(user_id) != -1) {
                         count++;
                         var meeting_id = i + 1;
                         res.body.user.meetings.should.contain({
@@ -1283,9 +1213,10 @@ module.exports = function(args) {
                   res.body.user.first_name.should.equal(data.users[user_id - 1].first_name);
                   res.body.user.last_name.should.equal(data.users[user_id - 1].last_name);
                   res.body.user.email.should.equal(data.users[user_id - 1].email);
-                  res.body.user.IEEE_membership_ID.should.equal(data.users[user_id - 1].IEEE_membership_ID);
+                  if(!(res.body.user.IEEE_membership_ID === null && data.users[user_id - 1].IEEE_membership_ID === null))
+                     res.body.user.IEEE_membership_ID.should.equal(data.users[user_id - 1].IEEE_membership_ID);
                   res.body.user.gender.should.equal(data.users[user_id - 1].gender);
-                  JSON.parse(res.body.user.settings).should.eql({
+                  res.body.user.settings.should.eql({
                      public: data.users[user_id - 1].settings.public
                   });
 
@@ -1298,23 +1229,15 @@ module.exports = function(args) {
                   }
                  
                   /* Cheking media */
-                  var url;
-                  if (data.users[user_id - 1].gender == 'Male'){
-                     defaultURL = '/general/male.jpg';
-                  }
-                  else {
-                     defaultURL = '/general/female.jpg';
-                  }
-
-                  res.body.user.profilePicture.should.eql({
+                  res.body.user.profile_picture.should.eql({
                      type: "Image",
-                     url: url
+                     url: "url " + user_id
                   });
 
                   /* Cecking honors */
                   var count = 0;
                   for (var i = 0; i < data.honors_users.length; i++) {
-                     if(data.honors_users[i].find(user_id)) {
+                     if(data.honors_users[i].indexOf(user_id) != -1) {
                         count++;
                         var honor_id = i + 1;
                         res.body.user.honors.should.contain({
@@ -1331,7 +1254,7 @@ module.exports = function(args) {
                   /* Checking tasks */
                   count = 0;
                   for (var i = 0; i < data.tasks_users.length; i++) {
-                     if(data.tasks_users[i].find(user_id)) {
+                     if(data.tasks_users[i].indexOf(user_id) != -1) {
                         count++;
                         var task_id = i + 1;
                         res.body.user.tasks.should.contain({
@@ -1350,7 +1273,7 @@ module.exports = function(args) {
                   /* Checking meetings */
                   count = 0;
                   for (var i = 0; i < data.meetings_users.length; i++) {
-                     if(data.meetings_users[i].find(user_id)) {
+                     if(data.meetings_users[i].indexOf(user_id) != -1) {
                         count++;
                         var meeting_id = i + 1;
                         res.body.user.meetings.should.contain({
@@ -1390,9 +1313,10 @@ module.exports = function(args) {
                   res.body.user.first_name.should.equal(data.users[user_id - 1].first_name);
                   res.body.user.last_name.should.equal(data.users[user_id - 1].last_name);
                   res.body.user.email.should.equal(data.users[user_id - 1].email);
-                  res.body.user.IEEE_membership_ID.should.equal(data.users[user_id - 1].IEEE_membership_ID);
+                  if(!(res.body.user.IEEE_membership_ID === null && data.users[user_id - 1].IEEE_membership_ID === null))
+                     res.body.user.IEEE_membership_ID.should.equal(data.users[user_id - 1].IEEE_membership_ID);
                   res.body.user.gender.should.equal(data.users[user_id - 1].gender);
-                  JSON.parse(res.body.user.settings).should.eql({
+                  res.body.user.settings.should.eql({
                      public: data.users[user_id - 1].settings.public,
                      private: data.users[user_id - 1].settings.private
                   });
@@ -1406,23 +1330,15 @@ module.exports = function(args) {
                   }
                  
                   /* Cheking media */
-                  var url;
-                  if (data.users[user_id - 1].gender == 'Male'){
-                     defaultURL = '/general/male.jpg';
-                  }
-                  else {
-                     defaultURL = '/general/female.jpg';
-                  }
-
-                  res.body.user.profilePicture.should.eql({
+                  res.body.user.profile_picture.should.eql({
                      type: "Image",
-                     url: url
+                     url: "url " + user_id
                   });
 
                   /* Cecking honors */
                   var count = 0;
                   for (var i = 0; i < data.honors_users.length; i++) {
-                     if(data.honors_users[i].find(user_id)) {
+                     if(data.honors_users[i].indexOf(user_id) != -1) {
                         count++;
                         var honor_id = i + 1;
                         res.body.user.honors.should.contain({
@@ -1439,7 +1355,7 @@ module.exports = function(args) {
                   /* Checking tasks */
                   count = 0;
                   for (var i = 0; i < data.tasks_users.length; i++) {
-                     if(data.tasks_users[i].find(user_id)) {
+                     if(data.tasks_users[i].indexOf(user_id) != -1) {
                         count++;
                         var task_id = i + 1;
                         res.body.user.tasks.should.contain({
@@ -1458,7 +1374,7 @@ module.exports = function(args) {
                   /* Checking meetings */
                   count = 0;
                   for (var i = 0; i < data.meetings_users.length; i++) {
-                     if(data.meetings_users[i].find(user_id)) {
+                     if(data.meetings_users[i].indexOf(user_id) != -1) {
                         count++;
                         var meeting_id = i + 1;
                         res.body.user.meetings.should.contain({
@@ -1498,9 +1414,10 @@ module.exports = function(args) {
                   res.body.user.first_name.should.equal(data.users[user_id - 1].first_name);
                   res.body.user.last_name.should.equal(data.users[user_id - 1].last_name);
                   res.body.user.email.should.equal(data.users[user_id - 1].email);
-                  res.body.user.IEEE_membership_ID.should.equal(data.users[user_id - 1].IEEE_membership_ID);
+                  if(!(res.body.user.IEEE_membership_ID === null && data.users[user_id - 1].IEEE_membership_ID === null))
+                     res.body.user.IEEE_membership_ID.should.equal(data.users[user_id - 1].IEEE_membership_ID);
                   res.body.user.gender.should.equal(data.users[user_id - 1].gender);
-                  JSON.parse(res.body.user.settings).should.eql({
+                  res.body.user.settings.should.eql({
                      public: data.users[user_id - 1].settings.public
                   });
 
@@ -1513,23 +1430,15 @@ module.exports = function(args) {
                   }
                  
                   /* Cheking media */
-                  var url;
-                  if (data.users[user_id - 1].gender == 'Male'){
-                     defaultURL = '/general/male.jpg';
-                  }
-                  else {
-                     defaultURL = '/general/female.jpg';
-                  }
-
-                  res.body.user.profilePicture.should.eql({
+                  res.body.user.profile_picture.should.eql({
                      type: "Image",
-                     url: url
+                     url: "url " + user_id
                   });
 
                   /* Cecking honors */
                   var count = 0;
                   for (var i = 0; i < data.honors_users.length; i++) {
-                     if(data.honors_users[i].find(user_id)) {
+                     if(data.honors_users[i].indexOf(user_id) != -1) {
                         count++;
                         var honor_id = i + 1;
                         res.body.user.honors.should.contain({
@@ -1565,9 +1474,10 @@ module.exports = function(args) {
                   res.body.user.first_name.should.equal(data.users[user_id - 1].first_name);
                   res.body.user.last_name.should.equal(data.users[user_id - 1].last_name);
                   res.body.user.email.should.equal(data.users[user_id - 1].email);
-                  res.body.user.IEEE_membership_ID.should.equal(data.users[user_id - 1].IEEE_membership_ID);
+                  if(!(res.body.user.IEEE_membership_ID === null && data.users[user_id - 1].IEEE_membership_ID === null))
+                     res.body.user.IEEE_membership_ID.should.equal(data.users[user_id - 1].IEEE_membership_ID);
                   res.body.user.gender.should.equal(data.users[user_id - 1].gender);
-                  JSON.parse(res.body.user.settings).should.eql({
+                  res.body.user.settings.should.eql({
                      public: data.users[user_id - 1].settings.public
                   });
 
@@ -1580,23 +1490,15 @@ module.exports = function(args) {
                   }
                  
                   /* Cheking media */
-                  var url;
-                  if (data.users[user_id - 1].gender == 'Male'){
-                     defaultURL = '/general/male.jpg';
-                  }
-                  else {
-                     defaultURL = '/general/female.jpg';
-                  }
-
-                  res.body.user.profilePicture.should.eql({
+                  res.body.user.profile_picture.should.eql({
                      type: "Image",
-                     url: url
+                     url: "url " + user_id
                   });
 
                   /* Cecking honors */
                   var count = 0;
                   for (var i = 0; i < data.honors_users.length; i++) {
-                     if(data.honors_users[i].find(user_id)) {
+                     if(data.honors_users[i].indexOf(user_id) != -1) {
                         count++;
                         var honor_id = i + 1;
                         res.body.user.honors.should.contain({
@@ -1632,9 +1534,10 @@ module.exports = function(args) {
                   res.body.user.first_name.should.equal(data.users[user_id - 1].first_name);
                   res.body.user.last_name.should.equal(data.users[user_id - 1].last_name);
                   res.body.user.email.should.equal(data.users[user_id - 1].email);
-                  res.body.user.IEEE_membership_ID.should.equal(data.users[user_id - 1].IEEE_membership_ID);
+                  if(!(res.body.user.IEEE_membership_ID === null && data.users[user_id - 1].IEEE_membership_ID === null))
+                     res.body.user.IEEE_membership_ID.should.equal(data.users[user_id - 1].IEEE_membership_ID);
                   res.body.user.gender.should.equal(data.users[user_id - 1].gender);
-                  JSON.parse(res.body.user.settings).should.eql({
+                  res.body.user.settings.should.eql({
                      public: data.users[user_id - 1].settings.public
                   });
 
@@ -1647,23 +1550,15 @@ module.exports = function(args) {
                   }
                  
                   /* Cheking media */
-                  var url;
-                  if (data.users[user_id - 1].gender == 'Male'){
-                     defaultURL = '/general/male.jpg';
-                  }
-                  else {
-                     defaultURL = '/general/female.jpg';
-                  }
-
-                  res.body.user.profilePicture.should.eql({
+                  res.body.user.profile_picture.should.eql({
                      type: "Image",
-                     url: url
+                     url: "url " + user_id
                   });
 
                   /* Cecking honors */
                   var count = 0;
                   for (var i = 0; i < data.honors_users.length; i++) {
-                     if(data.honors_users[i].find(user_id)) {
+                     if(data.honors_users[i].indexOf(user_id) != -1) {
                         count++;
                         var honor_id = i + 1;
                         res.body.user.honors.should.contain({
@@ -1699,9 +1594,10 @@ module.exports = function(args) {
                   res.body.user.first_name.should.equal(data.users[user_id - 1].first_name);
                   res.body.user.last_name.should.equal(data.users[user_id - 1].last_name);
                   res.body.user.email.should.equal(data.users[user_id - 1].email);
-                  res.body.user.IEEE_membership_ID.should.equal(data.users[user_id - 1].IEEE_membership_ID);
+                  if(!(res.body.user.IEEE_membership_ID === null && data.users[user_id - 1].IEEE_membership_ID === null))
+                     res.body.user.IEEE_membership_ID.should.equal(data.users[user_id - 1].IEEE_membership_ID);
                   res.body.user.gender.should.equal(data.users[user_id - 1].gender);
-                  JSON.parse(res.body.user.settings).should.eql({
+                  res.body.user.settings.should.eql({
                      public: data.users[user_id - 1].settings.public
                   });
 
@@ -1714,23 +1610,15 @@ module.exports = function(args) {
                   }
                  
                   /* Cheking media */
-                  var url;
-                  if (data.users[user_id - 1].gender == 'Male'){
-                     defaultURL = '/general/male.jpg';
-                  }
-                  else {
-                     defaultURL = '/general/female.jpg';
-                  }
-
-                  res.body.user.profilePicture.should.eql({
+                  res.body.user.profile_picture.should.eql({
                      type: "Image",
-                     url: url
+                     url: "url " + user_id
                   });
 
                   /* Cecking honors */
                   var count = 0;
                   for (var i = 0; i < data.honors_users.length; i++) {
-                     if(data.honors_users[i].find(user_id)) {
+                     if(data.honors_users[i].indexOf(user_id) != -1) {
                         count++;
                         var honor_id = i + 1;
                         res.body.user.honors.should.contain({
@@ -1747,7 +1635,7 @@ module.exports = function(args) {
                   /* Checking tasks */
                   count = 0;
                   for (var i = 0; i < data.tasks_users.length; i++) {
-                     if(data.tasks_users[i].find(user_id)) {
+                     if(data.tasks_users[i].indexOf(user_id) != -1) {
                         count++;
                         var task_id = i + 1;
                         res.body.user.tasks.should.contain({
@@ -1766,7 +1654,7 @@ module.exports = function(args) {
                   /* Checking meetings */
                   count = 0;
                   for (var i = 0; i < data.meetings_users.length; i++) {
-                     if(data.meetings_users[i].find(user_id)) {
+                     if(data.meetings_users[i].indexOf(user_id) != -1) {
                         count++;
                         var meeting_id = i + 1;
                         res.body.user.meetings.should.contain({
@@ -1806,9 +1694,10 @@ module.exports = function(args) {
                   res.body.user.first_name.should.equal(data.users[user_id - 1].first_name);
                   res.body.user.last_name.should.equal(data.users[user_id - 1].last_name);
                   res.body.user.email.should.equal(data.users[user_id - 1].email);
-                  res.body.user.IEEE_membership_ID.should.equal(data.users[user_id - 1].IEEE_membership_ID);
+                  if(!(res.body.user.IEEE_membership_ID === null && data.users[user_id - 1].IEEE_membership_ID === null))
+                     res.body.user.IEEE_membership_ID.should.equal(data.users[user_id - 1].IEEE_membership_ID);
                   res.body.user.gender.should.equal(data.users[user_id - 1].gender);
-                  JSON.parse(res.body.user.settings).should.eql({
+                  res.body.user.settings.should.eql({
                      public: data.users[user_id - 1].settings.public
                   });
 
@@ -1821,23 +1710,15 @@ module.exports = function(args) {
                   }
                  
                   /* Cheking media */
-                  var url;
-                  if (data.users[user_id - 1].gender == 'Male'){
-                     defaultURL = '/general/male.jpg';
-                  }
-                  else {
-                     defaultURL = '/general/female.jpg';
-                  }
-
-                  res.body.user.profilePicture.should.eql({
+                  res.body.user.profile_picture.should.eql({
                      type: "Image",
-                     url: url
+                     url: "url " + user_id
                   });
 
                   /* Cecking honors */
                   var count = 0;
                   for (var i = 0; i < data.honors_users.length; i++) {
-                     if(data.honors_users[i].find(user_id)) {
+                     if(data.honors_users[i].indexOf(user_id) != -1) {
                         count++;
                         var honor_id = i + 1;
                         res.body.user.honors.should.contain({
@@ -1873,9 +1754,10 @@ module.exports = function(args) {
                   res.body.user.first_name.should.equal(data.users[user_id - 1].first_name);
                   res.body.user.last_name.should.equal(data.users[user_id - 1].last_name);
                   res.body.user.email.should.equal(data.users[user_id - 1].email);
-                  res.body.user.IEEE_membership_ID.should.equal(data.users[user_id - 1].IEEE_membership_ID);
+                  if(!(res.body.user.IEEE_membership_ID === null && data.users[user_id - 1].IEEE_membership_ID === null))
+                     res.body.user.IEEE_membership_ID.should.equal(data.users[user_id - 1].IEEE_membership_ID);
                   res.body.user.gender.should.equal(data.users[user_id - 1].gender);
-                  JSON.parse(res.body.user.settings).should.eql({
+                  res.body.user.settings.should.eql({
                      public: data.users[user_id - 1].settings.public,
                      private: data.users[user_id - 1].settings.private
                   });
@@ -1889,23 +1771,15 @@ module.exports = function(args) {
                   }
                  
                   /* Cheking media */
-                  var url;
-                  if (data.users[user_id - 1].gender == 'Male'){
-                     defaultURL = '/general/male.jpg';
-                  }
-                  else {
-                     defaultURL = '/general/female.jpg';
-                  }
-
-                  res.body.user.profilePicture.should.eql({
+                  res.body.user.profile_picture.should.eql({
                      type: "Image",
-                     url: url
+                     url: "url " + user_id
                   });
 
                   /* Cecking honors */
                   var count = 0;
                   for (var i = 0; i < data.honors_users.length; i++) {
-                     if(data.honors_users[i].find(user_id)) {
+                     if(data.honors_users[i].indexOf(user_id) != -1) {
                         count++;
                         var honor_id = i + 1;
                         res.body.user.honors.should.contain({
@@ -1922,7 +1796,7 @@ module.exports = function(args) {
                   /* Checking tasks */
                   count = 0;
                   for (var i = 0; i < data.tasks_users.length; i++) {
-                     if(data.tasks_users[i].find(user_id)) {
+                     if(data.tasks_users[i].indexOf(user_id) != -1) {
                         count++;
                         var task_id = i + 1;
                         res.body.user.tasks.should.contain({
@@ -1941,7 +1815,7 @@ module.exports = function(args) {
                   /* Checking meetings */
                   count = 0;
                   for (var i = 0; i < data.meetings_users.length; i++) {
-                     if(data.meetings_users[i].find(user_id)) {
+                     if(data.meetings_users[i].indexOf(user_id) != -1) {
                         count++;
                         var meeting_id = i + 1;
                         res.body.user.meetings.should.contain({
@@ -1981,9 +1855,10 @@ module.exports = function(args) {
                   res.body.user.first_name.should.equal(data.users[user_id - 1].first_name);
                   res.body.user.last_name.should.equal(data.users[user_id - 1].last_name);
                   res.body.user.email.should.equal(data.users[user_id - 1].email);
-                  res.body.user.IEEE_membership_ID.should.equal(data.users[user_id - 1].IEEE_membership_ID);
+                  if(!(res.body.user.IEEE_membership_ID === null && data.users[user_id - 1].IEEE_membership_ID === null))
+                     res.body.user.IEEE_membership_ID.should.equal(data.users[user_id - 1].IEEE_membership_ID);
                   res.body.user.gender.should.equal(data.users[user_id - 1].gender);
-                  JSON.parse(res.body.user.settings).should.eql({
+                  res.body.user.settings.should.eql({
                      public: data.users[user_id - 1].settings.public
                   });
 
@@ -1996,23 +1871,15 @@ module.exports = function(args) {
                   }
                  
                   /* Cheking media */
-                  var url;
-                  if (data.users[user_id - 1].gender == 'Male'){
-                     defaultURL = '/general/male.jpg';
-                  }
-                  else {
-                     defaultURL = '/general/female.jpg';
-                  }
-
-                  res.body.user.profilePicture.should.eql({
+                  res.body.user.profile_picture.should.eql({
                      type: "Image",
-                     url: url
+                     url: "url " + user_id
                   });
 
                   /* Cecking honors */
                   var count = 0;
                   for (var i = 0; i < data.honors_users.length; i++) {
-                     if(data.honors_users[i].find(user_id)) {
+                     if(data.honors_users[i].indexOf(user_id) != -1) {
                         count++;
                         var honor_id = i + 1;
                         res.body.user.honors.should.contain({
@@ -2048,9 +1915,10 @@ module.exports = function(args) {
                   res.body.user.first_name.should.equal(data.users[user_id - 1].first_name);
                   res.body.user.last_name.should.equal(data.users[user_id - 1].last_name);
                   res.body.user.email.should.equal(data.users[user_id - 1].email);
-                  res.body.user.IEEE_membership_ID.should.equal(data.users[user_id - 1].IEEE_membership_ID);
+                  if(!(res.body.user.IEEE_membership_ID === null && data.users[user_id - 1].IEEE_membership_ID === null))
+                     res.body.user.IEEE_membership_ID.should.equal(data.users[user_id - 1].IEEE_membership_ID);
                   res.body.user.gender.should.equal(data.users[user_id - 1].gender);
-                  JSON.parse(res.body.user.settings).should.eql({
+                  res.body.user.settings.should.eql({
                      public: data.users[user_id - 1].settings.public
                   });
 
@@ -2063,23 +1931,15 @@ module.exports = function(args) {
                   }
                  
                   /* Cheking media */
-                  var url;
-                  if (data.users[user_id - 1].gender == 'Male'){
-                     defaultURL = '/general/male.jpg';
-                  }
-                  else {
-                     defaultURL = '/general/female.jpg';
-                  }
-
-                  res.body.user.profilePicture.should.eql({
+                  res.body.user.profile_picture.should.eql({
                      type: "Image",
-                     url: url
+                     url: "url " + user_id
                   });
 
                   /* Cecking honors */
                   var count = 0;
                   for (var i = 0; i < data.honors_users.length; i++) {
-                     if(data.honors_users[i].find(user_id)) {
+                     if(data.honors_users[i].indexOf(user_id) != -1) {
                         count++;
                         var honor_id = i + 1;
                         res.body.user.honors.should.contain({
@@ -2115,9 +1975,10 @@ module.exports = function(args) {
                   res.body.user.first_name.should.equal(data.users[user_id - 1].first_name);
                   res.body.user.last_name.should.equal(data.users[user_id - 1].last_name);
                   res.body.user.email.should.equal(data.users[user_id - 1].email);
-                  res.body.user.IEEE_membership_ID.should.equal(data.users[user_id - 1].IEEE_membership_ID);
+                  if(!(res.body.user.IEEE_membership_ID === null && data.users[user_id - 1].IEEE_membership_ID === null))
+                     res.body.user.IEEE_membership_ID.should.equal(data.users[user_id - 1].IEEE_membership_ID);
                   res.body.user.gender.should.equal(data.users[user_id - 1].gender);
-                  JSON.parse(res.body.user.settings).should.eql({
+                  res.body.user.settings.should.eql({
                      public: data.users[user_id - 1].settings.public
                   });
 
@@ -2130,23 +1991,15 @@ module.exports = function(args) {
                   }
                  
                   /* Cheking media */
-                  var url;
-                  if (data.users[user_id - 1].gender == 'Male'){
-                     defaultURL = '/general/male.jpg';
-                  }
-                  else {
-                     defaultURL = '/general/female.jpg';
-                  }
-
-                  res.body.user.profilePicture.should.eql({
+                  res.body.user.profile_picture.should.eql({
                      type: "Image",
-                     url: url
+                     url: "url " + user_id
                   });
 
                   /* Cecking honors */
                   var count = 0;
                   for (var i = 0; i < data.honors_users.length; i++) {
-                     if(data.honors_users[i].find(user_id)) {
+                     if(data.honors_users[i].indexOf(user_id) != -1) {
                         count++;
                         var honor_id = i + 1;
                         res.body.user.honors.should.contain({
@@ -2182,9 +2035,10 @@ module.exports = function(args) {
                   res.body.user.first_name.should.equal(data.users[user_id - 1].first_name);
                   res.body.user.last_name.should.equal(data.users[user_id - 1].last_name);
                   res.body.user.email.should.equal(data.users[user_id - 1].email);
-                  res.body.user.IEEE_membership_ID.should.equal(data.users[user_id - 1].IEEE_membership_ID);
+                  if(!(res.body.user.IEEE_membership_ID === null && data.users[user_id - 1].IEEE_membership_ID === null))
+                     res.body.user.IEEE_membership_ID.should.equal(data.users[user_id - 1].IEEE_membership_ID);
                   res.body.user.gender.should.equal(data.users[user_id - 1].gender);
-                  JSON.parse(res.body.user.settings).should.eql({
+                  res.body.user.settings.should.eql({
                      public: data.users[user_id - 1].settings.public
                   });
 
@@ -2197,23 +2051,15 @@ module.exports = function(args) {
                   }
                  
                   /* Cheking media */
-                  var url;
-                  if (data.users[user_id - 1].gender == 'Male'){
-                     defaultURL = '/general/male.jpg';
-                  }
-                  else {
-                     defaultURL = '/general/female.jpg';
-                  }
-
-                  res.body.user.profilePicture.should.eql({
+                  res.body.user.profile_picture.should.eql({
                      type: "Image",
-                     url: url
+                     url: "url " + user_id
                   });
 
                   /* Cecking honors */
                   var count = 0;
                   for (var i = 0; i < data.honors_users.length; i++) {
-                     if(data.honors_users[i].find(user_id)) {
+                     if(data.honors_users[i].indexOf(user_id) != -1) {
                         count++;
                         var honor_id = i + 1;
                         res.body.user.honors.should.contain({
@@ -2249,9 +2095,10 @@ module.exports = function(args) {
                   res.body.user.first_name.should.equal(data.users[user_id - 1].first_name);
                   res.body.user.last_name.should.equal(data.users[user_id - 1].last_name);
                   res.body.user.email.should.equal(data.users[user_id - 1].email);
-                  res.body.user.IEEE_membership_ID.should.equal(data.users[user_id - 1].IEEE_membership_ID);
+                  if(!(res.body.user.IEEE_membership_ID === null && data.users[user_id - 1].IEEE_membership_ID === null))
+                     res.body.user.IEEE_membership_ID.should.equal(data.users[user_id - 1].IEEE_membership_ID);
                   res.body.user.gender.should.equal(data.users[user_id - 1].gender);
-                  JSON.parse(res.body.user.settings).should.eql({
+                  res.body.user.settings.should.eql({
                      public: data.users[user_id - 1].settings.public
                   });
 
@@ -2264,23 +2111,15 @@ module.exports = function(args) {
                   }
                  
                   /* Cheking media */
-                  var url;
-                  if (data.users[user_id - 1].gender == 'Male'){
-                     defaultURL = '/general/male.jpg';
-                  }
-                  else {
-                     defaultURL = '/general/female.jpg';
-                  }
-
-                  res.body.user.profilePicture.should.eql({
+                  res.body.user.profile_picture.should.eql({
                      type: "Image",
-                     url: url
+                     url: "url " + user_id
                   });
 
                   /* Cecking honors */
                   var count = 0;
                   for (var i = 0; i < data.honors_users.length; i++) {
-                     if(data.honors_users[i].find(user_id)) {
+                     if(data.honors_users[i].indexOf(user_id) != -1) {
                         count++;
                         var honor_id = i + 1;
                         res.body.user.honors.should.contain({
