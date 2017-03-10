@@ -2,7 +2,7 @@ module.exports = function(args) {
    var app, fn, data, models, chai, should;
 
    describe('POST /api/user', function() {
-      this.timeout(500);
+      this.timeout(1000);
       
       before(function(done) {
          this.timeout(10000);
@@ -952,17 +952,23 @@ module.exports = function(args) {
                      should.equal(record.IEEE_membership_ID, null);
 
                      /* Cheking media */
-                     var url;
-                     if (user.gender == 'Male'){
+                     var defaultURL;
+                     if (user.gender === "Male"){
                         defaultURL = '/general/male.jpg';
                      }
                      else {
                         defaultURL = '/general/female.jpg';
                      }
 
+                     record.profilePicture = record.profilePicture.toJSON();
+                     delete record.profilePicture.created_at;
+                     delete record.profilePicture.updated_at;
+                     delete record.profilePicture.user_id;
+                     delete record.profilePicture.event_id;
+                     delete record.profilePicture.id;
                      record.profilePicture.should.eql({
                         type: "Image",
-                        url: url
+                        url: defaultURL
                      });
 
                      done();
@@ -999,7 +1005,7 @@ module.exports = function(args) {
                   res.body.should.not.have.property('error');
                   should.not.exist(err);
 
-                  models.User.findById(16).then(function(record) {
+                  models.User.findById(16, { include: [{ model: models.Media, as: 'profilePicture' }] }).then(function(record) {
                      if (!record) {
                         throw new Error("The user wasn\'t added in the database.");
                      }
@@ -1032,17 +1038,23 @@ module.exports = function(args) {
                      should.equal(record.IEEE_membership_ID, null);
 
                      /* Cheking media */
-                     var url;
-                     if (user.gender == 'Male'){
+                     var defaultURL;
+                     if (user.gender === "Male"){
                         defaultURL = '/general/male.jpg';
                      }
                      else {
                         defaultURL = '/general/female.jpg';
                      }
 
+                     record.profilePicture = record.profilePicture.toJSON();
+                     delete record.profilePicture.created_at;
+                     delete record.profilePicture.updated_at;
+                     delete record.profilePicture.user_id;
+                     delete record.profilePicture.event_id;
+                     delete record.profilePicture.id;
                      record.profilePicture.should.eql({
                         type: "Image",
-                        url: url
+                        url: defaultURL
                      });
 
                      done();
@@ -1078,7 +1090,7 @@ module.exports = function(args) {
                   res.body.should.not.have.property('error');
                   should.not.exist(err);
 
-                  models.User.findById(16).then(function(record) {
+                  models.User.findById(16, { include: [{ model: models.Media, as: 'profilePicture' }] }).then(function(record) {
                      if (!record) {
                         throw new Error("The user wasn\'t added in the database.");
                      }
@@ -1111,17 +1123,23 @@ module.exports = function(args) {
                      should.equal(record.IEEE_membership_ID, null);
 
                      /* Cheking media */
-                     var url;
-                     if (user.gender == 'Male'){
+                     var defaultURL;
+                     if (user.gender === "Male"){
                         defaultURL = '/general/male.jpg';
                      }
                      else {
                         defaultURL = '/general/female.jpg';
                      }
 
+                     record.profilePicture = record.profilePicture.toJSON();
+                     delete record.profilePicture.created_at;
+                     delete record.profilePicture.updated_at;
+                     delete record.profilePicture.user_id;
+                     delete record.profilePicture.event_id;
+                     delete record.profilePicture.id;
                      record.profilePicture.should.eql({
                         type: "Image",
-                        url: url
+                        url: defaultURL
                      });
 
                      done();
@@ -1158,7 +1176,7 @@ module.exports = function(args) {
                   res.body.should.not.have.property('error');
                   should.not.exist(err);
 
-                  models.User.findById(16).then(function(record) {
+                  models.User.findById(16, { include: [{ model: models.Media, as: 'profilePicture' }] }).then(function(record) {
                      if (!record) {
                         throw new Error("The user wasn\'t added in the database.");
                      }
@@ -1191,17 +1209,23 @@ module.exports = function(args) {
                      should.equal(record.IEEE_membership_ID, null);
 
                      /* Cheking media */
-                     var url;
-                     if (user.gender == 'Male'){
+                     var defaultURL;
+                     if (user.gender === "Male"){
                         defaultURL = '/general/male.jpg';
                      }
                      else {
                         defaultURL = '/general/female.jpg';
                      }
 
+                     record.profilePicture = record.profilePicture.toJSON();
+                     delete record.profilePicture.created_at;
+                     delete record.profilePicture.updated_at;
+                     delete record.profilePicture.user_id;
+                     delete record.profilePicture.event_id;
+                     delete record.profilePicture.id;
                      record.profilePicture.should.eql({
                         type: "Image",
-                        url: url
+                        url: defaultURL
                      });
 
                      /* Checking the password */
