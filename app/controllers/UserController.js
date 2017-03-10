@@ -380,13 +380,13 @@ module.exports.store = function(req, res, next) {
             }
          }
       },
-      Media:[{
+      profilePicture:[{
          type : 'Image',
          url  : defaultURL
       }]
    };
 
-   User.create(obj,{include: [{model: Media,as:'Media'}]}).then(function(user) {
+   User.create(obj,{include: [{model: Media,as:'profilePicture'}]}).then(function(user) {
           
 
             var transporter = nodemailer.createTransport('smtps://' + process.env.EMAIL + ':' + process.env.PASSWORD + '@' + process.env.MAIL_SERVER);

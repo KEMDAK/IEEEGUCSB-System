@@ -35,8 +35,8 @@ args.chai = require('chai');
 args.chai.use(require('chai-http'));
 
 describe('User Controller', function() {
-    require('./UserController/index')(args);
-    // require('./UserController/store')(args);
+    // require('./UserController/index')(args);
+    require('./UserController/store')(args);
     // require('./UserController/show')(args);
 });
 
