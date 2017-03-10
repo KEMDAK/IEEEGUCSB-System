@@ -183,24 +183,38 @@ module.exports = function() {
 
       /* generating a login token */
       var payload = {
-       type: 'login-token',
-       userAgent: 'Web',
-       userId: (i+1),
-       exp: exp_date.getTime()
-    };
+         type: 'login-token',
+         userAgent: 'Web',
+         userId: (i+1),
+         exp: exp_date.getTime()
+      };
 
-    var token = jwt.sign(payload, process.env.JWTSECRET);
+      var token = jwt.sign(payload, process.env.JWTSECRET);
 
-    var identity = {
-       token: token,
-       token_exp_date: exp_date,
-       user_agent: 'Web',
-       last_logged_in: now,
-       user_id: (i+1)
-    };
+      var identity = {
+         token: token,
+         token_exp_date: exp_date,
+         user_agent: 'Web',
+         last_logged_in: now,
+         user_id: (i+1)
+      };
 
-    data.identities.push(identity);
- }
+      data.identities.push(identity);
+   }
+
+   /****************************
+   * Creating Profile Pictures *
+   ****************************/
+   data.profile_pictures = [];
+   for (var i = 0; i < 15; i++) {
+      var profile_picture = {
+         type: "Image",
+         url: "url " + (i + 1),
+         user_id: (i + 1)
+      };
+
+      data.profile_pictures.push(profile_picture);
+   }
 
    /*****************
    * Creating Tasks *
@@ -241,10 +255,10 @@ module.exports = function() {
    }
 
    /*********************
-    * Creating Meetings *
-    *********************/
-    data.meetings = [];
-    for (i = 0; i < 5; i++) {
+   * Creating Meetings *
+   *********************/
+   data.meetings = [];
+   for (i = 0; i < 5; i++) {
       var meeting = {
          start_date: "2017-2-25 08:00:00",
          end_date: "2017-2-25 10:00:00",
