@@ -60,8 +60,8 @@ module.exports.index = function(req, res, next) {
             }).then(function(curUser){
 
 
-             users[i].getMedia({where:{type:'Image'}}).then(function(media){
-               var image = media[0];
+             users[i].getProfilePicture({where:{type:'Image'}}).then(function(media){
+               var image = media;
                if(image){
                   curUser.profile_picture = { url : image.url,type : 'Image' }; 
                }
