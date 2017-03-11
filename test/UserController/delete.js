@@ -1,5 +1,6 @@
 module.exports = function(args) {
    var app, fn, data, models, chai, should;
+   var fse = require('fs-extra');
 
    describe('DELETE /api/user/:id', function() {
       this.timeout(500);
@@ -35,7 +36,6 @@ module.exports = function(args) {
       });
 
       beforeEach(function() {
-         var fse = require('fs-extra');
          var ids = [1, 8, 4, 3, 9, 7, 2];
          for (var i = 0; i < ids.length; i++) {
             fse.ensureDirSync('./public/images/' + ids[i]);
@@ -43,7 +43,6 @@ module.exports = function(args) {
       });
 
       after(function() {
-         var fse = require('fs-extra');
          var ids = [1, 8, 4, 3, 9, 7, 2];
          for (var i = 0; i < ids.length; i++) {
             fse.removeSync('./public/images/' + ids[i]);
@@ -66,7 +65,7 @@ module.exports = function(args) {
                   should.exist(err);
                   models.User.findById(user_id).then(function(record) {
                      should.exist(record);
-                     (fs.existsSync('../../public/images/' + user_id)).should.be.true;
+                     (fse.existsSync('../../public/images/' + user_id)).should.be.true;
 
                      done();
                   }).catch(function(error) {
@@ -91,7 +90,7 @@ module.exports = function(args) {
                   should.exist(err);
                   models.User.findById(user_id).then(function(record) {
                      should.exist(record);
-                     (fs.existsSync('../../public/images/' + user_id)).should.be.true;
+                     (fse.existsSync('../../public/images/' + user_id)).should.be.true;
                      
                      done();
                   }).catch(function(error) {
@@ -116,7 +115,7 @@ module.exports = function(args) {
                   should.exist(err);
                   models.User.findById(user_id).then(function(record) {
                      should.exist(record);
-                     (fs.existsSync('../../public/images/' + user_id)).should.be.true;
+                     (fse.existsSync('../../public/images/' + user_id)).should.be.true;
                      
                      done();
                   }).catch(function(error) {
@@ -140,7 +139,7 @@ module.exports = function(args) {
                   should.exist(err);
                   models.User.findById(user_id).then(function(record) {
                      should.exist(record);
-                     (fs.existsSync('../../public/images/' + user_id)).should.be.true;
+                     (fse.existsSync('../../public/images/' + user_id)).should.be.true;
                      
                      done();
                   }).catch(function(error) {
@@ -165,7 +164,7 @@ module.exports = function(args) {
                   should.exist(err);
                   models.User.findById(user_id).then(function(record) {
                      should.exist(record);
-                     (fs.existsSync('../../public/images/' + user_id)).should.be.true;
+                     (fse.existsSync('../../public/images/' + user_id)).should.be.true;
                      
                      done();
                   }).catch(function(error) {
@@ -193,8 +192,8 @@ module.exports = function(args) {
                   res.body.should.have.property('status').and.equal('failed');
                   res.body.should.have.property('errors');  // TODO: Test the errors themselves
                   should.exist(err);
-                  models.Task.findAll().then(function(records) {
-                     records.should.have.lengthOf(4);
+                  models.User.findAll().then(function(records) {
+                     records.should.have.lengthOf(15);
                      done();
                   }).catch(function(error) {
                      done(error);
@@ -218,7 +217,7 @@ module.exports = function(args) {
                   should.exist(err);
                   models.User.findById(user_id).then(function(record) {
                      should.exist(record);
-                     (fs.existsSync('../../public/images/' + user_id)).should.be.true;
+                     (fse.existsSync('../../public/images/' + user_id)).should.be.true;
                      
                      done();
                   }).catch(function(error) {
@@ -243,7 +242,7 @@ module.exports = function(args) {
                   should.exist(err);
                   models.User.findById(user_id).then(function(record) {
                      should.exist(record);
-                     (fs.existsSync('../../public/images/' + user_id)).should.be.true;
+                     (fse.existsSync('../../public/images/' + user_id)).should.be.true;
                      
                      done();
                   }).catch(function(error) {
@@ -275,7 +274,7 @@ module.exports = function(args) {
                   should.not.exist(err);
                   models.User.findById(user_id).then(function(record) {
                      should.not.exist(record);
-                     (fs.existsSync('../../public/images/' + user_id)).should.be.false;
+                     (fse.existsSync('../../public/images/' + user_id)).should.be.false;
                      done();
                   }).catch(function(error) {
                      done(error);
@@ -301,7 +300,7 @@ module.exports = function(args) {
                   should.not.exist(err);
                   models.User.findById(user_id).then(function(record) {
                      should.not.exist(record);
-                     (fs.existsSync('../../public/images/' + user_id)).should.be.false;
+                     (fse.existsSync('../../public/images/' + user_id)).should.be.false;
                      done();
                   }).catch(function(error) {
                      done(error);
@@ -327,7 +326,7 @@ module.exports = function(args) {
                   should.not.exist(err);
                   models.User.findById(user_id).then(function(record) {
                      should.not.exist(record);
-                     (fs.existsSync('../../public/images/' + user_id)).should.be.false;
+                     (fse.existsSync('../../public/images/' + user_id)).should.be.false;
                      done();
                   }).catch(function(error) {
                      done(error);
@@ -353,7 +352,7 @@ module.exports = function(args) {
                   should.not.exist(err);
                   models.User.findById(user_id).then(function(record) {
                      should.not.exist(record);
-                     (fs.existsSync('../../public/images/' + user_id)).should.be.false;
+                     (fse.existsSync('../../public/images/' + user_id)).should.be.false;
                      done();
                   }).catch(function(error) {
                      done(error);
@@ -379,7 +378,7 @@ module.exports = function(args) {
                   should.not.exist(err);
                   models.User.findById(user_id).then(function(record) {
                      should.not.exist(record);
-                     (fs.existsSync('../../public/images/' + user_id)).should.be.false;
+                     (fse.existsSync('../../public/images/' + user_id)).should.be.false;
                      done();
                   }).catch(function(error) {
                      done(error);
@@ -405,7 +404,7 @@ module.exports = function(args) {
                   should.not.exist(err);
                   models.User.findById(user_id).then(function(record) {
                      should.not.exist(record);
-                     (fs.existsSync('../../public/images/' + user_id)).should.be.false;
+                     (fse.existsSync('../../public/images/' + user_id)).should.be.false;
                      done();
                   }).catch(function(error) {
                      done(error);
