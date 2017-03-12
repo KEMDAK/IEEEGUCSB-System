@@ -1,7 +1,7 @@
 var args = {};
 
 before(function(done) {
-   this.timeout(10000);
+   this.timeout(20000);
    process.env.ENV = 'test';
    require('../server')(function(MyApp, sq, err) {
       if (err) {
@@ -34,12 +34,12 @@ before(function(done) {
 args.chai = require('chai');
 args.chai.use(require('chai-http'));
 
-describe('User Controller', function() {
-    require('./UserController/index')(args);
-    require('./UserController/store')(args);
-    require('./UserController/show')(args);
-    require('./UserController/delete')(args);
-});
+// describe('User Controller', function() {
+//     require('./UserController/index')(args);
+//     require('./UserController/store')(args);
+//     require('./UserController/show')(args);
+//     require('./UserController/delete')(args);
+// });
 
 describe('Meeting Controller', function() {
     require('./MeetingController/store')(args);
@@ -49,16 +49,16 @@ describe('Meeting Controller', function() {
     require('./MeetingController/rate')(args);
 });
 
-describe('Task Controller', function() {
-    require('./TaskController/store')(args);
-    require('./TaskController/show')(args);
-    require('./TaskController/update')(args);
-    require('./TaskController/delete')(args);
-});
+// describe('Task Controller', function() {
+//     require('./TaskController/store')(args);
+//     require('./TaskController/show')(args);
+//     require('./TaskController/update')(args);
+//     require('./TaskController/delete')(args);
+// });
 
-describe('Committee Controller', function() {
-   require('./CommitteeController/store')(args);
-   require('./CommitteeController/show')(args);
-   require('./CommitteeController/update')(args);
-   require('./CommitteeController/delete')(args);
-});
+// describe('Committee Controller', function() {
+//    require('./CommitteeController/store')(args);
+//    require('./CommitteeController/show')(args);
+//    require('./CommitteeController/update')(args);
+//    require('./CommitteeController/delete')(args);
+// });
