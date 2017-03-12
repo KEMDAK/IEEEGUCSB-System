@@ -271,8 +271,8 @@ module.exports = function(args) {
 
                   /* Checking meetings */
                   count = 0;
-                  for (var i = 0; i < data.meetings_users.length; i++) {
-                     if(data.meetings_users[i].indexOf(user_id) != -1) {
+                  for (var i = 0; i < data.meeting_user.length; i++) {
+                     if(data.meeting_user[i].indexOf(user_id) != -1) {
                         count++;
                         var meeting_id = i + 1;
                         res.body.user.meetings.should.contain({
@@ -371,8 +371,8 @@ module.exports = function(args) {
 
                   /* Checking meetings */
                   count = 0;
-                  for (var i = 0; i < data.meetings_users.length; i++) {
-                     if(data.meetings_users[i].indexOf(user_id) != -1) {
+                  for (var i = 0; i < data.meeting_user.length; i++) {
+                     if(data.meeting_user[i].indexOf(user_id) != -1) {
                         count++;
                         var meeting_id = i + 1;
                         res.body.user.meetings.should.contain({
@@ -471,8 +471,8 @@ module.exports = function(args) {
 
                   /* Checking meetings */
                   count = 0;
-                  for (var i = 0; i < data.meetings_users.length; i++) {
-                     if(data.meetings_users[i].indexOf(user_id) != -1) {
+                  for (var i = 0; i < data.meeting_user.length; i++) {
+                     if(data.meeting_user[i].indexOf(user_id) != -1) {
                         count++;
                         var meeting_id = i + 1;
                         res.body.user.meetings.should.contain({
@@ -571,8 +571,8 @@ module.exports = function(args) {
 
                   /* Checking meetings */
                   count = 0;
-                  for (var i = 0; i < data.meetings_users.length; i++) {
-                     if(data.meetings_users[i].indexOf(user_id) != -1) {
+                  for (var i = 0; i < data.meeting_user.length; i++) {
+                     if(data.meeting_user[i].indexOf(user_id) != -1) {
                         count++;
                         var meeting_id = i + 1;
                         res.body.user.meetings.should.contain({
@@ -671,8 +671,8 @@ module.exports = function(args) {
 
                   /* Checking meetings */
                   count = 0;
-                  for (var i = 0; i < data.meetings_users.length; i++) {
-                     if(data.meetings_users[i].indexOf(user_id) != -1) {
+                  for (var i = 0; i < data.meeting_user.length; i++) {
+                     if(data.meeting_user[i].indexOf(user_id) != -1) {
                         count++;
                         var meeting_id = i + 1;
                         res.body.user.meetings.should.contain({
@@ -772,8 +772,8 @@ module.exports = function(args) {
 
                   /* Checking meetings */
                   count = 0;
-                  for (var i = 0; i < data.meetings_users.length; i++) {
-                     if(data.meetings_users[i].indexOf(user_id) != -1) {
+                  for (var i = 0; i < data.meeting_user.length; i++) {
+                     if(data.meeting_user[i].indexOf(user_id) != -1) {
                         count++;
                         var meeting_id = i + 1;
                         res.body.user.meetings.should.contain({
@@ -872,8 +872,8 @@ module.exports = function(args) {
 
                   /* Checking meetings */
                   count = 0;
-                  for (var i = 0; i < data.meetings_users.length; i++) {
-                     if(data.meetings_users[i].indexOf(user_id) != -1) {
+                  for (var i = 0; i < data.meeting_user.length; i++) {
+                     if(data.meeting_user[i].indexOf(user_id) != -1) {
                         count++;
                         var meeting_id = i + 1;
                         res.body.user.meetings.should.contain({
@@ -972,8 +972,8 @@ module.exports = function(args) {
 
                   /* Checking meetings */
                   count = 0;
-                  for (var i = 0; i < data.meetings_users.length; i++) {
-                     if(data.meetings_users[i].indexOf(user_id) != -1) {
+                  for (var i = 0; i < data.meeting_user.length; i++) {
+                     if(data.meeting_user[i].indexOf(user_id) != -1) {
                         count++;
                         var meeting_id = i + 1;
                         res.body.user.meetings.should.contain({
@@ -1072,8 +1072,8 @@ module.exports = function(args) {
 
                   /* Checking meetings */
                   count = 0;
-                  for (var i = 0; i < data.meetings_users.length; i++) {
-                     if(data.meetings_users[i].indexOf(user_id) != -1) {
+                  for (var i = 0; i < data.meeting_user.length; i++) {
+                     if(data.meeting_user[i].indexOf(user_id) != -1) {
                         count++;
                         var meeting_id = i + 1;
                         res.body.user.meetings.should.contain({
@@ -1172,8 +1172,8 @@ module.exports = function(args) {
 
                   /* Checking meetings */
                   count = 0;
-                  for (var i = 0; i < data.meetings_users.length; i++) {
-                     if(data.meetings_users[i].indexOf(user_id) != -1) {
+                  for (var i = 0; i < data.meeting_user.length; i++) {
+                     if(data.meeting_user[i].indexOf(user_id) != -1) {
                         count++;
                         var meeting_id = i + 1;
                         res.body.user.meetings.should.contain({
@@ -1272,8 +1272,8 @@ module.exports = function(args) {
 
                   /* Checking meetings */
                   count = 0;
-                  for (var i = 0; i < data.meetings_users.length; i++) {
-                     if(data.meetings_users[i].indexOf(user_id) != -1) {
+                  for (var i = 0; i < data.meeting_user.length; i++) {
+                     if(data.meeting_user[i].indexOf(user_id) != -1) {
                         count++;
                         var meeting_id = i + 1;
                         res.body.user.meetings.should.contain({
@@ -1373,8 +1373,8 @@ module.exports = function(args) {
 
                   /* Checking meetings */
                   count = 0;
-                  for (var i = 0; i < data.meetings_users.length; i++) {
-                     if(data.meetings_users[i].indexOf(user_id) != -1) {
+                  for (var i = 0; i < data.meeting_user.length; i++) {
+                     if(data.meeting_user[i].indexOf(user_id) != -1) {
                         count++;
                         var meeting_id = i + 1;
                         res.body.user.meetings.should.contain({
@@ -1653,8 +1653,8 @@ module.exports = function(args) {
 
                   /* Checking meetings */
                   count = 0;
-                  for (var i = 0; i < data.meetings_users.length; i++) {
-                     if(data.meetings_users[i].indexOf(user_id) != -1) {
+                  for (var i = 0; i < data.meeting_user.length; i++) {
+                     if(data.meeting_user[i].indexOf(user_id) != -1) {
                         count++;
                         var meeting_id = i + 1;
                         res.body.user.meetings.should.contain({
@@ -1814,8 +1814,8 @@ module.exports = function(args) {
 
                   /* Checking meetings */
                   count = 0;
-                  for (var i = 0; i < data.meetings_users.length; i++) {
-                     if(data.meetings_users[i].indexOf(user_id) != -1) {
+                  for (var i = 0; i < data.meeting_user.length; i++) {
+                     if(data.meeting_user[i].indexOf(user_id) != -1) {
                         count++;
                         var meeting_id = i + 1;
                         res.body.user.meetings.should.contain({
