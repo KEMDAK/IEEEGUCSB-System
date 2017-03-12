@@ -130,7 +130,7 @@ module.exports.show = function(req, res, next) {
       /* input validation failed */
       res.status(400).json({
          status: 'failed',
-         error: errors
+         errors: errors
       });
 
       req.err = 'UserController.js, Line: 112\nSome validation errors occured.\n' + JSON.stringify(errors);
@@ -233,11 +233,10 @@ module.exports.show = function(req, res, next) {
          attributes:{exclude :exclude},
          include   :include      
       }).then(function(results){
-
          var finalResult = results[0].toJSON(detailedFlag,mineFlag);
          res.status(200).json({
             status:'succeeded',
-            results:finalResult
+            user:finalResult
          });
 
          next();
@@ -246,7 +245,7 @@ module.exports.show = function(req, res, next) {
          /* failed to find the user's joined tables.*/
          res.status(500).json({
             status:'failed',
-            message: 'Internal server error'
+            message: err.message+"Fff"
          });
 
          req.err = 'UserController.js, Line: 204\nCouldn\'t retreive the user\'s joined tables.\n' + String(err);
@@ -257,7 +256,7 @@ module.exports.show = function(req, res, next) {
       /* failed to find the user in the database */
       res.status(500).json({
          status:'failed',
-         message: 'Internal server error'
+         message: err.message+"aaaaaaaaaaA"
       });
 
       req.err = 'UserController.js, Line: 217\nCouldn\'t retreive the user from the database.\n' + String(err);

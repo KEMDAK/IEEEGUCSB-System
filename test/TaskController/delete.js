@@ -270,16 +270,8 @@ module.exports = function(args) {
                   res.body.should.not.have.property('errors');  // TODO: Test the errors themselves
                   should.not.exist(err);
                   models.Task.findById(task_id).then(function(record) {
-                     if (record) {
-                        throw new Error("The task should be deleted.");
-                     }
-
-                     models.Task.findById(task_id).then(function(record) {
-                        should.not.exist(record);
-                        done();
-                     }).catch(function(error) {
-                        done(error);
-                     });
+                     should.not.exist(record);
+                     done();
                   }).catch(function(error) {
                      done(error);
                   });

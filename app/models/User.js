@@ -123,18 +123,16 @@ module.exports.defineUser = function(sequelize) {
       */
       toJSON: function(detailed,mine) {
         var res = {};
-        if(this.settings)
+       // if(this.settings)
         var settings = JSON.parse(this.settings);
         var type = 'Basic' ;
-        console.log(JSON.stringify(this.get()));
         
         if(mine==true){
-              type = 'mine';
+              type = 'Mine';
            }else{
-             if(this.settings)
               delete settings.private ;  
-              if(detailed==true)           
-                type ='Detailed';
+              if(detailed==true )           
+                type = 'Detailed';
                }
 
           res.profile_type       = type;
@@ -147,12 +145,15 @@ module.exports.defineUser = function(sequelize) {
           res.phone_number       = this.phone_number;
           res.birthdate          = this.birthdate;
           res.IEEE_membership_ID = this.IEEE_membership_ID;
-          if(this.settings)
+         // if(this.settings)
           res.settings           = settings;
           res.committee          = this.Committee;
           res.profile_picture    = this.profilePicture;
+         // if(this.Honors)
           res.honors             = this.Honors ;
+        //  if(this.Tasks)
           res.tasks              = this.Tasks ;
+        //  if(this.Meetings)
           res.meetings           = this.Meetings;
 
         return res;
