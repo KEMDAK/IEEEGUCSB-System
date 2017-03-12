@@ -203,7 +203,7 @@ module.exports = function(args) {
                try {
                   res.should.have.status(200);
                   res.body.user.should.have.all.keys(['profile_type', 'id', 'type', 'first_name', 'last_name', 'email', 'IEEE_membership_ID', 'gender', 'settings', 'committee', 'profile_picture', 'honors', 'phone_number', 'birthdate', 'tasks', 'meetings']);
-                  res.body.user.profile_type.should.equal('Detailed');
+                  res.body.user.profile_type.should.equal('Mine');
 
                   /* Basic profile */
                   res.body.user.id.should.equal(user_id);
@@ -704,7 +704,7 @@ module.exports = function(args) {
                try {
                   res.should.have.status(200);
                   res.body.user.should.have.all.keys(['profile_type', 'id', 'type', 'first_name', 'last_name', 'email', 'IEEE_membership_ID', 'gender', 'settings', 'committee', 'profile_picture', 'honors', 'phone_number', 'birthdate', 'tasks', 'meetings']);
-                  res.body.user.profile_type.should.equal('Detailed');
+                  res.body.user.profile_type.should.equal('Mine');
 
                   /* Basic profile */
                   res.body.user.id.should.equal(user_id);
@@ -1305,7 +1305,7 @@ module.exports = function(args) {
                try {
                   res.should.have.status(200);
                   res.body.user.should.have.all.keys(['profile_type', 'id', 'type', 'first_name', 'last_name', 'email', 'IEEE_membership_ID', 'gender', 'settings', 'committee', 'profile_picture', 'honors', 'phone_number', 'birthdate', 'tasks', 'meetings']);
-                  res.body.user.profile_type.should.equal('Detailed');
+                  res.body.user.profile_type.should.equal('Mine');
 
                   /* Basic profile */
                   res.body.user.id.should.equal(user_id);
@@ -1746,7 +1746,7 @@ module.exports = function(args) {
                try {
                   res.should.have.status(200);
                   res.body.user.should.have.all.keys(['profile_type', 'id', 'type', 'first_name', 'last_name', 'email', 'IEEE_membership_ID', 'gender', 'settings', 'committee', 'profile_picture', 'honors', 'phone_number', 'birthdate', 'tasks', 'meetings']);
-                  res.body.user.profile_type.should.equal('Detailed');
+                  res.body.user.profile_type.should.equal('Mine');
 
                   /* Basic profile */
                   res.body.user.id.should.equal(user_id);
