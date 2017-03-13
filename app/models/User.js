@@ -126,6 +126,9 @@ module.exports.defineUser = function(sequelize) {
        // if(this.settings)
         var settings = JSON.parse(this.settings);
         var type = 'Basic' ;
+
+
+         
         
         if(mine==true){
               type = 'Mine';
@@ -133,7 +136,7 @@ module.exports.defineUser = function(sequelize) {
               delete settings.private ;  
               if(detailed==true )           
                 type = 'Detailed';
-               }
+               }  
 
           res.profile_type       = type;
           res.id                 = this.id;
@@ -145,17 +148,32 @@ module.exports.defineUser = function(sequelize) {
           res.phone_number       = this.phone_number;
           res.birthdate          = this.birthdate;
           res.IEEE_membership_ID = this.IEEE_membership_ID;
-         // if(this.settings)
           res.settings           = settings;
           res.committee          = this.Committee;
           res.profile_picture    = this.profilePicture;
-         // if(this.Honors)
           res.honors             = this.Honors ;
-        //  if(this.Tasks)
           res.tasks              = this.Tasks ;
-        //  if(this.Meetings)
-          res.meetings           = this.Meetings;
+          
+          if(this.Meetings){
+           var meetings = [];
+           for (var i = this.Meetings.length - 1; i >= 0; i--) {
+            var currM= this.Meetings[i];
+            var currRes = {
+              id : currM.id ,
+              start_date: currM.start_date,
+              end_date: currM.end_date,
+              location: currM.location,
+              created_at: currM.created_at,
+              updated_at: currM.updated_at 
+            };
+            meetings.push(currRes);
+          }
+          res.meetings = meetings
+        }else{
+         res.meetings = this.Meetings
+       }
 
+       
         return res;
       }
 

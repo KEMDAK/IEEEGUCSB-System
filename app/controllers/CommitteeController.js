@@ -71,7 +71,7 @@ module.exports.show = function(req, res, next){
       /* input validation failed */
       res.status(400).json({
          status: 'failed',
-         error: errors
+         errors: errors
       });
 
       req.err = 'CommitteeController.js, Line: 73\nSome validation errors occured.\n' + JSON.stringify(errors);
@@ -86,7 +86,7 @@ module.exports.show = function(req, res, next){
    Committee.findById(id).then(function(committee) {
       if(!committee){
          /* The Committee was not found */
-         res.status(400).json({
+         res.status(404).json({
             status:'failed',
             message: 'The requested route was not found.'
          });
@@ -116,13 +116,15 @@ module.exports.show = function(req, res, next){
       		members.push ({ id         :curr.id,
       			            first_name :curr.first_name,
       			            last_name  :curr.last_name,
-      			            profile_picture :curr.Media
+      			            profile_picture :curr.profilePicture
       		              });
       	    }
       	    var results = {
       				id: committee.id,
       				name: committee.name,
       				description: committee.description,
+              created_at:committee.created_at,
+              updated_at:committee.updated_at,
       				members :members
       			}
          res.status(200).json({
@@ -178,9 +180,17 @@ module.exports.store = function(req, res, next){
    req.sanitizeBody('description').escape();
    req.sanitizeBody('description').trim();
 
-   if(!req.body.members) req.body.members = [];
+   /*Validate and sanitizing committee head Input*/
+   if(req.body.head_id){
+   req.checkBody('head_id', 'validity').isInt();
+    }
 
-
+    /*Validate and sanitizing committee members Input*/
+   if(!req.body.members){
+        req.body.members = [];
+   }else{
+        req.checkBody('members','validity').isIntArray();
+  }
 
    var errors = req.validationErrors();
    errors = format(errors);
@@ -197,9 +207,10 @@ module.exports.store = function(req, res, next){
 
       return;
    }
+     var users = req.body.members ;
+     users.push(req.body.head_id);
 
-
-     User.findAll({where : {id :{in :req.body.members}}}).then(function(members){
+     User.findAll({where : {id :{in :users}}}).then(function(members){
      	for (var i = members.length - 1; i >= 0; i--) {
      		if(members[i].type == 'Upper Board'){
                res.status(400).json({
@@ -208,7 +219,20 @@ module.exports.store = function(req, res, next){
                });
                req.err = 'CommitteeController.js, Line: 143\nSome validation errors occured.\n' + JSON.stringify(errors);
                next();
-     		}
+               return; 
+     		}else{
+               if(members[i].type == 'High Board'){
+                  if(members[i].id != req.body.head_id){
+                   res.status(400).json({
+                     status: 'failed',
+                     error: 'Can not add an High Board User as a normal member in the Committe'  
+                   });
+                   req.err = 'CommitteeController.js, Line: 143\nSome validation errors occured.\n' + JSON.stringify(errors);
+                   next();
+                   return;
+                  }
+               }
+        }
      	}
      }).then(function(){
            /* extracting data from the request body */
@@ -227,59 +251,59 @@ module.exports.store = function(req, res, next){
            return committeeInstance.save(
         	{transaction: t}).then(function (committee) {
         		return committee.setUsers(
-        			req.body.members, {transaction: t}); 
+        			users, {transaction: t}); 
         	});
 
          }).then(function (result) {
-			    // Transaction has been committed
-			    // result is whatever the result of the promise chain returned to the transaction callback
-			    res.status(200).json({
-			    	status:'succeeded',
-			    	message: 'committee successfully added'
-			    });
-			    next();
-			}).catch(function (err) {
-				    // Transaction has been rolled back
-			    // err is whatever rejected the promise chain returned to the transaction callback
-			    if (err.message === 'Validation error') {
-			    	/* The committee violated database constraints */
-			    	var errors = [];
-			    	for (var i = 0; i < err.errors.length; i++) {
-			    		var curError = err.errors[i];
+      			    // Transaction has been committed
+      			    // result is whatever the result of the promise chain returned to the transaction callback
+      			    res.status(200).json({
+      			    	status:'succeeded',
+      			    	message: 'committee successfully added'
+      			    });
+      			    next();
+      	 }).catch(function (err) {
+      				  // Transaction has been rolled back
+      			    // err is whatever rejected the promise chain returned to the transaction callback
+      			    if (err.message === 'Validation error') {
+      			    	/* The committee violated database constraints */
+      			    	var errors = [];
+      			    	for (var i = 0; i < err.errors.length; i++) {
+      			    		var curError = err.errors[i];
 
-			    		errors.push({
-			    			param: curError.path,
-			    			value: curError.value,
-			    			type: curError.type
-			    		});
-			    	}
+      			    		errors.push({
+      			    			param: curError.path,
+      			    			value: curError.value,
+      			    			type: curError.type
+      			    		});
+      			    	}
 
-			    	res.status(400).json({
-			    		status:'failed',
-			    		error: errors
-			    	});
+      			    	res.status(400).json({
+      			    		status:'failed',
+      			    		error: errors
+      			    	});
 
-			    	req.err = 'CommitteeController.js, Line: 187\nThe committee violated some database constraints.\n' + JSON.stringify(errors);
-			    }
-			    else {
-			    	/* failed to save the committee in the database */
-			    	res.status(500).json({
-			    		status:'failed',
-			    		message: 'Internal server error'
-			    	});
+      			    	req.err = 'CommitteeController.js, Line: 187\nThe committee violated some database constraints.\n' + JSON.stringify(errors);
+      			    }
+      			    else {
+      			    	/* failed to save the committee in the database */
+      			    	res.status(500).json({
+      			    		status:'failed',
+      			    		message: 'Internal Server Error'
+      			    	});
 
-			    	req.err = 'CommitteeController.js, Line: 196\nCouldn\'t save the committee in the database.\n' + String(err);
-			    }
-			    next();
-			});
+      			    	req.err = 'CommitteeController.js, Line: 196\nCouldn\'t save the committee in the database.\n' + String(err);
+      			    }
+      			    next();
+      			});
 
      }).catch(function(err){
-     	res.status(400).json({
-     		status: 'failed',
-     		error: 'Internal server error' 
-     	});
-     	req.err = 'CommitteeController.js, Line: 143\ncan not find members in the database.\n' + JSON.stringify(errors);
-     	next();
+       	res.status(400).json({
+       		status: 'failed',
+       		error: 'Internal Server Error' 
+       	});
+       	req.err = 'CommitteeController.js, Line: 143\ncan not find members in the database.\n' + JSON.stringify(errors);
+       	next();
      });
 };
 
@@ -299,6 +323,7 @@ module.exports.store = function(req, res, next){
    var updatedAttributes = {};
    /*Validate the committee name Input*/
    if (req.body.name) {
+      req.checkBody('name', 'validity').isString();
       req.sanitizeBody('name').escape();
       req.sanitizeBody('name').trim();
       updatedAttributes.name = req.body.name;
@@ -306,10 +331,24 @@ module.exports.store = function(req, res, next){
 
    /*Validate the committee description Input*/
    if (req.body.description) {
+      req.checkBody('description', 'validity').isString();
       req.sanitizeBody('description').escape();
       req.sanitizeBody('description').trim();
       updatedAttributes.description = req.body.description;
    }
+
+    /*Validate and sanitizing committee members Input*/
+   if(!req.body.members){
+        req.body.members = [];
+   }else{
+        req.checkBody('members','validity').isIntArray();
+  }
+
+  /*Validate and sanitizing committee head Input*/
+   if(req.body.head_id){
+   req.checkBody('head_id', 'validity').isInt();
+    }
+
 
    var errors = req.validationErrors();
    errors = format(errors);
@@ -317,7 +356,7 @@ module.exports.store = function(req, res, next){
       /* input validation failed */
       res.status(400).json({
          status: 'failed',
-         error: errors
+         errors: errors
       });
 
       req.err = 'CommitteeController.js, Line: 240\nThe committee violated some database constraints.\n' + JSON.stringify(errors);
@@ -327,22 +366,49 @@ module.exports.store = function(req, res, next){
       return;
    }
 
+     var users = req.body.members ;
+     users.push(req.body.head_id);
+
    Committee.findById(req.params.id).then(function(committee){
        if(!committee){
-       	    res.status(500).json({
+       	    res.status(404).json({
             status:'failed',
             message: 'Internal server error'
          });
 
-         req.err = 'UserController.js, Line: 296\nCouldn\'t find the committee in the database.\n' + String(err);
+         req.err = 'UserController.js, Line: 296\nCouldn\'t find the committee in the database.\n' ;
          next();
          return ;
       }
 
-      
+
+      User.findAll({where : {id :{in :users}}}).then(function(members){
+      for (var i = members.length - 1; i >= 0; i--) {
+        if(members[i].type == 'Upper Board'){
+               res.status(400).json({
+               status: 'failed',
+               error: 'Can not add an Upper Board User to a Committee'  
+               });
+               req.err = 'CommitteeController.js, Line: 143\nSome validation errors occured.\n' + JSON.stringify(errors);
+               next();
+               return; 
+        }else{
+               if(members[i].type == 'High Board'){
+                  if(members[i].id != req.body.head_id){
+                   res.status(400).json({
+                     status: 'failed',
+                     error: 'Can not add an High Board User as a normal member in the Committe'  
+                   });
+                   req.err = 'CommitteeController.js, Line: 143\nSome validation errors occured.\n' + JSON.stringify(errors);
+                   next();
+                   return;
+                  }
+               }
+        }
+      }
       sequelize.transaction(function (t) {
 
-      	return committee.setUsers(req.body.members,
+      	return committee.setUsers(users,
       		{transaction:t}).then(function(){
       			return committee.update(updatedAttributes,
       				{transaction:t})
@@ -371,7 +437,7 @@ module.exports.store = function(req, res, next){
 
          res.status(400).json({
             status:'failed',
-            error: errors
+            errors: errors
          });
 
          req.err = 'CommitteeController.js, Line: 287\nThe committee violated some database constraints.\n' + JSON.stringify(errors);
@@ -380,7 +446,7 @@ module.exports.store = function(req, res, next){
          /* failed to update the committee in the database */
          res.status(500).json({
             status:'failed',
-            message: 'Internal server error'
+            message: 'Internal Server Error'
          });
 
          req.err = 'CommitteeController.js, Line: 296\nCouldn\'t update the committee in the database.\n' + String(err);
@@ -389,8 +455,27 @@ module.exports.store = function(req, res, next){
       next();
      });
       
+    }).catch(function(err){
+        res.status(400).json({
+          status: 'failed',
+          error: 'Internal Server Error' 
+        });
+        req.err = 'CommitteeController.js, Line: 143\ncan not find members in the database.\n' + JSON.stringify(errors);
+        next();
+     });
+   }).catch(function(err){
+    
+         res.status(400).json({
+                  status:'failed',
+                  message: 'The requested committee was not found.'
+               });
 
-   }); 
+               req.err = 'CommitteeController.js, Line: 442\nThe requested committee was not found in the database.';
+               next();
+               return;
+            });
+
+    
        
 };
 

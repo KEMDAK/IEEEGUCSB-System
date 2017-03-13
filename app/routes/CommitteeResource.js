@@ -103,6 +103,7 @@ module.exports = function(app) {
     *   name: String, [optional]
     *   description: String [optional]
     *   members:  Array of Integers  (members' IDs) [optional] 
+    *   head_id:  integer [optional]
     * }
     * @example The route returns as a response an object in the following format
     * {

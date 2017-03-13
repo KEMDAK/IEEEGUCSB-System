@@ -15,6 +15,21 @@ module.exports = {
          else
             return Array.isArray(value) && typeof value !== "string" && value.length == length;
       },
+      /* validator to check if the given value is an array of type integer */
+      isIntArray: function(value) {
+            if( Array.isArray(value)){
+             for (var i = value.length - 1; i >= 0; i--) {
+                if(typeof value != "integer" ){
+                   return false ;
+                }
+             }
+            }
+            else{
+               return false ;
+            } 
+            
+            return true ;
+      },
       /* validator to check if the given value is a String */
       isString: function(value) {
             return typeof value === "string";

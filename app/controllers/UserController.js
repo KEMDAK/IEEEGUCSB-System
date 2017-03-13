@@ -172,7 +172,7 @@ module.exports.show = function(req, res, next) {
    var tasksInclude = 
         {model   : Task,
         as      :"Tasks",
-        attributes :{exclude:['description','deleted_at']},
+        attributes :{exclude:['description','deleted_at','evaluation','supervisor']},
         through:{
         attributes:[]
          }
@@ -180,7 +180,7 @@ module.exports.show = function(req, res, next) {
    var meetingsInclude=
         {model   : Meeting,
         as      :"Meetings",
-        attributes :{exclude:['description','deleted_at']},
+        attributes :['id','start_date','end_date','location','created_at','updated_at'],
         through:{
         attributes:[] 
          }
@@ -219,7 +219,6 @@ module.exports.show = function(req, res, next) {
       }else{
          if(user.isUpperBoard() || user.isAdmin() || ( user.isHighBoard() && (requestedUser.committee_id==user.committee_id))){
             include = detailed ;
-            exclude = excludeBasic;
             detailedFlag= true ;
          }else{  
             include = basic ; 
@@ -245,7 +244,7 @@ module.exports.show = function(req, res, next) {
          /* failed to find the user's joined tables.*/
          res.status(500).json({
             status:'failed',
-            message: err.message+"Fff"
+            message: err.message+"aa"
          });
 
          req.err = 'UserController.js, Line: 204\nCouldn\'t retreive the user\'s joined tables.\n' + String(err);
@@ -256,7 +255,7 @@ module.exports.show = function(req, res, next) {
       /* failed to find the user in the database */
       res.status(500).json({
          status:'failed',
-         message: err.message+"aaaaaaaaaaA"
+         message: err.message
       });
 
       req.err = 'UserController.js, Line: 217\nCouldn\'t retreive the user from the database.\n' + String(err);
@@ -672,9 +671,9 @@ module.exports.delete = function(req, res, next) {
    }
 
    var id = req.params.id ;
-   User.destroy({where : {id :id }}).then(function(destroyedRowsNum){
+   User.findById(id).then(function(user){
 
-      if(destroyedRowsNum == 0){
+      if(!user ){
        res.status(400).json({
          status: 'failed',
          errors: 'User not Found'
@@ -684,25 +683,53 @@ module.exports.delete = function(req, res, next) {
 
        next();
     }else{
-      var deletePath = path.resolve( '../IEEEGUCSB-System/public/images/'+id);
-      fse.remove(deletePath,function(err){
-         res.status(200).json({
-         status: 'succeeded',
-         message: 'The User has been deleted.'
-      });
-        next();
-     });
+	        if(user.type != 'Admin'){
+	         user.destroy().then(function(){
+	           var deletePath = path.resolve( '../IEEEGUCSB-System/public/images/'+id);
+	              fse.remove(deletePath,function(err){
+	                  delete req.user ;
+	                  delete req.identity; 
+	                 res.status(200).json({
+	                   status:  'succeeded',
+	                   message: 'The User has been deleted.'
+	                 });
+	                 next();
+	              });
 
-   }
+	         }).catch(function(err){
+		          /* failed to delete the user from the database */
+		          res.status(500).json({
+		           status:'failed',
+		           message: 'Internal server error'
+		          });
+
+		          req.err = 'UserController.js, Line: 697\nCan not delete the User from the database.\n' + String(err);
+
+		          next();
+		         });
+	       
+		    }else{
+		        /* can't delete an admin*/
+		       res.status(400).json({
+		          status:'failed',
+		          message: 'can not delete an admin'
+		       });
+
+		       req.err = 'UserController.js, Line: 662\nSome validation errors occurred.\n' + JSON.stringify(errors);
+
+		       next();
+		       return ;
+		    }
      
+        }
    }).catch(function(err){
- /* failed to delete the user from the database */
+      /* failed to find the user in the database */
       res.status(500).json({
          status:'failed',
          message: 'Internal server error'
       });
 
-      req.err = 'UserController.js, Line: 697\nCan not delete the User from the database.\n' + String(err);
+      req.err = 'UserController.js, Line: 697\nCan not find the User in the database.\n' + String(err);
 
       next();
    });
