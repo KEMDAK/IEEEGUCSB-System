@@ -104,8 +104,8 @@ module.exports = function(args) {
                             res.body.committee.members[i].should.have.property('profile_picture').and.equal(null);
                         }
 
-                        res.body.meeting.should.have.property('created_at');
-                        res.body.meeting.should.have.property('updated_at');
+                        res.body.committee.should.have.property('created_at');
+                        res.body.committee.should.have.property('updated_at');
                         should.not.exist(err);
                         done();
                     } catch(error) {
@@ -142,8 +142,8 @@ module.exports = function(args) {
                             res.body.committee.members[i].should.have.property('profile_picture').and.equal(null);
                         }
 
-                        res.body.meeting.should.have.property('created_at');
-                        res.body.meeting.should.have.property('updated_at');
+                        res.body.committee.should.have.property('created_at');
+                        res.body.committee.should.have.property('updated_at');
                         should.not.exist(err);
                         done();
                     } catch(error) {
@@ -180,8 +180,8 @@ module.exports = function(args) {
                             res.body.committee.members[i].should.have.property('profile_picture').and.equal(null);
                         }
 
-                        res.body.meeting.should.have.property('created_at');
-                        res.body.meeting.should.have.property('updated_at');
+                        res.body.committee.should.have.property('created_at');
+                        res.body.committee.should.have.property('updated_at');
                         should.not.exist(err);
                         done();
                     } catch(error) {
@@ -218,8 +218,8 @@ module.exports = function(args) {
                             res.body.committee.members[i].should.have.property('profile_picture').and.equal(null);
                         }
 
-                        res.body.meeting.should.have.property('created_at');
-                        res.body.meeting.should.have.property('updated_at');
+                        res.body.committee.should.have.property('created_at');
+                        res.body.committee.should.have.property('updated_at');
                         should.not.exist(err);
                         done();
                     } catch(error) {
@@ -256,8 +256,8 @@ module.exports = function(args) {
                             res.body.committee.members[i].should.have.property('profile_picture').and.equal(null);
                         }
 
-                        res.body.meeting.should.have.property('created_at');
-                        res.body.meeting.should.have.property('updated_at');
+                        res.body.committee.should.have.property('created_at');
+                        res.body.committee.should.have.property('updated_at');
                         should.not.exist(err);
                         done();
                     } catch(error) {
