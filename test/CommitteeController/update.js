@@ -31,9 +31,7 @@ module.exports = function(args) {
                 }).catch(function(err) {
                     done(err);
                 });
-                done();
             });
-            done();
         });
 
         /***********************

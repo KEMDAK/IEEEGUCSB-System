@@ -49,12 +49,12 @@ describe('Meeting Controller', function() {
    require('./MeetingController/rate')(args);
 });
 
-describe('Task Controller', function() {
-   require('./TaskController/store')(args);
-   require('./TaskController/show')(args);
-   require('./TaskController/update')(args);
-   require('./TaskController/delete')(args);
-});
+// describe('Task Controller', function() {
+//    require('./TaskController/store')(args);
+//    require('./TaskController/show')(args);
+//    require('./TaskController/update')(args);
+//    require('./TaskController/delete')(args);
+// });
 
 describe('Committee Controller', function() {
    require('./CommitteeController/store')(args);
