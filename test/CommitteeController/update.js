@@ -2,7 +2,7 @@ module.exports = function(args) {
     var app, fn, data, models, chai, should;
 
     describe('PUT /api/committee/:id', function() {
-        this.timeout(500); 
+        this.timeout(500);
 
         before(function(done) {
             this.timeout(40000);
@@ -234,7 +234,7 @@ module.exports = function(args) {
                 });
             });
 
-            it('Should not allow the committee to be stored due to invalid \'name\' parameter in the body.', function(done) {
+            it('Should not allow the committee to be updated due to invalid \'name\' parameter in the body.', function(done) {
                 var committee_id = 1;
                 chai.request(app)
                 .put('/api/committee/' + committee_id)
@@ -278,7 +278,7 @@ module.exports = function(args) {
                 });
             });
 
-            it('Should not allow the committee to be stored due to invalid \'description\' parameter in the body.', function(done) {
+            it('Should not allow the committee to be updated due to invalid \'description\' parameter in the body.', function(done) {
                 var committee_id = 1;
                 chai.request(app)
                 .put('/api/committee/' + committee_id)
@@ -322,7 +322,7 @@ module.exports = function(args) {
                 });
             });
 
-            it('Should not allow the committee to be stored due to invalid \'members\' parameter in the body. (Invalid type)', function(done) {
+            it('Should not allow the committee to be updated due to invalid \'members\' parameter in the body. (Invalid type)', function(done) {
                 var committee_id = 2;
                 chai.request(app)
                 .put('/api/committee/' + committee_id)
@@ -366,7 +366,7 @@ module.exports = function(args) {
                 });
             });
 
-            it('Should not allow the committee to be stored due to invalid \'members\' parameter in the body. (Element invalid type)', function(done) {
+            it('Should not allow the committee to be updated due to invalid \'members\' parameter in the body. (Element invalid type)', function(done) {
                 var committee_id = 3;
                 chai.request(app)
                 .put('/api/committee/' + committee_id)
@@ -410,7 +410,7 @@ module.exports = function(args) {
                 });
             });
 
-            it('Should not allow the committee to be stored due to invalid \'members\' parameter in the body. (High Board as part of the members\' list)', function(done) {
+            it('Should not allow the committee to be updated due to invalid \'members\' parameter in the body. (High Board as part of the members\' list)', function(done) {
                 var committee_id = 3;
                 chai.request(app)
                 .put('/api/committee/' + committee_id)
@@ -454,7 +454,7 @@ module.exports = function(args) {
                 });
             });
 
-            it('Should not allow the committee to be stored due to invalid \'members\' parameter in the body. (Upper Board as part of the members\' list)', function(done) {
+            it('Should not allow the committee to be updated due to invalid \'members\' parameter in the body. (Upper Board as part of the members\' list)', function(done) {
                 var committee_id = 3;
                 chai.request(app)
                 .put('/api/committee/' + committee_id)
@@ -498,7 +498,7 @@ module.exports = function(args) {
                 });
             });
 
-            it('Should not allow the committee to be stored due to invalid \'members\' parameter in the body. (Admin as part of the members\' list)', function(done) {
+            it('Should not allow the committee to be updated due to invalid \'members\' parameter in the body. (Admin as part of the members\' list)', function(done) {
                 var committee_id = 3;
                 chai.request(app)
                 .put('/api/committee/' + committee_id)
@@ -542,7 +542,7 @@ module.exports = function(args) {
                 });
             });
 
-            it('Should not allow the committee to be stored due to invalid \'head_id\' parameter in the body.', function(done) {
+            it('Should not allow the committee to be updated due to invalid \'head_id\' parameter in the body.', function(done) {
                 var committee_id = 4;
                 chai.request(app)
                 .put('/api/committee/' + committee_id)
@@ -655,7 +655,7 @@ module.exports = function(args) {
                 });
             });
 
-            it('Should store the committee in the database (Upper Board Authentication).', function(done) {
+            it('Should update the committee (Upper Board Authentication).', function(done) {
                 var committee_id = 1;
                 var updatedCommittee = {
                     name: "Newest Name",
