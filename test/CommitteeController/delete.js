@@ -2,18 +2,7 @@ module.exports = function(args) {
     var app, fn, data, models, chai, should;
 
     describe('DELETE /api/committee/:id', function() {
-<<<<<<< Updated upstream
-        before(function(done) {
-            this.timeout(20000);
-            app = args.app;
-            fn = args.fn;
-            data = args.data;
-            models = args.models;
-            chai = args.chai;
-            should = chai.should();
-=======
       this.timeout(500);
->>>>>>> Stashed changes
 
       before(function(done) {
         this.timeout(40000);

@@ -2,11 +2,8 @@ module.exports = function(args) {
     var app, fn, data, models, chai, should;
 
     describe('GET /api/committee/:id', function() {
-<<<<<<< Updated upstream
-=======
         this.timeout(500);
 
->>>>>>> Stashed changes
         before(function(done) {
             this.timeout(40000);
             

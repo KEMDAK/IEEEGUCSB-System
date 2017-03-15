@@ -5,12 +5,8 @@ module.exports = function(args) {
       this.timeout(500);
       
       before(function(done) {
-<<<<<<< Updated upstream
-         this.timeout(20000);
-=======
          this.timeout(40000);
 
->>>>>>> Stashed changes
          app = args.app;
          fn = args.fn;
          data = args.data;

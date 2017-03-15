@@ -3,16 +3,10 @@ module.exports = function(args) {
 
    describe('POST /api/user', function() {
       this.timeout(1000);
-<<<<<<< Updated upstream
-      
-      before(function(done) {
-         this.timeout(20000);
-=======
           
       before(function(done) {
          this.timeout(40000);
 
->>>>>>> Stashed changes
          app = args.app;
          fn = args.fn;
          data = args.data;
