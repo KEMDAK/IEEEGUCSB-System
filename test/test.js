@@ -50,10 +50,10 @@ describe('Meeting Controller', function() {
 });
 
 describe('Task Controller', function() {
-    require('./TaskController/store')(args);
-    require('./TaskController/show')(args);
-    require('./TaskController/update')(args);
-    require('./TaskController/delete')(args);
+   require('./TaskController/store')(args);
+   require('./TaskController/show')(args);
+   require('./TaskController/update')(args);
+   require('./TaskController/delete')(args);
 });
 
 describe('Committee Controller', function() {
