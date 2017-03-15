@@ -2,8 +2,11 @@ module.exports = function(args) {
    var app, fn, data, models, chai, should;
 
    describe('POST /api/meeting/:id/rate', function() {
+      this.tiemeout(500);
+      
        before(function(done) {
-          this.timeout(20000);
+          this.timeout(40000);
+
           app = args.app;
           fn = args.fn;
           data = args.data;

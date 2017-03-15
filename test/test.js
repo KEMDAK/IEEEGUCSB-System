@@ -1,7 +1,8 @@
 var args = {};
 
 before(function(done) {
-   this.timeout(20000);
+   this.timeout(40000);
+   
    process.env.ENV = 'test';
    require('../server')(function(MyApp, sq, err) {
       if (err) {

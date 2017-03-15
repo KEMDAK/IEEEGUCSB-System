@@ -2,8 +2,14 @@ module.exports = function(args) {
     var app, fn, data, models, chai, should;
 
     describe('POST /api/committee', function() {
+<<<<<<< Updated upstream
+=======
+        this.timeout(500);
+
+>>>>>>> Stashed changes
         before(function(done) {
-            this.timeout(20000);
+            this.timeout(40000);
+
             app = args.app;
             fn = args.fn;
             data = args.data;
@@ -64,17 +70,17 @@ module.exports = function(args) {
 
                         models.Committee.findAll().then(function(records) {
                             if (records.length > 0) {
-                               throw new Error("The committee shouldn\'t be stored.");
-                            }
+                             throw new Error("The committee shouldn\'t be stored.");
+                         }
 
-                            done();
-                        }).catch(function(error) {
-                            done(error);
-                        });
-                    } catch(error) {
+                         done();
+                     }).catch(function(error) {
                         done(error);
-                    }
-                });
+                    });
+                 } catch(error) {
+                    done(error);
+                }
+            });
             });
 
             it('Should not allow a Member to store a committee.', function(done) {
@@ -98,17 +104,17 @@ module.exports = function(args) {
 
                         models.Committee.findAll().then(function(records) {
                             if (records.length > 0) {
-                               throw new Error("The committee shouldn\'t be stored.");
-                            }
+                             throw new Error("The committee shouldn\'t be stored.");
+                         }
 
-                            done();
-                        }).catch(function(error) {
-                            done(error);
-                        });
-                    } catch(error) {
+                         done();
+                     }).catch(function(error) {
                         done(error);
-                    }
-                });
+                    });
+                 } catch(error) {
+                    done(error);
+                }
+            });
             });
 
             it('Should not allow a High Board to store a committee.', function(done) {
@@ -132,17 +138,17 @@ module.exports = function(args) {
 
                         models.Committee.findAll().then(function(records) {
                             if (records.length > 0) {
-                               throw new Error("The committee shouldn\'t be stored.");
-                            }
+                             throw new Error("The committee shouldn\'t be stored.");
+                         }
 
-                            done();
-                        }).catch(function(error) {
-                            done(error);
-                        });
-                    } catch(error) {
+                         done();
+                     }).catch(function(error) {
                         done(error);
-                    }
-                });
+                    });
+                 } catch(error) {
+                    done(error);
+                }
+            });
             });
 
             it('Should deny access due to missing User Agent header.', function(done) {
@@ -165,17 +171,17 @@ module.exports = function(args) {
 
                         models.Committee.findAll().then(function(records) {
                             if (records.length > 0) {
-                               throw new Error("The committee shouldn\'t be stored.");
-                            }
+                             throw new Error("The committee shouldn\'t be stored.");
+                         }
 
-                            done();
-                        }).catch(function(error) {
-                            done(error);
-                        });
-                    } catch(error) {
+                         done();
+                     }).catch(function(error) {
                         done(error);
-                    }
-                });
+                    });
+                 } catch(error) {
+                    done(error);
+                }
+            });
             });
 
             it('Should deny access due to invalid User Agent header.', function(done) {
@@ -199,17 +205,17 @@ module.exports = function(args) {
 
                         models.Committee.findAll().then(function(records) {
                             if (records.length > 0) {
-                               throw new Error("The committee shouldn\'t be stored.");
-                            }
+                             throw new Error("The committee shouldn\'t be stored.");
+                         }
 
-                            done();
-                        }).catch(function(error) {
-                            done(error);
-                        });
-                    } catch(error) {
+                         done();
+                     }).catch(function(error) {
                         done(error);
-                    }
-                });
+                    });
+                 } catch(error) {
+                    done(error);
+                }
+            });
             });
         }
 
@@ -238,17 +244,17 @@ module.exports = function(args) {
 
                         models.Committee.findAll().then(function(records) {
                             if (records.length > 0) {
-                               throw new Error("The committee shouldn\'t be stored.");
-                            }
+                             throw new Error("The committee shouldn\'t be stored.");
+                         }
 
-                            done();
-                        }).catch(function(error) {
-                            done(error);
-                        });
-                    } catch(error) {
+                         done();
+                     }).catch(function(error) {
                         done(error);
-                    }
-                });
+                    });
+                 } catch(error) {
+                    done(error);
+                }
+            });
             });
 
             it('Should not allow the committee to be stored due to invalid \'name\' parameter in the body.', function(done) {
@@ -273,17 +279,17 @@ module.exports = function(args) {
 
                         models.Committee.findAll().then(function(records) {
                             if (records.length > 0) {
-                               throw new Error("The committee shouldn\'t be stored.");
-                            }
+                             throw new Error("The committee shouldn\'t be stored.");
+                         }
 
-                            done();
-                        }).catch(function(error) {
-                            done(error);
-                        });
-                    } catch(error) {
+                         done();
+                     }).catch(function(error) {
                         done(error);
-                    }
-                });
+                    });
+                 } catch(error) {
+                    done(error);
+                }
+            });
             });
 
             it('Should not allow the committee to be stored due to missing \'description\' parameter in the body.', function(done) {
@@ -307,17 +313,17 @@ module.exports = function(args) {
 
                         models.Committee.findAll().then(function(records) {
                             if (records.length > 0) {
-                               throw new Error("The committee shouldn\'t be stored.");
-                            }
+                             throw new Error("The committee shouldn\'t be stored.");
+                         }
 
-                            done();
-                        }).catch(function(error) {
-                            done(error);
-                        });
-                    } catch(error) {
+                         done();
+                     }).catch(function(error) {
                         done(error);
-                    }
-                });
+                    });
+                 } catch(error) {
+                    done(error);
+                }
+            });
             });
 
             it('Should not allow the committee to be stored due to invalid \'description\' parameter in the body.', function(done) {
@@ -342,17 +348,17 @@ module.exports = function(args) {
 
                         models.Committee.findAll().then(function(records) {
                             if (records.length > 0) {
-                               throw new Error("The committee shouldn\'t be stored.");
-                            }
+                             throw new Error("The committee shouldn\'t be stored.");
+                         }
 
-                            done();
-                        }).catch(function(error) {
-                            done(error);
-                        });
-                    } catch(error) {
+                         done();
+                     }).catch(function(error) {
                         done(error);
-                    }
-                });
+                    });
+                 } catch(error) {
+                    done(error);
+                }
+            });
             });
 
             it('Should not allow the committee to be stored due to invalid \'members\' parameter in the body. (Invalid type)', function(done) {
@@ -377,17 +383,17 @@ module.exports = function(args) {
 
                         models.Committee.findAll().then(function(records) {
                             if (records.length > 0) {
-                               throw new Error("The committee shouldn\'t be stored.");
-                            }
+                             throw new Error("The committee shouldn\'t be stored.");
+                         }
 
-                            done();
-                        }).catch(function(error) {
-                            done(error);
-                        });
-                    } catch(error) {
+                         done();
+                     }).catch(function(error) {
                         done(error);
-                    }
-                });
+                    });
+                 } catch(error) {
+                    done(error);
+                }
+            });
             });
 
             it('Should not allow the committee to be stored due to invalid \'members\' parameter in the body. (Element invalid type)', function(done) {
@@ -412,17 +418,17 @@ module.exports = function(args) {
 
                         models.Committee.findAll().then(function(records) {
                             if (records.length > 0) {
-                               throw new Error("The committee shouldn\'t be stored.");
-                            }
+                             throw new Error("The committee shouldn\'t be stored.");
+                         }
 
-                            done();
-                        }).catch(function(error) {
-                            done(error);
-                        });
-                    } catch(error) {
+                         done();
+                     }).catch(function(error) {
                         done(error);
-                    }
-                });
+                    });
+                 } catch(error) {
+                    done(error);
+                }
+            });
             });
 
             it('Should not allow the committee to be stored due to invalid \'members\' parameter in the body. (High Board as part of the members\' list)', function(done) {
@@ -447,17 +453,17 @@ module.exports = function(args) {
 
                         models.Committee.findAll().then(function(records) {
                             if (records.length > 0) {
-                               throw new Error("The committee shouldn\'t be stored.");
-                            }
+                             throw new Error("The committee shouldn\'t be stored.");
+                         }
 
-                            done();
-                        }).catch(function(error) {
-                            done(error);
-                        });
-                    } catch(error) {
+                         done();
+                     }).catch(function(error) {
                         done(error);
-                    }
-                });
+                    });
+                 } catch(error) {
+                    done(error);
+                }
+            });
             });
 
             it('Should not allow the committee to be stored due to invalid \'members\' parameter in the body. (Upper Board as part of the members\' list)', function(done) {
@@ -482,17 +488,17 @@ module.exports = function(args) {
 
                         models.Committee.findAll().then(function(records) {
                             if (records.length > 0) {
-                               throw new Error("The committee shouldn\'t be stored.");
-                            }
+                             throw new Error("The committee shouldn\'t be stored.");
+                         }
 
-                            done();
-                        }).catch(function(error) {
-                            done(error);
-                        });
-                    } catch(error) {
+                         done();
+                     }).catch(function(error) {
                         done(error);
-                    }
-                });
+                    });
+                 } catch(error) {
+                    done(error);
+                }
+            });
             });
 
             it('Should not allow the committee to be stored due to invalid \'members\' parameter in the body. (Admin as part of the members\' list)', function(done) {
@@ -516,17 +522,17 @@ module.exports = function(args) {
 
                         models.Committee.findAll().then(function(records) {
                             if (records.length > 0) {
-                               throw new Error("The committee shouldn\'t be stored.");
-                            }
+                             throw new Error("The committee shouldn\'t be stored.");
+                         }
 
-                            done();
-                        }).catch(function(error) {
-                            done(error);
-                        });
-                    } catch(error) {
+                         done();
+                     }).catch(function(error) {
                         done(error);
-                    }
-                });
+                    });
+                 } catch(error) {
+                    done(error);
+                }
+            });
             });
 
             it('Should not allow the committee to be stored due to invalid \'head_id\' parameter in the body.', function(done) {
@@ -550,17 +556,17 @@ module.exports = function(args) {
 
                         models.Committee.findAll().then(function(records) {
                             if (records.length > 0) {
-                               throw new Error("The committee shouldn\'t be stored.");
-                            }
+                             throw new Error("The committee shouldn\'t be stored.");
+                         }
 
-                            done();
-                        }).catch(function(error) {
-                            done(error);
-                        });
-                    } catch(error) {
+                         done();
+                     }).catch(function(error) {
                         done(error);
-                    }
-                });
+                    });
+                 } catch(error) {
+                    done(error);
+                }
+            });
             });
         }
 
