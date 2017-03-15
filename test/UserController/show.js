@@ -2,7 +2,7 @@ module.exports = function(args) {
    var app, fn, data, models, chai, should;
 
    describe('GET /api/user/:id', function() {
-      this.timeout(3000);
+      this.timeout(1000);
       
       before(function(done) {
          this.timeout(20000);
