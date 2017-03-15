@@ -4,7 +4,8 @@ module.exports = function(args) {
    describe('POST /api/user', function() {
       this.timeout(20000);    
       before(function(done) {
-        this.timeout(40000);
+         this.timeout(20000);
+
          app = args.app;
          fn = args.fn;
          data = args.data;

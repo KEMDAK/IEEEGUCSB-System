@@ -5,7 +5,8 @@ module.exports = function(args) {
       this.timeout(3000);
       
       before(function(done) {
-         this.timeout(40000);
+         this.timeout(20000);
+
          app = args.app;
          fn = args.fn;
          data = args.data;
@@ -1516,7 +1517,7 @@ module.exports = function(args) {
          });
 
          it('Should show the Basic profile of a High Board (High Board Authentication).', function(done) {
-            var user_id = 4;
+            var user_id = 6;
             chai.request(app)
             .get('/api/user/' + user_id)
             .set('User_Agent', 'Web')
@@ -2017,7 +2018,7 @@ module.exports = function(args) {
          });
 
          it('Should show the Basic profile of a Member in my committee (Member Authentication).', function(done) {
-            var user_id = 8;
+            var user_id = 5;
             chai.request(app)
             .get('/api/user/' + user_id)
             .set('User_Agent', 'Web')
@@ -2077,7 +2078,7 @@ module.exports = function(args) {
          });
 
          it('Should show the Basic profile of a Member not in my committee (Member Authentication).', function(done) {
-            var user_id = 9;
+            var user_id = 7;
             chai.request(app)
             .get('/api/user/' + user_id)
             .set('User_Agent', 'Web')

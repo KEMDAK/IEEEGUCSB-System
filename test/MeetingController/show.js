@@ -3,7 +3,7 @@ module.exports = function(args) {
 
    describe('GET /api/meeting/:id', function() {
       before(function(done) {
-         this.timeout(10000);
+         this.timeout(20000);
          app = args.app;
          fn = args.fn;
          data = args.data;
