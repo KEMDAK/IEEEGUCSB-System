@@ -2,37 +2,39 @@ module.exports = function(args) {
     var app, fn, data, models, chai, should;
 
     describe('DELETE /api/committee/:id', function() {
-              this.timeout(500);
-        before(function(done) {
-            this.timeout(20000);
-            app = args.app;
-            fn = args.fn;
-            data = args.data;
-            models = args.models;
-            chai = args.chai;
-            should = chai.should();
+      this.timeout(500);
 
-            fn.clearAll(function(err) {
-                if (err) {
-                    done(err);
-                    return;
-                }
+      before(function(done) {
+        this.timeout(40000);
+        
+        app = args.app;
+        fn = args.fn;
+        data = args.data;
+        models = args.models;
+        chai = args.chai;
+        should = chai.should();
 
-                models.Committee.bulkCreate(data.committees).then(function() {
-                    models.User.bulkCreate(data.users).then(function() {
-                        models.Identity.bulkCreate(data.identities).then(function() {
-                            done();
-                        }).catch(function(err) {
-                            done(err);
-                        });
+        fn.clearAll(function(err) {
+            if (err) {
+                done(err);
+                return;
+            }
+
+            models.Committee.bulkCreate(data.committees).then(function() {
+                models.User.bulkCreate(data.users).then(function() {
+                    models.Identity.bulkCreate(data.identities).then(function() {
+                        done();
                     }).catch(function(err) {
                         done(err);
                     });
                 }).catch(function(err) {
                     done(err);
                 });
+            }).catch(function(err) {
+                done(err);
             });
         });
+    });
 
         /***********************
         * Authentication Tests *
