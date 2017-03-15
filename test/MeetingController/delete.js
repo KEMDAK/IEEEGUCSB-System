@@ -2,7 +2,7 @@ module.exports = function(args) {
    var app, fn, data, models, chai, should;
 
    describe('DELETE /api/meeting/:id', function() {
-      this.tiemeout(500);
+      this.timeout(500);
       
       before(function(done) {
          this.timeout(40000);
