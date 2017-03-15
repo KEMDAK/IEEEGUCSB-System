@@ -61,7 +61,7 @@ module.exports = function(args) {
                                                 return;
                                              }
 
-                                             meetings[i].addAttendees(data.meetings_users[i], { rating: 4, review: "Good" }).then(function() {
+                                             meetings[i].addAttendees(data.meeting_user[i], { rating: 4, review: "Good" }).then(function() {
                                                 recM(i + 1);
                                              }).catch(function(err) {
                                                 done(err);
@@ -271,8 +271,8 @@ module.exports = function(args) {
 
                   /* Checking meetings */
                   count = 0;
-                  for (var i = 0; i < data.meetings_users.length; i++) {
-                     if(data.meetings_users[i].indexOf(user_id) != -1) {
+                  for (var i = 0; i < data.meeting_user.length; i++) {
+                     if(data.meeting_user[i].indexOf(user_id) != -1) {
                         count++;
                         var meeting_id = i + 1;
                         res.body.user.meetings.should.contain({
@@ -371,8 +371,8 @@ module.exports = function(args) {
 
                   /* Checking meetings */
                   count = 0;
-                  for (var i = 0; i < data.meetings_users.length; i++) {
-                     if(data.meetings_users[i].indexOf(user_id) != -1) {
+                  for (var i = 0; i < data.meeting_user.length; i++) {
+                     if(data.meeting_user[i].indexOf(user_id) != -1) {
                         count++;
                         var meeting_id = i + 1;
                         res.body.user.meetings.should.contain({
@@ -471,8 +471,8 @@ module.exports = function(args) {
 
                   /* Checking meetings */
                   count = 0;
-                  for (var i = 0; i < data.meetings_users.length; i++) {
-                     if(data.meetings_users[i].indexOf(user_id) != -1) {
+                  for (var i = 0; i < data.meeting_user.length; i++) {
+                     if(data.meeting_user[i].indexOf(user_id) != -1) {
                         count++;
                         var meeting_id = i + 1;
                         res.body.user.meetings.should.contain({
@@ -571,8 +571,8 @@ module.exports = function(args) {
 
                   /* Checking meetings */
                   count = 0;
-                  for (var i = 0; i < data.meetings_users.length; i++) {
-                     if(data.meetings_users[i].indexOf(user_id) != -1) {
+                  for (var i = 0; i < data.meeting_user.length; i++) {
+                     if(data.meeting_user[i].indexOf(user_id) != -1) {
                         count++;
                         var meeting_id = i + 1;
                         res.body.user.meetings.should.contain({
@@ -671,8 +671,8 @@ module.exports = function(args) {
 
                   /* Checking meetings */
                   count = 0;
-                  for (var i = 0; i < data.meetings_users.length; i++) {
-                     if(data.meetings_users[i].indexOf(user_id) != -1) {
+                  for (var i = 0; i < data.meeting_user.length; i++) {
+                     if(data.meeting_user[i].indexOf(user_id) != -1) {
                         count++;
                         var meeting_id = i + 1;
                         res.body.user.meetings.should.contain({
@@ -704,7 +704,7 @@ module.exports = function(args) {
                try {
                   res.should.have.status(200);
                   res.body.user.should.have.all.keys(['profile_type', 'id', 'type', 'first_name', 'last_name', 'email', 'IEEE_membership_ID', 'gender', 'settings', 'committee', 'profile_picture', 'honors', 'phone_number', 'birthdate', 'tasks', 'meetings']);
-                  res.body.user.profile_type.should.equal('Detailed');
+                  res.body.user.profile_type.should.equal('Mine');
 
                   /* Basic profile */
                   res.body.user.id.should.equal(user_id);
@@ -772,8 +772,8 @@ module.exports = function(args) {
 
                   /* Checking meetings */
                   count = 0;
-                  for (var i = 0; i < data.meetings_users.length; i++) {
-                     if(data.meetings_users[i].indexOf(user_id) != -1) {
+                  for (var i = 0; i < data.meeting_user.length; i++) {
+                     if(data.meeting_user[i].indexOf(user_id) != -1) {
                         count++;
                         var meeting_id = i + 1;
                         res.body.user.meetings.should.contain({
@@ -872,8 +872,8 @@ module.exports = function(args) {
 
                   /* Checking meetings */
                   count = 0;
-                  for (var i = 0; i < data.meetings_users.length; i++) {
-                     if(data.meetings_users[i].indexOf(user_id) != -1) {
+                  for (var i = 0; i < data.meeting_user.length; i++) {
+                     if(data.meeting_user[i].indexOf(user_id) != -1) {
                         count++;
                         var meeting_id = i + 1;
                         res.body.user.meetings.should.contain({
@@ -972,8 +972,8 @@ module.exports = function(args) {
 
                   /* Checking meetings */
                   count = 0;
-                  for (var i = 0; i < data.meetings_users.length; i++) {
-                     if(data.meetings_users[i].indexOf(user_id) != -1) {
+                  for (var i = 0; i < data.meeting_user.length; i++) {
+                     if(data.meeting_user[i].indexOf(user_id) != -1) {
                         count++;
                         var meeting_id = i + 1;
                         res.body.user.meetings.should.contain({
@@ -1072,8 +1072,8 @@ module.exports = function(args) {
 
                   /* Checking meetings */
                   count = 0;
-                  for (var i = 0; i < data.meetings_users.length; i++) {
-                     if(data.meetings_users[i].indexOf(user_id) != -1) {
+                  for (var i = 0; i < data.meeting_user.length; i++) {
+                     if(data.meeting_user[i].indexOf(user_id) != -1) {
                         count++;
                         var meeting_id = i + 1;
                         res.body.user.meetings.should.contain({
@@ -1172,8 +1172,8 @@ module.exports = function(args) {
 
                   /* Checking meetings */
                   count = 0;
-                  for (var i = 0; i < data.meetings_users.length; i++) {
-                     if(data.meetings_users[i].indexOf(user_id) != -1) {
+                  for (var i = 0; i < data.meeting_user.length; i++) {
+                     if(data.meeting_user[i].indexOf(user_id) != -1) {
                         count++;
                         var meeting_id = i + 1;
                         res.body.user.meetings.should.contain({
@@ -1272,8 +1272,8 @@ module.exports = function(args) {
 
                   /* Checking meetings */
                   count = 0;
-                  for (var i = 0; i < data.meetings_users.length; i++) {
-                     if(data.meetings_users[i].indexOf(user_id) != -1) {
+                  for (var i = 0; i < data.meeting_user.length; i++) {
+                     if(data.meeting_user[i].indexOf(user_id) != -1) {
                         count++;
                         var meeting_id = i + 1;
                         res.body.user.meetings.should.contain({
@@ -1305,7 +1305,7 @@ module.exports = function(args) {
                try {
                   res.should.have.status(200);
                   res.body.user.should.have.all.keys(['profile_type', 'id', 'type', 'first_name', 'last_name', 'email', 'IEEE_membership_ID', 'gender', 'settings', 'committee', 'profile_picture', 'honors', 'phone_number', 'birthdate', 'tasks', 'meetings']);
-                  res.body.user.profile_type.should.equal('Detailed');
+                  res.body.user.profile_type.should.equal('Mine');
 
                   /* Basic profile */
                   res.body.user.id.should.equal(user_id);
@@ -1373,8 +1373,8 @@ module.exports = function(args) {
 
                   /* Checking meetings */
                   count = 0;
-                  for (var i = 0; i < data.meetings_users.length; i++) {
-                     if(data.meetings_users[i].indexOf(user_id) != -1) {
+                  for (var i = 0; i < data.meeting_user.length; i++) {
+                     if(data.meeting_user[i].indexOf(user_id) != -1) {
                         count++;
                         var meeting_id = i + 1;
                         res.body.user.meetings.should.contain({
@@ -1653,8 +1653,8 @@ module.exports = function(args) {
 
                   /* Checking meetings */
                   count = 0;
-                  for (var i = 0; i < data.meetings_users.length; i++) {
-                     if(data.meetings_users[i].indexOf(user_id) != -1) {
+                  for (var i = 0; i < data.meeting_user.length; i++) {
+                     if(data.meeting_user[i].indexOf(user_id) != -1) {
                         count++;
                         var meeting_id = i + 1;
                         res.body.user.meetings.should.contain({
@@ -1746,7 +1746,7 @@ module.exports = function(args) {
                try {
                   res.should.have.status(200);
                   res.body.user.should.have.all.keys(['profile_type', 'id', 'type', 'first_name', 'last_name', 'email', 'IEEE_membership_ID', 'gender', 'settings', 'committee', 'profile_picture', 'honors', 'phone_number', 'birthdate', 'tasks', 'meetings']);
-                  res.body.user.profile_type.should.equal('Detailed');
+                  res.body.user.profile_type.should.equal('Mine');
 
                   /* Basic profile */
                   res.body.user.id.should.equal(user_id);
@@ -1814,8 +1814,8 @@ module.exports = function(args) {
 
                   /* Checking meetings */
                   count = 0;
-                  for (var i = 0; i < data.meetings_users.length; i++) {
-                     if(data.meetings_users[i].indexOf(user_id) != -1) {
+                  for (var i = 0; i < data.meeting_user.length; i++) {
+                     if(data.meeting_user[i].indexOf(user_id) != -1) {
                         count++;
                         var meeting_id = i + 1;
                         res.body.user.meetings.should.contain({

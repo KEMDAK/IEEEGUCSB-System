@@ -303,14 +303,14 @@ module.exports = function() {
       data.meetings.push(meeting);
    }
 
-   data.meetings_users = [];
+   data.meeting_user = [];
    for (i = 0; i < 5; i++) {
       var obj = {
          meeting_id: (i+1),
          user_id: (i+1) + 4
       };
 
-      data.meetings_users.push([i+1+4, i+1+8]);
+      data.meeting_user.push([i+1+4, i+1+8]);
    }
 
    /*****************************
