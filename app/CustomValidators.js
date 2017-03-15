@@ -19,7 +19,7 @@ module.exports = {
       isIntArray: function(value) {
             if( Array.isArray(value)){
              for (var i = value.length - 1; i >= 0; i--) {
-                if(typeof value != "integer" ){
+                if(typeof value[i] === "string" || isNaN(value[i]) ){
                    return false ;
                 }
              }

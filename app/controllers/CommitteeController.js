@@ -211,29 +211,17 @@ module.exports.store = function(req, res, next){
      users.push(req.body.head_id);
 
      User.findAll({where : {id :{in :users}}}).then(function(members){
-     	for (var i = members.length - 1; i >= 0; i--) {
-     		if(members[i].type == 'Upper Board'){
-               res.status(400).json({
+          for (var i = members.length - 1; i >= 0; i--) {
+            if(members[i].type == 'Admin' || members[i].type == 'Upper Board' || ( members[i].type == 'High Board' && members[i].id != req.body.head_id)){
+             res.status(400).json({
                status: 'failed',
-               error: 'Can not add an Upper Board User to a Committee'  
-               });
-               req.err = 'CommitteeController.js, Line: 143\nSome validation errors occured.\n' + JSON.stringify(errors);
-               next();
-               return; 
-     		}else{
-               if(members[i].type == 'High Board'){
-                  if(members[i].id != req.body.head_id){
-                   res.status(400).json({
-                     status: 'failed',
-                     error: 'Can not add an High Board User as a normal member in the Committe'  
-                   });
-                   req.err = 'CommitteeController.js, Line: 143\nSome validation errors occured.\n' + JSON.stringify(errors);
-                   next();
-                   return;
-                  }
-               }
-        }
-     	}
+               errors: {param:'members',type:'validity',value:members.id}  
+             });
+             req.err = 'CommitteeController.js, Line: 143\nSome validation errors occured.\n' + JSON.stringify(errors);
+             next();
+             return; 
+           }
+         }
      }).then(function(){
            /* extracting data from the request body */
            var name = req.body.name;
@@ -245,57 +233,57 @@ module.exports.store = function(req, res, next){
            	description: desc
            });
 
-           sequelize.transaction(function (t) {
+            sequelize.transaction(function (t) {
 
-        // chain all your queries here. make sure you return them.
-           return committeeInstance.save(
-        	{transaction: t}).then(function (committee) {
-        		return committee.setUsers(
-        			users, {transaction: t}); 
-        	});
+              // chain all your queries here. make sure you return them.
+                 return committeeInstance.save(
+              	{transaction: t}).then(function (committee) {
+              		return committee.setUsers(
+              			users, {transaction: t}); 
+              	});
 
-         }).then(function (result) {
-      			    // Transaction has been committed
-      			    // result is whatever the result of the promise chain returned to the transaction callback
-      			    res.status(200).json({
-      			    	status:'succeeded',
-      			    	message: 'committee successfully added'
-      			    });
-      			    next();
-      	 }).catch(function (err) {
-      				  // Transaction has been rolled back
-      			    // err is whatever rejected the promise chain returned to the transaction callback
-      			    if (err.message === 'Validation error') {
-      			    	/* The committee violated database constraints */
-      			    	var errors = [];
-      			    	for (var i = 0; i < err.errors.length; i++) {
-      			    		var curError = err.errors[i];
+               }).then(function (result) {
+            			    // Transaction has been committed
+            			    // result is whatever the result of the promise chain returned to the transaction callback
+            			    res.status(200).json({
+            			    	status:'succeeded',
+            			    	message: 'committee successfully added'
+            			    });
+            			    next();
+            	 }).catch(function (err) {
+            				  // Transaction has been rolled back
+            			    // err is whatever rejected the promise chain returned to the transaction callback
+            			    if (err.message === 'Validation error') {
+            			    	/* The committee violated database constraints */
+            			    	var errors = [];
+            			    	for (var i = 0; i < err.errors.length; i++) {
+            			    		var curError = err.errors[i];
 
-      			    		errors.push({
-      			    			param: curError.path,
-      			    			value: curError.value,
-      			    			type: curError.type
-      			    		});
-      			    	}
+            			    		errors.push({
+            			    			param: curError.path,
+            			    			value: curError.value,
+            			    			type: curError.type
+            			    		});
+            			    	}
+                        
+            			    	res.status(400).json({
+            			    		status:'failed',
+            			    		error: errors
+            			    	});
 
-      			    	res.status(400).json({
-      			    		status:'failed',
-      			    		error: errors
-      			    	});
+            			    	req.err = 'CommitteeController.js, Line: 187\nThe committee violated some database constraints.\n' + JSON.stringify(errors);
+            			    }
+            			    else {
+            			    	/* failed to save the committee in the database */
+            			    	res.status(500).json({
+            			    		status:'failed',
+            			    		message: 'Internal Server Error'
+            			    	});
 
-      			    	req.err = 'CommitteeController.js, Line: 187\nThe committee violated some database constraints.\n' + JSON.stringify(errors);
-      			    }
-      			    else {
-      			    	/* failed to save the committee in the database */
-      			    	res.status(500).json({
-      			    		status:'failed',
-      			    		message: 'Internal Server Error'
-      			    	});
-
-      			    	req.err = 'CommitteeController.js, Line: 196\nCouldn\'t save the committee in the database.\n' + String(err);
-      			    }
-      			    next();
-      			});
+            			    	req.err = 'CommitteeController.js, Line: 196\nCouldn\'t save the committee in the database.\n' + String(err);
+            			    }
+            			    next();
+            			});
 
      }).catch(function(err){
        	res.status(400).json({
@@ -366,8 +354,7 @@ module.exports.store = function(req, res, next){
       return;
    }
 
-     var users = req.body.members ;
-     users.push(req.body.head_id);
+   
 
    Committee.findById(req.params.id).then(function(committee){
        if(!committee){
@@ -380,30 +367,35 @@ module.exports.store = function(req, res, next){
          next();
          return ;
       }
+        
+        var users = req.body.members ; 
+        var head  = req.body.head_id ;
+        if(!req.body.head_id){
+           committee.head(function(user,err){
+                 if(err){
+                  console.log("a7a");
+                 }else{
+                  head = user.id ;
+                  users.push(user.id);
+                  updateCom();
+                 }
+            });
+        }else{
+          updateCom();
+        }
 
-
-      User.findAll({where : {id :{in :users}}}).then(function(members){
+       
+ function updateCom(){
+      User.findAll({where : {id :{in:users}}}).then(function(members){
       for (var i = members.length - 1; i >= 0; i--) {
-        if(members[i].type == 'Upper Board'){
+        if(members[i].type == 'Admin' || members[i].type == 'Upper Board' || ( members[i].type == 'High Board' && members[i].id != head)){
                res.status(400).json({
                status: 'failed',
-               error: 'Can not add an Upper Board User to a Committee'  
+               errors: {param:'members',type:'validity',value:members.id}  
                });
                req.err = 'CommitteeController.js, Line: 143\nSome validation errors occured.\n' + JSON.stringify(errors);
                next();
                return; 
-        }else{
-               if(members[i].type == 'High Board'){
-                  if(members[i].id != req.body.head_id){
-                   res.status(400).json({
-                     status: 'failed',
-                     error: 'Can not add an High Board User as a normal member in the Committe'  
-                   });
-                   req.err = 'CommitteeController.js, Line: 143\nSome validation errors occured.\n' + JSON.stringify(errors);
-                   next();
-                   return;
-                  }
-               }
         }
       }
       sequelize.transaction(function (t) {
@@ -463,6 +455,8 @@ module.exports.store = function(req, res, next){
         req.err = 'CommitteeController.js, Line: 143\ncan not find members in the database.\n' + JSON.stringify(errors);
         next();
      });
+    };
+
    }).catch(function(err){
     
          res.status(400).json({
@@ -512,7 +506,7 @@ module.exports.delete = function(req, res, next) {
    Committee.destroy({where : {id :id }}).then(function(destroyedRowsNum){
 
       if(destroyedRowsNum == 0){
-       res.status(400).json({
+       res.status(404).json({
          status: 'failed',
          errors: 'Committee not Found'
       });
