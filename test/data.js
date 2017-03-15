@@ -266,7 +266,7 @@ module.exports = function() {
       var comment = {
          content: "Content " + (i + 1),
          user_id: (i + 1),
-         task_id: (i % 2) +  1
+         task_id: (i % 4) +  1
       };
 
       data.comments.push(comment);

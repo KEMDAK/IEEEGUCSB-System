@@ -23,7 +23,7 @@ module.exports.defineTask = function(sequelize) {
           },
           description: {
             type: Sequelize.TEXT,
-            allowNull: false
+            allowNull: true
           },
           deadline: {
                type: Sequelize.DATE,

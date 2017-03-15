@@ -192,12 +192,13 @@ module.exports = function(args) {
                   res.body.status.should.equal("succeeded");
                   res.body.task.should.have.all.keys(['id', 'title', 'description', 'deadline', 'priority', 'status', 'evaluation', 'comments', 'assigned_to', 'created_at', 'updated_at', 'supervisor']);
                   res.body.task.id.should.equal(task_id);
-                  res.body.task.title.should.equal("Title " + task_id);
+                  res.body.task.title.should.equal("Task " + task_id);
                   res.body.task.description.should.equal("Description " + task_id);
                   res.body.task.priority.should.equal(5);
                   res.body.task.status.should.equal("New");
                   res.body.task.evaluation.should.equal(3);
-                  res.body.task.comments.should.be.an('array').and.should.have.lengthOf(2);
+                  res.body.task.comments.should.be.an('array');
+                  res.body.task.comments.should.have.lengthOf(2);
                   res.body.task.comments.sort(function(a, b){ return a.id - b.id; });
                   for (var i = 0; i < res.body.task.comments.length; i++) {
                      res.body.task.comments[i].should.have.all.keys(['id', 'content', 'user', 'created_at', 'updated_at']);
@@ -254,12 +255,13 @@ module.exports = function(args) {
                   res.body.status.should.equal("succeeded");
                   res.body.task.should.have.all.keys(['id', 'title', 'description', 'deadline', 'priority', 'status', 'evaluation', 'comments', 'assigned_to', 'created_at', 'updated_at', 'supervisor']);
                   res.body.task.id.should.equal(task_id);
-                  res.body.task.title.should.equal("Title " + task_id);
+                  res.body.task.title.should.equal("Task " + task_id);
                   res.body.task.description.should.equal("Description " + task_id);
                   res.body.task.priority.should.equal(5);
                   res.body.task.status.should.equal("New");
                   res.body.task.evaluation.should.equal(3);
-                  res.body.task.comments.should.be.an('array').and.should.have.lengthOf(2);
+                  res.body.task.comments.should.be.an('array');
+                  res.body.task.comments.should.have.lengthOf(2);
                   res.body.task.comments.sort(function(a, b){ return a.id - b.id; });
                   for (var i = 0; i < res.body.task.comments.length; i++) {
                      res.body.task.comments[i].should.have.all.keys(['id', 'content', 'user', 'created_at', 'updated_at']);
@@ -316,12 +318,13 @@ module.exports = function(args) {
                   res.body.status.should.equal("succeeded");
                   res.body.task.should.have.all.keys(['id', 'title', 'description', 'deadline', 'priority', 'status', 'evaluation', 'comments', 'assigned_to', 'created_at', 'updated_at', 'supervisor']);
                   res.body.task.id.should.equal(task_id);
-                  res.body.task.title.should.equal("Title " + task_id);
+                  res.body.task.title.should.equal("Task " + task_id);
                   res.body.task.description.should.equal("Description " + task_id);
                   res.body.task.priority.should.equal(5);
                   res.body.task.status.should.equal("New");
                   res.body.task.evaluation.should.equal(3);
-                  res.body.task.comments.should.be.an('array').and.should.have.lengthOf(2);
+                  res.body.task.comments.should.be.an('array');
+                  res.body.task.comments.should.have.lengthOf(2);
                   res.body.task.comments.sort(function(a, b){ return a.id - b.id; });
                   for (var i = 0; i < res.body.task.comments.length; i++) {
                      res.body.task.comments[i].should.have.all.keys(['id', 'content', 'user', 'created_at', 'updated_at']);
@@ -378,12 +381,13 @@ module.exports = function(args) {
                   res.body.status.should.equal("succeeded");
                   res.body.task.should.have.all.keys(['id', 'title', 'description', 'deadline', 'priority', 'status', 'evaluation', 'comments', 'assigned_to', 'created_at', 'updated_at', 'supervisor']);
                   res.body.task.id.should.equal(task_id);
-                  res.body.task.title.should.equal("Title " + task_id);
+                  res.body.task.title.should.equal("Task " + task_id);
                   res.body.task.description.should.equal("Description " + task_id);
                   res.body.task.priority.should.equal(5);
                   res.body.task.status.should.equal("New");
                   res.body.task.evaluation.should.equal(3);
-                  res.body.task.comments.should.be.an('array').and.should.have.lengthOf(2);
+                  res.body.task.comments.should.be.an('array');
+                  res.body.task.comments.should.have.lengthOf(2);
                   res.body.task.comments.sort(function(a, b){ return a.id - b.id; });
                   for (var i = 0; i < res.body.task.comments.length; i++) {
                      res.body.task.comments[i].should.have.all.keys(['id', 'content', 'user', 'created_at', 'updated_at']);
@@ -440,12 +444,13 @@ module.exports = function(args) {
                   res.body.status.should.equal("succeeded");
                   res.body.task.should.have.all.keys(['id', 'title', 'description', 'deadline', 'priority', 'status', 'evaluation', 'comments', 'assigned_to', 'created_at', 'updated_at', 'supervisor']);
                   res.body.task.id.should.equal(task_id);
-                  res.body.task.title.should.equal("Title " + task_id);
+                  res.body.task.title.should.equal("Task " + task_id);
                   res.body.task.description.should.equal("Description " + task_id);
                   res.body.task.priority.should.equal(5);
                   res.body.task.status.should.equal("New");
                   res.body.task.evaluation.should.equal(3);
-                  res.body.task.comments.should.be.an('array').and.should.have.lengthOf(2);
+                  res.body.task.comments.should.be.an('array');
+                  res.body.task.comments.should.have.lengthOf(2);
                   res.body.task.comments.sort(function(a, b){ return a.id - b.id; });
                   for (var i = 0; i < res.body.task.comments.length; i++) {
                      res.body.task.comments[i].should.have.all.keys(['id', 'content', 'user', 'created_at', 'updated_at']);
@@ -502,12 +507,13 @@ module.exports = function(args) {
                   res.body.status.should.equal("succeeded");
                   res.body.task.should.have.all.keys(['id', 'title', 'description', 'deadline', 'priority', 'status', 'evaluation', 'comments', 'assigned_to', 'created_at', 'updated_at', 'supervisor']);
                   res.body.task.id.should.equal(task_id);
-                  res.body.task.title.should.equal("Title " + task_id);
+                  res.body.task.title.should.equal("Task " + task_id);
                   res.body.task.description.should.equal("Description " + task_id);
                   res.body.task.priority.should.equal(5);
                   res.body.task.status.should.equal("New");
                   res.body.task.evaluation.should.equal(3);
-                  res.body.task.comments.should.be.an('array').and.should.have.lengthOf(2);
+                  res.body.task.comments.should.be.an('array');
+                  res.body.task.comments.should.have.lengthOf(2);
                   res.body.task.comments.sort(function(a, b){ return a.id - b.id; });
                   for (var i = 0; i < res.body.task.comments.length; i++) {
                      res.body.task.comments[i].should.have.all.keys(['id', 'content', 'user', 'created_at', 'updated_at']);
@@ -564,12 +570,13 @@ module.exports = function(args) {
                   res.body.status.should.equal("succeeded");
                   res.body.task.should.have.all.keys(['id', 'title', 'description', 'deadline', 'priority', 'status', 'evaluation', 'comments', 'assigned_to', 'created_at', 'updated_at', 'supervisor']);
                   res.body.task.id.should.equal(task_id);
-                  res.body.task.title.should.equal("Title " + task_id);
+                  res.body.task.title.should.equal("Task " + task_id);
                   res.body.task.description.should.equal("Description " + task_id);
                   res.body.task.priority.should.equal(5);
                   res.body.task.status.should.equal("New");
                   res.body.task.evaluation.should.equal(3);
-                  res.body.task.comments.should.be.an('array').and.should.have.lengthOf(2);
+                  res.body.task.comments.should.be.an('array');
+                  res.body.task.comments.should.have.lengthOf(2);
                   res.body.task.comments.sort(function(a, b){ return a.id - b.id; });
                   for (var i = 0; i < res.body.task.comments.length; i++) {
                      res.body.task.comments[i].should.have.all.keys(['id', 'content', 'user', 'created_at', 'updated_at']);
