@@ -13,7 +13,7 @@ module.exports = function(app) {
 
     /* allowing cross origin requests */
     app.use(function(req, res, next) {
-        res.header('Access-Control-Allow-Origin', "http://localhost:" + process.env.PORT);
+        res.header('Access-Control-Allow-Origin', "http://localhost:8000");
         res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
         res.header('Access-Control-Allow-Headers', 'Content-Type, User_Agent, Authorization');
 
