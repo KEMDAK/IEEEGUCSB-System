@@ -3,7 +3,7 @@ module.exports = function(args) {
 
    describe('DELETE /api/meeting/:id', function() {
       this.timeout(500);
-      
+
       before(function(done) {
          this.timeout(40000);
 
@@ -217,7 +217,7 @@ module.exports = function(args) {
       {
          it('Should not delete the meeting due to invalid meeting ID in the URL.', function(done) {
             chai.request(app)
-            .delete('/api/meeting/a')
+            .delete('/api/meeting/*')
             .set('User_Agent', 'Web')
             .set('Authorization', data.identities[0].token)
             .end(function(err, res) {

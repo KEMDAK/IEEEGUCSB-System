@@ -259,7 +259,7 @@ module.exports = function(args) {
       {
          it('Should not delete a user due to invalid user ID in the URL.', function(done) {
             chai.request(app)
-            .delete('/api/user/a')
+            .delete('/api/user/*')
             .set('User_Agent', 'Web')
             .set('Authorization', data.identities[0].token)
             .end(function(err, res) {
