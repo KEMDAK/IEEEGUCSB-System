@@ -110,7 +110,6 @@ module.exports = function(args) {
                try {
                   res.should.have.status(403);
                   res.body.should.have.property('status').and.equal('failed');
-                  res.body.should.have.property('errors');  // TODO: Test the errors themselves
                   should.exist(err);
                   (fse.existsSync('./public/images/' + user_id)).should.be.false;
                   models.User.findById(user_id).then(function(record) {
