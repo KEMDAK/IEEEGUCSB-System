@@ -39,6 +39,7 @@ describe('User Controller', function() {
    require('./UserController/index')(args);
    require('./UserController/store')(args);
    require('./UserController/show')(args);
+   require('./UserController/updateAuth')(args);
    require('./UserController/delete')(args);
 });
 
