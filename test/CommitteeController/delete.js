@@ -160,7 +160,7 @@ module.exports = function(args) {
         {
             it('Should not delete the committee due to invalid meeting ID in the URL.', function(done) {
                 chai.request(app)
-                .delete('/api/committee/a')
+                .delete('/api/committee/*')
                 .set('User_Agent', 'Web')
                 .set('Authorization', data.identities[0].token)
                 .end(function(err, res) {

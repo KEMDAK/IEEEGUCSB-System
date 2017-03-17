@@ -6,7 +6,7 @@ module.exports = function(args) {
 
       before(function(done) {
          this.timeout(40000);
-         
+
          app = args.app;
          fn = args.fn;
          data = args.data;
@@ -231,7 +231,7 @@ module.exports = function(args) {
       {
          it('Should not delete the task due to invalid task ID in the URL.', function(done) {
             chai.request(app)
-            .delete('/api/task/a')
+            .delete('/api/task/*')
             .set('User_Agent', 'Web')
             .set('Authorization', data.identities[0].token)
             .end(function(err, res) {
