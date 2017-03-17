@@ -6,7 +6,7 @@ module.exports = function(args) {
 
       before(function(done) {
         this.timeout(40000);
-        
+
         app = args.app;
         fn = args.fn;
         data = args.data;
@@ -209,7 +209,7 @@ module.exports = function(args) {
         * Acceptance Tests *
         ********************/
         {
-            it('Should delete the committee. (Admin Authentication)', function(done) {
+            it('Should delete the committee (Admin Authentication).', function(done) {
                 var committee_id = 1;
                 chai.request(app)
                 .delete('/api/committee/' + committee_id)
@@ -240,7 +240,7 @@ module.exports = function(args) {
                 });
             });
 
-            it('Should delete the committee. (Upper Board Authentication)', function(done) {
+            it('Should delete the committee (Upper Board Authentication).', function(done) {
                 var committee_id = 2;
                 chai.request(app)
                 .delete('/api/committee/' + committee_id)

@@ -77,14 +77,14 @@ module.exports = function(args) {
                   res.body.should.have.property('status').and.equal('failed');
                   should.exist(err);
                   models.Task.findById(task_id).then(function(record) {
-                     if(record.updated_at !== record.created_at){
+                     if(record.updated_at.getTime() !== record.created_at.getTime()){
                         throw new Error("The Task has been updated in the database.");
                      }
                      
                      record.getAssignedUsers().then(function(users) {
                         users.sort(function(a, b) { return a.id - b.id; });
                         for (var i = 0; i < data.tasks_users[task_id - 1].length; i++) {
-                           if(data.tasks_users[task_id - 1] !== users[i].id){
+                           if(data.tasks_users[task_id - 1][i] !== users[i].id){
                               throw new Error("The Task assigned users has been updated in the database.");
                            }
                         }
@@ -115,14 +115,14 @@ module.exports = function(args) {
                   res.body.should.have.property('status').and.equal('failed');
                   should.exist(err);
                   models.Task.findById(task_id).then(function(record) {
-                     if(record.updated_at !== record.created_at){
+                     if(record.updated_at.getTime() !== record.created_at.getTime()){
                         throw new Error("The Task has been updated in the database.");
                      }
                      
                      record.getAssignedUsers().then(function(users) {
                         users.sort(function(a, b) { return a.id - b.id; });
                         for (var i = 0; i < data.tasks_users[task_id - 1].length; i++) {
-                           if(data.tasks_users[task_id - 1] !== users[i].id){
+                           if(data.tasks_users[task_id - 1][i] !== users[i].id){
                               throw new Error("The Task assigned users has been updated in the database.");
                            }
                         }
@@ -152,14 +152,14 @@ module.exports = function(args) {
                   res.body.should.have.property('status').and.equal('failed');
                   should.exist(err);
                   models.Task.findById(task_id).then(function(record) {
-                     if(record.updated_at !== record.created_at){
+                     if(record.updated_at.getTime() !== record.created_at.getTime()){
                         throw new Error("The Task has been updated in the database.");
                      }
                      
                      record.getAssignedUsers().then(function(users) {
                         users.sort(function(a, b) { return a.id - b.id; });
                         for (var i = 0; i < data.tasks_users[task_id - 1].length; i++) {
-                           if(data.tasks_users[task_id - 1] !== users[i].id){
+                           if(data.tasks_users[task_id - 1][i] !== users[i].id){
                               throw new Error("The Task assigned users has been updated in the database.");
                            }
                         }
@@ -190,14 +190,14 @@ module.exports = function(args) {
                   res.body.should.have.property('status').and.equal('failed');
                   should.exist(err);
                   models.Task.findById(task_id).then(function(record) {
-                     if(record.updated_at !== record.created_at){
+                     if(record.updated_at.getTime() !== record.created_at.getTime()){
                         throw new Error("The Task has been updated in the database.");
                      }
                      
                      record.getAssignedUsers().then(function(users) {
                         users.sort(function(a, b) { return a.id - b.id; });
                         for (var i = 0; i < data.tasks_users[task_id - 1].length; i++) {
-                           if(data.tasks_users[task_id - 1] !== users[i].id){
+                           if(data.tasks_users[task_id - 1][i] !== users[i].id){
                               throw new Error("The Task assigned users has been updated in the database.");
                            }
                         }
@@ -231,14 +231,14 @@ module.exports = function(args) {
                   res.body.should.have.property('status').and.equal('failed');
                   should.exist(err);
                   models.Task.findById(task_id).then(function(record) {
-                     if(record.updated_at !== record.created_at){
+                     if(record.updated_at.getTime() !== record.created_at.getTime()){
                         throw new Error("The Task has been updated in the database.");
                      }
                      
                      record.getAssignedUsers().then(function(users) {
                         users.sort(function(a, b) { return a.id - b.id; });
                         for (var i = 0; i < data.tasks_users[task_id - 1].length; i++) {
-                           if(data.tasks_users[task_id - 1] !== users[i].id){
+                           if(data.tasks_users[task_id - 1][i] !== users[i].id){
                               throw new Error("The Task assigned users has been updated in the database.");
                            }
                         }
@@ -272,14 +272,14 @@ module.exports = function(args) {
                   res.body.should.have.property('status').and.equal('failed');
                   should.exist(err);
                   models.Task.findById(task_id).then(function(record) {
-                     if(record.updated_at !== record.created_at){
+                     if(record.updated_at.getTime() !== record.created_at.getTime()){
                         throw new Error("The Task has been updated in the database.");
                      }
                      
                      record.getAssignedUsers().then(function(users) {
                         users.sort(function(a, b) { return a.id - b.id; });
                         for (var i = 0; i < data.tasks_users[task_id - 1].length; i++) {
-                           if(data.tasks_users[task_id - 1] !== users[i].id){
+                           if(data.tasks_users[task_id - 1][i] !== users[i].id){
                               throw new Error("The Task assigned users has been updated in the database.");
                            }
                         }
@@ -313,14 +313,14 @@ module.exports = function(args) {
                   res.body.should.have.property('status').and.equal('failed');
                   should.exist(err);
                   models.Task.findById(task_id).then(function(record) {
-                     if(record.updated_at !== record.created_at){
+                     if(record.updated_at.getTime() !== record.created_at.getTime()){
                         throw new Error("The Task has been updated in the database.");
                      }
                      
                      record.getAssignedUsers().then(function(users) {
                         users.sort(function(a, b) { return a.id - b.id; });
                         for (var i = 0; i < data.tasks_users[task_id - 1].length; i++) {
-                           if(data.tasks_users[task_id - 1] !== users[i].id){
+                           if(data.tasks_users[task_id - 1][i] !== users[i].id){
                               throw new Error("The Task assigned users has been updated in the database.");
                            }
                         }
@@ -361,14 +361,14 @@ module.exports = function(args) {
                   res.body.should.have.property('errors');  // TODO: Test the errors themselves
                   should.exist(err);
                   models.Task.findById(task_id).then(function(record) {
-                     if(record.updated_at !== record.created_at){
+                     if(record.updated_at.getTime() !== record.created_at.getTime()){
                         throw new Error("The Task has been updated in the database.");
                      }
                      
                      record.getAssignedUsers().then(function(users) {
                         users.sort(function(a, b) { return a.id - b.id; });
                         for (var i = 0; i < data.tasks_users[task_id - 1].length; i++) {
-                           if(data.tasks_users[task_id - 1] !== users[i].id){
+                           if(data.tasks_users[task_id - 1][i] !== users[i].id){
                               throw new Error("The Task assigned users has been updated in the database.");
                            }
                         }
@@ -404,14 +404,14 @@ module.exports = function(args) {
                   res.body.should.have.property('errors');  // TODO: Test the errors themselves
                   should.exist(err);
                   models.Task.findById(task_id).then(function(record) {
-                     if(record.updated_at !== record.created_at){
+                     if(record.updated_at.getTime() !== record.created_at.getTime()){
                         throw new Error("The Task has been updated in the database.");
                      }
                      
                      record.getAssignedUsers().then(function(users) {
                         users.sort(function(a, b) { return a.id - b.id; });
                         for (var i = 0; i < data.tasks_users[task_id - 1].length; i++) {
-                           if(data.tasks_users[task_id - 1] !== users[i].id){
+                           if(data.tasks_users[task_id - 1][i] !== users[i].id){
                               throw new Error("The Task assigned users has been updated in the database.");
                            }
                         }
@@ -447,14 +447,14 @@ module.exports = function(args) {
                   res.body.should.have.property('errors');  // TODO: Test the errors themselves
                   should.exist(err);
                   models.Task.findById(task_id).then(function(record) {
-                     if(record.updated_at !== record.created_at){
+                     if(record.updated_at.getTime() !== record.created_at.getTime()){
                         throw new Error("The Task has been updated in the database.");
                      }
                      
                      record.getAssignedUsers().then(function(users) {
                         users.sort(function(a, b) { return a.id - b.id; });
                         for (var i = 0; i < data.tasks_users[task_id - 1].length; i++) {
-                           if(data.tasks_users[task_id - 1] !== users[i].id){
+                           if(data.tasks_users[task_id - 1][i] !== users[i].id){
                               throw new Error("The Task assigned users has been updated in the database.");
                            }
                         }
@@ -490,14 +490,14 @@ module.exports = function(args) {
                   res.body.should.have.property('errors');  // TODO: Test the errors themselves
                   should.exist(err);
                   models.Task.findById(task_id).then(function(record) {
-                     if(record.updated_at !== record.created_at){
+                     if(record.updated_at.getTime() !== record.created_at.getTime()){
                         throw new Error("The Task has been updated in the database.");
                      }
                      
                      record.getAssignedUsers().then(function(users) {
                         users.sort(function(a, b) { return a.id - b.id; });
                         for (var i = 0; i < data.tasks_users[task_id - 1].length; i++) {
-                           if(data.tasks_users[task_id - 1] !== users[i].id){
+                           if(data.tasks_users[task_id - 1][i] !== users[i].id){
                               throw new Error("The Task assigned users has been updated in the database.");
                            }
                         }
@@ -537,14 +537,14 @@ module.exports = function(args) {
                   res.body.should.have.property('errors');  // TODO: Test the errors themselves
                   should.exist(err);
                   models.Task.findById(task_id).then(function(record) {
-                     if(record.updated_at !== record.created_at){
+                     if(record.updated_at.getTime() !== record.created_at.getTime()){
                         throw new Error("The Task has been updated in the database.");
                      }
                      
                      record.getAssignedUsers().then(function(users) {
                         users.sort(function(a, b) { return a.id - b.id; });
                         for (var i = 0; i < data.tasks_users[task_id - 1].length; i++) {
-                           if(data.tasks_users[task_id - 1] !== users[i].id){
+                           if(data.tasks_users[task_id - 1][i] !== users[i].id){
                               throw new Error("The Task assigned users has been updated in the database.");
                            }
                         }
@@ -584,14 +584,14 @@ module.exports = function(args) {
                   res.body.should.have.property('errors');  // TODO: Test the errors themselves
                   should.exist(err);
                   models.Task.findById(task_id).then(function(record) {
-                     if(record.updated_at !== record.created_at){
+                     if(record.updated_at.getTime() !== record.created_at.getTime()){
                         throw new Error("The Task has been updated in the database.");
                      }
                      
                      record.getAssignedUsers().then(function(users) {
                         users.sort(function(a, b) { return a.id - b.id; });
                         for (var i = 0; i < data.tasks_users[task_id - 1].length; i++) {
-                           if(data.tasks_users[task_id - 1] !== users[i].id){
+                           if(data.tasks_users[task_id - 1][i] !== users[i].id){
                               throw new Error("The Task assigned users has been updated in the database.");
                            }
                         }
@@ -631,14 +631,14 @@ module.exports = function(args) {
                   res.body.should.have.property('errors');  // TODO: Test the errors themselves
                   should.exist(err);
                   models.Task.findById(task_id).then(function(record) {
-                     if(record.updated_at !== record.created_at){
+                     if(record.updated_at.getTime() !== record.created_at.getTime()){
                         throw new Error("The Task has been updated in the database.");
                      }
                      
                      record.getAssignedUsers().then(function(users) {
                         users.sort(function(a, b) { return a.id - b.id; });
                         for (var i = 0; i < data.tasks_users[task_id - 1].length; i++) {
-                           if(data.tasks_users[task_id - 1] !== users[i].id){
+                           if(data.tasks_users[task_id - 1][i] !== users[i].id){
                               throw new Error("The Task assigned users has been updated in the database.");
                            }
                         }
@@ -678,14 +678,14 @@ module.exports = function(args) {
                   res.body.should.have.property('errors');  // TODO: Test the errors themselves
                   should.exist(err);
                   models.Task.findById(task_id).then(function(record) {
-                     if(record.updated_at !== record.created_at){
+                     if(record.updated_at.getTime() !== record.created_at.getTime()){
                         throw new Error("The Task has been updated in the database.");
                      }
                      
                      record.getAssignedUsers().then(function(users) {
                         users.sort(function(a, b) { return a.id - b.id; });
                         for (var i = 0; i < data.tasks_users[task_id - 1].length; i++) {
-                           if(data.tasks_users[task_id - 1] !== users[i].id){
+                           if(data.tasks_users[task_id - 1][i] !== users[i].id){
                               throw new Error("The Task assigned users has been updated in the database.");
                            }
                         }
@@ -726,14 +726,14 @@ module.exports = function(args) {
                   res.body.should.have.property('errors');  // TODO: Test the errors themselves
                   should.exist(err);
                   models.Task.findById(task_id).then(function(record) {
-                     if(record.updated_at !== record.created_at){
+                     if(record.updated_at.getTime() !== record.created_at.getTime()){
                         throw new Error("The Task has been updated in the database.");
                      }
                      
                      record.getAssignedUsers().then(function(users) {
                         users.sort(function(a, b) { return a.id - b.id; });
                         for (var i = 0; i < data.tasks_users[task_id - 1].length; i++) {
-                           if(data.tasks_users[task_id - 1] !== users[i].id){
+                           if(data.tasks_users[task_id - 1][i] !== users[i].id){
                               throw new Error("The Task assigned users has been updated in the database.");
                            }
                         }
@@ -1115,7 +1115,7 @@ module.exports = function(args) {
                } catch(error) {
                   done(error);
                }
-           });
+            });
          });
       }
    });

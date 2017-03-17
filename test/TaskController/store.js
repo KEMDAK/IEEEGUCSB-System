@@ -625,6 +625,7 @@ module.exports = function(args) {
                         if (!records) {
                            throw new Error("There were no assigned users for the task.");
                         }
+                        console.log(records);
 
                         var assignedUsers = [];
                         var i;
@@ -899,7 +900,7 @@ module.exports = function(args) {
                      }
 
                      theTask.getAssignedUsers().then(function(records) {
-                        if (!records) {
+                        if (records.length === 0) {
                            done();
                         }
                         else{

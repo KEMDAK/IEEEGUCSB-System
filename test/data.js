@@ -206,7 +206,7 @@ module.exports = function() {
    * Creating Profile Pictures *
    ****************************/
    data.profile_pictures = [];
-   for (var i = 0; i < 15; i++) {
+   for (i = 0; i < 15; i++) {
       var profile_picture = {
          type: "Image",
          url: "url " + (i + 1),
@@ -221,7 +221,7 @@ module.exports = function() {
    ******************/
    data.honors = [];
    data.honors_users = [];
-   for (var i = 0; i < 3; i++) {
+   for (i = 0; i < 3; i++) {
       var honor = {
          title: "Honor " + (i + 1),
          description: "Description " + (i + 1)
@@ -266,7 +266,7 @@ module.exports = function() {
       var comment = {
          content: "Content " + (i + 1),
          user_id: (i + 1),
-         task_id: (i % 2) +  1
+         task_id: (i % 4) +  1
       };
 
       data.comments.push(comment);

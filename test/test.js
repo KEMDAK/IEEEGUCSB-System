@@ -2,7 +2,7 @@ var args = {};
 
 before(function(done) {
    this.timeout(40000);
-   
+
    process.env.ENV = 'test';
    require('../server')(function(MyApp, sq, err) {
       if (err) {
@@ -58,6 +58,7 @@ describe('Meeting Controller', function() {
 // });
 
 describe('Committee Controller', function() {
+   require('./CommitteeController/index')(args);
    require('./CommitteeController/store')(args);
    require('./CommitteeController/show')(args);
    require('./CommitteeController/update')(args);
