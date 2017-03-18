@@ -343,6 +343,7 @@ module.exports.store = function(req, res, next) {
          });
       }
       else {
+         errors = req.validationErrors();
          rest();
       }
    }
@@ -547,6 +548,7 @@ module.exports.update = function(req, res, next) {
          });
       }
       else {
+         errors = req.validationErrors();
          rest();
       }
    }
