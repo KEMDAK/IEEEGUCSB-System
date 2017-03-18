@@ -3,10 +3,10 @@ module.exports = function(args) {
 
    describe('PUT /api/task/:id', function() {
       this.timeout(500);
-      
+
       before(function(done) {
          this.timeout(40000);
-         
+
          app = args.app;
          fn = args.fn;
          data = JSON.parse(JSON.stringify(args.data));
@@ -80,7 +80,7 @@ module.exports = function(args) {
                      if(record.updated_at.getTime() !== record.created_at.getTime()){
                         throw new Error("The Task has been updated in the database.");
                      }
-                     
+
                      record.getAssignedUsers().then(function(users) {
                         users.sort(function(a, b) { return a.id - b.id; });
                         for (var i = 0; i < data.tasks_users[task_id - 1].length; i++) {
@@ -92,7 +92,7 @@ module.exports = function(args) {
                         done();
                      }).catch(function(err) {
                         done(err);
-                     });                   
+                     });
                   }).catch(function(err) {
                      done(err);
                   });
@@ -118,7 +118,7 @@ module.exports = function(args) {
                      if(record.updated_at.getTime() !== record.created_at.getTime()){
                         throw new Error("The Task has been updated in the database.");
                      }
-                     
+
                      record.getAssignedUsers().then(function(users) {
                         users.sort(function(a, b) { return a.id - b.id; });
                         for (var i = 0; i < data.tasks_users[task_id - 1].length; i++) {
@@ -130,7 +130,7 @@ module.exports = function(args) {
                         done();
                      }).catch(function(err) {
                         done(err);
-                     });                   
+                     });
                   }).catch(function(err) {
                      done(err);
                   });
@@ -155,7 +155,7 @@ module.exports = function(args) {
                      if(record.updated_at.getTime() !== record.created_at.getTime()){
                         throw new Error("The Task has been updated in the database.");
                      }
-                     
+
                      record.getAssignedUsers().then(function(users) {
                         users.sort(function(a, b) { return a.id - b.id; });
                         for (var i = 0; i < data.tasks_users[task_id - 1].length; i++) {
@@ -167,7 +167,7 @@ module.exports = function(args) {
                         done();
                      }).catch(function(err) {
                         done(err);
-                     });                   
+                     });
                   }).catch(function(err) {
                      done(err);
                   });
@@ -193,7 +193,7 @@ module.exports = function(args) {
                      if(record.updated_at.getTime() !== record.created_at.getTime()){
                         throw new Error("The Task has been updated in the database.");
                      }
-                     
+
                      record.getAssignedUsers().then(function(users) {
                         users.sort(function(a, b) { return a.id - b.id; });
                         for (var i = 0; i < data.tasks_users[task_id - 1].length; i++) {
@@ -205,7 +205,7 @@ module.exports = function(args) {
                         done();
                      }).catch(function(err) {
                         done(err);
-                     });                   
+                     });
                   }).catch(function(err) {
                      done(err);
                   });
@@ -234,7 +234,7 @@ module.exports = function(args) {
                      if(record.updated_at.getTime() !== record.created_at.getTime()){
                         throw new Error("The Task has been updated in the database.");
                      }
-                     
+
                      record.getAssignedUsers().then(function(users) {
                         users.sort(function(a, b) { return a.id - b.id; });
                         for (var i = 0; i < data.tasks_users[task_id - 1].length; i++) {
@@ -246,7 +246,7 @@ module.exports = function(args) {
                         done();
                      }).catch(function(err) {
                         done(err);
-                     });                   
+                     });
                   }).catch(function(err) {
                      done(err);
                   });
@@ -275,7 +275,7 @@ module.exports = function(args) {
                      if(record.updated_at.getTime() !== record.created_at.getTime()){
                         throw new Error("The Task has been updated in the database.");
                      }
-                     
+
                      record.getAssignedUsers().then(function(users) {
                         users.sort(function(a, b) { return a.id - b.id; });
                         for (var i = 0; i < data.tasks_users[task_id - 1].length; i++) {
@@ -287,7 +287,7 @@ module.exports = function(args) {
                         done();
                      }).catch(function(err) {
                         done(err);
-                     });                   
+                     });
                   }).catch(function(err) {
                      done(err);
                   });
@@ -316,7 +316,7 @@ module.exports = function(args) {
                      if(record.updated_at.getTime() !== record.created_at.getTime()){
                         throw new Error("The Task has been updated in the database.");
                      }
-                     
+
                      record.getAssignedUsers().then(function(users) {
                         users.sort(function(a, b) { return a.id - b.id; });
                         for (var i = 0; i < data.tasks_users[task_id - 1].length; i++) {
@@ -328,7 +328,7 @@ module.exports = function(args) {
                         done();
                      }).catch(function(err) {
                         done(err);
-                     });                   
+                     });
                   }).catch(function(err) {
                      done(err);
                   });
@@ -364,7 +364,7 @@ module.exports = function(args) {
                      if(record.updated_at.getTime() !== record.created_at.getTime()){
                         throw new Error("The Task has been updated in the database.");
                      }
-                     
+
                      record.getAssignedUsers().then(function(users) {
                         users.sort(function(a, b) { return a.id - b.id; });
                         for (var i = 0; i < data.tasks_users[task_id - 1].length; i++) {
@@ -376,7 +376,7 @@ module.exports = function(args) {
                         done();
                      }).catch(function(err) {
                         done(err);
-                     });                   
+                     });
                   }).catch(function(err) {
                      done(err);
                   });
@@ -407,7 +407,7 @@ module.exports = function(args) {
                      if(record.updated_at.getTime() !== record.created_at.getTime()){
                         throw new Error("The Task has been updated in the database.");
                      }
-                     
+
                      record.getAssignedUsers().then(function(users) {
                         users.sort(function(a, b) { return a.id - b.id; });
                         for (var i = 0; i < data.tasks_users[task_id - 1].length; i++) {
@@ -419,7 +419,7 @@ module.exports = function(args) {
                         done();
                      }).catch(function(err) {
                         done(err);
-                     });                   
+                     });
                   }).catch(function(err) {
                      done(err);
                   });
@@ -450,7 +450,7 @@ module.exports = function(args) {
                      if(record.updated_at.getTime() !== record.created_at.getTime()){
                         throw new Error("The Task has been updated in the database.");
                      }
-                     
+
                      record.getAssignedUsers().then(function(users) {
                         users.sort(function(a, b) { return a.id - b.id; });
                         for (var i = 0; i < data.tasks_users[task_id - 1].length; i++) {
@@ -462,7 +462,7 @@ module.exports = function(args) {
                         done();
                      }).catch(function(err) {
                         done(err);
-                     });                   
+                     });
                   }).catch(function(err) {
                      done(err);
                   });
@@ -493,7 +493,7 @@ module.exports = function(args) {
                      if(record.updated_at.getTime() !== record.created_at.getTime()){
                         throw new Error("The Task has been updated in the database.");
                      }
-                     
+
                      record.getAssignedUsers().then(function(users) {
                         users.sort(function(a, b) { return a.id - b.id; });
                         for (var i = 0; i < data.tasks_users[task_id - 1].length; i++) {
@@ -505,7 +505,7 @@ module.exports = function(args) {
                         done();
                      }).catch(function(err) {
                         done(err);
-                     });                   
+                     });
                   }).catch(function(err) {
                      done(err);
                   });
@@ -540,7 +540,7 @@ module.exports = function(args) {
                      if(record.updated_at.getTime() !== record.created_at.getTime()){
                         throw new Error("The Task has been updated in the database.");
                      }
-                     
+
                      record.getAssignedUsers().then(function(users) {
                         users.sort(function(a, b) { return a.id - b.id; });
                         for (var i = 0; i < data.tasks_users[task_id - 1].length; i++) {
@@ -552,7 +552,7 @@ module.exports = function(args) {
                         done();
                      }).catch(function(err) {
                         done(err);
-                     });                   
+                     });
                   }).catch(function(err) {
                      done(err);
                   });
@@ -587,7 +587,7 @@ module.exports = function(args) {
                      if(record.updated_at.getTime() !== record.created_at.getTime()){
                         throw new Error("The Task has been updated in the database.");
                      }
-                     
+
                      record.getAssignedUsers().then(function(users) {
                         users.sort(function(a, b) { return a.id - b.id; });
                         for (var i = 0; i < data.tasks_users[task_id - 1].length; i++) {
@@ -599,7 +599,7 @@ module.exports = function(args) {
                         done();
                      }).catch(function(err) {
                         done(err);
-                     });                   
+                     });
                   }).catch(function(err) {
                      done(err);
                   });
@@ -608,7 +608,7 @@ module.exports = function(args) {
                }
             });
          });
-         
+
          it('Should not allow the task to be updated due to invalid \'deadline\' parameter in the body.', function(done) {
             var task_id = 1;
             var task = {
@@ -634,7 +634,7 @@ module.exports = function(args) {
                      if(record.updated_at.getTime() !== record.created_at.getTime()){
                         throw new Error("The Task has been updated in the database.");
                      }
-                     
+
                      record.getAssignedUsers().then(function(users) {
                         users.sort(function(a, b) { return a.id - b.id; });
                         for (var i = 0; i < data.tasks_users[task_id - 1].length; i++) {
@@ -646,7 +646,7 @@ module.exports = function(args) {
                         done();
                      }).catch(function(err) {
                         done(err);
-                     });                   
+                     });
                   }).catch(function(err) {
                      done(err);
                   });
@@ -681,7 +681,7 @@ module.exports = function(args) {
                      if(record.updated_at.getTime() !== record.created_at.getTime()){
                         throw new Error("The Task has been updated in the database.");
                      }
-                     
+
                      record.getAssignedUsers().then(function(users) {
                         users.sort(function(a, b) { return a.id - b.id; });
                         for (var i = 0; i < data.tasks_users[task_id - 1].length; i++) {
@@ -693,7 +693,7 @@ module.exports = function(args) {
                         done();
                      }).catch(function(err) {
                         done(err);
-                     });                   
+                     });
                   }).catch(function(err) {
                      done(err);
                   });
@@ -729,7 +729,7 @@ module.exports = function(args) {
                      if(record.updated_at.getTime() !== record.created_at.getTime()){
                         throw new Error("The Task has been updated in the database.");
                      }
-                     
+
                      record.getAssignedUsers().then(function(users) {
                         users.sort(function(a, b) { return a.id - b.id; });
                         for (var i = 0; i < data.tasks_users[task_id - 1].length; i++) {
@@ -741,7 +741,7 @@ module.exports = function(args) {
                         done();
                      }).catch(function(err) {
                         done(err);
-                     });                   
+                     });
                   }).catch(function(err) {
                      done(err);
                   });
@@ -1055,7 +1055,7 @@ module.exports = function(args) {
             chai.request(app)
             .put('/api/task/' + task_id)
             .set('User_Agent', 'Web')
-            .set('Authorization', data.identities[0].token)
+            .set('Authorization', data.identities[3].token)
             .send(task)
             .end(function(err, res) {
                try {
