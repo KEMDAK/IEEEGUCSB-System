@@ -3,10 +3,10 @@ module.exports = function(args) {
 
    describe('POST /api/task', function() {
       this.timeout(500);
-      
+
       before(function(done) {
          this.timeout(40000);
-         
+
          app = args.app;
          fn = args.fn;
          data = args.data;
@@ -416,7 +416,7 @@ module.exports = function(args) {
                }
             });
          });
-         
+
          it('Should not allow the task to be added due to invalid \'deadline\' parameter in the body.', function(done) {
             var task = {
                title: "Task",
@@ -625,7 +625,6 @@ module.exports = function(args) {
                         if (!records) {
                            throw new Error("There were no assigned users for the task.");
                         }
-                        console.log(records);
 
                         var assignedUsers = [];
                         var i;
