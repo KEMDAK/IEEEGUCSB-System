@@ -176,7 +176,7 @@ module.exports.show = function(req, res, next) {
       req.err = 'MeetingController.js, Line: 176\nfailed to get the meeting from the database.\n' + String(err);
 
       next();
-   });  
+   });
 };
 
 /**
@@ -199,14 +199,14 @@ module.exports.store = function(req, res, next) {
    req.sanitizeBody('end_date').trim();
 
    /*Validate and sanitizing goals Input*/
-   if(req.body.goals){  
+   if(req.body.goals){
       req.checkBody('goals', 'validity').isArray();
 
       for (var i = 0; i < req.body.goals.length; i++) {
          req.checkBody('goals[' + i + ']', 'validity').isString();
       }
    }
-   
+
    /*Validate and sanitizing location Input*/
    if(req.body.location){
       req.checkBody('location', 'validity').isString();
@@ -241,9 +241,9 @@ module.exports.store = function(req, res, next) {
 
          return;
       }
-  
+
       var goals = [];
-      if(req.body.goals){  
+      if(req.body.goals){
          for (var i = 0; i < req.body.goals.length; i++) {
             goals.push({
                name: req.body.goals[i],
@@ -303,11 +303,12 @@ module.exports.store = function(req, res, next) {
          next();
       });
    };
-   
+
    var errors = req.validationErrors();
-   
+
    if(req.body.attendees){
       /*validating the user list*/
+      req.checkBody('attendees', 'validity').isArray();
       User.findAll({ where: { id: { in: req.body.attendees } } }).then(function(attendees) {
          req.checkBody('attendees', 'validity').isArray(attendees.length);
          errors = req.validationErrors();
@@ -361,7 +362,7 @@ module.exports.update = function(req, res, next) {
    req.checkParams('id', 'validity').isInt();
 
    /*Validate and sanitizing start date Input*/
-   if(req.body.start_date){  
+   if(req.body.start_date){
       req.checkBody('start_date', 'validity').isDate();
       req.sanitizeBody('start_date').escape();
       req.sanitizeBody('start_date').trim();
@@ -369,7 +370,7 @@ module.exports.update = function(req, res, next) {
    }
 
    /*Validate and sanitizing end date Input*/
-   if(req.body.end_date){  
+   if(req.body.end_date){
       req.checkBody('end_date', 'validity').isDate();
       req.sanitizeBody('end_date').escape();
       req.sanitizeBody('end_date').trim();
@@ -377,7 +378,7 @@ module.exports.update = function(req, res, next) {
    }
 
    /*Validate and sanitizing goals Input*/
-   if(req.body.goals){  
+   if(req.body.goals){
       req.checkBody('goals', 'validity').isArray();
 
       for (var i = 0; i < req.body.goals.length; i++) {
@@ -418,7 +419,7 @@ module.exports.update = function(req, res, next) {
          return;
       }
 
-      if(req.body.goals){  
+      if(req.body.goals){
          attributes.goals = [];
          for (var i = 0; i < req.body.goals.length; i++) {
             attributes.goals.push({
@@ -438,7 +439,7 @@ module.exports.update = function(req, res, next) {
             req.err = 'MeetingController.js, Line: 438\nThe requested meeting was not found in the database or the user has no authority to edit it.';
 
             next();
-         } 
+         }
          else if(meeting.supervisor != req.user.id) {
             /* The requesting user has no authority to update the meeting */
             res.status(403).json({
@@ -449,7 +450,7 @@ module.exports.update = function(req, res, next) {
             req.err = 'MeetingController.js, Line: 449\nThe requesting user has no authority to update the meeting.';
 
             next();
-         } 
+         }
          else {
             meeting.update(attributes).then(function(meeting) {
                if(req.body.attendees){
@@ -503,10 +504,11 @@ module.exports.update = function(req, res, next) {
          next();
       });
    };
-   
+
    var errors = req.validationErrors();
    if(req.body.attendees){
       /*validating the user list*/
+      req.checkBody('attendees', 'validity').isArray();
       User.findAll({ where: { id: { in: req.body.attendees } } }).then(function(attendees) {
          req.checkBody('attendees', 'validity').isArray(attendees.length);
          errors = req.validationErrors();
@@ -653,9 +655,9 @@ module.exports.rate = function(req, res, next) {
          });
 
          req.err = 'MeetingController.js, Line: 655\nThe requested meeting was not found in the database or the user has no authority to rate it.';
-         
+
          next();
-      } 
+      }
       else if(meeting.supervisor != req.user.id) {
          /* The requesting user has no authority to rate the meeting */
          res.status(403).json({
