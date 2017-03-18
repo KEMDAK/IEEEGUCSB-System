@@ -342,6 +342,9 @@ module.exports.store = function(req, res, next) {
             next();
          });
       }
+      else {
+         rest();
+      }
    }
    else{
       rest();
@@ -542,6 +545,9 @@ module.exports.update = function(req, res, next) {
 
             next();
          });
+      }
+      else {
+         rest();
       }
    }
    else{
