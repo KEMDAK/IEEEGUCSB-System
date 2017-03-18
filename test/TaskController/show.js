@@ -220,7 +220,7 @@ module.exports = function(args) {
                   res.body.task.assigned_to.sort(function(a, b){ return a.id - b.id; });
                   for (var i = 0; i < res.body.task.assigned_to.length; i++) {
                      res.body.task.assigned_to[i].should.have.all.keys(['id', 'first_name', 'last_name', 'profile_picture']);
-                     res.body.task.assigned_to[i].eql({
+                     res.body.task.assigned_to[i].should.eql({
                         id: data.tasks_users[task_id - 1].id,
                         first_name: "First Name " + data.tasks_users[task_id - 1].id,
                         last_name: "Last Name " + data.tasks_users[task_id - 1].id,
@@ -229,7 +229,7 @@ module.exports = function(args) {
                   }
 
                   res.body.task.supervisor.should.have.all.keys(['id', 'first_name', 'last_name', 'profile_picture']);
-                  res.body.task.supervisor.eql({
+                  res.body.task.supervisor.should.eql({
                      id: task_id,
                      first_name: "First Name " + task_id,
                      last_name: "Last Name " + task_id,
@@ -284,7 +284,7 @@ module.exports = function(args) {
                   res.body.task.assigned_to.sort(function(a, b){ return a.id - b.id; });
                   for (var i = 0; i < res.body.task.assigned_to.length; i++) {
                      res.body.task.assigned_to[i].should.have.all.keys(['id', 'first_name', 'last_name', 'profile_picture']);
-                     res.body.task.assigned_to[i].eql({
+                     res.body.task.assigned_to[i].should.eql({
                         id: data.tasks_users[task_id - 1].id,
                         first_name: "First Name " + data.tasks_users[task_id - 1].id,
                         last_name: "Last Name " + data.tasks_users[task_id - 1].id,
@@ -293,7 +293,7 @@ module.exports = function(args) {
                   }
 
                   res.body.task.supervisor.should.have.all.keys(['id', 'first_name', 'last_name', 'profile_picture']);
-                  res.body.task.supervisor.eql({
+                  res.body.task.supervisor.should.eql({
                      id: task_id,
                      first_name: "First Name " + task_id,
                      last_name: "Last Name " + task_id,
@@ -348,7 +348,7 @@ module.exports = function(args) {
                   res.body.task.assigned_to.sort(function(a, b){ return a.id - b.id; });
                   for (var i = 0; i < res.body.task.assigned_to.length; i++) {
                      res.body.task.assigned_to[i].should.have.all.keys(['id', 'first_name', 'last_name', 'profile_picture']);
-                     res.body.task.assigned_to[i].eql({
+                     res.body.task.assigned_to[i].should.eql({
                         id: data.tasks_users[task_id - 1].id,
                         first_name: "First Name " + data.tasks_users[task_id - 1].id,
                         last_name: "Last Name " + data.tasks_users[task_id - 1].id,
@@ -357,7 +357,7 @@ module.exports = function(args) {
                   }
 
                   res.body.task.supervisor.should.have.all.keys(['id', 'first_name', 'last_name', 'profile_picture']);
-                  res.body.task.supervisor.eql({
+                  res.body.task.supervisor.should.eql({
                      id: task_id,
                      first_name: "First Name " + task_id,
                      last_name: "Last Name " + task_id,
@@ -412,7 +412,7 @@ module.exports = function(args) {
                   res.body.task.assigned_to.sort(function(a, b){ return a.id - b.id; });
                   for (var i = 0; i < res.body.task.assigned_to.length; i++) {
                      res.body.task.assigned_to[i].should.have.all.keys(['id', 'first_name', 'last_name', 'profile_picture']);
-                     res.body.task.assigned_to[i].eql({
+                     res.body.task.assigned_to[i].should.eql({
                         id: data.tasks_users[task_id - 1].id,
                         first_name: "First Name " + data.tasks_users[task_id - 1].id,
                         last_name: "Last Name " + data.tasks_users[task_id - 1].id,
@@ -421,7 +421,7 @@ module.exports = function(args) {
                   }
 
                   res.body.task.supervisor.should.have.all.keys(['id', 'first_name', 'last_name', 'profile_picture']);
-                  res.body.task.supervisor.eql({
+                  res.body.task.supervisor.should.eql({
                      id: task_id,
                      first_name: "First Name " + task_id,
                      last_name: "Last Name " + task_id,
@@ -476,7 +476,7 @@ module.exports = function(args) {
                   res.body.task.assigned_to.sort(function(a, b){ return a.id - b.id; });
                   for (var i = 0; i < res.body.task.assigned_to.length; i++) {
                      res.body.task.assigned_to[i].should.have.all.keys(['id', 'first_name', 'last_name', 'profile_picture']);
-                     res.body.task.assigned_to[i].eql({
+                     res.body.task.assigned_to[i].should.eql({
                         id: data.tasks_users[task_id - 1].id,
                         first_name: "First Name " + data.tasks_users[task_id - 1].id,
                         last_name: "Last Name " + data.tasks_users[task_id - 1].id,
@@ -485,7 +485,7 @@ module.exports = function(args) {
                   }
 
                   res.body.task.supervisor.should.have.all.keys(['id', 'first_name', 'last_name', 'profile_picture']);
-                  res.body.task.supervisor.eql({
+                  res.body.task.supervisor.should.eql({
                      id: task_id,
                      first_name: "First Name " + task_id,
                      last_name: "Last Name " + task_id,
@@ -540,7 +540,7 @@ module.exports = function(args) {
                   res.body.task.assigned_to.sort(function(a, b){ return a.id - b.id; });
                   for (var i = 0; i < res.body.task.assigned_to.length; i++) {
                      res.body.task.assigned_to[i].should.have.all.keys(['id', 'first_name', 'last_name', 'profile_picture']);
-                     res.body.task.assigned_to[i].eql({
+                     res.body.task.assigned_to[i].should.eql({
                         id: data.tasks_users[task_id - 1].id,
                         first_name: "First Name " + data.tasks_users[task_id - 1].id,
                         last_name: "Last Name " + data.tasks_users[task_id - 1].id,
@@ -549,7 +549,7 @@ module.exports = function(args) {
                   }
 
                   res.body.task.supervisor.should.have.all.keys(['id', 'first_name', 'last_name', 'profile_picture']);
-                  res.body.task.supervisor.eql({
+                  res.body.task.supervisor.should.eql({
                      id: task_id,
                      first_name: "First Name " + task_id,
                      last_name: "Last Name " + task_id,
@@ -604,7 +604,7 @@ module.exports = function(args) {
                   res.body.task.assigned_to.sort(function(a, b){ return a.id - b.id; });
                   for (var i = 0; i < res.body.task.assigned_to.length; i++) {
                      res.body.task.assigned_to[i].should.have.all.keys(['id', 'first_name', 'last_name', 'profile_picture']);
-                     res.body.task.assigned_to[i].eql({
+                     res.body.task.assigned_to[i].should.eql({
                         id: data.tasks_users[task_id - 1].id,
                         first_name: "First Name " + data.tasks_users[task_id - 1].id,
                         last_name: "Last Name " + data.tasks_users[task_id - 1].id,
@@ -613,7 +613,7 @@ module.exports = function(args) {
                   }
 
                   res.body.task.supervisor.should.have.all.keys(['id', 'first_name', 'last_name', 'profile_picture']);
-                  res.body.task.supervisor.eql({
+                  res.body.task.supervisor.should.eql({
                      id: task_id,
                      first_name: "First Name " + task_id,
                      last_name: "Last Name " + task_id,
