@@ -89,12 +89,14 @@ module.exports.show = function(req, res, next)
                   last_name: supervisor.last_name
                 };
 
+                var pfp = null;
                 if(supervisor.profilePicture)
-                  result.supervisor.profile_picture =
+                  pfp =
                   {
                     type: supervisor.profilePicture.type,
                     url: supervisor.profilePicture.url
                   };
+                result.supervisor.profile_picture = pfp;
 
                 task.getAssignedUsers(
                    {
@@ -158,21 +160,31 @@ module.exports.show = function(req, res, next)
                      task.getComments(
                          {
                             order: [['created_at', 'ASC']],
-                            include: [{ model: User, as: 'User' }]
+                            include: [{ model: User, as: 'User', include: [{ model: Media, as: 'profilePicture' }] }]
                          })
                          .then(function(comments)
                          {
                           for(var i = 0; i < comments.length; i++)
                           {
+                            var pfp = null;
+                            if(comments[i].User.profilePicture)
+                              pfp =
+                              {
+                                type: comments[i].User.profilePicture.type,
+                                url: comments[i].User.profilePicture.url
+                              };
                             result.comments[i] =
                             {
                               id: comments[i].id,
                               content: comments[i].content,
+                              created_at: comments[i].created_at,
+                              updated_at: comments[i].updated_at,
                               user:
                               {
                                 id: comments[i].User.id,
                                 first_name: comments[i].User.first_name,
-                                last_name: comments[i].User.last_name
+                                last_name: comments[i].User.last_name,
+                                profile_picture: pfp
                               }
                             }
                           }
@@ -302,12 +314,13 @@ module.exports.store = function(req, res, next) {
       req.body.evaluation = null;
    }
 
-   var assignedUsers = null;
+   var assigned_to = null;
 
    var rest = function()
    {
       /*sending validation errors*/
       errors = format(errors);
+      console.log(errors);
       if (errors)
       {
          /* input validation failed */
@@ -334,14 +347,27 @@ module.exports.store = function(req, res, next) {
 
       Task.create(attributes).then(function(task)
        {
-         res.status(200).json(
-         {
-            status: 'succeeded',
-            message: 'task successfully added'
-         });
+         task.setAssignedUsers(req.body.assigned_to).then(function(){
+            res.status(200).json({
+               status: 'succeeded',
+               message: 'task successfully created'
+            });
 
-         next();
-         return;
+            console.log(errors);
+            next();
+            return;
+         }).catch(function(err) {
+            /* failed to update the task assigned_to in the database */
+            res.status(500).json({
+               status:'failed',
+               message: 'Internal server error'
+            });
+
+            req.err = 'TaskController.js, Line: 470\nfailed to update the task assigned_to in the database.\n' + String(err);
+            console.log(err);
+            next();
+            return;
+         });
       }).catch(function(err)
       {
          /* failed to save the task in the database */
@@ -357,45 +383,58 @@ module.exports.store = function(req, res, next) {
       });
    };
 
-   if(req.body.assignedUsers)
+   if(req.body.assigned_to)
    {
       /*validating the user list*/
-      User.findAll({ where: { id: { in: req.body.assignedUsers } } }).then(function(assignedUsers) {
-         req.checkBody('assignedUsers', 'validity').isArray(assignedUsers.length);
-         errors = req.validationErrors();
-
-         for (var i = 0; i < assignedUsers.length; i++)
-         {
-           console.log(req.user.committee_id +" "+ assignedUsers[i].committee_id);
-           if((req.user.isHighBoard() && req.user.committee_id != assignedUsers[i].committee_id)
-              || req.user.id == assignedUsers[i].id
-              || (req.user.isHighBoard() && (assignedUsers[i].isAdmin() || assignedUsers[i].isUpperBoard() || assignedUsers[i].isHighBoard())))
+      req.checkBody('assigned_to', 'validity').isArray();
+      errors = req.validationErrors();
+      if(!errors)
+      {
+        User.findAll({ where: { id: { in: req.body.assigned_to } } }).then(function(assigned_to) {
+          req.checkBody('assigned_to', 'validity').isArray(assigned_to.length);
+           errors = req.validationErrors();
+           if(!errors)
            {
-             if(!errors)
-              errors = [];
-
-             errors.push({
-                param: 'assignedUsers',
-                value: req.body.assignedUsers,
-                msg: 'validity'
-             });
-             break;
+            for (var i = 0; i < assigned_to.length; i++)
+            {
+              if((req.user.isHighBoard() && req.user.committee_id != assigned_to[i].committee_id)
+              || (req.user.id === assigned_to[i].id)
+              || (req.user.isHighBoard() && (assigned_to[i].isAdmin() || assigned_to[i].isUpperBoard() || assigned_to[i].isHighBoard())))
+              {
+                if(!errors)
+                  errors = [];
+                errors.push({
+                  param: 'assigned_to',
+                  value: req.body.assigned_to,
+                  msg: 'validity'
+                });
+                break;
+              }
             }
-         }
-         assigned_users = assignedUsers;
-      }).catch(function(err) {
-         /* failed to validate the assignedUsers in the database */
-         res.status(500).json({
-            status:'failed',
-            message: 'Internal server error'
-         });
+          }
+          rest();
+          return;
+        }).catch(function(err) {
+           /* failed to validate the assigned_to in the database */
+           res.status(500).json({
+              status:'failed',
+              message: 'Internal server error'
+           });
 
-         req.err = 'TaskController.js, Line: 338\nfailed to validate the assignedUsers in the database.\n' + String(err);
-         next();
-         return;
-      });
+           req.err = 'TaskController.js, Line: 338\nfailed to validate the assigned_to in the database.\n' + String(err);
+           console.log(err);
+           next();
+           return;
+        });
+      } else
+      {
+        rest();
+      }
+   } else
+   {
+     req.body.assigned_to = null;
+     rest();
    }
-   rest();
 };
 
 /**
@@ -404,7 +443,8 @@ module.exports.store = function(req, res, next) {
 * @param  {HTTP}   res  The response object
 * @param  {Function} next Callback function that is called once done with handling the request
 */
-module.exports.update = function(req, res, next) {
+module.exports.update = function(req, res, next)
+{
    /*Validate and sanitizing ID Input*/
    req.checkParams('id', 'required').notEmpty();
    req.sanitizeParams('id').escape();
@@ -435,13 +475,31 @@ module.exports.update = function(req, res, next) {
    req.sanitizeBody('deadline').escape();
    req.sanitizeBody('deadline').trim();
 
+   /*Validate and sanitizing deadline Input*/
+   req.checkBody('status', 'required').notEmpty();
+   req.sanitizeBody('status').escape();
+   req.sanitizeBody('status').trim();
+
+   var s = req.body.status;
+   var errors = req.validationErrors();
+
+   if(s!='New' && s!= 'In Progress' && s!= 'Ready' && s!= 'Done')
+   {
+     if(!errors)
+      errors = [];
+     errors.push({
+        param: 'status',
+        value: req.body.status,
+        msg: 'validity'
+     });
+   }
+
    /*Validate and sanitizing end date Input*/
    req.checkBody('priority', 'required').notEmpty();
    req.sanitizeBody('priority').escape();
    req.sanitizeBody('priority').trim();
 
    var p = req.body.priority;
-   var errors = req.validationErrors();
 
    if(p!=1 && p!= 3 && p!= 5 && p!= 8)
    {
@@ -465,17 +523,22 @@ module.exports.update = function(req, res, next) {
       req.body.evaluation = null;
    }
 
-   var rest = function(){
+   var assigned_to = null;
+
+   var rest = function()
+   {
       /*sending validation errors*/
       errors = format(errors);
-      if (errors) {
+      console.log(errors);
+      if (errors)
+      {
          /* input validation failed */
          res.status(400).json({
             status: 'failed',
             errors: errors
          });
 
-         req.err = 'TaskController.js, Line: 414\nSome validation errors occurred.\n' + JSON.stringify(errors);
+         req.err = 'TaskController.js, Line: 238\nSome validation errors occurred.\n' + JSON.stringify(errors);
          next();
          return;
       }
@@ -488,6 +551,7 @@ module.exports.update = function(req, res, next) {
             });
 
             req.err = 'TaskController.js, Line: 438\nThe requested task was not found in the database or the user has no authority to edit it.';
+            console.log(errors);
             next();
          }
          else if(task.supervisor != req.user.id) {
@@ -498,6 +562,7 @@ module.exports.update = function(req, res, next) {
             });
 
             req.err = 'TaskController.js, Line: 449\nThe requesting user has no authority to update the task.';
+            console.log(errors);
             next();
          }
          else {
@@ -508,38 +573,35 @@ module.exports.update = function(req, res, next) {
               description: req.body.description,
               deadline: req.body.deadline,
               priority: req.body.priority,
-              status: 'New',
+              status: req.body.priority,
               evaluation: req.body.evaluation,
               supervisor: req.user.id
            };
 
             task.update(attributes).then(function(task) {
-               if(req.body.assignedUsers){
-                  task.setAssignedUsers(req.body.assignedUsers).then(function(){
-                     res.status(200).json({
-                        status: 'succeeded',
-                        message: 'task successfully updated'
-                     });
 
-                     next();
-                  }).catch(function(err) {
-                     /* failed to update the task assignedUsers in the database */
-                     res.status(500).json({
-                        status:'failed',
-                        message: 'Internal server error'
-                     });
+              task.setAssignedUsers(req.body.assigned_to).then(function(){
+                 res.status(200).json({
+                    status: 'succeeded',
+                    message: 'task successfully created'
+                 });
 
-                     req.err = 'TaskController.js, Line: 470\nfailed to update the task assignedUsers in the database.\n' + String(err);
-                     next();
-                  });
-               } else {
-                  res.status(200).json({
-                     status: 'succeeded',
-                     message: 'task successfully updated'
-                  });
+                 console.log(errors);
+                 next();
+                 return;
+              }).catch(function(err) {
+                 /* failed to update the task assigned_to in the database */
+                 res.status(500).json({
+                    status:'failed',
+                    message: 'Internal server error'
+                 });
 
-                  next();
-               }
+                 req.err = 'TaskController.js, Line: 470\nfailed to update the task assigned_to in the database.\n' + String(err);
+                 console.log(err);
+                 next();
+                 return;
+              });
+
             }).catch(function(err) {
                /* failed to update the task in the database */
                res.status(500).json({
@@ -562,45 +624,60 @@ module.exports.update = function(req, res, next) {
 
          next();
       });
+
    };
 
-   var errors = req.validationErrors();
-   if(req.body.assignedUsers){
+   if(req.body.assigned_to)
+   {
       /*validating the user list*/
-      User.findAll({ where: { id: { in: req.body.assignedUsers } } }).then(function(assignedUsers) {
-         req.checkBody('assignedUsers', 'validity').isArray(assignedUsers.length);
-         errors = req.validationErrors();
-         for (var i = 0; i < assignedUsers.length; i++) {
-           if((req.user.isHighBoard() && req.user.committee_id != assignedUsers[i].committee_id)
-              || req.user.id == assignedUsers[i].id
-              || (req.user.isHighBoard() && (assignedUsers[i].isAdmin() || assignedUsers[i].isUpperBoard() || assignedUsers[i].isHighBoard())))
+      req.checkBody('assigned_to', 'validity').isArray();
+      errors = req.validationErrors();
+      if(!errors)
+      {
+        User.findAll({ where: { id: { in: req.body.assigned_to } } }).then(function(assigned_to) {
+          req.checkBody('assigned_to', 'validity').isArray(assigned_to.length);
+           errors = req.validationErrors();
+           if(!errors)
            {
-             if(!errors)
-              errors = [];
-
-             errors.push({
-                param: 'assignedUsers',
-                value: req.body.assignedUsers,
-                msg: 'validity'
-             });
-             break;
+            for (var i = 0; i < assigned_to.length; i++)
+            {
+              if((req.user.isHighBoard() && req.user.committee_id != assigned_to[i].committee_id)
+              || (req.user.id === assigned_to[i].id)
+              || (req.user.isHighBoard() && (assigned_to[i].isAdmin() || assigned_to[i].isUpperBoard() || assigned_to[i].isHighBoard())))
+              {
+                if(!errors)
+                  errors = [];
+                errors.push({
+                  param: 'assigned_to',
+                  value: req.body.assigned_to,
+                  msg: 'validity'
+                });
+                break;
+              }
             }
-         }
+          }
+          rest();
+          return;
+        }).catch(function(err) {
+           /* failed to validate the assigned_to in the database */
+           res.status(500).json({
+              status:'failed',
+              message: 'Internal server error'
+           });
 
-         rest();
-      }).catch(function(err) {
-         /* failed to validate the assignedUsers in the database */
-         res.status(500).json({
-            status:'failed',
-            message: 'Internal server error'
-         });
-
-         req.err = 'TaskController.js, Line: 536\nfailed to validate the assignedUsers in the database.\n' + String(err);
-         next();
-      });
-   }
-   else{
-      rest();
+           req.err = 'TaskController.js, Line: 338\nfailed to validate the assigned_to in the database.\n' + String(err);
+           console.log(err);
+           next();
+           return;
+        });
+      } else
+      {
+        rest();
+      }
+   } else
+   {
+     req.body.assigned_to = null;
+     rest();
    }
 };
 
