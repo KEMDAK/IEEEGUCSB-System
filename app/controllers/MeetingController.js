@@ -309,37 +309,39 @@ module.exports.store = function(req, res, next) {
    if(req.body.attendees){
       /*validating the user list*/
       req.checkBody('attendees', 'validity').isArray();
-      User.findAll({ where: { id: { in: req.body.attendees } } }).then(function(attendees) {
-         req.checkBody('attendees', 'validity').isArray(attendees.length);
-         errors = req.validationErrors();
+      if(Array.isArray(req.body.attendees) && typeof req.body.attendees !== "string") {
+         User.findAll({ where: { id: { in: req.body.attendees } } }).then(function(attendees) {
+            req.checkBody('attendees', 'validity').isArray(attendees.length);
+            errors = req.validationErrors();
 
-         for (var i = 0; i < attendees.length; i++) {
-            if(!req.user.isAdmin() && !req.user.isUpperBoard() && req.user.committee_id != attendees[i].committee_id || req.user.id == attendees[i].id){
-               if(!errors){
-                  errors = [];
+            for (var i = 0; i < attendees.length; i++) {
+               if(!req.user.isAdmin() && !req.user.isUpperBoard() && req.user.committee_id != attendees[i].committee_id || req.user.id == attendees[i].id){
+                  if(!errors){
+                     errors = [];
+                  }
+
+                  errors.push({
+                     param: 'attendees',
+                     value: req.body.attendees,
+                     msg: 'validity'
+                  });
+                  break;
                }
-
-               errors.push({
-                  param: 'attendees',
-                  value: req.body.attendees,
-                  msg: 'validity'
-               });
-               break;
             }
-         }
 
-         rest();
-      }).catch(function(err) {
-         /* failed to validate the attendees in the database */
-         res.status(500).json({
-            status:'failed',
-            message: 'Internal server error'
+            rest();
+         }).catch(function(err) {
+            /* failed to validate the attendees in the database */
+            res.status(500).json({
+               status:'failed',
+               message: 'Internal server error'
+            });
+
+            req.err = 'MeetingController.js, Line: 338\nfailed to validate the attendees in the database.\n' + String(err);
+
+            next();
          });
-
-         req.err = 'MeetingController.js, Line: 338\nfailed to validate the attendees in the database.\n' + String(err);
-
-         next();
-      });
+      }
    }
    else{
       rest();
@@ -509,36 +511,38 @@ module.exports.update = function(req, res, next) {
    if(req.body.attendees){
       /*validating the user list*/
       req.checkBody('attendees', 'validity').isArray();
-      User.findAll({ where: { id: { in: req.body.attendees } } }).then(function(attendees) {
-         req.checkBody('attendees', 'validity').isArray(attendees.length);
-         errors = req.validationErrors();
-         for (var i = 0; i < attendees.length; i++) {
-            if(!req.user.isAdmin() && !req.user.isUpperBoard() && req.user.committee_id != attendees[i].committee_id || req.user.id == attendees[i].id){
-               if(!errors){
-                  errors = [];
+      if(Array.isArray(req.body.attendees) && typeof req.body.attendees !== "string") {
+         User.findAll({ where: { id: { in: req.body.attendees } } }).then(function(attendees) {
+            req.checkBody('attendees', 'validity').isArray(attendees.length);
+            errors = req.validationErrors();
+            for (var i = 0; i < attendees.length; i++) {
+               if(!req.user.isAdmin() && !req.user.isUpperBoard() && req.user.committee_id != attendees[i].committee_id || req.user.id == attendees[i].id){
+                  if(!errors){
+                     errors = [];
+                  }
+
+                  errors.push({
+                     param: 'attendees',
+                     value: req.body.attendees,
+                     msg: 'validity'
+                  });
+                  break;
                }
-
-               errors.push({
-                  param: 'attendees',
-                  value: req.body.attendees,
-                  msg: 'validity'
-               });
-               break;
             }
-         }
 
-         rest();
-      }).catch(function(err) {
-         /* failed to validate the attendees in the database */
-         res.status(500).json({
-            status:'failed',
-            message: 'Internal server error'
+            rest();
+         }).catch(function(err) {
+            /* failed to validate the attendees in the database */
+            res.status(500).json({
+               status:'failed',
+               message: 'Internal server error'
+            });
+
+            req.err = 'MeetingController.js, Line: 536\nfailed to validate the attendees in the database.\n' + String(err);
+
+            next();
          });
-
-         req.err = 'MeetingController.js, Line: 536\nfailed to validate the attendees in the database.\n' + String(err);
-
-         next();
-      });
+      }
    }
    else{
       rest();
