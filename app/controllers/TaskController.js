@@ -107,20 +107,23 @@ module.exports.show = function(req, res, next)
                      var i = 0;
                      assigned_users.forEach(function(assigned_user)
                        {
-                          result.assigned_to[i++] =
+                          result.assigned_to[i] =
                           {
                             id: assigned_user.id,
                             first_name: assigned_user.first_name,
                             last_name: assigned_user.last_name
                           };
 
+                          var pfp = null;
                           if(assigned_user.profilePicture)
-                            result.assigned_to[i].profile_picture =
+                            pfp =
                             {
                               type: assigned_user.profilePicture.type,
                               url: assigned_user.profilePicture.url
                             };
 
+                          result.assigned_to[i].profile_picture = pfp;
+                          i++;
                        });
 
                       // Authorization, adding assigned_users to result
@@ -207,7 +210,6 @@ module.exports.show = function(req, res, next)
                             });
 
                             req.err = 'TaskController.js, Line: 111\nfailed to get the comments from the database.\n' + String(err);
-                            console.log(req.err);
                             next();
                             return;
                          });
@@ -221,7 +223,6 @@ module.exports.show = function(req, res, next)
                       });
 
                       req.err = 'TaskController.js, Line: 111\nfailed to get the assigned users from the database.\n' + String(err);
-                      console.log(req.err);
                       next();
                    });
                })
@@ -234,7 +235,6 @@ module.exports.show = function(req, res, next)
                   });
 
                   req.err = 'TaskController.js, Line: 111\nfailed to get the supervisor from the database.\n' + String(err);
-                  console.log(req.err);
                   next();
                });
              })
@@ -247,7 +247,6 @@ module.exports.show = function(req, res, next)
                 });
 
                 req.err = 'TaskController.js, Line: 111\nfailed to get the task from the database.\n' + String(err);
-                console.log(req.err);
                 next();
              });
 };
@@ -283,6 +282,18 @@ module.exports.store = function(req, res, next) {
    req.sanitizeBody('deadline').escape();
    req.sanitizeBody('deadline').trim();
 
+   if(req.body.assigned_to)
+     req.checkBody('assigned_to', 'validity').isArray();
+
+   /*Validate and sanitizing end date Input*/
+   if(req.body.evaluation)
+   {
+      req.sanitizeBody('evaluation').escape();
+      req.sanitizeBody('evaluation').trim();
+   }
+   else
+      req.body.evaluation = null;
+
    /*Validate and sanitizing end date Input*/
    req.checkBody('priority', 'required').notEmpty();
    req.sanitizeBody('priority').escape();
@@ -290,6 +301,7 @@ module.exports.store = function(req, res, next) {
 
    var p = req.body.priority;
    var errors = req.validationErrors();
+   var assigned_to = null;
 
    if(p!=1 && p!= 3 && p!= 5 && p!= 8)
    {
@@ -302,19 +314,6 @@ module.exports.store = function(req, res, next) {
         msg: 'validity'
      });
    }
-
-   /*Validate and sanitizing end date Input*/
-   if(req.body.evaluation)
-   {
-      req.sanitizeBody('evaluation').escape();
-      req.sanitizeBody('evaluation').trim();
-   }
-   else
-   {
-      req.body.evaluation = null;
-   }
-
-   var assigned_to = null;
 
    var rest = function()
    {
@@ -382,13 +381,20 @@ module.exports.store = function(req, res, next) {
    if(req.body.assigned_to)
    {
       /*validating the user list*/
-      req.checkBody('assigned_to', 'validity').isArray();
-      errors = req.validationErrors();
       if(!errors)
       {
         User.findAll({ where: { id: { in: req.body.assigned_to } } }).then(function(assigned_to) {
-          req.checkBody('assigned_to', 'validity').isArray(assigned_to.length);
-           errors = req.validationErrors();
+           if(req.body.assigned_to.length != assigned_to.length)
+           {
+             if(!errors)
+               errors = [];
+             errors.push({
+               param: 'assigned_to',
+               value: req.body.assigned_to,
+               msg: 'validity'
+             });
+           }
+
            if(!errors)
            {
             for (var i = 0; i < assigned_to.length; i++)
@@ -455,7 +461,6 @@ module.exports.update = function(req, res, next)
      attributes.title = req.body.title;
    }
 
-
    /*Validate and sanitizing description Input*/
    if(req.body.description)
    {
@@ -481,6 +486,9 @@ module.exports.update = function(req, res, next)
      req.sanitizeBody('evaluation').trim();
      attributes.evaluation = req.body.evaluation;
    }
+
+   if(req.body.assigned_to)
+     req.checkBody('assigned_to', 'validity').isArray();
 
    var errors = req.validationErrors();
    /*Validate and sanitizing status Input*/
@@ -523,16 +531,12 @@ module.exports.update = function(req, res, next)
      attributes.priority = req.body.priority;
    }
 
-
-
-
    var assigned_to = null;
 
    var rest = function()
    {
       /*sending validation errors*/
       errors = format(errors);
-      console.log(errors);
       if (errors)
       {
          /* input validation failed */
@@ -541,8 +545,6 @@ module.exports.update = function(req, res, next)
             errors: errors
          });
 
-         console.log(errors);
-         console.log(req.user.id);
          req.err = 'TaskController.js, Line: 238\nSome validation errors occurred.\n' + JSON.stringify(errors);
          next();
          return;
@@ -556,7 +558,6 @@ module.exports.update = function(req, res, next)
             });
 
             req.err = 'TaskController.js, Line: 438\nThe requested task was not found in the database or the user has no authority to edit it.';
-            console.log(errors);
             next();
          }
          else
@@ -569,7 +570,6 @@ module.exports.update = function(req, res, next)
                message: 'Access denied'
             });
 
-            console.log(task.supervisor + " " + req.user.id);
             req.err = 'TaskController.js, Line: 449\nThe requesting user has no authority to update the task.';
             next();
           }
@@ -597,7 +597,6 @@ module.exports.update = function(req, res, next)
                    });
 
                    req.err = 'TaskController.js, Line: 470\nfailed to update the task assigned_to in the database.\n' + String(err);
-                   console.log(err);
                    next();
                    return;
                 });
@@ -619,8 +618,6 @@ module.exports.update = function(req, res, next)
                   message: 'Internal server error'
                });
 
-               console.log("while updating:");
-               console.log(err);
                req.err = 'TaskController.js, Line: 489\nCouldn\'t update the task in the database.\n' + String(err);
                next();
             });
@@ -634,7 +631,6 @@ module.exports.update = function(req, res, next)
          });
 
          req.err = 'TaskController.js, Line: 501\nCouldn\'t find the task in the database.\n' + String(err);
-         console.log(err);
          next();
       });
 
@@ -656,7 +652,7 @@ module.exports.update = function(req, res, next)
               msg: 'validity'
             });
           }
-           errors = req.validationErrors();
+
            if(!errors)
            {
             for (var i = 0; i < assigned_to.length; i++)
@@ -685,7 +681,6 @@ module.exports.update = function(req, res, next)
            });
 
            req.err = 'TaskController.js, Line: 338\nfailed to validate the assigned_to in the database.\n' + String(err);
-           console.log(err);
            next();
            return;
         });
