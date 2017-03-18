@@ -320,7 +320,6 @@ module.exports.store = function(req, res, next) {
    {
       /*sending validation errors*/
       errors = format(errors);
-      console.log(errors);
       if (errors)
       {
          /* input validation failed */
@@ -353,7 +352,6 @@ module.exports.store = function(req, res, next) {
                message: 'task successfully created'
             });
 
-            console.log(errors);
             next();
             return;
          }).catch(function(err) {
@@ -364,7 +362,6 @@ module.exports.store = function(req, res, next) {
             });
 
             req.err = 'TaskController.js, Line: 470\nfailed to update the task assigned_to in the database.\n' + String(err);
-            console.log(err);
             next();
             return;
          });
@@ -377,7 +374,6 @@ module.exports.store = function(req, res, next) {
          });
 
          req.err = 'TaskController.js, Line: 301\nCouldn\'t save the task in the database.\n' + String(err);
-         console.log(err);
          next();
          return;
       });
@@ -398,8 +394,7 @@ module.exports.store = function(req, res, next) {
             for (var i = 0; i < assigned_to.length; i++)
             {
               if((req.user.isHighBoard() && req.user.committee_id != assigned_to[i].committee_id)
-              || (req.user.id === assigned_to[i].id)
-              || (req.user.isHighBoard() && (assigned_to[i].isAdmin() || assigned_to[i].isUpperBoard() || assigned_to[i].isHighBoard())))
+              || (req.user.isHighBoard() && (assigned_to[i].isAdmin() || assigned_to[i].isUpperBoard() || (assigned_to[i].isHighBoard() && assigned_to[i].id != req.user.id))))
               {
                 if(!errors)
                   errors = [];
@@ -422,7 +417,6 @@ module.exports.store = function(req, res, next) {
            });
 
            req.err = 'TaskController.js, Line: 338\nfailed to validate the assigned_to in the database.\n' + String(err);
-           console.log(err);
            next();
            return;
         });
@@ -450,12 +444,17 @@ module.exports.update = function(req, res, next)
    req.sanitizeParams('id').escape();
    req.sanitizeParams('id').trim();
    req.checkParams('id', 'validity').isInt();
+   var attributes = {};
 
    /*Validate and sanitizing title Input*/
-   req.checkBody('title', 'required').notEmpty();
-   req.checkBody('title', 'validity').isString();
-   req.sanitizeBody('title').escape();
-   req.sanitizeBody('title').trim();
+   if(req.body.title)
+   {
+     req.checkBody('title', 'validity').isString();
+     req.sanitizeBody('title').escape();
+     req.sanitizeBody('title').trim();
+     attributes.title = req.body.title;
+   }
+
 
    /*Validate and sanitizing description Input*/
    if(req.body.description)
@@ -463,65 +462,69 @@ module.exports.update = function(req, res, next)
      req.checkBody('description', 'validity').isString();
      req.sanitizeBody('description').escape();
      req.sanitizeBody('description').trim();
-   }
-   else
-   {
-     req.body.description = null;
+     attributes.description = req.body.description;
    }
 
    /*Validate and sanitizing deadline Input*/
-   req.checkBody('deadline', 'required').notEmpty();
-   req.checkBody('deadline', 'validity').isDate();
-   req.sanitizeBody('deadline').escape();
-   req.sanitizeBody('deadline').trim();
-
-   /*Validate and sanitizing deadline Input*/
-   req.checkBody('status', 'required').notEmpty();
-   req.sanitizeBody('status').escape();
-   req.sanitizeBody('status').trim();
-
-   var s = req.body.status;
-   var errors = req.validationErrors();
-
-   if(s!='New' && s!= 'In Progress' && s!= 'Ready' && s!= 'Done')
+   if(req.body.deadline)
    {
-     if(!errors)
-      errors = [];
-     errors.push({
-        param: 'status',
-        value: req.body.status,
-        msg: 'validity'
-     });
+     req.checkBody('deadline', 'validity').isDate();
+     req.sanitizeBody('deadline').escape();
+     req.sanitizeBody('deadline').trim();
+     attributes.deadline = req.body.deadline;
    }
 
-   /*Validate and sanitizing end date Input*/
-   req.checkBody('priority', 'required').notEmpty();
-   req.sanitizeBody('priority').escape();
-   req.sanitizeBody('priority').trim();
-
-   var p = req.body.priority;
-
-   if(p!=1 && p!= 3 && p!= 5 && p!= 8)
-   {
-     if(!errors)
-      errors = [];
-     errors.push({
-        param: 'priority',
-        value: req.body.priority,
-        msg: 'validity'
-     });
-   }
-
-   /*Validate and sanitizing end date Input*/
+   /*Validate and sanitizing evaluation Input*/
    if(req.body.evaluation)
    {
-      req.sanitizeBody('evaluation').escape();
-      req.sanitizeBody('evaluation').trim();
+     req.sanitizeBody('evaluation').escape();
+     req.sanitizeBody('evaluation').trim();
+     attributes.evaluation = req.body.evaluation;
    }
-   else
+
+   var errors = req.validationErrors();
+   /*Validate and sanitizing status Input*/
+   if(req.body.status)
    {
-      req.body.evaluation = null;
+     req.sanitizeBody('status').escape();
+     req.sanitizeBody('status').trim();
+
+     var s = req.body.status;
+     if(!(s ==='New' || s === 'In Progress' || s=== 'Ready' || s=== 'Done'))
+     {
+       if(!errors)
+       errors = [];
+       errors.push({
+         param: 'status',
+         value: req.body.status,
+         msg: 'validity'
+       });
+     }
+     attributes.status = req.body.status;
    }
+
+   /*Validate and sanitizing priority Input*/
+   if(req.body.priority)
+   {
+     req.sanitizeBody('priority').escape();
+     req.sanitizeBody('priority').trim();
+
+     var p = req.body.priority;
+     if(p!=1 && p!= 3 && p!= 5 && p!= 8)
+     {
+       if(!errors)
+       errors = [];
+       errors.push({
+         param: 'priority',
+         value: req.body.priority,
+         msg: 'validity'
+       });
+     }
+     attributes.priority = req.body.priority;
+   }
+
+
+
 
    var assigned_to = null;
 
@@ -538,6 +541,8 @@ module.exports.update = function(req, res, next)
             errors: errors
          });
 
+         console.log(errors);
+         console.log(req.user.id);
          req.err = 'TaskController.js, Line: 238\nSome validation errors occurred.\n' + JSON.stringify(errors);
          next();
          return;
@@ -554,54 +559,59 @@ module.exports.update = function(req, res, next)
             console.log(errors);
             next();
          }
-         else if(task.supervisor != req.user.id) {
+         else
+         {
+          if(task.supervisor != req.user.id)
+          {
             /* The requesting user has no authority to update the task */
             res.status(403).json({
                status:'failed',
                message: 'Access denied'
             });
 
+            console.log(task.supervisor + " " + req.user.id);
             req.err = 'TaskController.js, Line: 449\nThe requesting user has no authority to update the task.';
-            console.log(errors);
             next();
-         }
-         else {
-
-           var attributes =
-           {
-              title: req.body.title,
-              description: req.body.description,
-              deadline: req.body.deadline,
-              priority: req.body.priority,
-              status: req.body.priority,
-              evaluation: req.body.evaluation,
-              supervisor: req.user.id
-           };
-
+          }
+          else
+          {
             task.update(attributes).then(function(task) {
 
-              task.setAssignedUsers(req.body.assigned_to).then(function(){
-                 res.status(200).json({
-                    status: 'succeeded',
-                    message: 'task successfully created'
-                 });
+              if(req.body.assigned_to)
+              {
+                task.setAssignedUsers(req.body.assigned_to).then(function()
+                {
+                   res.status(200).json({
+                      status: 'succeeded',
+                      message: 'task successfully updated'
+                   });
 
-                 console.log(errors);
-                 next();
-                 return;
-              }).catch(function(err) {
-                 /* failed to update the task assigned_to in the database */
-                 res.status(500).json({
-                    status:'failed',
-                    message: 'Internal server error'
-                 });
+                   next();
+                   return;
+                }).catch(function(err)
+                {
+                   /* failed to update the task assigned_to in the database */
+                   res.status(500).json({
+                      status:'failed',
+                      message: 'Internal server error'
+                   });
 
-                 req.err = 'TaskController.js, Line: 470\nfailed to update the task assigned_to in the database.\n' + String(err);
-                 console.log(err);
-                 next();
-                 return;
+                   req.err = 'TaskController.js, Line: 470\nfailed to update the task assigned_to in the database.\n' + String(err);
+                   console.log(err);
+                   next();
+                   return;
+                });
+            }
+            else
+            {
+              res.status(200).json({
+                 status: 'succeeded',
+                 message: 'task successfully updated'
               });
 
+              next();
+              return;
+            }
             }).catch(function(err) {
                /* failed to update the task in the database */
                res.status(500).json({
@@ -609,10 +619,13 @@ module.exports.update = function(req, res, next)
                   message: 'Internal server error'
                });
 
+               console.log("while updating:");
+               console.log(err);
                req.err = 'TaskController.js, Line: 489\nCouldn\'t update the task in the database.\n' + String(err);
                next();
             });
          }
+       }
       }).catch(function(err) {
          /* failed to find the task in the database */
          res.status(500).json({
@@ -621,7 +634,7 @@ module.exports.update = function(req, res, next)
          });
 
          req.err = 'TaskController.js, Line: 501\nCouldn\'t find the task in the database.\n' + String(err);
-
+         console.log(err);
          next();
       });
 
@@ -630,20 +643,26 @@ module.exports.update = function(req, res, next)
    if(req.body.assigned_to)
    {
       /*validating the user list*/
-      req.checkBody('assigned_to', 'validity').isArray();
-      errors = req.validationErrors();
       if(!errors)
       {
         User.findAll({ where: { id: { in: req.body.assigned_to } } }).then(function(assigned_to) {
-          req.checkBody('assigned_to', 'validity').isArray(assigned_to.length);
+          if(req.body.assigned_to.length != assigned_to.length)
+          {
+            if(!errors)
+              errors = [];
+            errors.push({
+              param: 'assigned_to',
+              value: req.body.assigned_to,
+              msg: 'validity'
+            });
+          }
            errors = req.validationErrors();
            if(!errors)
            {
             for (var i = 0; i < assigned_to.length; i++)
             {
               if((req.user.isHighBoard() && req.user.committee_id != assigned_to[i].committee_id)
-              || (req.user.id === assigned_to[i].id)
-              || (req.user.isHighBoard() && (assigned_to[i].isAdmin() || assigned_to[i].isUpperBoard() || assigned_to[i].isHighBoard())))
+              || (req.user.isHighBoard() && (assigned_to[i].isAdmin() || assigned_to[i].isUpperBoard() || (assigned_to[i].isHighBoard() && assigned_to[i].id != req.user.id))))
               {
                 if(!errors)
                   errors = [];
@@ -676,7 +695,6 @@ module.exports.update = function(req, res, next)
       }
    } else
    {
-     req.body.assigned_to = null;
      rest();
    }
 };
@@ -723,7 +741,6 @@ module.exports.delete = function(req, res, next)
         return;
       }
 
-     // task.getSupervisor() is not working
      if(req.user.id != task.supervisor)
      {
        res.status(403).json(
