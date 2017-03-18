@@ -221,9 +221,9 @@ module.exports = function(args) {
                   for (var i = 0; i < res.body.task.assigned_to.length; i++) {
                      res.body.task.assigned_to[i].should.have.all.keys(['id', 'first_name', 'last_name', 'profile_picture']);
                      res.body.task.assigned_to[i].should.eql({
-                        id: data.tasks_users[task_id - 1][i].id,
-                        first_name: "First Name " + data.tasks_users[task_id - 1][i].id,
-                        last_name: "Last Name " + data.tasks_users[task_id - 1][i].id,
+                        id: data.tasks_users[task_id - 1][i],
+                        first_name: "First Name " + data.tasks_users[task_id - 1][i],
+                        last_name: "Last Name " + data.tasks_users[task_id - 1][i],
                         profile_picture: null
                      });
                   }
@@ -285,9 +285,9 @@ module.exports = function(args) {
                   for (var i = 0; i < res.body.task.assigned_to.length; i++) {
                      res.body.task.assigned_to[i].should.have.all.keys(['id', 'first_name', 'last_name', 'profile_picture']);
                      res.body.task.assigned_to[i].should.eql({
-                        id: data.tasks_users[task_id - 1][i].id,
-                        first_name: "First Name " + data.tasks_users[task_id - 1][i].id,
-                        last_name: "Last Name " + data.tasks_users[task_id - 1][i].id,
+                        id: data.tasks_users[task_id - 1][i],
+                        first_name: "First Name " + data.tasks_users[task_id - 1][i],
+                        last_name: "Last Name " + data.tasks_users[task_id - 1][i],
                         profile_picture: null
                      });
                   }
@@ -349,9 +349,9 @@ module.exports = function(args) {
                   for (var i = 0; i < res.body.task.assigned_to.length; i++) {
                      res.body.task.assigned_to[i].should.have.all.keys(['id', 'first_name', 'last_name', 'profile_picture']);
                      res.body.task.assigned_to[i].should.eql({
-                        id: data.tasks_users[task_id - 1][i].id,
-                        first_name: "First Name " + data.tasks_users[task_id - 1][i].id,
-                        last_name: "Last Name " + data.tasks_users[task_id - 1][i].id,
+                        id: data.tasks_users[task_id - 1][i],
+                        first_name: "First Name " + data.tasks_users[task_id - 1][i],
+                        last_name: "Last Name " + data.tasks_users[task_id - 1][i],
                         profile_picture: null
                      });
                   }
@@ -413,9 +413,9 @@ module.exports = function(args) {
                   for (var i = 0; i < res.body.task.assigned_to.length; i++) {
                      res.body.task.assigned_to[i].should.have.all.keys(['id', 'first_name', 'last_name', 'profile_picture']);
                      res.body.task.assigned_to[i].should.eql({
-                        id: data.tasks_users[task_id - 1][i].id,
-                        first_name: "First Name " + data.tasks_users[task_id - 1][i].id,
-                        last_name: "Last Name " + data.tasks_users[task_id - 1][i].id,
+                        id: data.tasks_users[task_id - 1][i],
+                        first_name: "First Name " + data.tasks_users[task_id - 1][i],
+                        last_name: "Last Name " + data.tasks_users[task_id - 1][i],
                         profile_picture: null
                      });
                   }
@@ -477,9 +477,9 @@ module.exports = function(args) {
                   for (var i = 0; i < res.body.task.assigned_to.length; i++) {
                      res.body.task.assigned_to[i].should.have.all.keys(['id', 'first_name', 'last_name', 'profile_picture']);
                      res.body.task.assigned_to[i].should.eql({
-                        id: data.tasks_users[task_id - 1][i].id,
-                        first_name: "First Name " + data.tasks_users[task_id - 1][i].id,
-                        last_name: "Last Name " + data.tasks_users[task_id - 1][i].id,
+                        id: data.tasks_users[task_id - 1][i],
+                        first_name: "First Name " + data.tasks_users[task_id - 1][i],
+                        last_name: "Last Name " + data.tasks_users[task_id - 1][i],
                         profile_picture: null
                      });
                   }
@@ -541,9 +541,9 @@ module.exports = function(args) {
                   for (var i = 0; i < res.body.task.assigned_to.length; i++) {
                      res.body.task.assigned_to[i].should.have.all.keys(['id', 'first_name', 'last_name', 'profile_picture']);
                      res.body.task.assigned_to[i].should.eql({
-                        id: data.tasks_users[task_id - 1][i].id,
-                        first_name: "First Name " + data.tasks_users[task_id - 1][i].id,
-                        last_name: "Last Name " + data.tasks_users[task_id - 1][i].id,
+                        id: data.tasks_users[task_id - 1][i],
+                        first_name: "First Name " + data.tasks_users[task_id - 1][i],
+                        last_name: "Last Name " + data.tasks_users[task_id - 1][i],
                         profile_picture: null
                      });
                   }
@@ -605,9 +605,9 @@ module.exports = function(args) {
                   for (var i = 0; i < res.body.task.assigned_to.length; i++) {
                      res.body.task.assigned_to[i].should.have.all.keys(['id', 'first_name', 'last_name', 'profile_picture']);
                      res.body.task.assigned_to[i].should.eql({
-                        id: data.tasks_users[task_id - 1][i].id,
-                        first_name: "First Name " + data.tasks_users[task_id - 1][i].id,
-                        last_name: "Last Name " + data.tasks_users[task_id - 1][i].id,
+                        id: data.tasks_users[task_id - 1][i],
+                        first_name: "First Name " + data.tasks_users[task_id - 1][i],
+                        last_name: "Last Name " + data.tasks_users[task_id - 1][i],
                         profile_picture: null
                      });
                   }
