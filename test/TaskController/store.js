@@ -462,7 +462,7 @@ module.exports = function(args) {
 
          it('Should not allow the task to be added due to missing \'priority\' parameter in the body.', function(done) {
             var task = {
-               task: "Task",
+               title: "Task",
                description: "Description",
                deadline: "2017-2-25 08:00:00",
                assigned_to: [9, 12]
@@ -495,7 +495,7 @@ module.exports = function(args) {
 
          it('Should not allow the task to be added due to invalid \'priority\' parameter in the body.', function(done) {
             var task = {
-               task: "Task",
+               title: "Task",
                description: "Description",
                deadline: "2017-2-25 08:00:00",
                priority: 7,
@@ -530,7 +530,7 @@ module.exports = function(args) {
 
          it('Should not allow the task to be added due to invalid \'evaluation\' parameter in the body (invalid value).', function(done) {
             var task = {
-               task: "Task",
+               title: "Task",
                description: "Description",
                deadline: "2017-2-25 08:00:00",
                priority: 5,
@@ -565,7 +565,7 @@ module.exports = function(args) {
 
          it('Should not allow the task to be added due to invalid \'evaluation\' parameter in the body (invalid datatype).', function(done) {
             var task = {
-               task: "Task",
+               title: "Task",
                description: "Description",
                deadline: "2017-2-25 08:00:00",
                priority: 5,
@@ -600,7 +600,7 @@ module.exports = function(args) {
 
          it('Should not allow the task to be added due to invalid \'assigned_to\' parameter in the body.', function(done) {
             var task = {
-               task: "Task",
+               title: "Task",
                description: "Description",
                deadline: "2017-2-25 08:00:00",
                priority: 5,
@@ -635,7 +635,7 @@ module.exports = function(args) {
 
          it('Should not allow the task to be added due to invalid \'assigned_to\' parameter in the body.', function(done) {
             var task = {
-               task: "Task",
+               title: "Task",
                description: "Description",
                deadline: "2017-2-25 08:00:00",
                priority: 5,
