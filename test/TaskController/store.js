@@ -153,6 +153,7 @@ module.exports = function(args) {
                description: "Description",
                deadline: "2017-2-25 08:00:00",
                priority: "5",
+               evaluation: 5,
                assigned_to: [1]
             };
 
@@ -187,6 +188,7 @@ module.exports = function(args) {
                description: "Description",
                deadline: "2017-2-25 08:00:00",
                priority: "5",
+               evaluation: 5,
                assigned_to: [2]
             };
 
@@ -221,6 +223,7 @@ module.exports = function(args) {
                description: "Description",
                deadline: "2017-2-25 08:00:00",
                priority: "5",
+               evaluation: 5,
                assigned_to: [5]
             };
 
@@ -255,6 +258,7 @@ module.exports = function(args) {
                description: "Description",
                deadline: "2017-2-25 08:00:00",
                priority: "5",
+               evaluation: 5,
                assigned_to: [9, 12]
             };
 
@@ -288,6 +292,7 @@ module.exports = function(args) {
                description: "Description",
                deadline: "2017-2-25 08:00:00",
                priority: "5",
+               evaluation: 5,
                assigned_to: [9, 12]
             };
 
@@ -322,6 +327,7 @@ module.exports = function(args) {
                description: "Description",
                deadline: "2017-2-25 08:00:00",
                priority: "5",
+               evaluation: 5,
                assigned_to: [9, 12]
             };
 
@@ -356,6 +362,7 @@ module.exports = function(args) {
                description: 8,
                deadline: "2017-2-25 08:00:00",
                priority: "5",
+               evaluation: 5,
                assigned_to: [9, 12]
             };
 
@@ -389,6 +396,7 @@ module.exports = function(args) {
                title: "Task",
                description: "Description",
                priority: "5",
+               evaluation: 5,
                assigned_to: [9, 12]
             };
 
@@ -423,6 +431,7 @@ module.exports = function(args) {
                description: "Description",
                deadline: "This is an invalid date.",
                priority: "5",
+               evaluation: 5,
                assigned_to: [9, 12]
             };
 
@@ -490,6 +499,77 @@ module.exports = function(args) {
                description: "Description",
                deadline: "2017-2-25 08:00:00",
                priority: 7,
+               evaluation: 5,
+               assigned_to: [9, 12]
+            };
+
+            chai.request(app)
+            .post('/api/task')
+            .set('User_Agent', 'Web')
+            .set('Authorization', data.identities[0].token)
+            .send(task)
+            .end(function(err, res) {
+               try {
+                  res.should.have.status(400);
+                  res.body.should.have.property('status').and.equal('failed');
+                  res.body.should.have.property('errors');  // TODO: Test the errors themselves
+                  should.exist(err);
+                  models.Task.count().then(function(count) {
+                     if(count !== 0)
+                        throw new Error("The Task has been added to the database.");
+                     else
+                        done();
+                  }).catch(function(err) {
+                     done(err);
+                  });
+               } catch(error) {
+                  done(error);
+               }
+            });
+         });
+
+         it('Should not allow the task to be added due to invalid \'evaluation\' parameter in the body (invalid value).', function(done) {
+            var task = {
+               task: "Task",
+               description: "Description",
+               deadline: "2017-2-25 08:00:00",
+               priority: 5,
+               evaluation: 7,
+               assigned_to: [9, 12]
+            };
+
+            chai.request(app)
+            .post('/api/task')
+            .set('User_Agent', 'Web')
+            .set('Authorization', data.identities[0].token)
+            .send(task)
+            .end(function(err, res) {
+               try {
+                  res.should.have.status(400);
+                  res.body.should.have.property('status').and.equal('failed');
+                  res.body.should.have.property('errors');  // TODO: Test the errors themselves
+                  should.exist(err);
+                  models.Task.count().then(function(count) {
+                     if(count !== 0)
+                        throw new Error("The Task has been added to the database.");
+                     else
+                        done();
+                  }).catch(function(err) {
+                     done(err);
+                  });
+               } catch(error) {
+                  done(error);
+               }
+            });
+         });
+
+         it('Should not allow the task to be added due to invalid \'evaluation\' parameter in the body (invalid datatype).', function(done) {
+            var task = {
+               task: "Task",
+               description: "Description",
+               deadline: "2017-2-25 08:00:00",
+               priority: 5,
+               evaluation: "invalid",
                assigned_to: [9, 12]
             };
 
@@ -524,6 +604,7 @@ module.exports = function(args) {
                description: "Description",
                deadline: "2017-2-25 08:00:00",
                priority: "5",
+               evaluation: 5,
                assigned_to: "invalid"
             };
 
@@ -558,6 +639,7 @@ module.exports = function(args) {
                description: "Description",
                deadline: "2017-2-25 08:00:00",
                priority: "5",
+               evaluation: 5,
                assigned_to: [9, "invalid"]
             };
 
@@ -597,6 +679,7 @@ module.exports = function(args) {
                description: "Description",
                deadline: "2017-2-25 08:00:00",
                priority: "5",
+               evaluation: 5,
                assigned_to: [1, 2, 3, 4, 5, 6]
             };
 
@@ -620,6 +703,16 @@ module.exports = function(args) {
                      if(theTask.status != 'New') {
                         throw new Error("The status of the task is not New.");
                      }
+
+                     theTask.title.should.equal(task.title);
+                     theTask.priority.should.equal(task.priority);
+                     if(task.description){
+                        theTask.description.should.equal(task.description);
+                     }
+                     else {
+                        should.not.exist(theTask.description);
+                     }
+                     theTask.evaluation.should.equal(task.evaluation || 0);
 
                      theTask.getAssignedUsers().then(function(records) {
                         if (!records) {
@@ -666,6 +759,7 @@ module.exports = function(args) {
                description: "Description",
                deadline: "2017-2-25 08:00:00",
                priority: "5",
+               evaluation: 5,
                assigned_to: [1, 2, 3, 4, 5, 6]
             };
 
@@ -689,6 +783,16 @@ module.exports = function(args) {
                      if(theTask.status != 'New') {
                         throw new Error("The status of the task is not New.");
                      }
+
+                     theTask.title.should.equal(task.title);
+                     theTask.priority.should.equal(task.priority);
+                     if(task.description){
+                        theTask.description.should.equal(task.description);
+                     }
+                     else {
+                        should.not.exist(theTask.description);
+                     }
+                     theTask.evaluation.should.equal(task.evaluation || 0);
 
                      theTask.getAssignedUsers().then(function(records) {
                         if (!records) {
@@ -735,6 +839,7 @@ module.exports = function(args) {
                description: "Description",
                deadline: "2017-2-25 08:00:00",
                priority: "5",
+               evaluation: 5,
                assigned_to: [4, 8, 12]
             };
 
@@ -758,6 +863,16 @@ module.exports = function(args) {
                      if(theTask.status != 'New') {
                         throw new Error("The status of the task is not New.");
                      }
+
+                     theTask.title.should.equal(task.title);
+                     theTask.priority.should.equal(task.priority);
+                     if(task.description){
+                        theTask.description.should.equal(task.description);
+                     }
+                     else {
+                        should.not.exist(theTask.description);
+                     }
+                     theTask.evaluation.should.equal(task.evaluation || 0);
 
                      theTask.getAssignedUsers().then(function(records) {
                         if (!records) {
@@ -803,6 +918,7 @@ module.exports = function(args) {
                title: "Task",
                deadline: "2017-2-25 08:00:00",
                priority: "5",
+               evaluation: 5,
                assigned_to: [2, 3, 4, 5, 6]
             };
 
@@ -826,6 +942,98 @@ module.exports = function(args) {
                      if(theTask.status != 'New') {
                         throw new Error("The status of the task is not New.");
                      }
+
+                     theTask.title.should.equal(task.title);
+                     theTask.priority.should.equal(task.priority);
+                     if(task.description){
+                        theTask.description.should.equal(task.description);
+                     }
+                     else {
+                        should.not.exist(theTask.description);
+                     }
+                     theTask.evaluation.should.equal(task.evaluation || 0);
+
+                     if(theTask.description) {
+                        throw new Error("The task was added with a description in the database.");
+                     }
+
+                     theTask.getAssignedUsers().then(function(records) {
+                        if (!records) {
+                           throw new Error("There were no assigned users for the task.");
+                        }
+
+                        var assignedUsers = [];
+                        var i;
+                        for (i = 0; i < records.length; i++) {
+                           assignedUsers.push(records[i].id);
+                        }
+
+                        assignedUsers.should.have.lengthOf(task.assigned_to.length);
+                        assignedUsers.sort(function(a, b) { return a - b; });
+
+                        var valid = true;
+                        for (i = 0; i < assignedUsers.length && valid; i++) {
+                           if (assignedUsers[i] != task.assigned_to[i]) {
+                              valid = false;
+                           }
+                        }
+
+                        if (valid === false) {
+                           throw new Error("The wrong users were assigned to the task.");
+                        }
+
+                        done();
+                     }).catch(function(error) {
+                        done(error);
+                     });
+                  }).catch(function(error) {
+                     done(error);
+                  });
+               } catch(error) {
+                  done(error);
+               }
+            });
+         });
+
+         it('Should add the task in the database (without evaluation).', function(done) {
+            var task = {
+               title: "Task",
+               deadline: "2017-2-25 08:00:00",
+               description: "Description",
+               priority: "5",
+               assigned_to: [2, 3, 4, 5, 6]
+            };
+
+            chai.request(app)
+            .post('/api/task')
+            .set('User_Agent', 'Web')
+            .set('Authorization', data.identities[0].token)
+            .send(task)
+            .end(function(err, res) {
+               try {
+                  res.should.have.status(200);
+                  res.body.should.have.property('status').and.equal('succeeded');
+                  res.body.should.not.have.property('errors');
+                  should.not.exist(err);
+
+                  models.Task.findById(1).then(function(theTask) {
+                     if (!theTask) {
+                        throw new Error("The task wasn\'t added in the database.");
+                     }
+
+                     if(theTask.status != 'New') {
+                        throw new Error("The status of the task is not New.");
+                     }
+
+                     theTask.title.should.equal(task.title);
+                     theTask.priority.should.equal(task.priority);
+                     if(task.description){
+                        theTask.description.should.equal(task.description);
+                     }
+                     else {
+                        should.not.exist(theTask.description);
+                     }
+                     theTask.evaluation.should.equal(task.evaluation || 0);
 
                      if(theTask.description) {
                         throw new Error("The task was added with a description in the database.");
@@ -897,6 +1105,16 @@ module.exports = function(args) {
                      if(theTask.status != 'New') {
                         throw new Error("The status of the task is not New.");
                      }
+
+                     theTask.title.should.equal(task.title);
+                     theTask.priority.should.equal(task.priority);
+                     if(task.description){
+                        theTask.description.should.equal(task.description);
+                     }
+                     else {
+                        should.not.exist(theTask.description);
+                     }
+                     theTask.evaluation.should.equal(task.evaluation || 0);
 
                      theTask.getAssignedUsers().then(function(records) {
                         if (records.length === 0) {
