@@ -152,7 +152,7 @@ module.exports = function(args) {
                title: "Task",
                description: "Description",
                deadline: "2017-2-25 08:00:00",
-               priority: "5",
+               priority: 5,
                evaluation: 5,
                assigned_to: [1]
             };
@@ -187,7 +187,7 @@ module.exports = function(args) {
                title: "Task",
                description: "Description",
                deadline: "2017-2-25 08:00:00",
-               priority: "5",
+               priority: 5,
                evaluation: 5,
                assigned_to: [2]
             };
@@ -222,7 +222,7 @@ module.exports = function(args) {
                title: "Task",
                description: "Description",
                deadline: "2017-2-25 08:00:00",
-               priority: "5",
+               priority: 5,
                evaluation: 5,
                assigned_to: [5]
             };
@@ -257,7 +257,7 @@ module.exports = function(args) {
                title: "Task",
                description: "Description",
                deadline: "2017-2-25 08:00:00",
-               priority: "5",
+               priority: 5,
                evaluation: 5,
                assigned_to: [9, 12]
             };
@@ -291,7 +291,7 @@ module.exports = function(args) {
             var task = {
                description: "Description",
                deadline: "2017-2-25 08:00:00",
-               priority: "5",
+               priority: 5,
                evaluation: 5,
                assigned_to: [9, 12]
             };
@@ -326,7 +326,7 @@ module.exports = function(args) {
                title: 5,
                description: "Description",
                deadline: "2017-2-25 08:00:00",
-               priority: "5",
+               priority: 5,
                evaluation: 5,
                assigned_to: [9, 12]
             };
@@ -361,7 +361,7 @@ module.exports = function(args) {
                title: "Task",
                description: 8,
                deadline: "2017-2-25 08:00:00",
-               priority: "5",
+               priority: 5,
                evaluation: 5,
                assigned_to: [9, 12]
             };
@@ -395,7 +395,7 @@ module.exports = function(args) {
             var task = {
                title: "Task",
                description: "Description",
-               priority: "5",
+               priority: 5,
                evaluation: 5,
                assigned_to: [9, 12]
             };
@@ -430,7 +430,7 @@ module.exports = function(args) {
                title: "Task",
                description: "Description",
                deadline: "This is an invalid date.",
-               priority: "5",
+               priority: 5,
                evaluation: 5,
                assigned_to: [9, 12]
             };
@@ -603,7 +603,7 @@ module.exports = function(args) {
                task: "Task",
                description: "Description",
                deadline: "2017-2-25 08:00:00",
-               priority: "5",
+               priority: 5,
                evaluation: 5,
                assigned_to: "invalid"
             };
@@ -638,7 +638,7 @@ module.exports = function(args) {
                task: "Task",
                description: "Description",
                deadline: "2017-2-25 08:00:00",
-               priority: "5",
+               priority: 5,
                evaluation: 5,
                assigned_to: [9, "invalid"]
             };
@@ -678,7 +678,7 @@ module.exports = function(args) {
                title: "Task",
                description: "Description",
                deadline: "2017-2-25 08:00:00",
-               priority: "5",
+               priority: 5,
                evaluation: 5,
                assigned_to: [1, 2, 3, 4, 5, 6]
             };
@@ -712,7 +712,12 @@ module.exports = function(args) {
                      else {
                         should.not.exist(theTask.description);
                      }
-                     theTask.evaluation.should.equal(task.evaluation || 0);
+                     if(task.evaluation) {
+                        theTask.evaluation.should.equal(task.evaluation);
+                     }
+                     else {
+                        should.not.exist(theTask.evaluation);
+                     }
 
                      theTask.getAssignedUsers().then(function(records) {
                         if (!records) {
@@ -758,7 +763,7 @@ module.exports = function(args) {
                title: "Task",
                description: "Description",
                deadline: "2017-2-25 08:00:00",
-               priority: "5",
+               priority: 5,
                evaluation: 5,
                assigned_to: [1, 2, 3, 4, 5, 6]
             };
@@ -792,7 +797,12 @@ module.exports = function(args) {
                      else {
                         should.not.exist(theTask.description);
                      }
-                     theTask.evaluation.should.equal(task.evaluation || 0);
+                     if(task.evaluation) {
+                        theTask.evaluation.should.equal(task.evaluation);
+                     }
+                     else {
+                        should.not.exist(theTask.evaluation);
+                     }
 
                      theTask.getAssignedUsers().then(function(records) {
                         if (!records) {
@@ -838,7 +848,7 @@ module.exports = function(args) {
                title: "Task",
                description: "Description",
                deadline: "2017-2-25 08:00:00",
-               priority: "5",
+               priority: 5,
                evaluation: 5,
                assigned_to: [4, 8, 12]
             };
@@ -872,7 +882,12 @@ module.exports = function(args) {
                      else {
                         should.not.exist(theTask.description);
                      }
-                     theTask.evaluation.should.equal(task.evaluation || 0);
+                     if(task.evaluation) {
+                        theTask.evaluation.should.equal(task.evaluation);
+                     }
+                     else {
+                        should.not.exist(theTask.evaluation);
+                     }
 
                      theTask.getAssignedUsers().then(function(records) {
                         if (!records) {
@@ -917,7 +932,7 @@ module.exports = function(args) {
             var task = {
                title: "Task",
                deadline: "2017-2-25 08:00:00",
-               priority: "5",
+               priority: 5,
                evaluation: 5,
                assigned_to: [2, 3, 4, 5, 6]
             };
@@ -951,7 +966,12 @@ module.exports = function(args) {
                      else {
                         should.not.exist(theTask.description);
                      }
-                     theTask.evaluation.should.equal(task.evaluation || 0);
+                     if(task.evaluation) {
+                        theTask.evaluation.should.equal(task.evaluation);
+                     }
+                     else {
+                        should.not.exist(theTask.evaluation);
+                     }
 
                      if(theTask.description) {
                         throw new Error("The task was added with a description in the database.");
@@ -1000,7 +1020,7 @@ module.exports = function(args) {
                title: "Task",
                deadline: "2017-2-25 08:00:00",
                description: "Description",
-               priority: "5",
+               priority: 5,
                assigned_to: [2, 3, 4, 5, 6]
             };
 
@@ -1033,7 +1053,12 @@ module.exports = function(args) {
                      else {
                         should.not.exist(theTask.description);
                      }
-                     theTask.evaluation.should.equal(task.evaluation || 0);
+                     if(task.evaluation) {
+                        theTask.evaluation.should.equal(task.evaluation);
+                     }
+                     else {
+                        should.not.exist(theTask.evaluation);
+                     }
 
                      if(theTask.description) {
                         throw new Error("The task was added with a description in the database.");
@@ -1114,7 +1139,12 @@ module.exports = function(args) {
                      else {
                         should.not.exist(theTask.description);
                      }
-                     theTask.evaluation.should.equal(task.evaluation || 0);
+                     if(task.evaluation) {
+                        theTask.evaluation.should.equal(task.evaluation);
+                     }
+                     else {
+                        should.not.exist(theTask.evaluation);
+                     }
 
                      theTask.getAssignedUsers().then(function(records) {
                         if (records.length === 0) {
