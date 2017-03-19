@@ -973,10 +973,6 @@ module.exports = function(args) {
                         should.not.exist(theTask.evaluation);
                      }
 
-                     if(theTask.description) {
-                        throw new Error("The task was added with a description in the database.");
-                     }
-
                      theTask.getAssignedUsers().then(function(records) {
                         if (!records) {
                            throw new Error("There were no assigned users for the task.");
@@ -1060,10 +1056,6 @@ module.exports = function(args) {
                         should.not.exist(theTask.evaluation);
                      }
 
-                     if(theTask.description) {
-                        throw new Error("The task was added with a description in the database.");
-                     }
-
                      theTask.getAssignedUsers().then(function(records) {
                         if (!records) {
                            throw new Error("There were no assigned users for the task.");
@@ -1107,7 +1099,7 @@ module.exports = function(args) {
                title: "Task",
                description: "Description",
                deadline: "2017-2-25 08:00:00",
-               priority: "5"
+               priority: 5
             };
 
             chai.request(app)
