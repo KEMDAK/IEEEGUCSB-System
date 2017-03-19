@@ -150,9 +150,7 @@ module.exports.show = function(req, res, next)
                           .json(
                           {
                              status:'failed',
-                             message: 'Access denied.',
-                             // some test required this
-                             errors: null
+                             message: 'Access denied.'
                           });
 
                        req.err = 'TaskController.js, Line: 43\nthe requesting user has no authority to show the task.';
@@ -285,7 +283,7 @@ module.exports.store = function(req, res, next) {
    if(req.body.assigned_to)
      req.checkBody('assigned_to', 'validity').isArray();
 
-   /*Validate and sanitizing end date Input*/
+   /*Validate and sanitizing evaluation Input*/
    if(req.body.evaluation)
    {
       req.sanitizeBody('evaluation').escape();
@@ -294,26 +292,13 @@ module.exports.store = function(req, res, next) {
    else
       req.body.evaluation = null;
 
-   /*Validate and sanitizing end date Input*/
+   /*Validate and sanitizing priority Input*/
    req.checkBody('priority', 'required').notEmpty();
    req.sanitizeBody('priority').escape();
    req.sanitizeBody('priority').trim();
+   req.checkBody('priority', 'validity').isIn([1, 3, 5, 8]);
 
-   var p = req.body.priority;
    var errors = req.validationErrors();
-   var assigned_to = null;
-
-   if(p!=1 && p!= 3 && p!= 5 && p!= 8)
-   {
-     if(!errors)
-      errors = [];
-
-     errors.push({
-        param: 'priority',
-        value: req.body.priority,
-        msg: 'validity'
-     });
-   }
 
    var rest = function()
    {
@@ -360,6 +345,7 @@ module.exports.store = function(req, res, next) {
                message: 'Internal server error'
             });
 
+            task.destroy();
             req.err = 'TaskController.js, Line: 470\nfailed to update the task assigned_to in the database.\n' + String(err);
             next();
             return;
@@ -432,7 +418,7 @@ module.exports.store = function(req, res, next) {
       }
    } else
    {
-     req.body.assigned_to = null;
+     req.body.assigned_to = [];
      rest();
    }
 };
@@ -490,24 +476,12 @@ module.exports.update = function(req, res, next)
    if(req.body.assigned_to)
      req.checkBody('assigned_to', 'validity').isArray();
 
-   var errors = req.validationErrors();
    /*Validate and sanitizing status Input*/
    if(req.body.status)
    {
      req.sanitizeBody('status').escape();
      req.sanitizeBody('status').trim();
-
-     var s = req.body.status;
-     if(!(s ==='New' || s === 'In Progress' || s=== 'Ready' || s=== 'Done'))
-     {
-       if(!errors)
-       errors = [];
-       errors.push({
-         param: 'status',
-         value: req.body.status,
-         msg: 'validity'
-       });
-     }
+     req.checkBody('status', 'validity').isIn(['New', 'In Progress', 'Ready', 'Done']);
      attributes.status = req.body.status;
    }
 
@@ -516,22 +490,11 @@ module.exports.update = function(req, res, next)
    {
      req.sanitizeBody('priority').escape();
      req.sanitizeBody('priority').trim();
-
-     var p = req.body.priority;
-     if(p!=1 && p!= 3 && p!= 5 && p!= 8)
-     {
-       if(!errors)
-       errors = [];
-       errors.push({
-         param: 'priority',
-         value: req.body.priority,
-         msg: 'validity'
-       });
-     }
+     req.checkBody('priority', 'validity').isIn([1, 3, 5, 8]);
      attributes.priority = req.body.priority;
    }
 
-   var assigned_to = null;
+   var errors = req.validationErrors();
 
    var rest = function()
    {

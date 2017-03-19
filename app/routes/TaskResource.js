@@ -18,7 +18,36 @@ module.exports = function(app) {
     *   message: String showing a descriptive text,
     *   task:
     *      {
-    *
+    *         id: task identifier,
+    *         title: task title,
+    *         description: task description,
+    *         deadline: task deadline date and time*,
+    *         priority: task priority,
+    *         status: task status,
+    *         evaluation: task evaluation,
+    *         created_at: task creation date and time,
+    *         updated_at: task update date and time,
+    *         supervisor: task supervisor,
+    *         assigned_to: task assignees
+    *         [ {
+    *              id: user identifier,
+    *              first_name: user first name,
+    *              last_name: user last name,
+    *              profile_picture: user profile picture { type: "Image", url: picture url } }
+    *           }, ... ],
+    *         comments: task comments [
+    *                 { id: comment identifier,
+    *                   content: comment content,
+    *                   created_at: comment creation date and time,
+    *                   updated_at: comment upadte date and time,
+    *                   user:
+    *                   {
+    *                     id: user identifier,
+    *                     first_name: user first name,
+    *                     last_name: user last name,
+    *                     profile_picture: user profile picture { type: "Image", url: picture url }
+    *                   }
+    *                 } , ... ]
     *      },
     * 	errors:
     * 	[
@@ -40,6 +69,12 @@ module.exports = function(app) {
     * @example the route expects the access token as 'Authorization' and the user agent as 'user_agent' in the request headers with one of the following values ['Web', 'IOS', 'Android']
     * @example The route expects a body Object in the following format
     * {
+    *     title: the task's title [required],
+    *     description: the task's description String [optional|null],
+    *     deadline: the task's end date and time "YYYY-MM-DD HH:MM:SS" [required],
+    *     priority: the task's priority in [1, 3, 5, 8][required],
+    *     evaluation: task's evaluation [optional|null],
+    *     assigned_to: The task's assignees Array of integers user ids [optional|[]]
     * }
     * @example The route returns as a response an object in the following format
     * {
@@ -66,6 +101,13 @@ module.exports = function(app) {
     * @example the route expects the access token as 'Authorization' and the user agent as 'user_agent' in the request headers with one of the following values ['Web', 'IOS', 'Android']
     * @example The route expects a body Object in the following format
     * {
+    *     title: the task's title [optional],
+    *     description: the task's description String [optional|null],
+    *     deadline: the task's end date and time "YYYY-MM-DD HH:MM:SS" [optional],
+    *     priority: the task's priority in [1, 3, 5, 8][optional],
+    *     status: the task's status in ["New", "Done", "In Progress", "Ready"][optional],
+    *     evaluation: task's evaluation [optional|null],
+    *     assigned_to: The task's assignees Array of integers user ids [optional|[]]
     * }
     * @example The route returns as a response an object in the following format
     * {
