@@ -12,6 +12,7 @@ module.exports = function(app) {
     * @var /api/task/{id} GET
     * @name /api/task/{id} GET
     * @example The route expects a task id for the desired task in the URL in replace of '{id}'
+    * @example the route expects the access token as 'Authorization' and the user agent as 'user_agent' in the request headers with one of the following values ['Web', 'IOS', 'Android']
     * @example The route returns as a response an object in the following format
     * {
     *   status: succeeded/failed,
@@ -69,12 +70,12 @@ module.exports = function(app) {
     * @example the route expects the access token as 'Authorization' and the user agent as 'user_agent' in the request headers with one of the following values ['Web', 'IOS', 'Android']
     * @example The route expects a body Object in the following format
     * {
-    *     title: the task's title [required],
-    *     description: the task's description String [optional|null],
-    *     deadline: the task's end date and time "YYYY-MM-DD HH:MM:SS" [required],
-    *     priority: the task's priority in [1, 3, 5, 8][required],
+    *     title: the task's title (String) [required],
+    *     description: the task's description (String) [optional|null],
+    *     deadline: the task's end date and time ("YYYY-MM-DD HH:MM:SS")[required],
+    *     priority: the task's priority (Integer, one of these: 1, 3, 5, 8) [required],
     *     evaluation: task's evaluation [optional|null],
-    *     assigned_to: The task's assignees Array of integers user ids [optional|[]]
+    *     assigned_to: The task's assignees (Array of Integers: user ids) [optional|[]]
     * }
     * @example The route returns as a response an object in the following format
     * {
@@ -101,13 +102,13 @@ module.exports = function(app) {
     * @example the route expects the access token as 'Authorization' and the user agent as 'user_agent' in the request headers with one of the following values ['Web', 'IOS', 'Android']
     * @example The route expects a body Object in the following format
     * {
-    *     title: the task's title [optional],
-    *     description: the task's description String [optional|null],
-    *     deadline: the task's end date and time "YYYY-MM-DD HH:MM:SS" [optional],
-    *     priority: the task's priority in [1, 3, 5, 8][optional],
-    *     status: the task's status in ["New", "Done", "In Progress", "Ready"][optional],
-    *     evaluation: task's evaluation [optional|null],
-    *     assigned_to: The task's assignees Array of integers user ids [optional|[]]
+    *     title: the task's title (String) [optional],
+    *     description: the task's description (String) [optional],
+    *     deadline: the task's end date and time ("YYYY-MM-DD HH:MM:SS") [optional],
+    *     priority: the task's priority (Integer, one of these: 1, 3, 5, 8) [optional],
+    *     status: the task's status (String, one of these: "New", "Done", "In Progress", "Ready") [optional],
+    *     evaluation: task's evaluation (Integer)[optional],
+    *     assigned_to: The task's assignees (Array of Integers: user ids) [optional]
     * }
     * @example The route returns as a response an object in the following format
     * {
@@ -130,6 +131,7 @@ module.exports = function(app) {
     * @var /api/task/{id} GET
     * @name /api/task/{id} GET
     * @example The route expects a task id for the desired task in the URL in replace of '{id}'
+    * @example the route expects the access token as 'Authorization' and the user agent as 'user_agent' in the request headers with one of the following values ['Web', 'IOS', 'Android']
     * @example The route returns as a response an object in the following format
     * {
     *   status: succeeded/failed,

@@ -288,6 +288,7 @@ module.exports.store = function(req, res, next) {
    {
       req.sanitizeBody('evaluation').escape();
       req.sanitizeBody('evaluation').trim();
+      req.checkBody('evaluation', 'validity').isIn([1, 2, 3, 4, 5]);
    }
    else
       req.body.evaluation = null;
@@ -470,6 +471,7 @@ module.exports.update = function(req, res, next)
    {
      req.sanitizeBody('evaluation').escape();
      req.sanitizeBody('evaluation').trim();
+     req.checkBody('evaluation', 'validity').isIn([1, 2, 3, 4, 5]);
      attributes.evaluation = req.body.evaluation;
    }
 
