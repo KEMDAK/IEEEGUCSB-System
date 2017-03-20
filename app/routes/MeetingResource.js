@@ -18,7 +18,7 @@ module.exports = function(app) {
     * {
     * 	status: succeeded/failed,
     * 	message: String showing a descriptive text,
-    *   meeting:
+    *    meeting:
     *       {
     *           id: the meeting's id,
     *           description: The meeting description,
@@ -106,6 +106,7 @@ module.exports = function(app) {
     * @name /api/meeting/{id} PUT
     * @example The user requesting the route has to be of type 'High Board' at least.
     * @example the route expects the access token as 'Authorization' and the user agent as 'user_agent' in the request headers with one of the following values ['Web', 'IOS', 'Android']
+    * @example The route expects the id of the desired meeting in the URL in replace of '{id}'
     * @example The route expects a body Object in the following format
     * {
     *     start_date: the meeting's start date and time "YYYY-MM-DD HH:MM:SS" [optional],
@@ -137,6 +138,7 @@ module.exports = function(app) {
     * @name /api/meeting/{id} DELETE
     * @example The user requesting the route has to be of type 'High Board' at least.
     * @example the route expects the access token as 'Authorization' and the user agent as 'user_agent' in the request headers with one of the following values ['Web', 'IOS', 'Android']
+    * @example The route expects the id of the desired meeting in the URL in replace of '{id}'
     * @example The route returns as a response an object in the following format
     * {
     *   status: succeeded/failed,
@@ -159,6 +161,7 @@ module.exports = function(app) {
     * @name /api/meeting/{id}/rate POST
     * @example The user requesting the route has to be of type 'High Board' at least.
     * @example the route expects the access token as 'Authorization' and the user agent as 'user_agent' in the request headers with one of the following values ['Web', 'IOS', 'Android']
+    * @example The route expects the id of the desired meeting in the URL in replace of '{id}'
     * @example The route expects a body Object in the following format
     * {
     *     evaluation: Integer the meeting evaluation [1...5] [required],
