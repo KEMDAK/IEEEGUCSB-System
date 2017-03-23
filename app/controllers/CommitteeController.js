@@ -43,7 +43,7 @@ module.exports.index = function(req, res, next){
       /* failed to retrieve the committes from the database */
       res.status(500).json({
          status:'failed',
-         message: 'Internal server error'
+         message: 'Internal Server Error'
       });
 
       req.err = 'CommitteeController.js, Line: 45\nCouldn\'t retreive the committees from the database.\n' + String(err);
@@ -138,7 +138,7 @@ module.exports.show = function(req, res, next){
            /* failed to retrieve the members from the database */
       		res.status(500).json({
       			status:'failed',
-      			message: err.message
+      			message: 'Internal server error'
       		});
 
       		req.err = 'CommitteeController.js, Line: 111\nCouldn\'t retreive the the committee members from the database.\n' + String(err);
@@ -152,7 +152,7 @@ module.exports.show = function(req, res, next){
       /* failed to retrieve the committee from the database */
       res.status(500).json({
          status:'failed',
-         message: err.message
+         message: 'Internal Server Error'
       });
 
       req.err = 'CommitteeController.js, Line: 111\nCouldn\'t retreive the the committee from the database.\n' + String(err);
@@ -215,7 +215,7 @@ module.exports.store = function(req, res, next){
             if(members[i].type == 'Admin' || members[i].type == 'Upper Board' || ( members[i].type == 'High Board' && members[i].id != req.body.head_id)){
              res.status(400).json({
                status: 'failed',
-               errors: {param:'members',type:'validity',value:members.id}  
+               errors: {param:'members',type:'validity',value:members[i].id}  
              });
              req.err = 'CommitteeController.js, Line: 143\nSome validation errors occured.\n' + JSON.stringify(errors);
              next();
@@ -286,7 +286,7 @@ module.exports.store = function(req, res, next){
             			});
 
      }).catch(function(err){
-       	res.status(400).json({
+       	res.status(500).json({
        		status: 'failed',
        		error: 'Internal Server Error' 
        	});
@@ -360,7 +360,7 @@ module.exports.store = function(req, res, next){
        if(!committee){
        	    res.status(404).json({
             status:'failed',
-            message: 'Internal server error'
+            message: 'The requested route was not founds'
          });
 
          req.err = 'UserController.js, Line: 296\nCouldn\'t find the committee in the database.\n' ;
@@ -373,7 +373,6 @@ module.exports.store = function(req, res, next){
         if(!req.body.head_id){
            committee.head(function(user,err){
                  if(err){
-                  console.log("a7a");
                  }else{
                   head = user.id ;
                   users.push(user.id);
@@ -391,7 +390,7 @@ module.exports.store = function(req, res, next){
         if(members[i].type == 'Admin' || members[i].type == 'Upper Board' || ( members[i].type == 'High Board' && members[i].id != head)){
                res.status(400).json({
                status: 'failed',
-               errors: {param:'members',type:'validity',value:members.id}  
+               errors: {param:'members',type:'validity',value:members[i].id}  
                });
                req.err = 'CommitteeController.js, Line: 143\nSome validation errors occured.\n' + JSON.stringify(errors);
                next();
@@ -448,7 +447,7 @@ module.exports.store = function(req, res, next){
      });
       
     }).catch(function(err){
-        res.status(400).json({
+        res.status(500).json({
           status: 'failed',
           error: 'Internal Server Error' 
         });
@@ -459,9 +458,9 @@ module.exports.store = function(req, res, next){
 
    }).catch(function(err){
     
-         res.status(400).json({
+         res.status(404).json({
                   status:'failed',
-                  message: 'The requested committee was not found.'
+                  message: 'The requested route was not found.'
                });
 
                req.err = 'CommitteeController.js, Line: 442\nThe requested committee was not found in the database.';
