@@ -800,7 +800,7 @@ module.exports.updateAuth = function(req, res, next) {
     }else{
 
           if(user.type != 'Admin' && (user.type != 'Upper Board' || req.user.type =='Admin')){
-             user.update(obj).then(function(gg){
+             user.update(obj).then(function(){
                   res.status(200).json({
                   status: 'succeeded',
                   message: 'user successfully updated'
