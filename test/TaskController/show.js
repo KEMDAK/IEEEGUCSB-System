@@ -3,9 +3,10 @@ module.exports = function(args) {
 
    describe('GET /api/task/:id', function() {
       this.timeout(500);
-      
+
       before(function(done) {
-         this.timeout(10000);
+         this.timeout(40000);
+
          app = args.app;
          fn = args.fn;
          data = args.data;
@@ -123,7 +124,6 @@ module.exports = function(args) {
                try {
                   res.should.have.status(403);
                   res.body.should.have.property('status').and.equal('failed');
-                  res.body.should.have.property('errors');  // TODO: Test the errors themselves
                   should.exist(err);
                   done();
                } catch(error) {
@@ -141,7 +141,6 @@ module.exports = function(args) {
                try {
                   res.should.have.status(403);
                   res.body.should.have.property('status').and.equal('failed');
-                  res.body.should.have.property('errors');  // TODO: Test the errors themselves
                   should.exist(err);
                   done();
                } catch(error) {
@@ -187,23 +186,26 @@ module.exports = function(args) {
             .end(function(err, res) {
                try {
                   res.should.have.status(200);
-                  res.body.should.have.all.keys(['id', 'title', 'description', 'deadline', 'priority', 'status', 'evaluation', 'comments', 'assigned_to', 'created_at', 'updated_at', 'supervisor']);
-                  res.body.id.should.equal(task_id);
-                  res.body.title.should.equal("Title " + task_id);
-                  res.body.description.should.equal("Description " + task_id);
-                  res.body.priority.should.equal(5);
-                  res.body.status.should.equal("New");
-                  res.body.evaluation.should.equal(3);
-                  res.body.comments.should.be.an('array').and.should.have.lengthOf(2);
-                  res.body.comments.sort(function(a, b){ return a.id - b.id; });
-                  for (var i = 0; i < res.body.comments.length; i++) {
-                     res.body.comments[i].should.have.all.keys(['id', 'content', 'user', 'created_at', 'updated_at']);
-                     res.body.comments[i].user.should.have.all.keys(['id', 'first_name', 'last_name', 'profile_picture']);
+                  res.body.should.have.all.keys(['status', 'task']);
+                  res.body.status.should.equal("succeeded");
+                  res.body.task.should.have.all.keys(['id', 'title', 'description', 'deadline', 'priority', 'status', 'evaluation', 'comments', 'assigned_to', 'created_at', 'updated_at', 'supervisor']);
+                  res.body.task.id.should.equal(task_id);
+                  res.body.task.title.should.equal("Task " + task_id);
+                  res.body.task.description.should.equal("Description " + task_id);
+                  res.body.task.priority.should.equal(5);
+                  res.body.task.status.should.equal("New");
+                  res.body.task.evaluation.should.equal(3);
+                  res.body.task.comments.should.be.an('array');
+                  res.body.task.comments.should.have.lengthOf(2);
+                  res.body.task.comments.sort(function(a, b){ return a.id - b.id; });
+                  for (var i = 0; i < res.body.task.comments.length; i++) {
+                     res.body.task.comments[i].should.have.all.keys(['id', 'content', 'user', 'created_at', 'updated_at']);
+                     res.body.task.comments[i].user.should.have.all.keys(['id', 'first_name', 'last_name', 'profile_picture']);
 
-                     var comment_id = res.body.id + (i % 2 === 0)? 0 : 2;
-                     res.body.comments[i].id.should.equal(comment_id);
-                     res.body.comments[i].content.should.equal("Content " + comment_id);
-                     res.body.comments[i].user.eql({
+                     var comment_id = res.body.task.id + ((i % 2 === 0)? 0 : 4);
+                     res.body.task.comments[i].id.should.equal(comment_id);
+                     res.body.task.comments[i].content.should.equal("Content " + comment_id);
+                     res.body.task.comments[i].user.should.eql({
                         id: comment_id,
                         first_name: "First Name " + comment_id,
                         last_name: "Last Name " + comment_id,
@@ -211,20 +213,21 @@ module.exports = function(args) {
                      });
                   }
 
-                  res.body.assigned_to.should.be.an('array').and.should.have.lengthOf(data.tasks_users[task_id - 1]);
-                  res.body.assigned_to.sort(function(a, b){ return a.id - b.id; });
-                  for (var i = 0; i < res.body.assigned_to.length; i++) {
-                     res.body.assigned_to[i].should.have.all.keys(['id', 'first_name', 'last_name', 'profile_picture']);
-                     res.body.assigned_to[i].eql({
-                        id: data.tasks_users[task_id - 1].id,
-                        first_name: "First Name " + data.tasks_users[task_id - 1].id,
-                        last_name: "Last Name " + data.tasks_users[task_id - 1].id,
+                  res.body.task.assigned_to.should.be.an('array');
+                  res.body.task.assigned_to.should.have.lengthOf(data.tasks_users[task_id - 1].length);
+                  res.body.task.assigned_to.sort(function(a, b){ return a.id - b.id; });
+                  for (var i = 0; i < res.body.task.assigned_to.length; i++) {
+                     res.body.task.assigned_to[i].should.have.all.keys(['id', 'first_name', 'last_name', 'profile_picture']);
+                     res.body.task.assigned_to[i].should.eql({
+                        id: data.tasks_users[task_id - 1][i],
+                        first_name: "First Name " + data.tasks_users[task_id - 1][i],
+                        last_name: "Last Name " + data.tasks_users[task_id - 1][i],
                         profile_picture: null
                      });
                   }
 
-                  res.body.supervisor.should.have.all.keys(['id', 'first_name', 'last_name', 'profile_picture']);
-                  res.body.supervisor.eql({
+                  res.body.task.supervisor.should.have.all.keys(['id', 'first_name', 'last_name', 'profile_picture']);
+                  res.body.task.supervisor.should.eql({
                      id: task_id,
                      first_name: "First Name " + task_id,
                      last_name: "Last Name " + task_id,
@@ -247,23 +250,26 @@ module.exports = function(args) {
             .end(function(err, res) {
                try {
                   res.should.have.status(200);
-                  res.body.should.have.all.keys(['id', 'title', 'description', 'deadline', 'priority', 'status', 'evaluation', 'comments', 'assigned_to', 'created_at', 'updated_at', 'supervisor']);
-                  res.body.id.should.equal(task_id);
-                  res.body.title.should.equal("Title " + task_id);
-                  res.body.description.should.equal("Description " + task_id);
-                  res.body.priority.should.equal(5);
-                  res.body.status.should.equal("New");
-                  res.body.evaluation.should.equal(3);
-                  res.body.comments.should.be.an('array').and.should.have.lengthOf(2);
-                  res.body.comments.sort(function(a, b){ return a.id - b.id; });
-                  for (var i = 0; i < res.body.comments.length; i++) {
-                     res.body.comments[i].should.have.all.keys(['id', 'content', 'user', 'created_at', 'updated_at']);
-                     res.body.comments[i].user.should.have.all.keys(['id', 'first_name', 'last_name', 'profile_picture']);
+                  res.body.should.have.all.keys(['status', 'task']);
+                  res.body.status.should.equal("succeeded");
+                  res.body.task.should.have.all.keys(['id', 'title', 'description', 'deadline', 'priority', 'status', 'evaluation', 'comments', 'assigned_to', 'created_at', 'updated_at', 'supervisor']);
+                  res.body.task.id.should.equal(task_id);
+                  res.body.task.title.should.equal("Task " + task_id);
+                  res.body.task.description.should.equal("Description " + task_id);
+                  res.body.task.priority.should.equal(5);
+                  res.body.task.status.should.equal("New");
+                  res.body.task.evaluation.should.equal(3);
+                  res.body.task.comments.should.be.an('array');
+                  res.body.task.comments.should.have.lengthOf(2);
+                  res.body.task.comments.sort(function(a, b){ return a.id - b.id; });
+                  for (var i = 0; i < res.body.task.comments.length; i++) {
+                     res.body.task.comments[i].should.have.all.keys(['id', 'content', 'user', 'created_at', 'updated_at']);
+                     res.body.task.comments[i].user.should.have.all.keys(['id', 'first_name', 'last_name', 'profile_picture']);
 
-                     var comment_id = res.body.id + (i % 2 === 0)? 0 : 2;
-                     res.body.comments[i].id.should.equal(comment_id);
-                     res.body.comments[i].content.should.equal("Content " + comment_id);
-                     res.body.comments[i].user.eql({
+                     var comment_id = res.body.task.id + ((i % 2 === 0)? 0 : 4);
+                     res.body.task.comments[i].id.should.equal(comment_id);
+                     res.body.task.comments[i].content.should.equal("Content " + comment_id);
+                     res.body.task.comments[i].user.should.eql({
                         id: comment_id,
                         first_name: "First Name " + comment_id,
                         last_name: "Last Name " + comment_id,
@@ -271,20 +277,21 @@ module.exports = function(args) {
                      });
                   }
 
-                  res.body.assigned_to.should.be.an('array').and.should.have.lengthOf(data.tasks_users[task_id - 1]);
-                  res.body.assigned_to.sort(function(a, b){ return a.id - b.id; });
-                  for (var i = 0; i < res.body.assigned_to.length; i++) {
-                     res.body.assigned_to[i].should.have.all.keys(['id', 'first_name', 'last_name', 'profile_picture']);
-                     res.body.assigned_to[i].eql({
-                        id: data.tasks_users[task_id - 1].id,
-                        first_name: "First Name " + data.tasks_users[task_id - 1].id,
-                        last_name: "Last Name " + data.tasks_users[task_id - 1].id,
+                  res.body.task.assigned_to.should.be.an('array');
+                  res.body.task.assigned_to.should.have.lengthOf(data.tasks_users[task_id - 1].length);
+                  res.body.task.assigned_to.sort(function(a, b){ return a.id - b.id; });
+                  for (var i = 0; i < res.body.task.assigned_to.length; i++) {
+                     res.body.task.assigned_to[i].should.have.all.keys(['id', 'first_name', 'last_name', 'profile_picture']);
+                     res.body.task.assigned_to[i].should.eql({
+                        id: data.tasks_users[task_id - 1][i],
+                        first_name: "First Name " + data.tasks_users[task_id - 1][i],
+                        last_name: "Last Name " + data.tasks_users[task_id - 1][i],
                         profile_picture: null
                      });
                   }
 
-                  res.body.supervisor.should.have.all.keys(['id', 'first_name', 'last_name', 'profile_picture']);
-                  res.body.supervisor.eql({
+                  res.body.task.supervisor.should.have.all.keys(['id', 'first_name', 'last_name', 'profile_picture']);
+                  res.body.task.supervisor.should.eql({
                      id: task_id,
                      first_name: "First Name " + task_id,
                      last_name: "Last Name " + task_id,
@@ -307,23 +314,26 @@ module.exports = function(args) {
             .end(function(err, res) {
                try {
                   res.should.have.status(200);
-                  res.body.should.have.all.keys(['id', 'title', 'description', 'deadline', 'priority', 'status', 'evaluation', 'comments', 'assigned_to', 'created_at', 'updated_at', 'supervisor']);
-                  res.body.id.should.equal(task_id);
-                  res.body.title.should.equal("Title " + task_id);
-                  res.body.description.should.equal("Description " + task_id);
-                  res.body.priority.should.equal(5);
-                  res.body.status.should.equal("New");
-                  res.body.evaluation.should.equal(3);
-                  res.body.comments.should.be.an('array').and.should.have.lengthOf(2);
-                  res.body.comments.sort(function(a, b){ return a.id - b.id; });
-                  for (var i = 0; i < res.body.comments.length; i++) {
-                     res.body.comments[i].should.have.all.keys(['id', 'content', 'user', 'created_at', 'updated_at']);
-                     res.body.comments[i].user.should.have.all.keys(['id', 'first_name', 'last_name', 'profile_picture']);
+                  res.body.should.have.all.keys(['status', 'task']);
+                  res.body.status.should.equal("succeeded");
+                  res.body.task.should.have.all.keys(['id', 'title', 'description', 'deadline', 'priority', 'status', 'evaluation', 'comments', 'assigned_to', 'created_at', 'updated_at', 'supervisor']);
+                  res.body.task.id.should.equal(task_id);
+                  res.body.task.title.should.equal("Task " + task_id);
+                  res.body.task.description.should.equal("Description " + task_id);
+                  res.body.task.priority.should.equal(5);
+                  res.body.task.status.should.equal("New");
+                  res.body.task.evaluation.should.equal(3);
+                  res.body.task.comments.should.be.an('array');
+                  res.body.task.comments.should.have.lengthOf(2);
+                  res.body.task.comments.sort(function(a, b){ return a.id - b.id; });
+                  for (var i = 0; i < res.body.task.comments.length; i++) {
+                     res.body.task.comments[i].should.have.all.keys(['id', 'content', 'user', 'created_at', 'updated_at']);
+                     res.body.task.comments[i].user.should.have.all.keys(['id', 'first_name', 'last_name', 'profile_picture']);
 
-                     var comment_id = res.body.id + (i % 2 === 0)? 0 : 2;
-                     res.body.comments[i].id.should.equal(comment_id);
-                     res.body.comments[i].content.should.equal("Content " + comment_id);
-                     res.body.comments[i].user.eql({
+                     var comment_id = res.body.task.id + ((i % 2 === 0)? 0 : 4);
+                     res.body.task.comments[i].id.should.equal(comment_id);
+                     res.body.task.comments[i].content.should.equal("Content " + comment_id);
+                     res.body.task.comments[i].user.should.eql({
                         id: comment_id,
                         first_name: "First Name " + comment_id,
                         last_name: "Last Name " + comment_id,
@@ -331,20 +341,21 @@ module.exports = function(args) {
                      });
                   }
 
-                  res.body.assigned_to.should.be.an('array').and.should.have.lengthOf(data.tasks_users[task_id - 1]);
-                  res.body.assigned_to.sort(function(a, b){ return a.id - b.id; });
-                  for (var i = 0; i < res.body.assigned_to.length; i++) {
-                     res.body.assigned_to[i].should.have.all.keys(['id', 'first_name', 'last_name', 'profile_picture']);
-                     res.body.assigned_to[i].eql({
-                        id: data.tasks_users[task_id - 1].id,
-                        first_name: "First Name " + data.tasks_users[task_id - 1].id,
-                        last_name: "Last Name " + data.tasks_users[task_id - 1].id,
+                  res.body.task.assigned_to.should.be.an('array');
+                  res.body.task.assigned_to.should.have.lengthOf(data.tasks_users[task_id - 1].length);
+                  res.body.task.assigned_to.sort(function(a, b){ return a.id - b.id; });
+                  for (var i = 0; i < res.body.task.assigned_to.length; i++) {
+                     res.body.task.assigned_to[i].should.have.all.keys(['id', 'first_name', 'last_name', 'profile_picture']);
+                     res.body.task.assigned_to[i].should.eql({
+                        id: data.tasks_users[task_id - 1][i],
+                        first_name: "First Name " + data.tasks_users[task_id - 1][i],
+                        last_name: "Last Name " + data.tasks_users[task_id - 1][i],
                         profile_picture: null
                      });
                   }
 
-                  res.body.supervisor.should.have.all.keys(['id', 'first_name', 'last_name', 'profile_picture']);
-                  res.body.supervisor.eql({
+                  res.body.task.supervisor.should.have.all.keys(['id', 'first_name', 'last_name', 'profile_picture']);
+                  res.body.task.supervisor.should.eql({
                      id: task_id,
                      first_name: "First Name " + task_id,
                      last_name: "Last Name " + task_id,
@@ -367,23 +378,26 @@ module.exports = function(args) {
             .end(function(err, res) {
                try {
                   res.should.have.status(200);
-                  res.body.should.have.all.keys(['id', 'title', 'description', 'deadline', 'priority', 'status', 'evaluation', 'comments', 'assigned_to', 'created_at', 'updated_at', 'supervisor']);
-                  res.body.id.should.equal(task_id);
-                  res.body.title.should.equal("Title " + task_id);
-                  res.body.description.should.equal("Description " + task_id);
-                  res.body.priority.should.equal(5);
-                  res.body.status.should.equal("New");
-                  res.body.evaluation.should.equal(3);
-                  res.body.comments.should.be.an('array').and.should.have.lengthOf(2);
-                  res.body.comments.sort(function(a, b){ return a.id - b.id; });
-                  for (var i = 0; i < res.body.comments.length; i++) {
-                     res.body.comments[i].should.have.all.keys(['id', 'content', 'user', 'created_at', 'updated_at']);
-                     res.body.comments[i].user.should.have.all.keys(['id', 'first_name', 'last_name', 'profile_picture']);
+                  res.body.should.have.all.keys(['status', 'task']);
+                  res.body.status.should.equal("succeeded");
+                  res.body.task.should.have.all.keys(['id', 'title', 'description', 'deadline', 'priority', 'status', 'evaluation', 'comments', 'assigned_to', 'created_at', 'updated_at', 'supervisor']);
+                  res.body.task.id.should.equal(task_id);
+                  res.body.task.title.should.equal("Task " + task_id);
+                  res.body.task.description.should.equal("Description " + task_id);
+                  res.body.task.priority.should.equal(5);
+                  res.body.task.status.should.equal("New");
+                  res.body.task.evaluation.should.equal(3);
+                  res.body.task.comments.should.be.an('array');
+                  res.body.task.comments.should.have.lengthOf(2);
+                  res.body.task.comments.sort(function(a, b){ return a.id - b.id; });
+                  for (var i = 0; i < res.body.task.comments.length; i++) {
+                     res.body.task.comments[i].should.have.all.keys(['id', 'content', 'user', 'created_at', 'updated_at']);
+                     res.body.task.comments[i].user.should.have.all.keys(['id', 'first_name', 'last_name', 'profile_picture']);
 
-                     var comment_id = res.body.id + (i % 2 === 0)? 0 : 2;
-                     res.body.comments[i].id.should.equal(comment_id);
-                     res.body.comments[i].content.should.equal("Content " + comment_id);
-                     res.body.comments[i].user.eql({
+                     var comment_id = res.body.task.id + ((i % 2 === 0)? 0 : 4);
+                     res.body.task.comments[i].id.should.equal(comment_id);
+                     res.body.task.comments[i].content.should.equal("Content " + comment_id);
+                     res.body.task.comments[i].user.should.eql({
                         id: comment_id,
                         first_name: "First Name " + comment_id,
                         last_name: "Last Name " + comment_id,
@@ -391,20 +405,21 @@ module.exports = function(args) {
                      });
                   }
 
-                  res.body.assigned_to.should.be.an('array').and.should.have.lengthOf(data.tasks_users[task_id - 1]);
-                  res.body.assigned_to.sort(function(a, b){ return a.id - b.id; });
-                  for (var i = 0; i < res.body.assigned_to.length; i++) {
-                     res.body.assigned_to[i].should.have.all.keys(['id', 'first_name', 'last_name', 'profile_picture']);
-                     res.body.assigned_to[i].eql({
-                        id: data.tasks_users[task_id - 1].id,
-                        first_name: "First Name " + data.tasks_users[task_id - 1].id,
-                        last_name: "Last Name " + data.tasks_users[task_id - 1].id,
+                  res.body.task.assigned_to.should.be.an('array');
+                  res.body.task.assigned_to.should.have.lengthOf(data.tasks_users[task_id - 1].length);
+                  res.body.task.assigned_to.sort(function(a, b){ return a.id - b.id; });
+                  for (var i = 0; i < res.body.task.assigned_to.length; i++) {
+                     res.body.task.assigned_to[i].should.have.all.keys(['id', 'first_name', 'last_name', 'profile_picture']);
+                     res.body.task.assigned_to[i].should.eql({
+                        id: data.tasks_users[task_id - 1][i],
+                        first_name: "First Name " + data.tasks_users[task_id - 1][i],
+                        last_name: "Last Name " + data.tasks_users[task_id - 1][i],
                         profile_picture: null
                      });
                   }
 
-                  res.body.supervisor.should.have.all.keys(['id', 'first_name', 'last_name', 'profile_picture']);
-                  res.body.supervisor.eql({
+                  res.body.task.supervisor.should.have.all.keys(['id', 'first_name', 'last_name', 'profile_picture']);
+                  res.body.task.supervisor.should.eql({
                      id: task_id,
                      first_name: "First Name " + task_id,
                      last_name: "Last Name " + task_id,
@@ -427,23 +442,26 @@ module.exports = function(args) {
             .end(function(err, res) {
                try {
                   res.should.have.status(200);
-                  res.body.should.have.all.keys(['id', 'title', 'description', 'deadline', 'priority', 'status', 'evaluation', 'comments', 'assigned_to', 'created_at', 'updated_at', 'supervisor']);
-                  res.body.id.should.equal(task_id);
-                  res.body.title.should.equal("Title " + task_id);
-                  res.body.description.should.equal("Description " + task_id);
-                  res.body.priority.should.equal(5);
-                  res.body.status.should.equal("New");
-                  res.body.evaluation.should.equal(3);
-                  res.body.comments.should.be.an('array').and.should.have.lengthOf(2);
-                  res.body.comments.sort(function(a, b){ return a.id - b.id; });
-                  for (var i = 0; i < res.body.comments.length; i++) {
-                     res.body.comments[i].should.have.all.keys(['id', 'content', 'user', 'created_at', 'updated_at']);
-                     res.body.comments[i].user.should.have.all.keys(['id', 'first_name', 'last_name', 'profile_picture']);
+                  res.body.should.have.all.keys(['status', 'task']);
+                  res.body.status.should.equal("succeeded");
+                  res.body.task.should.have.all.keys(['id', 'title', 'description', 'deadline', 'priority', 'status', 'evaluation', 'comments', 'assigned_to', 'created_at', 'updated_at', 'supervisor']);
+                  res.body.task.id.should.equal(task_id);
+                  res.body.task.title.should.equal("Task " + task_id);
+                  res.body.task.description.should.equal("Description " + task_id);
+                  res.body.task.priority.should.equal(5);
+                  res.body.task.status.should.equal("New");
+                  res.body.task.evaluation.should.equal(3);
+                  res.body.task.comments.should.be.an('array');
+                  res.body.task.comments.should.have.lengthOf(2);
+                  res.body.task.comments.sort(function(a, b){ return a.id - b.id; });
+                  for (var i = 0; i < res.body.task.comments.length; i++) {
+                     res.body.task.comments[i].should.have.all.keys(['id', 'content', 'user', 'created_at', 'updated_at']);
+                     res.body.task.comments[i].user.should.have.all.keys(['id', 'first_name', 'last_name', 'profile_picture']);
 
-                     var comment_id = res.body.id + (i % 2 === 0)? 0 : 2;
-                     res.body.comments[i].id.should.equal(comment_id);
-                     res.body.comments[i].content.should.equal("Content " + comment_id);
-                     res.body.comments[i].user.eql({
+                     var comment_id = res.body.task.id + ((i % 2 === 0)? 0 : 4);
+                     res.body.task.comments[i].id.should.equal(comment_id);
+                     res.body.task.comments[i].content.should.equal("Content " + comment_id);
+                     res.body.task.comments[i].user.should.eql({
                         id: comment_id,
                         first_name: "First Name " + comment_id,
                         last_name: "Last Name " + comment_id,
@@ -451,20 +469,21 @@ module.exports = function(args) {
                      });
                   }
 
-                  res.body.assigned_to.should.be.an('array').and.should.have.lengthOf(data.tasks_users[task_id - 1]);
-                  res.body.assigned_to.sort(function(a, b){ return a.id - b.id; });
-                  for (var i = 0; i < res.body.assigned_to.length; i++) {
-                     res.body.assigned_to[i].should.have.all.keys(['id', 'first_name', 'last_name', 'profile_picture']);
-                     res.body.assigned_to[i].eql({
-                        id: data.tasks_users[task_id - 1].id,
-                        first_name: "First Name " + data.tasks_users[task_id - 1].id,
-                        last_name: "Last Name " + data.tasks_users[task_id - 1].id,
+                  res.body.task.assigned_to.should.be.an('array');
+                  res.body.task.assigned_to.should.have.lengthOf(data.tasks_users[task_id - 1].length);
+                  res.body.task.assigned_to.sort(function(a, b){ return a.id - b.id; });
+                  for (var i = 0; i < res.body.task.assigned_to.length; i++) {
+                     res.body.task.assigned_to[i].should.have.all.keys(['id', 'first_name', 'last_name', 'profile_picture']);
+                     res.body.task.assigned_to[i].should.eql({
+                        id: data.tasks_users[task_id - 1][i],
+                        first_name: "First Name " + data.tasks_users[task_id - 1][i],
+                        last_name: "Last Name " + data.tasks_users[task_id - 1][i],
                         profile_picture: null
                      });
                   }
 
-                  res.body.supervisor.should.have.all.keys(['id', 'first_name', 'last_name', 'profile_picture']);
-                  res.body.supervisor.eql({
+                  res.body.task.supervisor.should.have.all.keys(['id', 'first_name', 'last_name', 'profile_picture']);
+                  res.body.task.supervisor.should.eql({
                      id: task_id,
                      first_name: "First Name " + task_id,
                      last_name: "Last Name " + task_id,
@@ -487,23 +506,26 @@ module.exports = function(args) {
             .end(function(err, res) {
                try {
                   res.should.have.status(200);
-                  res.body.should.have.all.keys(['id', 'title', 'description', 'deadline', 'priority', 'status', 'evaluation', 'comments', 'assigned_to', 'created_at', 'updated_at', 'supervisor']);
-                  res.body.id.should.equal(task_id);
-                  res.body.title.should.equal("Title " + task_id);
-                  res.body.description.should.equal("Description " + task_id);
-                  res.body.priority.should.equal(5);
-                  res.body.status.should.equal("New");
-                  res.body.evaluation.should.equal(3);
-                  res.body.comments.should.be.an('array').and.should.have.lengthOf(2);
-                  res.body.comments.sort(function(a, b){ return a.id - b.id; });
-                  for (var i = 0; i < res.body.comments.length; i++) {
-                     res.body.comments[i].should.have.all.keys(['id', 'content', 'user', 'created_at', 'updated_at']);
-                     res.body.comments[i].user.should.have.all.keys(['id', 'first_name', 'last_name', 'profile_picture']);
+                  res.body.should.have.all.keys(['status', 'task']);
+                  res.body.status.should.equal("succeeded");
+                  res.body.task.should.have.all.keys(['id', 'title', 'description', 'deadline', 'priority', 'status', 'evaluation', 'comments', 'assigned_to', 'created_at', 'updated_at', 'supervisor']);
+                  res.body.task.id.should.equal(task_id);
+                  res.body.task.title.should.equal("Task " + task_id);
+                  res.body.task.description.should.equal("Description " + task_id);
+                  res.body.task.priority.should.equal(5);
+                  res.body.task.status.should.equal("New");
+                  res.body.task.evaluation.should.equal(3);
+                  res.body.task.comments.should.be.an('array');
+                  res.body.task.comments.should.have.lengthOf(2);
+                  res.body.task.comments.sort(function(a, b){ return a.id - b.id; });
+                  for (var i = 0; i < res.body.task.comments.length; i++) {
+                     res.body.task.comments[i].should.have.all.keys(['id', 'content', 'user', 'created_at', 'updated_at']);
+                     res.body.task.comments[i].user.should.have.all.keys(['id', 'first_name', 'last_name', 'profile_picture']);
 
-                     var comment_id = res.body.id + (i % 2 === 0)? 0 : 2;
-                     res.body.comments[i].id.should.equal(comment_id);
-                     res.body.comments[i].content.should.equal("Content " + comment_id);
-                     res.body.comments[i].user.eql({
+                     var comment_id = res.body.task.id + ((i % 2 === 0)? 0 : 4);
+                     res.body.task.comments[i].id.should.equal(comment_id);
+                     res.body.task.comments[i].content.should.equal("Content " + comment_id);
+                     res.body.task.comments[i].user.should.eql({
                         id: comment_id,
                         first_name: "First Name " + comment_id,
                         last_name: "Last Name " + comment_id,
@@ -511,20 +533,21 @@ module.exports = function(args) {
                      });
                   }
 
-                  res.body.assigned_to.should.be.an('array').and.should.have.lengthOf(data.tasks_users[task_id - 1]);
-                  res.body.assigned_to.sort(function(a, b){ return a.id - b.id; });
-                  for (var i = 0; i < res.body.assigned_to.length; i++) {
-                     res.body.assigned_to[i].should.have.all.keys(['id', 'first_name', 'last_name', 'profile_picture']);
-                     res.body.assigned_to[i].eql({
-                        id: data.tasks_users[task_id - 1].id,
-                        first_name: "First Name " + data.tasks_users[task_id - 1].id,
-                        last_name: "Last Name " + data.tasks_users[task_id - 1].id,
+                  res.body.task.assigned_to.should.be.an('array');
+                  res.body.task.assigned_to.should.have.lengthOf(data.tasks_users[task_id - 1].length);
+                  res.body.task.assigned_to.sort(function(a, b){ return a.id - b.id; });
+                  for (var i = 0; i < res.body.task.assigned_to.length; i++) {
+                     res.body.task.assigned_to[i].should.have.all.keys(['id', 'first_name', 'last_name', 'profile_picture']);
+                     res.body.task.assigned_to[i].should.eql({
+                        id: data.tasks_users[task_id - 1][i],
+                        first_name: "First Name " + data.tasks_users[task_id - 1][i],
+                        last_name: "Last Name " + data.tasks_users[task_id - 1][i],
                         profile_picture: null
                      });
                   }
 
-                  res.body.supervisor.should.have.all.keys(['id', 'first_name', 'last_name', 'profile_picture']);
-                  res.body.supervisor.eql({
+                  res.body.task.supervisor.should.have.all.keys(['id', 'first_name', 'last_name', 'profile_picture']);
+                  res.body.task.supervisor.should.eql({
                      id: task_id,
                      first_name: "First Name " + task_id,
                      last_name: "Last Name " + task_id,
@@ -547,23 +570,26 @@ module.exports = function(args) {
             .end(function(err, res) {
                try {
                   res.should.have.status(200);
-                  res.body.should.have.all.keys(['id', 'title', 'description', 'deadline', 'priority', 'status', 'evaluation', 'comments', 'assigned_to', 'created_at', 'updated_at', 'supervisor']);
-                  res.body.id.should.equal(task_id);
-                  res.body.title.should.equal("Title " + task_id);
-                  res.body.description.should.equal("Description " + task_id);
-                  res.body.priority.should.equal(5);
-                  res.body.status.should.equal("New");
-                  res.body.evaluation.should.equal(3);
-                  res.body.comments.should.be.an('array').and.should.have.lengthOf(2);
-                  res.body.comments.sort(function(a, b){ return a.id - b.id; });
-                  for (var i = 0; i < res.body.comments.length; i++) {
-                     res.body.comments[i].should.have.all.keys(['id', 'content', 'user', 'created_at', 'updated_at']);
-                     res.body.comments[i].user.should.have.all.keys(['id', 'first_name', 'last_name', 'profile_picture']);
+                  res.body.should.have.all.keys(['status', 'task']);
+                  res.body.status.should.equal("succeeded");
+                  res.body.task.should.have.all.keys(['id', 'title', 'description', 'deadline', 'priority', 'status', 'evaluation', 'comments', 'assigned_to', 'created_at', 'updated_at', 'supervisor']);
+                  res.body.task.id.should.equal(task_id);
+                  res.body.task.title.should.equal("Task " + task_id);
+                  res.body.task.description.should.equal("Description " + task_id);
+                  res.body.task.priority.should.equal(5);
+                  res.body.task.status.should.equal("New");
+                  res.body.task.evaluation.should.equal(3);
+                  res.body.task.comments.should.be.an('array');
+                  res.body.task.comments.should.have.lengthOf(2);
+                  res.body.task.comments.sort(function(a, b){ return a.id - b.id; });
+                  for (var i = 0; i < res.body.task.comments.length; i++) {
+                     res.body.task.comments[i].should.have.all.keys(['id', 'content', 'user', 'created_at', 'updated_at']);
+                     res.body.task.comments[i].user.should.have.all.keys(['id', 'first_name', 'last_name', 'profile_picture']);
 
-                     var comment_id = res.body.id + (i % 2 === 0)? 0 : 2;
-                     res.body.comments[i].id.should.equal(comment_id);
-                     res.body.comments[i].content.should.equal("Content " + comment_id);
-                     res.body.comments[i].user.eql({
+                     var comment_id = res.body.task.id + ((i % 2 === 0)? 0 : 4);
+                     res.body.task.comments[i].id.should.equal(comment_id);
+                     res.body.task.comments[i].content.should.equal("Content " + comment_id);
+                     res.body.task.comments[i].user.should.eql({
                         id: comment_id,
                         first_name: "First Name " + comment_id,
                         last_name: "Last Name " + comment_id,
@@ -571,20 +597,21 @@ module.exports = function(args) {
                      });
                   }
 
-                  res.body.assigned_to.should.be.an('array').and.should.have.lengthOf(data.tasks_users[task_id - 1]);
-                  res.body.assigned_to.sort(function(a, b){ return a.id - b.id; });
-                  for (var i = 0; i < res.body.assigned_to.length; i++) {
-                     res.body.assigned_to[i].should.have.all.keys(['id', 'first_name', 'last_name', 'profile_picture']);
-                     res.body.assigned_to[i].eql({
-                        id: data.tasks_users[task_id - 1].id,
-                        first_name: "First Name " + data.tasks_users[task_id - 1].id,
-                        last_name: "Last Name " + data.tasks_users[task_id - 1].id,
+                  res.body.task.assigned_to.should.be.an('array');
+                  res.body.task.assigned_to.should.have.lengthOf(data.tasks_users[task_id - 1].length);
+                  res.body.task.assigned_to.sort(function(a, b){ return a.id - b.id; });
+                  for (var i = 0; i < res.body.task.assigned_to.length; i++) {
+                     res.body.task.assigned_to[i].should.have.all.keys(['id', 'first_name', 'last_name', 'profile_picture']);
+                     res.body.task.assigned_to[i].should.eql({
+                        id: data.tasks_users[task_id - 1][i],
+                        first_name: "First Name " + data.tasks_users[task_id - 1][i],
+                        last_name: "Last Name " + data.tasks_users[task_id - 1][i],
                         profile_picture: null
                      });
                   }
 
-                  res.body.supervisor.should.have.all.keys(['id', 'first_name', 'last_name', 'profile_picture']);
-                  res.body.supervisor.eql({
+                  res.body.task.supervisor.should.have.all.keys(['id', 'first_name', 'last_name', 'profile_picture']);
+                  res.body.task.supervisor.should.eql({
                      id: task_id,
                      first_name: "First Name " + task_id,
                      last_name: "Last Name " + task_id,

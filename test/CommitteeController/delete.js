@@ -3,36 +3,38 @@ module.exports = function(args) {
 
     describe('DELETE /api/committee/:id', function() {
               this.timeout(500);
-        before(function(done) {
-            this.timeout(20000);
-            app = args.app;
-            fn = args.fn;
-            data = args.data;
-            models = args.models;
-            chai = args.chai;
-            should = chai.should();
 
-            fn.clearAll(function(err) {
-                if (err) {
-                    done(err);
-                    return;
-                }
+      before(function(done) {
+        this.timeout(40000);
 
-                models.Committee.bulkCreate(data.committees).then(function() {
-                    models.User.bulkCreate(data.users).then(function() {
-                        models.Identity.bulkCreate(data.identities).then(function() {
-                            done();
-                        }).catch(function(err) {
-                            done(err);
-                        });
+        app = args.app;
+        fn = args.fn;
+        data = args.data;
+        models = args.models;
+        chai = args.chai;
+        should = chai.should();
+
+        fn.clearAll(function(err) {
+            if (err) {
+                done(err);
+                return;
+            }
+
+            models.Committee.bulkCreate(data.committees).then(function() {
+                models.User.bulkCreate(data.users).then(function() {
+                    models.Identity.bulkCreate(data.identities).then(function() {
+                        done();
                     }).catch(function(err) {
                         done(err);
                     });
                 }).catch(function(err) {
                     done(err);
                 });
+            }).catch(function(err) {
+                done(err);
             });
         });
+    });
 
         /***********************
         * Authentication Tests *
@@ -158,7 +160,7 @@ module.exports = function(args) {
         {
             it('Should not delete the committee due to invalid meeting ID in the URL.', function(done) {
                 chai.request(app)
-                .delete('/api/committee/a')
+                .delete('/api/committee/*')
                 .set('User_Agent', 'Web')
                 .set('Authorization', data.identities[0].token)
                 .end(function(err, res) {
@@ -207,7 +209,7 @@ module.exports = function(args) {
         * Acceptance Tests *
         ********************/
         {
-            it('Should delete the committee. (Admin Authentication)', function(done) {
+            it('Should delete the committee (Admin Authentication).', function(done) {
                 var committee_id = 1;
                 chai.request(app)
                 .delete('/api/committee/' + committee_id)
@@ -238,7 +240,7 @@ module.exports = function(args) {
                 });
             });
 
-            it('Should delete the committee. (Upper Board Authentication)', function(done) {
+            it('Should delete the committee (Upper Board Authentication).', function(done) {
                 var committee_id = 2;
                 chai.request(app)
                 .delete('/api/committee/' + committee_id)
@@ -269,5 +271,6 @@ module.exports = function(args) {
                 });
             });
         }
+
     });
 };
