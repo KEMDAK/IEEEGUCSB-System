@@ -2,11 +2,9 @@ module.exports = function(args) {
    var app, fn, data, models, chai, should;
 
    describe('POST /api/meeting', function() {
-      this.timeout(500);
 
       before(function(done) {
-         this.timeout(40000);
-
+         this.timeout(10000);
          app = args.app;
          fn = args.fn;
          data = args.data;
@@ -62,7 +60,7 @@ module.exports = function(args) {
                   should.exist(err);
 
                   models.Meeting.findAll().then(function(records) {
-                     if (records.length > 0) {
+                     if (records > 0) {
                         throw new Error("The meeting shouldn\'t be added.");
                      }
 
@@ -86,7 +84,7 @@ module.exports = function(args) {
                   res.body.should.have.property('status').and.equal('failed');
                   should.exist(err);
                   models.Meeting.findAll().then(function(records) {
-                     if (records.length > 0) {
+                     if (records > 0) {
                         throw new Error("The meeting shouldn\'t be added.");
                      }
 
@@ -118,7 +116,7 @@ module.exports = function(args) {
                   res.body.should.have.property('status').and.equal('failed');
                   should.exist(err);
                   models.Meeting.findAll().then(function(records) {
-                     if (records.length > 0) {
+                     if (records > 0) {
                         throw new Error("The meeting shouldn\'t be added.");
                      }
 
@@ -152,7 +150,7 @@ module.exports = function(args) {
                   res.body.should.have.property('status').and.equal('failed');
                   should.exist(err);
                   models.Meeting.findAll().then(function(records) {
-                     if (records.length > 0) {
+                     if (records > 0) {
                         throw new Error("The meeting shouldn\'t be added.");
                      }
 
@@ -191,7 +189,7 @@ module.exports = function(args) {
                   res.body.should.have.property('errors');  // TODO: Test the errors themselves
                   should.exist(err);
                   models.Meeting.findAll().then(function(records) {
-                     if (records.length > 0) {
+                     if (records > 0) {
                         throw new Error("The meeting shouldn\'t be added.");
                      }
 
@@ -224,7 +222,7 @@ module.exports = function(args) {
                   res.body.should.have.property('errors');  // TODO: Test the errors themselves
                   should.exist(err);
                   models.Meeting.findAll().then(function(records) {
-                     if (records.length > 0) {
+                     if (records > 0) {
                         throw new Error("The meeting shouldn\'t be added.");
                      }
 
@@ -258,7 +256,7 @@ module.exports = function(args) {
                   res.body.should.have.property('errors');  // TODO: Test the errors themselves
                   should.exist(err);
                   models.Meeting.findAll().then(function(records) {
-                     if (records.length > 0) {
+                     if (records > 0) {
                         throw new Error("The meeting shouldn\'t be added.");
                      }
 
@@ -291,7 +289,7 @@ module.exports = function(args) {
                   res.body.should.have.property('errors');  // TODO: Test the errors themselves
                   should.exist(err);
                   models.Meeting.findAll().then(function(records) {
-                     if (records.length > 0) {
+                     if (records > 0) {
                         throw new Error("The meeting shouldn\'t be added.");
                      }
 
@@ -325,7 +323,7 @@ module.exports = function(args) {
                   res.body.should.have.property('errors');  // TODO: Test the errors themselves
                   should.exist(err);
                   models.Meeting.findAll().then(function(records) {
-                     if (records.length > 0) {
+                     if (records > 0) {
                         throw new Error("The meeting shouldn\'t be added.");
                      }
 
@@ -359,7 +357,7 @@ module.exports = function(args) {
                   res.body.should.have.property('errors');  // TODO: Test the errors themselves
                   should.exist(err);
                   models.Meeting.findAll().then(function(records) {
-                     if (records.length > 0) {
+                     if (records > 0) {
                         throw new Error("The meeting shouldn\'t be added.");
                      }
 
@@ -393,7 +391,7 @@ module.exports = function(args) {
                   res.body.should.have.property('errors');  // TODO: Test the errors themselves
                   should.exist(err);
                   models.Meeting.findAll().then(function(records) {
-                     if (records.length > 0) {
+                     if (records > 0) {
                         throw new Error("The meeting shouldn\'t be added.");
                      }
 
@@ -427,41 +425,7 @@ module.exports = function(args) {
                   res.body.should.have.property('errors');  // TODO: Test the errors themselves
                   should.exist(err);
                   models.Meeting.findAll().then(function(records) {
-                     if (records.length > 0) {
-                        throw new Error("The meeting shouldn\'t be added.");
-                     }
-
-                     done();
-                  });
-               } catch(error) {
-                  done(error);
-               }
-            });
-         });
-
-         it('Should not allow the meeting to be added due to invalid \'attendees\' parameter in the body.', function(done) {
-            var meeting = {
-               start_date: "2017-2-25 08:00:00",
-               end_date: "2017-2-25 10:00:00",
-               goals: ["Goal 1", "Goal 2", "Goal 3"],
-               location: "Location",
-               description: "Description",
-               attendees: "invalid"
-            };
-
-            chai.request(app)
-            .post('/api/meeting')
-            .set('User_Agent', 'Web')
-            .set('Authorization', data.identities[0].token)
-            .send(meeting)
-            .end(function(err, res) {
-               try {
-                  res.should.have.status(400);
-                  res.body.should.have.property('status').and.equal('failed');
-                  res.body.should.have.property('errors');  // TODO: Test the errors themselves
-                  should.exist(err);
-                  models.Meeting.findAll().then(function(records) {
-                     if (records.length > 0) {
+                     if (records > 0) {
                         throw new Error("The meeting shouldn\'t be added.");
                      }
 
@@ -495,7 +459,7 @@ module.exports = function(args) {
                   res.body.should.have.property('errors');
                   should.exist(err);
                   models.Meeting.findAll().then(function(records) {
-                     if (records.length > 0) {
+                     if (records > 0) {
                         throw new Error("The meeting shouldn\'t be added.");
                      }
 

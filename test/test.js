@@ -1,8 +1,7 @@
 var args = {};
 
 before(function(done) {
-   this.timeout(40000);
-
+   this.timeout(5000);
    process.env.ENV = 'test';
    require('../server')(function(MyApp, sq, err) {
       if (err) {
@@ -14,7 +13,6 @@ before(function(done) {
          args.app = MyApp;
          args.fn = require('./functions')(sq);
          args.data = require('./data.js')();
-         args.sq = sq;
 
          args.models = {
             User : require('../app/models/User').User,
@@ -22,9 +20,7 @@ before(function(done) {
             Task : require('../app/models/Task').Task,
             Committee : require('../app/models/Committee').Committee,
             Identity : require('../app/models/Identity').Identity,
-            Comment : require('../app/models/Comment').Comment,
-            Media : require('../app/models/Media').Media,
-            Honor : require('../app/models/Honor').Honor
+            Comment : require('../app/models/Comment').Comment
          };
 
          done();
@@ -35,22 +31,13 @@ before(function(done) {
 args.chai = require('chai');
 args.chai.use(require('chai-http'));
 
-describe('User Controller', function() {
-   require('./UserController/index')(args);
-   require('./UserController/store')(args);
-   require('./UserController/show')(args);
-  // require('./UserController/update')(args);
- //  require('./UserController/updateAuth')(args);
-   require('./UserController/delete')(args);
+describe('Meeting Controller', function() {
+   require('./MeetingController/store')(args);
+   require('./MeetingController/show')(args);
+   require('./MeetingController/delete')(args);
+   require('./MeetingController/update')(args);
+   require('./MeetingController/rate')(args);
 });
-
-// describe('Meeting Controller', function() {
-//    require('./MeetingController/store')(args);
-//    require('./MeetingController/show')(args);
-//    require('./MeetingController/update')(args);
-//    require('./MeetingController/delete')(args);
-//    require('./MeetingController/rate')(args);
-// });
 
 // describe('Task Controller', function() {
 //    require('./TaskController/store')(args);
@@ -58,11 +45,3 @@ describe('User Controller', function() {
 //    require('./TaskController/update')(args);
 //    require('./TaskController/delete')(args);
 // });
-
-describe('Committee Controller', function() {
-   require('./CommitteeController/index')(args);
-   require('./CommitteeController/store')(args);
-   require('./CommitteeController/show')(args);
-   require('./CommitteeController/update')(args);
-   require('./CommitteeController/delete')(args);
-});

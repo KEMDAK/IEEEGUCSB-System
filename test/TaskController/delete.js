@@ -5,8 +5,7 @@ module.exports = function(args) {
       this.timeout(500);
 
       before(function(done) {
-         this.timeout(40000);
-
+         this.timeout(10000);
          app = args.app;
          fn = args.fn;
          data = args.data;
@@ -231,7 +230,7 @@ module.exports = function(args) {
       {
          it('Should not delete the task due to invalid task ID in the URL.', function(done) {
             chai.request(app)
-            .delete('/api/task/*')
+            .delete('/api/task/a')
             .set('User_Agent', 'Web')
             .set('Authorization', data.identities[0].token)
             .end(function(err, res) {
@@ -271,8 +270,16 @@ module.exports = function(args) {
                   res.body.should.not.have.property('errors');  // TODO: Test the errors themselves
                   should.not.exist(err);
                   models.Task.findById(task_id).then(function(record) {
-                     should.not.exist(record);
-                     done();
+                     if (record) {
+                        throw new Error("The task should be deleted.");
+                     }
+
+                     models.Task.findById(task_id).then(function(record) {
+                        should.not.exist(record);
+                        done();
+                     }).catch(function(error) {
+                        done(error);
+                     });
                   }).catch(function(error) {
                      done(error);
                   });
