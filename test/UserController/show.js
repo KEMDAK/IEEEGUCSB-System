@@ -2,7 +2,7 @@ module.exports = function(args) {
    var app, fn, data, models, chai, should;
 
    describe('GET /api/user/:id', function() {
-      this.timeout(1000);
+      this.timeout(500);
       
       before(function(done) {
          this.timeout(40000);
@@ -13,6 +13,7 @@ module.exports = function(args) {
          models = args.models;
          chai = args.chai;
          should = chai.should();
+
 
          fn.clearAll(function(err) {
             if(err)

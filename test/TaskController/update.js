@@ -3,10 +3,10 @@ module.exports = function(args) {
 
    describe('PUT /api/task/:id', function() {
       this.timeout(500);
-      
+
       before(function(done) {
          this.timeout(40000);
-         
+
          app = args.app;
          fn = args.fn;
          data = JSON.parse(JSON.stringify(args.data));
@@ -80,7 +80,7 @@ module.exports = function(args) {
                      if(record.updated_at.getTime() !== record.created_at.getTime()){
                         throw new Error("The Task has been updated in the database.");
                      }
-                     
+
                      record.getAssignedUsers().then(function(users) {
                         users.sort(function(a, b) { return a.id - b.id; });
                         for (var i = 0; i < data.tasks_users[task_id - 1].length; i++) {
@@ -92,7 +92,7 @@ module.exports = function(args) {
                         done();
                      }).catch(function(err) {
                         done(err);
-                     });                   
+                     });
                   }).catch(function(err) {
                      done(err);
                   });
@@ -118,7 +118,7 @@ module.exports = function(args) {
                      if(record.updated_at.getTime() !== record.created_at.getTime()){
                         throw new Error("The Task has been updated in the database.");
                      }
-                     
+
                      record.getAssignedUsers().then(function(users) {
                         users.sort(function(a, b) { return a.id - b.id; });
                         for (var i = 0; i < data.tasks_users[task_id - 1].length; i++) {
@@ -130,7 +130,7 @@ module.exports = function(args) {
                         done();
                      }).catch(function(err) {
                         done(err);
-                     });                   
+                     });
                   }).catch(function(err) {
                      done(err);
                   });
@@ -155,7 +155,7 @@ module.exports = function(args) {
                      if(record.updated_at.getTime() !== record.created_at.getTime()){
                         throw new Error("The Task has been updated in the database.");
                      }
-                     
+
                      record.getAssignedUsers().then(function(users) {
                         users.sort(function(a, b) { return a.id - b.id; });
                         for (var i = 0; i < data.tasks_users[task_id - 1].length; i++) {
@@ -167,7 +167,7 @@ module.exports = function(args) {
                         done();
                      }).catch(function(err) {
                         done(err);
-                     });                   
+                     });
                   }).catch(function(err) {
                      done(err);
                   });
@@ -193,7 +193,7 @@ module.exports = function(args) {
                      if(record.updated_at.getTime() !== record.created_at.getTime()){
                         throw new Error("The Task has been updated in the database.");
                      }
-                     
+
                      record.getAssignedUsers().then(function(users) {
                         users.sort(function(a, b) { return a.id - b.id; });
                         for (var i = 0; i < data.tasks_users[task_id - 1].length; i++) {
@@ -205,7 +205,7 @@ module.exports = function(args) {
                         done();
                      }).catch(function(err) {
                         done(err);
-                     });                   
+                     });
                   }).catch(function(err) {
                      done(err);
                   });
@@ -234,7 +234,7 @@ module.exports = function(args) {
                      if(record.updated_at.getTime() !== record.created_at.getTime()){
                         throw new Error("The Task has been updated in the database.");
                      }
-                     
+
                      record.getAssignedUsers().then(function(users) {
                         users.sort(function(a, b) { return a.id - b.id; });
                         for (var i = 0; i < data.tasks_users[task_id - 1].length; i++) {
@@ -246,7 +246,7 @@ module.exports = function(args) {
                         done();
                      }).catch(function(err) {
                         done(err);
-                     });                   
+                     });
                   }).catch(function(err) {
                      done(err);
                   });
@@ -275,7 +275,7 @@ module.exports = function(args) {
                      if(record.updated_at.getTime() !== record.created_at.getTime()){
                         throw new Error("The Task has been updated in the database.");
                      }
-                     
+
                      record.getAssignedUsers().then(function(users) {
                         users.sort(function(a, b) { return a.id - b.id; });
                         for (var i = 0; i < data.tasks_users[task_id - 1].length; i++) {
@@ -287,7 +287,7 @@ module.exports = function(args) {
                         done();
                      }).catch(function(err) {
                         done(err);
-                     });                   
+                     });
                   }).catch(function(err) {
                      done(err);
                   });
@@ -316,7 +316,7 @@ module.exports = function(args) {
                      if(record.updated_at.getTime() !== record.created_at.getTime()){
                         throw new Error("The Task has been updated in the database.");
                      }
-                     
+
                      record.getAssignedUsers().then(function(users) {
                         users.sort(function(a, b) { return a.id - b.id; });
                         for (var i = 0; i < data.tasks_users[task_id - 1].length; i++) {
@@ -328,7 +328,7 @@ module.exports = function(args) {
                         done();
                      }).catch(function(err) {
                         done(err);
-                     });                   
+                     });
                   }).catch(function(err) {
                      done(err);
                   });
@@ -364,7 +364,7 @@ module.exports = function(args) {
                      if(record.updated_at.getTime() !== record.created_at.getTime()){
                         throw new Error("The Task has been updated in the database.");
                      }
-                     
+
                      record.getAssignedUsers().then(function(users) {
                         users.sort(function(a, b) { return a.id - b.id; });
                         for (var i = 0; i < data.tasks_users[task_id - 1].length; i++) {
@@ -376,7 +376,7 @@ module.exports = function(args) {
                         done();
                      }).catch(function(err) {
                         done(err);
-                     });                   
+                     });
                   }).catch(function(err) {
                      done(err);
                   });
@@ -407,7 +407,7 @@ module.exports = function(args) {
                      if(record.updated_at.getTime() !== record.created_at.getTime()){
                         throw new Error("The Task has been updated in the database.");
                      }
-                     
+
                      record.getAssignedUsers().then(function(users) {
                         users.sort(function(a, b) { return a.id - b.id; });
                         for (var i = 0; i < data.tasks_users[task_id - 1].length; i++) {
@@ -419,7 +419,7 @@ module.exports = function(args) {
                         done();
                      }).catch(function(err) {
                         done(err);
-                     });                   
+                     });
                   }).catch(function(err) {
                      done(err);
                   });
@@ -450,7 +450,7 @@ module.exports = function(args) {
                      if(record.updated_at.getTime() !== record.created_at.getTime()){
                         throw new Error("The Task has been updated in the database.");
                      }
-                     
+
                      record.getAssignedUsers().then(function(users) {
                         users.sort(function(a, b) { return a.id - b.id; });
                         for (var i = 0; i < data.tasks_users[task_id - 1].length; i++) {
@@ -462,7 +462,7 @@ module.exports = function(args) {
                         done();
                      }).catch(function(err) {
                         done(err);
-                     });                   
+                     });
                   }).catch(function(err) {
                      done(err);
                   });
@@ -493,7 +493,7 @@ module.exports = function(args) {
                      if(record.updated_at.getTime() !== record.created_at.getTime()){
                         throw new Error("The Task has been updated in the database.");
                      }
-                     
+
                      record.getAssignedUsers().then(function(users) {
                         users.sort(function(a, b) { return a.id - b.id; });
                         for (var i = 0; i < data.tasks_users[task_id - 1].length; i++) {
@@ -505,7 +505,7 @@ module.exports = function(args) {
                         done();
                      }).catch(function(err) {
                         done(err);
-                     });                   
+                     });
                   }).catch(function(err) {
                      done(err);
                   });
@@ -540,7 +540,7 @@ module.exports = function(args) {
                      if(record.updated_at.getTime() !== record.created_at.getTime()){
                         throw new Error("The Task has been updated in the database.");
                      }
-                     
+
                      record.getAssignedUsers().then(function(users) {
                         users.sort(function(a, b) { return a.id - b.id; });
                         for (var i = 0; i < data.tasks_users[task_id - 1].length; i++) {
@@ -552,7 +552,7 @@ module.exports = function(args) {
                         done();
                      }).catch(function(err) {
                         done(err);
-                     });                   
+                     });
                   }).catch(function(err) {
                      done(err);
                   });
@@ -587,7 +587,7 @@ module.exports = function(args) {
                      if(record.updated_at.getTime() !== record.created_at.getTime()){
                         throw new Error("The Task has been updated in the database.");
                      }
-                     
+
                      record.getAssignedUsers().then(function(users) {
                         users.sort(function(a, b) { return a.id - b.id; });
                         for (var i = 0; i < data.tasks_users[task_id - 1].length; i++) {
@@ -599,7 +599,7 @@ module.exports = function(args) {
                         done();
                      }).catch(function(err) {
                         done(err);
-                     });                   
+                     });
                   }).catch(function(err) {
                      done(err);
                   });
@@ -608,7 +608,7 @@ module.exports = function(args) {
                }
             });
          });
-         
+
          it('Should not allow the task to be updated due to invalid \'deadline\' parameter in the body.', function(done) {
             var task_id = 1;
             var task = {
@@ -634,7 +634,7 @@ module.exports = function(args) {
                      if(record.updated_at.getTime() !== record.created_at.getTime()){
                         throw new Error("The Task has been updated in the database.");
                      }
-                     
+
                      record.getAssignedUsers().then(function(users) {
                         users.sort(function(a, b) { return a.id - b.id; });
                         for (var i = 0; i < data.tasks_users[task_id - 1].length; i++) {
@@ -646,7 +646,7 @@ module.exports = function(args) {
                         done();
                      }).catch(function(err) {
                         done(err);
-                     });                   
+                     });
                   }).catch(function(err) {
                      done(err);
                   });
@@ -681,7 +681,7 @@ module.exports = function(args) {
                      if(record.updated_at.getTime() !== record.created_at.getTime()){
                         throw new Error("The Task has been updated in the database.");
                      }
-                     
+
                      record.getAssignedUsers().then(function(users) {
                         users.sort(function(a, b) { return a.id - b.id; });
                         for (var i = 0; i < data.tasks_users[task_id - 1].length; i++) {
@@ -693,7 +693,103 @@ module.exports = function(args) {
                         done();
                      }).catch(function(err) {
                         done(err);
-                     });                   
+                     });
+                  }).catch(function(err) {
+                     done(err);
+                  });
+               } catch(error) {
+                  done(error);
+               }
+            });
+         });
+
+         it('Should not allow the task to be updated due to invalid \'evaluation\' parameter in the body (invalid value).', function(done) {
+            var task_id = 1;
+            var task = {
+               title: "Task",
+               description: "Description",
+               deadline: "2017-2-25 08:00:00",
+               priority: 5,
+               evaluation: 7,
+               assigned_to: [9, 12]
+            };
+
+            chai.request(app)
+            .put('/api/task/' + task_id)
+            .set('User_Agent', 'Web')
+            .set('Authorization', data.identities[0].token)
+            .send(task)
+            .end(function(err, res) {
+               try {
+                  res.should.have.status(400);
+                  res.body.should.have.property('status').and.equal('failed');
+                  res.body.should.have.property('errors');  // TODO: Test the errors themselves
+                  should.exist(err);
+                  models.Task.findById(task_id).then(function(record) {
+                     if(record.updated_at.getTime() !== record.created_at.getTime()){
+                        throw new Error("The Task has been updated in the database.");
+                     }
+
+                     record.getAssignedUsers().then(function(users) {
+                        users.sort(function(a, b) { return a.id - b.id; });
+                        for (var i = 0; i < data.tasks_users[task_id - 1].length; i++) {
+                           if(data.tasks_users[task_id - 1][i] !== users[i].id){
+                              throw new Error("The Task assigned users has been updated in the database.");
+                           }
+                        }
+
+                        done();
+                     }).catch(function(err) {
+                        done(err);
+                     });
+                  }).catch(function(err) {
+                     done(err);
+                  });
+               } catch(error) {
+                  done(error);
+               }
+            });
+         });
+
+         it('Should not allow the task to be updated due to invalid \'evaluation\' parameter in the body (invalid datatype).', function(done) {
+            var task_id = 1;
+            var task = {
+               title: "Task",
+               description: "Description",
+               deadline: "2017-2-25 08:00:00",
+               priority: 5,
+               evaluation: "invalid",
+               assigned_to: [9, 12]
+            };
+
+            chai.request(app)
+            .put('/api/task/' + task_id)
+            .set('User_Agent', 'Web')
+            .set('Authorization', data.identities[0].token)
+            .send(task)
+            .end(function(err, res) {
+               try {
+                  res.should.have.status(400);
+                  res.body.should.have.property('status').and.equal('failed');
+                  res.body.should.have.property('errors');  // TODO: Test the errors themselves
+                  should.exist(err);
+                  models.Task.findById(task_id).then(function(record) {
+                     if(record.updated_at.getTime() !== record.created_at.getTime()){
+                        throw new Error("The Task has been updated in the database.");
+                     }
+
+                     record.getAssignedUsers().then(function(users) {
+                        users.sort(function(a, b) { return a.id - b.id; });
+                        for (var i = 0; i < data.tasks_users[task_id - 1].length; i++) {
+                           if(data.tasks_users[task_id - 1][i] !== users[i].id){
+                              throw new Error("The Task assigned users has been updated in the database.");
+                           }
+                        }
+
+                        done();
+                     }).catch(function(err) {
+                        done(err);
+                     });
                   }).catch(function(err) {
                      done(err);
                   });
@@ -729,7 +825,7 @@ module.exports = function(args) {
                      if(record.updated_at.getTime() !== record.created_at.getTime()){
                         throw new Error("The Task has been updated in the database.");
                      }
-                     
+
                      record.getAssignedUsers().then(function(users) {
                         users.sort(function(a, b) { return a.id - b.id; });
                         for (var i = 0; i < data.tasks_users[task_id - 1].length; i++) {
@@ -741,7 +837,7 @@ module.exports = function(args) {
                         done();
                      }).catch(function(err) {
                         done(err);
-                     });                   
+                     });
                   }).catch(function(err) {
                      done(err);
                   });
@@ -760,6 +856,7 @@ module.exports = function(args) {
             var task_id = 1;
             var task = {
                description: "Description u1",
+               evaluation: 5,
                assigned_to: [1, 3, 5, 7]
             };
 
@@ -784,11 +881,13 @@ module.exports = function(args) {
                      theTask.description.should.equal((task.description || data.tasks[task_id - 1].description));
                      theTask.priority.should.equal((task.priority || data.tasks[task_id - 1].priority));
                      theTask.status.should.equal((task.status || data.tasks[task_id - 1].status));
+                     theTask.evaluation.should.equal((task.evaluation || data.tasks[task_id - 1].evaluation));
 
                      data.tasks[task_id - 1].title = task.title || data.tasks[task_id - 1].title;
                      data.tasks[task_id - 1].description = task.description || data.tasks[task_id - 1].description;
                      data.tasks[task_id - 1].priority = task.priority || data.tasks[task_id - 1].priority;
                      data.tasks[task_id - 1].status = task.status || data.tasks[task_id - 1].status;
+                     data.tasks[task_id - 1].evaluation = task.evaluation || data.tasks[task_id - 1].evaluation;
 
                      theTask.getAssignedUsers().then(function(records) {
                         var assignedUsers = [];
@@ -833,6 +932,7 @@ module.exports = function(args) {
             var task_id = 2;
             var task = {
                description: "Description u1",
+               evaluation: 5,
                assigned_to: [2, 3, 5, 7]
             };
 
@@ -857,11 +957,13 @@ module.exports = function(args) {
                      theTask.description.should.equal((task.description || data.tasks[task_id - 1].description));
                      theTask.priority.should.equal((task.priority || data.tasks[task_id - 1].priority));
                      theTask.status.should.equal((task.status || data.tasks[task_id - 1].status));
+                     theTask.evaluation.should.equal((task.evaluation || data.tasks[task_id - 1].evaluation));
 
                      data.tasks[task_id - 1].title = task.title || data.tasks[task_id - 1].title;
                      data.tasks[task_id - 1].description = task.description || data.tasks[task_id - 1].description;
                      data.tasks[task_id - 1].priority = task.priority || data.tasks[task_id - 1].priority;
                      data.tasks[task_id - 1].status = task.status || data.tasks[task_id - 1].status;
+                     data.tasks[task_id - 1].evaluation = task.evaluation || data.tasks[task_id - 1].evaluation;
 
                      theTask.getAssignedUsers().then(function(records) {
                         var assignedUsers = [];
@@ -930,11 +1032,13 @@ module.exports = function(args) {
                      theTask.description.should.equal((task.description || data.tasks[task_id - 1].description));
                      theTask.priority.should.equal((task.priority || data.tasks[task_id - 1].priority));
                      theTask.status.should.equal((task.status || data.tasks[task_id - 1].status));
+                     theTask.evaluation.should.equal((task.evaluation || data.tasks[task_id - 1].evaluation));
 
                      data.tasks[task_id - 1].title = task.title || data.tasks[task_id - 1].title;
                      data.tasks[task_id - 1].description = task.description || data.tasks[task_id - 1].description;
                      data.tasks[task_id - 1].priority = task.priority || data.tasks[task_id - 1].priority;
                      data.tasks[task_id - 1].status = task.status || data.tasks[task_id - 1].status;
+                     data.tasks[task_id - 1].evaluation = task.evaluation || data.tasks[task_id - 1].evaluation;
 
                      theTask.getAssignedUsers().then(function(records) {
                         var assignedUsers = [];
@@ -1002,11 +1106,13 @@ module.exports = function(args) {
                      theTask.description.should.equal((task.description || data.tasks[task_id - 1].description));
                      theTask.priority.should.equal((task.priority || data.tasks[task_id - 1].priority));
                      theTask.status.should.equal((task.status || data.tasks[task_id - 1].status));
+                     theTask.evaluation.should.equal((task.evaluation || data.tasks[task_id - 1].evaluation));
 
                      data.tasks[task_id - 1].title = task.title || data.tasks[task_id - 1].title;
                      data.tasks[task_id - 1].description = task.description || data.tasks[task_id - 1].description;
                      data.tasks[task_id - 1].priority = task.priority || data.tasks[task_id - 1].priority;
                      data.tasks[task_id - 1].status = task.status || data.tasks[task_id - 1].status;
+                     data.tasks[task_id - 1].evaluation = task.evaluation || data.tasks[task_id - 1].evaluation;
 
                      theTask.getAssignedUsers().then(function(records) {
                         var assignedUsers = [];
@@ -1055,7 +1161,7 @@ module.exports = function(args) {
             chai.request(app)
             .put('/api/task/' + task_id)
             .set('User_Agent', 'Web')
-            .set('Authorization', data.identities[0].token)
+            .set('Authorization', data.identities[3].token)
             .send(task)
             .end(function(err, res) {
                try {
@@ -1073,11 +1179,13 @@ module.exports = function(args) {
                      theTask.description.should.equal((task.description || data.tasks[task_id - 1].description));
                      theTask.priority.should.equal((task.priority || data.tasks[task_id - 1].priority));
                      theTask.status.should.equal((task.status || data.tasks[task_id - 1].status));
+                     theTask.evaluation.should.equal((task.evaluation || data.tasks[task_id - 1].evaluation));
 
                      data.tasks[task_id - 1].title = task.title || data.tasks[task_id - 1].title;
                      data.tasks[task_id - 1].description = task.description || data.tasks[task_id - 1].description;
                      data.tasks[task_id - 1].priority = task.priority || data.tasks[task_id - 1].priority;
                      data.tasks[task_id - 1].status = task.status || data.tasks[task_id - 1].status;
+                     data.tasks[task_id - 1].evaluation = task.evaluation || data.tasks[task_id - 1].evaluation;
 
                      theTask.getAssignedUsers().then(function(records) {
                         var assignedUsers = [];

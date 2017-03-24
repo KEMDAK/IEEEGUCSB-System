@@ -1010,7 +1010,7 @@ module.exports = function(args) {
                      if (!record) {
                         throw new Error("The user wasn\'t added in the database.");
                      }
-  
+
                      record.email.should.equal(user.email);
                      record.type.should.equal(user.type);
                      record.first_name.should.equal(user.first_name);
@@ -1046,6 +1046,7 @@ module.exports = function(args) {
                      else {
                         defaultURL = '/general/female.jpg';
                      }
+
                      record.profilePicture = record.profilePicture.toJSON();
                      delete record.profilePicture.created_at;
                      delete record.profilePicture.updated_at;
