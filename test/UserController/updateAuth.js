@@ -656,7 +656,7 @@ module.exports = function(args) {
       * Acceptance Tests *
       ********************/
       {
-         it('Should update the user\'s type in the database (Admin Authentication).', function(done) {
+         it('Should update the user\'s type in the database I (Admin Authentication).', function(done) {
             var user_id = 9;
             var user = {
                type: 'High Board'
@@ -731,6 +731,71 @@ module.exports = function(args) {
             .put('/api/user/' + user_id)
             .set('User_Agent', 'Web')
             .set('Authorization', data.identities[2].token)
+            .send(user)
+            .end(function(err, res) {
+               try {
+                  res.should.have.status(200);
+                  res.body.should.have.property('status').and.equal('succeeded');
+                  res.body.should.not.have.property('errors');
+                  should.not.exist(err);
+
+                  models.User.findById(user_id).then(function(theUser) {
+                     if (!theUser) {
+                        throw new Error("The user was deleted from the database.");
+                     }
+
+                     theUser.type.should.equal((user.type || data.users[user_id - 1].type));
+                     theUser.email.should.equal((user.email || data.users[user_id - 1].email));
+                     theUser.committee_id.should.equal((user.committee_id || data.users[user_id - 1].committee_id));
+
+                     data.users[user_id - 1].type = user.type || data.users[user_id - 1].type;
+                     data.users[user_id - 1].email = user.email || data.users[user_id - 1].email;
+                     data.users[user_id - 1].committee_id = user.committee_id || data.users[user_id - 1].committee_id;
+
+                     theUser.first_name.should.equal(data.users[user_id - 1].first_name);
+                     theUser.last_name.should.equal(data.users[user_id - 1].last_name);
+                     theUser.phone_number.should.equal(data.users[user_id - 1].phone_number);
+                     theUser.gender.should.equal(data.users[user_id - 1].gender);
+                     JSON.parse(theUser.settings).should.eql({
+                        public: {
+                           background: "The background of the profile"
+                        },
+                        private: {
+                           notifications: {
+                              email: {
+                                 comment: "boolean sent email on comments",
+                                 lastSent: "timestamp",
+                                 meetingDay: "boolean sent email on meeting day",
+                                 taskDeadline: "boolean sent a reminder email before the task deadline",
+                                 taskAssignment: "boolean sent email on task assignment",
+                                 meetingAssignment: "boolean sent email on meetings"
+                              }
+                           }
+                        }
+                     });
+                     should.equal(theUser.reset_token, null);
+                     should.equal(theUser.IEEE_membership_ID, null);
+
+                     done();
+                  }).catch(function(error) {
+                     done(error);
+                  });
+               } catch(error) {
+                  done(error);
+               }
+            });
+         });
+
+         it('Should update the user\'s type in the database II (Admin Authentication).', function(done) {
+            var user_id = 9;
+            var user = {
+               type: 'Member'
+            };
+
+            chai.request(app)
+            .put('/api/user/' + user_id)
+            .set('User_Agent', 'Web')
+            .set('Authorization', data.identities[0].token)
             .send(user)
             .end(function(err, res) {
                try {
