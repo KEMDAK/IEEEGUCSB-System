@@ -180,11 +180,6 @@ module.exports = function(app) {
     *    phone_number: String, [optional]
     *    IEEE_membership_ID: String [optional]
     * }
-    * @example The route expects a file in the following format
-    * {
-    *    enctype    ="multipart/form-data"
-    *    field name ='picture'
-    * }
     * @example The route responds with an object having the following format
     * {
     *  status: succeeded/failed,
@@ -199,7 +194,7 @@ module.exports = function(app) {
     *  ]
     * }
     */
-    app.put('/api/user', auth,upload.Image, upload.validate,UserController.update);
+    app.put('/api/user', auth,UserController.update);
      /**
     * A DELETE route responsible for deleting user from the database and deleting his folder
     * @var /api/user/{id} DELETE
@@ -249,5 +244,31 @@ module.exports = function(app) {
     * }
     */
     app.put('/api/user/:id', auth,upper,UserController.updateAuth);
+        /**
+    * A PUT route responsible for updating the information of authenticated user
+    * @var /api/user PUT
+    * @name /api/user PUT
+    * @example The user requesting the route has to be of type 'Member' at least.
+    * @example the route expects the access token as 'Authorization' and the user agent as 'user_agent' in the request headers with one of the following values ['Web', 'IOS', 'Android']
+    * @example The route expects a file in the following format
+    * {
+    *    enctype    ="multipart/form-data"
+    *    field name ='picture'
+    * }
+    * @example The route responds with an object having the following format
+    * {
+    *  status: succeeded/failed,
+    *  message: String showing a descriptive text,
+    *  error:
+    *  [
+    *    {
+    *       param: the field that caused the error,
+    *       value: the value that was provided for that field,
+    *       type: the type of error that was caused ['required', 'validity', 'unique violation']
+    *    }, {...}, ...
+    *  ]
+    * }
+    */
+    app.post('/api/user/upload', auth,upload.Image, upload.validate,UserController.upload);
 
 };
