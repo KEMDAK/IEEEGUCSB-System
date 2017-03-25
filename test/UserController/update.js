@@ -497,7 +497,7 @@ module.exports = function(args) {
 
             var user = {
                old_password: "123456",
-               password: "1234567",
+               new_password: "1234567",
                phone_number: "0121345649",
                IEEE_membership_ID: "987"
             };
@@ -514,13 +514,9 @@ module.exports = function(args) {
                   res.body.should.not.have.property('errors');
                   should.not.exist(err);
 
-                  models.User.findById(user_id, { include: [{ model: models.Media, as: 'profilePicture' }] }).then(function(theUser) {
+                  models.User.findById(user_id).then(function(theUser) {
                      if (!theUser) {
                         throw new Error("The user was deleted from the database.");
-                     }
-
-                     if(!theUser.profilePicture) {
-                        throw new Error("The user doesn't have a profile picture.");
                      }
 
                      theUser.phone_number.should.equal((user.phone_number || data.users[user_id - 1].phone_number));
@@ -563,18 +559,6 @@ module.exports = function(args) {
                      }
 
                      data.users[user_id - 1].password = user.new_password || data.users[user_id - 1].password;
-
-                     /* Checking media */
-                     theUser.profilePicture = theUser.profilePicture.toJSON();
-                     delete theUser.profilePicture.created_at;
-                     delete theUser.profilePicture.updated_at;
-                     delete theUser.profilePicture.user_id;
-                     delete theUser.profilePicture.event_id;
-                     delete theUser.profilePicture.id;
-                     theUser.profilePicture.should.eql({
-                        type: "Image",
-                        url: 'http://' + proccess.env.DOMAIN + ':' + proccess.env.PORT + '/' + user_id + '/' + 'Image.png'
-                     });
 
                      done();
                   }).catch(function(error) {
@@ -605,13 +589,9 @@ module.exports = function(args) {
                   res.body.should.not.have.property('errors');
                   should.not.exist(err);
 
-                  models.User.findById(user_id, { include: [{ model: models.Media, as: 'profilePicture' }] }).then(function(theUser) {
+                  models.User.findById(user_id).then(function(theUser) {
                      if (!theUser) {
                         throw new Error("The user was deleted from the database.");
-                     }
-
-                     if(!theUser.profilePicture) {
-                        throw new Error("The user doesn't have a profile picture.");
                      }
 
                      theUser.phone_number.should.equal((user.phone_number || data.users[user_id - 1].phone_number));
@@ -654,9 +634,6 @@ module.exports = function(args) {
                      }
 
                      data.users[user_id - 1].password = user.new_password || data.users[user_id - 1].password;
-
-                     /* Checking media */
-                     should.not.exist(theUser.profilePicture);
 
                      done();
                   }).catch(function(error) {
