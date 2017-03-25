@@ -656,16 +656,7 @@ module.exports = function(args) {
                      data.users[user_id - 1].password = user.new_password || data.users[user_id - 1].password;
 
                      /* Checking media */
-                     theUser.profilePicture = theUser.profilePicture.toJSON();
-                     delete theUser.profilePicture.created_at;
-                     delete theUser.profilePicture.updated_at;
-                     delete theUser.profilePicture.user_id;
-                     delete theUser.profilePicture.event_id;
-                     delete theUser.profilePicture.id;
-                     theUser.profilePicture.should.eql({
-                        type: "Image",
-                        url: 'http://' + proccess.env.DOMAIN + ':' + proccess.env.PORT + '/' + user_id + '/' + 'Image.png'
-                     });
+                     should.not.exist(theUser.profilePicture);
 
                      done();
                   }).catch(function(error) {
