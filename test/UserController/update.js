@@ -1,7 +1,5 @@
 module.exports = function(args) {
    var app, fn, data, models, chai, should;
-   var fs = require('fs');
-   var fse = require('fs-extra');
 
    describe('PUT /api/user', function() {
       this.timeout(1000);
@@ -111,7 +109,6 @@ module.exports = function(args) {
                   res.should.have.status(403);
                   res.body.should.have.property('status').and.equal('failed');
                   should.exist(err);
-                  (fse.existsSync('./public/images/' + user_id)).should.be.false;
                   models.User.findById(user_id).then(function(record) {
                      if(record.updated_at.getTime() !== record.created_at.getTime()){
                         throw new Error("The User has been updated in the database.");
@@ -132,76 +129,6 @@ module.exports = function(args) {
       * Validation Tests *
       ********************/
       {
-         it('Should not allow the user to be updated due to invalid profile picture (size greater than 2 MB).', function(done) {
-            var user_id = 1;
-
-            var user = {
-               old_password: "1234567"
-            };
-
-            chai.request(app)
-            .put('/api/user')
-            .set('User_Agent', 'Web')
-            .set('Authorization', data.identities[user_id - 1].token)
-            .send(user)
-            .attach('picture', fs.readFileSync('./test/UserController/grass.jpg'), 'grass.jpg')
-            .end(function(err, res) {
-               try {
-                  res.should.have.status(400);
-                  res.body.should.have.property('status').and.equal('failed');
-                  res.body.should.have.property('errors');  // TODO: Test the errors themselves
-                  should.exist(err);
-                  (fse.existsSync('./public/images/' + user_id)).should.be.false;
-                  models.User.findById(user_id).then(function(record) {
-                     if(record.updated_at.getTime() !== record.created_at.getTime()){
-                        throw new Error("The User has been updated in the database.");
-                     }
-
-                     done();
-                  }).catch(function(err) {
-                     done(err);
-                  });
-               } catch(error) {
-                  done(error);
-               }
-            });
-         });
-
-         it('Should not allow the user to be updated due to invalid profile picture (invalid type).', function(done) {
-            var user_id = 1;
-
-            var user = {
-               old_password: "1234567"
-            };
-
-            chai.request(app)
-            .put('/api/user')
-            .set('User_Agent', 'Web')
-            .set('Authorization', data.identities[user_id - 1].token)
-            .send(user)
-            .attach('picture', fs.readFileSync('./test/UserController/gif.gif'), 'gif.gif')
-            .end(function(err, res) {
-               try {
-                  res.should.have.status(400);
-                  res.body.should.have.property('status').and.equal('failed');
-                  res.body.should.have.property('errors');  // TODO: Test the errors themselves
-                  should.exist(err);
-                  (fse.existsSync('./public/images/' + user_id)).should.be.false;
-                  models.User.findById(user_id).then(function(record) {
-                     if(record.updated_at.getTime() !== record.created_at.getTime()){
-                        throw new Error("The User has been updated in the database.");
-                     }
-
-                     done();
-                  }).catch(function(err) {
-                     done(err);
-                  });
-               } catch(error) {
-                  done(error);
-               }
-            });
-         });
-
          it('Should not allow the user to be updated due to missing \'old_password\' parameter in the body.', function(done) {
             var user_id = 1;
 
@@ -220,7 +147,6 @@ module.exports = function(args) {
                   res.body.should.have.property('status').and.equal('failed');
                   res.body.should.have.property('errors');  // TODO: Test the errors themselves
                   should.exist(err);
-                  (fse.existsSync('./public/images/' + user_id)).should.be.false;
                   models.User.findById(user_id).then(function(record) {
                      if(record.updated_at.getTime() !== record.created_at.getTime()){
                         throw new Error("The User has been updated in the database.");
@@ -255,7 +181,6 @@ module.exports = function(args) {
                   res.body.should.have.property('status').and.equal('failed');
                   res.body.should.have.property('errors');  // TODO: Test the errors themselves
                   should.exist(err);
-                  (fse.existsSync('./public/images/' + user_id)).should.be.false;
                   models.User.findById(user_id).then(function(record) {
                      if(record.updated_at.getTime() !== record.created_at.getTime()){
                         throw new Error("The User has been updated in the database.");
@@ -289,7 +214,6 @@ module.exports = function(args) {
                   res.body.should.have.property('status').and.equal('failed');
                   res.body.should.have.property('errors');  // TODO: Test the errors themselves
                   should.exist(err);
-                  (fse.existsSync('./public/images/' + user_id)).should.be.false;
                   models.User.findById(user_id).then(function(record) {
                      if(record.updated_at.getTime() !== record.created_at.getTime()){
                         throw new Error("The User has been updated in the database.");
@@ -323,7 +247,6 @@ module.exports = function(args) {
                   res.body.should.have.property('status').and.equal('failed');
                   res.body.should.have.property('errors');  // TODO: Test the errors themselves
                   should.exist(err);
-                  (fse.existsSync('./public/images/' + user_id)).should.be.false;
                   models.User.findById(user_id).then(function(record) {
                      if(record.updated_at.getTime() !== record.created_at.getTime()){
                         throw new Error("The User has been updated in the database.");
@@ -362,7 +285,6 @@ module.exports = function(args) {
                   res.body.should.have.property('status').and.equal('succeeded');
                   res.body.should.not.have.property('errors');
                   should.not.exist(err);
-                  (fse.existsSync('./public/images/' + user_id)).should.be.false;
 
                   models.User.findById(user_id).then(function(theUser) {
                      if (!theUser) {
@@ -437,7 +359,6 @@ module.exports = function(args) {
                   res.body.should.have.property('status').and.equal('succeeded');
                   res.body.should.not.have.property('errors');
                   should.not.exist(err);
-                  (fse.existsSync('./public/images/' + user_id)).should.be.false;
 
                   models.User.findById(user_id).then(function(theUser) {
                      if (!theUser) {
@@ -513,7 +434,6 @@ module.exports = function(args) {
                   res.body.should.have.property('status').and.equal('succeeded');
                   res.body.should.not.have.property('errors');
                   should.not.exist(err);
-                  (fse.existsSync('./public/images/' + user_id)).should.be.false;
 
                   models.User.findById(user_id).then(function(theUser) {
                      if (!theUser) {
@@ -572,11 +492,14 @@ module.exports = function(args) {
             });
          });
 
-         it('Should update the user\'s profile picture in the database.', function(done) {
+         it('Should update the user in the database.', function(done) {
             var user_id = 5;
 
             var user = {
-               old_password: "123456"
+               old_password: "123456",
+               new_password: "1234567",
+               phone_number: "0121345649",
+               IEEE_membership_ID: "987"
             };
 
             chai.request(app)
@@ -584,22 +507,16 @@ module.exports = function(args) {
             .set('User_Agent', 'Web')
             .set('Authorization', data.identities[user_id - 1].token)
             .send(user)
-            .attach('picture', fs.readFileSync('./test/UserController/profile_picture.png'), 'profile_picture.png')
             .end(function(err, res) {
                try {
                   res.should.have.status(200);
                   res.body.should.have.property('status').and.equal('succeeded');
                   res.body.should.not.have.property('errors');
                   should.not.exist(err);
-                  (fse.existsSync('./public/images/' + user_id)).should.be.true;
 
-                  models.User.findById(user_id, { include: [{ model: models.Media, as: 'profilePicture' }] }).then(function(theUser) {
+                  models.User.findById(user_id).then(function(theUser) {
                      if (!theUser) {
                         throw new Error("The user was deleted from the database.");
-                     }
-
-                     if(!theUser.profilePicture) {
-                        throw new Error("The user doesn't have a profile picture.");
                      }
 
                      theUser.phone_number.should.equal((user.phone_number || data.users[user_id - 1].phone_number));
@@ -642,19 +559,6 @@ module.exports = function(args) {
                      }
 
                      data.users[user_id - 1].password = user.new_password || data.users[user_id - 1].password;
-
-                     /* Checking media */
-                     theUser.profilePicture = theUser.profilePicture.toJSON();
-                     delete theUser.profilePicture.created_at;
-                     delete theUser.profilePicture.updated_at;
-                     delete theUser.profilePicture.user_id;
-                     delete theUser.profilePicture.event_id;
-                     delete theUser.profilePicture.id;
-                     theUser.profilePicture.should.eql({
-                        type: "Image",
-                        url: 'http://' + proccess.env.DOMAIN + ':' + proccess.env.PORT + '/' + user_id + '/' + 'Image.png'
-                     });
-                     (fse.existsSync('./public/images/' + user_id + '/Image.png')).should.be.true;
 
                      done();
                   }).catch(function(error) {
@@ -666,14 +570,11 @@ module.exports = function(args) {
             });
          });
 
-         it('Should update the user in the database.', function(done) {
+         it('Should not update the user in the database duo to empty body.', function(done) {
             var user_id = 5;
 
             var user = {
-               old_password: "123456",
-               password: "1234567",
-               phone_number: "0121345649",
-               IEEE_membership_ID: "987"
+               old_password: "1234567"
             };
 
             chai.request(app)
@@ -681,22 +582,16 @@ module.exports = function(args) {
             .set('User_Agent', 'Web')
             .set('Authorization', data.identities[user_id - 1].token)
             .send(user)
-            .attach('picture', fs.readFileSync('./test/UserController/profile_picture.png'), 'profile_picture.png')
             .end(function(err, res) {
                try {
                   res.should.have.status(200);
                   res.body.should.have.property('status').and.equal('succeeded');
                   res.body.should.not.have.property('errors');
                   should.not.exist(err);
-                  (fse.existsSync('./public/images/' + user_id)).should.be.true;
 
-                  models.User.findById(user_id, { include: [{ model: models.Media, as: 'profilePicture' }] }).then(function(theUser) {
+                  models.User.findById(user_id).then(function(theUser) {
                      if (!theUser) {
                         throw new Error("The user was deleted from the database.");
-                     }
-
-                     if(!theUser.profilePicture) {
-                        throw new Error("The user doesn't have a profile picture.");
                      }
 
                      theUser.phone_number.should.equal((user.phone_number || data.users[user_id - 1].phone_number));
@@ -739,19 +634,6 @@ module.exports = function(args) {
                      }
 
                      data.users[user_id - 1].password = user.new_password || data.users[user_id - 1].password;
-
-                     /* Checking media */
-                     theUser.profilePicture = theUser.profilePicture.toJSON();
-                     delete theUser.profilePicture.created_at;
-                     delete theUser.profilePicture.updated_at;
-                     delete theUser.profilePicture.user_id;
-                     delete theUser.profilePicture.event_id;
-                     delete theUser.profilePicture.id;
-                     theUser.profilePicture.should.eql({
-                        type: "Image",
-                        url: 'http://' + proccess.env.DOMAIN + ':' + proccess.env.PORT + '/' + user_id + '/' + 'Image.png'
-                     });
-                     (fse.existsSync('./public/images/' + user_id + '/Image.png')).should.be.true;
 
                      done();
                   }).catch(function(error) {
