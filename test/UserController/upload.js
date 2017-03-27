@@ -52,9 +52,9 @@ module.exports = function(args) {
                   res.should.have.status(401);
                   res.body.should.have.property('status').and.equal('failed');
                   should.exist(err);
-                  models.User.findById(user_id).then(function(record) {
+                  models.Media.findOne({ where : { user_id : user_id } }).then(function(record) {
                      if(record.updated_at.getTime() !== record.created_at.getTime()){
-                        throw new Error("The User has been updated in the database.");
+                        throw new Error("The Media has been updated in the database.");
                      }
 
                      done();
@@ -79,9 +79,9 @@ module.exports = function(args) {
                   res.should.have.status(401);
                   res.body.should.have.property('status').and.equal('failed');
                   should.exist(err);
-                  models.User.findById(user_id).then(function(record) {
+                  models.Media.findOne({ where : { user_id : user_id } }).then(function(record) {
                      if(record.updated_at.getTime() !== record.created_at.getTime()){
-                        throw new Error("The User has been updated in the database.");
+                        throw new Error("The Media has been updated in the database.");
                      }
 
                      done();
@@ -114,9 +114,9 @@ module.exports = function(args) {
                   res.body.should.have.property('errors');  // TODO: Test the errors themselves
                   should.exist(err);
                   (fse.existsSync('./public/images/' + user_id)).should.be.false;
-                  models.User.findById(user_id).then(function(record) {
+                  models.Media.findOne({ where : { user_id : user_id } }).then(function(record) {
                      if(record.updated_at.getTime() !== record.created_at.getTime()){
-                        throw new Error("The User has been updated in the database.");
+                        throw new Error("The Media has been updated in the database.");
                      }
 
                      done();
@@ -144,9 +144,9 @@ module.exports = function(args) {
                   res.body.should.have.property('errors');  // TODO: Test the errors themselves
                   should.exist(err);
                   (fse.existsSync('./public/images/' + user_id)).should.be.false;
-                  models.User.findById(user_id).then(function(record) {
+                  models.Media.findOne({ where : { user_id : user_id } }).then(function(record) {
                      if(record.updated_at.getTime() !== record.created_at.getTime()){
-                        throw new Error("The User has been updated in the database.");
+                        throw new Error("The Media has been updated in the database.");
                      }
 
                      done();
