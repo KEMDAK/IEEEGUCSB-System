@@ -513,6 +513,7 @@ module.exports.upload = function(req, res, next) {
 
       Media.findOne({where :{user_id :id,type:'Image'}}).then(function(profilePicture){
          
+         if(profilePicture){
          var oldExt = path.extname(profilePicture.url);
           
          if(oldExt != newExt || (!req.file && (defaultURL != profilePicture.url))){           
@@ -520,9 +521,8 @@ module.exports.upload = function(req, res, next) {
              fse.remove(deletePath,function(err){
              });
          }
+       }
         
-         var sequelize = require('../../config/database/Database').Seq;
-
           profilePicture.update({url:newURL},
             {where :{user_id :id,type:'Image'}}).then(function(Upicture){
                 res.status(200).json({
@@ -564,6 +564,7 @@ module.exports.update = function(req, res, next) {
 
    /*Sanitizing IEEE membership ID Input*/
    if (req.body.IEEE_membership_ID) {
+      req.checkBody('IEEE_membership_ID', 'validity').isString();
       req.sanitizeBody('IEEE_membership_ID').escape();
       req.sanitizeBody('IEEE_membership_ID').trim();
       obj.IEEE_membership_ID = req.body.IEEE_membership_ID;
@@ -584,7 +585,7 @@ module.exports.update = function(req, res, next) {
       /* input validation failed */
       res.status(400).json({
          status: 'failed',
-         error: errors
+         errors: errors
       });
 
       req.err = 'UserController.js, Line: 412\nSome validation errors occured.\n' + JSON.stringify(errors);

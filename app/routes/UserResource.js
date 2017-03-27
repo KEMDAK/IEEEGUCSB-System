@@ -194,7 +194,7 @@ module.exports = function(app) {
     *  ]
     * }
     */
-    app.put('/api/user', auth,UserController.update);
+    app.put('/api/user', auth,upload.Image, upload.validate,UserController.update);
      /**
     * A DELETE route responsible for deleting user from the database and deleting his folder
     * @var /api/user/{id} DELETE

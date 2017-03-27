@@ -10,11 +10,15 @@ var storage = multer.diskStorage({
 	filename: function (req, file, cb) {
 		var ext = path.extname(file.originalname);
 		cb(null, 'Image'+ext);
-	}
+	},
+	onError: function(err, next){
+        console.log("error", err);
+        next(err);
+    }
 });
 module.exports.Image =  multer(
 	{   storage   : storage ,
-		limits    : {fileSize : 2000000	 ,
+		limits    : {fileSize : 1000000	 ,
 	                 files    :  1     } ,
 		fileFilter: function  (req, file, cb) {
 
@@ -25,7 +29,7 @@ module.exports.Image =  multer(
 		  }
 		else
           {
-            cb(new Error('wrong file extention')); 
+            cb(new Error('wrong extention')); 
 		  }
 	}
 	}).single('picture');
@@ -33,17 +37,18 @@ module.exports.Image =  multer(
 
 module.exports.validate = function(error,req, res, next) {
 	    var log  = require('./LogMiddleware');
-
+	    var errors = [];
        if (error) {
       /* input validation failed */
+      errors.push({param:'picture',value:error.message,type:'Validity'});
       res.status(400).json({
          status: 'failed',
-         error: error.message
+         errors: errors
       });
 
-      req.err = 'UploadMiddleware.js, Line: 44\n uploading error.\n' + JSON.stringify(error.message);
+      req.err = 'UploadMiddleware.js, Line: 44\n uploading error.\n' + JSON.stringify(errors);
       log.save(req, res);
-     
+      
       
    }  
 };
