@@ -43,7 +43,7 @@ module.exports.index = function(req, res, next){
       /* failed to retrieve the committes from the database */
       res.status(500).json({
          status:'failed',
-         message: 'Internal server Error'
+         message: 'Internal server error'
       });
 
       req.err = 'CommitteeController.js, Line: 49\nCouldn\'t retreive the committees from the database.\n' + String(err);
