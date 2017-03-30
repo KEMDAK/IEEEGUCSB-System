@@ -429,7 +429,7 @@ module.exports.store = function(req, res, next) {
       var dirPath = path.resolve( './public/images/'+user.id);
       fse.ensureDir(dirPath, function(err) {
          if(err){
-            res.status(400).json({
+            res.status(500).json({
                status:'failed',
                error: 'Internal Server Error'
             });
@@ -670,7 +670,7 @@ module.exports.delete = function(req, res, next) {
    var id = req.params.id ;
    User.findById(id).then(function(user){
       if(!user ){
-         res.status(400).json({
+         res.status(404).json({
             status: 'failed',
             message: 'The request route was not Found'
          });
