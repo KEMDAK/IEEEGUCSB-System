@@ -2,8 +2,8 @@ module.exports = function(args) {
    var app, fn, data, models, chai, should;
 
    describe('POST /api/user', function() {
-      this.timeout(1000);
-          
+      this.timeout(1200);
+
       before(function(done) {
          this.timeout(40000);
 
@@ -36,6 +36,8 @@ module.exports = function(args) {
       });
 
       beforeEach(function(done) {
+         this.timeout(40000);
+
          args.sq.query('DELETE FROM users WHERE id > 15').then(function() {
             return args.sq.query('ALTER TABLE users AUTO_INCREMENT = 16');
          }).then(function() {
@@ -450,7 +452,7 @@ module.exports = function(args) {
                }
             });
          });
-         
+
          it('Should not allow the user to be added due to invalid \'first_name\' parameter in the body. (invalid first_name data type)', function(done) {
             var user = {
                email: "ex16@outlook.com",
@@ -523,7 +525,7 @@ module.exports = function(args) {
                }
             });
          });
-         
+
          it('Should not allow the user to be added due to invalid \'last_name\' parameter in the body. (invalid last_name data type)', function(done) {
             var user = {
                email: "ex16@outlook.com",
@@ -596,7 +598,7 @@ module.exports = function(args) {
                }
             });
          });
-         
+
          it('Should not allow the user to be added due to invalid \'birthdate\' parameter in the body. (invalid birthdate format)', function(done) {
             var user = {
                email: "ex16@outlook.com",
@@ -633,7 +635,7 @@ module.exports = function(args) {
                }
             });
          });
-         
+
          it('Should not allow the user to be added due to invalid \'birthdate\' parameter in the body. (invalid birthdate data type)', function(done) {
             var user = {
                email: "ex16@outlook.com",
@@ -706,7 +708,7 @@ module.exports = function(args) {
                }
             });
          });
-         
+
          it('Should not allow the user to be added due to invalid \'phone_number\' parameter in the body. (invalid phone_number format)', function(done) {
             var user = {
                email: "ex16@outlook.com",
@@ -743,7 +745,7 @@ module.exports = function(args) {
                }
             });
          });
-         
+
          it('Should not allow the user to be added due to invalid \'phone_number\' parameter in the body. (invalid phone_number data type)', function(done) {
             var user = {
                email: "ex16@outlook.com",
@@ -938,11 +940,11 @@ module.exports = function(args) {
                         private: {
                            notifications: {
                               email: {
-                                 comment: "boolean sent email on comments", 
-                                 lastSent: "timestamp", 
-                                 meetingDay: "boolean sent email on meeting day", 
-                                 taskDeadline: "boolean sent a reminder email before the task deadline", 
-                                 taskAssignment: "boolean sent email on task assignment", 
+                                 comment: "boolean sent email on comments",
+                                 lastSent: "timestamp",
+                                 meetingDay: "boolean sent email on meeting day",
+                                 taskDeadline: "boolean sent a reminder email before the task deadline",
+                                 taskAssignment: "boolean sent email on task assignment",
                                  meetingAssignment: "boolean sent email on meetings"
                               }
                            }
@@ -1024,11 +1026,11 @@ module.exports = function(args) {
                         private: {
                            notifications: {
                               email: {
-                                 comment: "boolean sent email on comments", 
-                                 lastSent: "timestamp", 
-                                 meetingDay: "boolean sent email on meeting day", 
-                                 taskDeadline: "boolean sent a reminder email before the task deadline", 
-                                 taskAssignment: "boolean sent email on task assignment", 
+                                 comment: "boolean sent email on comments",
+                                 lastSent: "timestamp",
+                                 meetingDay: "boolean sent email on meeting day",
+                                 taskDeadline: "boolean sent a reminder email before the task deadline",
+                                 taskAssignment: "boolean sent email on task assignment",
                                  meetingAssignment: "boolean sent email on meetings"
                               }
                            }
@@ -1109,11 +1111,11 @@ module.exports = function(args) {
                         private: {
                            notifications: {
                               email: {
-                                 comment: "boolean sent email on comments", 
-                                 lastSent: "timestamp", 
-                                 meetingDay: "boolean sent email on meeting day", 
-                                 taskDeadline: "boolean sent a reminder email before the task deadline", 
-                                 taskAssignment: "boolean sent email on task assignment", 
+                                 comment: "boolean sent email on comments",
+                                 lastSent: "timestamp",
+                                 meetingDay: "boolean sent email on meeting day",
+                                 taskDeadline: "boolean sent a reminder email before the task deadline",
+                                 taskAssignment: "boolean sent email on task assignment",
                                  meetingAssignment: "boolean sent email on meetings"
                               }
                            }
@@ -1195,11 +1197,11 @@ module.exports = function(args) {
                         private: {
                            notifications: {
                               email: {
-                                 comment: "boolean sent email on comments", 
-                                 lastSent: "timestamp", 
-                                 meetingDay: "boolean sent email on meeting day", 
-                                 taskDeadline: "boolean sent a reminder email before the task deadline", 
-                                 taskAssignment: "boolean sent email on task assignment", 
+                                 comment: "boolean sent email on comments",
+                                 lastSent: "timestamp",
+                                 meetingDay: "boolean sent email on meeting day",
+                                 taskDeadline: "boolean sent a reminder email before the task deadline",
+                                 taskAssignment: "boolean sent email on task assignment",
                                  meetingAssignment: "boolean sent email on meetings"
                               }
                            }
