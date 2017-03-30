@@ -3,7 +3,7 @@ module.exports = function(args) {
 
    describe('GET /api/user/:id', function() {
       this.timeout(500);
-      
+
       before(function(done) {
          this.timeout(40000);
 
@@ -227,11 +227,11 @@ module.exports = function(args) {
                         name: "Committee " + data.users[user_id - 1].committee_id
                      });
                   }
-                 
+
                   /* Cheking media */
                   res.body.user.profile_picture.should.eql({
                      type: "Image",
-                     url: "url " + user_id
+                     url: 'http://' + process.env.DOMAIN + ':' + process.env.PORT + 'url ' + user_id
                   });
 
                   /* Cecking honors */
@@ -243,7 +243,7 @@ module.exports = function(args) {
                         res.body.user.honors.should.contain({
                            id: honor_id,
                            title: "Honor " + honor_id
-                        });  
+                        });
                      }
                   }
                   res.body.user.honors.should.have.lengthOf(count);
@@ -327,11 +327,11 @@ module.exports = function(args) {
                         name: "Committee " + data.users[user_id - 1].committee_id
                      });
                   }
-                 
+
                   /* Cheking media */
                   res.body.user.profile_picture.should.eql({
                      type: "Image",
-                     url: "url " + user_id
+                     url: 'http://' + process.env.DOMAIN + ':' + process.env.PORT + 'url ' + user_id
                   });
 
                   /* Cecking honors */
@@ -343,7 +343,7 @@ module.exports = function(args) {
                         res.body.user.honors.should.contain({
                            id: honor_id,
                            title: "Honor " + honor_id
-                        });  
+                        });
                      }
                   }
                   res.body.user.honors.should.have.lengthOf(count);
@@ -427,11 +427,11 @@ module.exports = function(args) {
                         name: "Committee " + data.users[user_id - 1].committee_id
                      });
                   }
-                 
+
                   /* Cheking media */
                   res.body.user.profile_picture.should.eql({
                      type: "Image",
-                     url: "url " + user_id
+                     url: 'http://' + process.env.DOMAIN + ':' + process.env.PORT + 'url ' + user_id
                   });
 
                   /* Cecking honors */
@@ -443,7 +443,7 @@ module.exports = function(args) {
                         res.body.user.honors.should.contain({
                            id: honor_id,
                            title: "Honor " + honor_id
-                        });  
+                        });
                      }
                   }
                   res.body.user.honors.should.have.lengthOf(count);
@@ -527,11 +527,11 @@ module.exports = function(args) {
                         name: "Committee " + data.users[user_id - 1].committee_id
                      });
                   }
-                 
+
                   /* Cheking media */
                   res.body.user.profile_picture.should.eql({
                      type: "Image",
-                     url: "url " + user_id
+                     url: 'http://' + process.env.DOMAIN + ':' + process.env.PORT + 'url ' + user_id
                   });
 
                   /* Cecking honors */
@@ -543,7 +543,7 @@ module.exports = function(args) {
                         res.body.user.honors.should.contain({
                            id: honor_id,
                            title: "Honor " + honor_id
-                        });  
+                        });
                      }
                   }
                   res.body.user.honors.should.have.lengthOf(count);
@@ -627,11 +627,11 @@ module.exports = function(args) {
                         name: "Committee " + data.users[user_id - 1].committee_id
                      });
                   }
-                 
+
                   /* Cheking media */
                   res.body.user.profile_picture.should.eql({
                      type: "Image",
-                     url: "url " + user_id
+                     url: 'http://' + process.env.DOMAIN + ':' + process.env.PORT + 'url ' + user_id
                   });
 
                   /* Cecking honors */
@@ -643,7 +643,7 @@ module.exports = function(args) {
                         res.body.user.honors.should.contain({
                            id: honor_id,
                            title: "Honor " + honor_id
-                        });  
+                        });
                      }
                   }
                   res.body.user.honors.should.have.lengthOf(count);
@@ -728,11 +728,11 @@ module.exports = function(args) {
                         name: "Committee " + data.users[user_id - 1].committee_id
                      });
                   }
-                 
+
                   /* Cheking media */
                   res.body.user.profile_picture.should.eql({
                      type: "Image",
-                     url: "url " + user_id
+                     url: 'http://' + process.env.DOMAIN + ':' + process.env.PORT + 'url ' + user_id
                   });
 
                   /* Cecking honors */
@@ -744,7 +744,7 @@ module.exports = function(args) {
                         res.body.user.honors.should.contain({
                            id: honor_id,
                            title: "Honor " + honor_id
-                        });  
+                        });
                      }
                   }
                   res.body.user.honors.should.have.lengthOf(count);
@@ -828,11 +828,11 @@ module.exports = function(args) {
                         name: "Committee " + data.users[user_id - 1].committee_id
                      });
                   }
-                 
+
                   /* Cheking media */
                   res.body.user.profile_picture.should.eql({
                      type: "Image",
-                     url: "url " + user_id
+                     url: 'http://' + process.env.DOMAIN + ':' + process.env.PORT + 'url ' + user_id
                   });
 
                   /* Cecking honors */
@@ -844,7 +844,7 @@ module.exports = function(args) {
                         res.body.user.honors.should.contain({
                            id: honor_id,
                            title: "Honor " + honor_id
-                        });  
+                        });
                      }
                   }
                   res.body.user.honors.should.have.lengthOf(count);
@@ -928,11 +928,11 @@ module.exports = function(args) {
                         name: "Committee " + data.users[user_id - 1].committee_id
                      });
                   }
-                 
+
                   /* Cheking media */
                   res.body.user.profile_picture.should.eql({
                      type: "Image",
-                     url: "url " + user_id
+                     url: 'http://' + process.env.DOMAIN + ':' + process.env.PORT + 'url ' + user_id
                   });
 
                   /* Cecking honors */
@@ -944,7 +944,7 @@ module.exports = function(args) {
                         res.body.user.honors.should.contain({
                            id: honor_id,
                            title: "Honor " + honor_id
-                        });  
+                        });
                      }
                   }
                   res.body.user.honors.should.have.lengthOf(count);
@@ -1028,11 +1028,11 @@ module.exports = function(args) {
                         name: "Committee " + data.users[user_id - 1].committee_id
                      });
                   }
-                 
+
                   /* Cheking media */
                   res.body.user.profile_picture.should.eql({
                      type: "Image",
-                     url: "url " + user_id
+                     url: 'http://' + process.env.DOMAIN + ':' + process.env.PORT + 'url ' + user_id
                   });
 
                   /* Cecking honors */
@@ -1044,7 +1044,7 @@ module.exports = function(args) {
                         res.body.user.honors.should.contain({
                            id: honor_id,
                            title: "Honor " + honor_id
-                        });  
+                        });
                      }
                   }
                   res.body.user.honors.should.have.lengthOf(count);
@@ -1128,11 +1128,11 @@ module.exports = function(args) {
                         name: "Committee " + data.users[user_id - 1].committee_id
                      });
                   }
-                 
+
                   /* Cheking media */
                   res.body.user.profile_picture.should.eql({
                      type: "Image",
-                     url: "url " + user_id
+                     url: 'http://' + process.env.DOMAIN + ':' + process.env.PORT + 'url ' + user_id
                   });
 
                   /* Cecking honors */
@@ -1144,7 +1144,7 @@ module.exports = function(args) {
                         res.body.user.honors.should.contain({
                            id: honor_id,
                            title: "Honor " + honor_id
-                        });  
+                        });
                      }
                   }
                   res.body.user.honors.should.have.lengthOf(count);
@@ -1228,11 +1228,11 @@ module.exports = function(args) {
                         name: "Committee " + data.users[user_id - 1].committee_id
                      });
                   }
-                 
+
                   /* Cheking media */
                   res.body.user.profile_picture.should.eql({
                      type: "Image",
-                     url: "url " + user_id
+                     url: 'http://' + process.env.DOMAIN + ':' + process.env.PORT + 'url ' + user_id
                   });
 
                   /* Cecking honors */
@@ -1244,7 +1244,7 @@ module.exports = function(args) {
                         res.body.user.honors.should.contain({
                            id: honor_id,
                            title: "Honor " + honor_id
-                        });  
+                        });
                      }
                   }
                   res.body.user.honors.should.have.lengthOf(count);
@@ -1329,11 +1329,11 @@ module.exports = function(args) {
                         name: "Committee " + data.users[user_id - 1].committee_id
                      });
                   }
-                 
+
                   /* Cheking media */
                   res.body.user.profile_picture.should.eql({
                      type: "Image",
-                     url: "url " + user_id
+                     url: 'http://' + process.env.DOMAIN + ':' + process.env.PORT + 'url ' + user_id
                   });
 
                   /* Cecking honors */
@@ -1345,7 +1345,7 @@ module.exports = function(args) {
                         res.body.user.honors.should.contain({
                            id: honor_id,
                            title: "Honor " + honor_id
-                        });  
+                        });
                      }
                   }
                   res.body.user.honors.should.have.lengthOf(count);
@@ -1429,11 +1429,11 @@ module.exports = function(args) {
                         name: "Committee " + data.users[user_id - 1].committee_id
                      });
                   }
-                 
+
                   /* Cheking media */
                   res.body.user.profile_picture.should.eql({
                      type: "Image",
-                     url: "url " + user_id
+                     url: 'http://' + process.env.DOMAIN + ':' + process.env.PORT + 'url ' + user_id
                   });
 
                   /* Cecking honors */
@@ -1445,7 +1445,7 @@ module.exports = function(args) {
                         res.body.user.honors.should.contain({
                            id: honor_id,
                            title: "Honor " + honor_id
-                        });  
+                        });
                      }
                   }
                   res.body.user.honors.should.have.lengthOf(count);
@@ -1489,11 +1489,11 @@ module.exports = function(args) {
                         name: "Committee " + data.users[user_id - 1].committee_id
                      });
                   }
-                 
+
                   /* Cheking media */
                   res.body.user.profile_picture.should.eql({
                      type: "Image",
-                     url: "url " + user_id
+                     url: 'http://' + process.env.DOMAIN + ':' + process.env.PORT + 'url ' + user_id
                   });
 
                   /* Cecking honors */
@@ -1505,7 +1505,7 @@ module.exports = function(args) {
                         res.body.user.honors.should.contain({
                            id: honor_id,
                            title: "Honor " + honor_id
-                        });  
+                        });
                      }
                   }
                   res.body.user.honors.should.have.lengthOf(count);
@@ -1549,11 +1549,11 @@ module.exports = function(args) {
                         name: "Committee " + data.users[user_id - 1].committee_id
                      });
                   }
-                 
+
                   /* Cheking media */
                   res.body.user.profile_picture.should.eql({
                      type: "Image",
-                     url: "url " + user_id
+                     url: 'http://' + process.env.DOMAIN + ':' + process.env.PORT + 'url ' + user_id
                   });
 
                   /* Cecking honors */
@@ -1565,7 +1565,7 @@ module.exports = function(args) {
                         res.body.user.honors.should.contain({
                            id: honor_id,
                            title: "Honor " + honor_id
-                        });  
+                        });
                      }
                   }
                   res.body.user.honors.should.have.lengthOf(count);
@@ -1609,11 +1609,11 @@ module.exports = function(args) {
                         name: "Committee " + data.users[user_id - 1].committee_id
                      });
                   }
-                 
+
                   /* Cheking media */
                   res.body.user.profile_picture.should.eql({
                      type: "Image",
-                     url: "url " + user_id
+                     url: 'http://' + process.env.DOMAIN + ':' + process.env.PORT + 'url ' + user_id
                   });
 
                   /* Cecking honors */
@@ -1625,7 +1625,7 @@ module.exports = function(args) {
                         res.body.user.honors.should.contain({
                            id: honor_id,
                            title: "Honor " + honor_id
-                        });  
+                        });
                      }
                   }
                   res.body.user.honors.should.have.lengthOf(count);
@@ -1709,11 +1709,11 @@ module.exports = function(args) {
                         name: "Committee " + data.users[user_id - 1].committee_id
                      });
                   }
-                 
+
                   /* Cheking media */
                   res.body.user.profile_picture.should.eql({
                      type: "Image",
-                     url: "url " + user_id
+                     url: 'http://' + process.env.DOMAIN + ':' + process.env.PORT + 'url ' + user_id
                   });
 
                   /* Cecking honors */
@@ -1725,7 +1725,7 @@ module.exports = function(args) {
                         res.body.user.honors.should.contain({
                            id: honor_id,
                            title: "Honor " + honor_id
-                        });  
+                        });
                      }
                   }
                   res.body.user.honors.should.have.lengthOf(count);
@@ -1770,11 +1770,11 @@ module.exports = function(args) {
                         name: "Committee " + data.users[user_id - 1].committee_id
                      });
                   }
-                 
+
                   /* Cheking media */
                   res.body.user.profile_picture.should.eql({
                      type: "Image",
-                     url: "url " + user_id
+                     url: 'http://' + process.env.DOMAIN + ':' + process.env.PORT + 'url ' + user_id
                   });
 
                   /* Cecking honors */
@@ -1786,7 +1786,7 @@ module.exports = function(args) {
                         res.body.user.honors.should.contain({
                            id: honor_id,
                            title: "Honor " + honor_id
-                        });  
+                        });
                      }
                   }
                   res.body.user.honors.should.have.lengthOf(count);
@@ -1870,11 +1870,11 @@ module.exports = function(args) {
                         name: "Committee " + data.users[user_id - 1].committee_id
                      });
                   }
-                 
+
                   /* Cheking media */
                   res.body.user.profile_picture.should.eql({
                      type: "Image",
-                     url: "url " + user_id
+                     url: 'http://' + process.env.DOMAIN + ':' + process.env.PORT + 'url ' + user_id
                   });
 
                   /* Cecking honors */
@@ -1886,7 +1886,7 @@ module.exports = function(args) {
                         res.body.user.honors.should.contain({
                            id: honor_id,
                            title: "Honor " + honor_id
-                        });  
+                        });
                      }
                   }
                   res.body.user.honors.should.have.lengthOf(count);
@@ -1930,11 +1930,11 @@ module.exports = function(args) {
                         name: "Committee " + data.users[user_id - 1].committee_id
                      });
                   }
-                 
+
                   /* Cheking media */
                   res.body.user.profile_picture.should.eql({
                      type: "Image",
-                     url: "url " + user_id
+                     url: 'http://' + process.env.DOMAIN + ':' + process.env.PORT + 'url ' + user_id
                   });
 
                   /* Cecking honors */
@@ -1946,7 +1946,7 @@ module.exports = function(args) {
                         res.body.user.honors.should.contain({
                            id: honor_id,
                            title: "Honor " + honor_id
-                        });  
+                        });
                      }
                   }
                   res.body.user.honors.should.have.lengthOf(count);
@@ -1990,11 +1990,11 @@ module.exports = function(args) {
                         name: "Committee " + data.users[user_id - 1].committee_id
                      });
                   }
-                 
+
                   /* Cheking media */
                   res.body.user.profile_picture.should.eql({
                      type: "Image",
-                     url: "url " + user_id
+                     url: 'http://' + process.env.DOMAIN + ':' + process.env.PORT + 'url ' + user_id
                   });
 
                   /* Cecking honors */
@@ -2006,7 +2006,7 @@ module.exports = function(args) {
                         res.body.user.honors.should.contain({
                            id: honor_id,
                            title: "Honor " + honor_id
-                        });  
+                        });
                      }
                   }
                   res.body.user.honors.should.have.lengthOf(count);
@@ -2050,11 +2050,11 @@ module.exports = function(args) {
                         name: "Committee " + data.users[user_id - 1].committee_id
                      });
                   }
-                 
+
                   /* Cheking media */
                   res.body.user.profile_picture.should.eql({
                      type: "Image",
-                     url: "url " + user_id
+                     url: 'http://' + process.env.DOMAIN + ':' + process.env.PORT + 'url ' + user_id
                   });
 
                   /* Cecking honors */
@@ -2066,7 +2066,7 @@ module.exports = function(args) {
                         res.body.user.honors.should.contain({
                            id: honor_id,
                            title: "Honor " + honor_id
-                        });  
+                        });
                      }
                   }
                   res.body.user.honors.should.have.lengthOf(count);
@@ -2110,11 +2110,11 @@ module.exports = function(args) {
                         name: "Committee " + data.users[user_id - 1].committee_id
                      });
                   }
-                 
+
                   /* Cheking media */
                   res.body.user.profile_picture.should.eql({
                      type: "Image",
-                     url: "url " + user_id
+                     url: 'http://' + process.env.DOMAIN + ':' + process.env.PORT + 'url ' + user_id
                   });
 
                   /* Cecking honors */
@@ -2126,7 +2126,7 @@ module.exports = function(args) {
                         res.body.user.honors.should.contain({
                            id: honor_id,
                            title: "Honor " + honor_id
-                        });  
+                        });
                      }
                   }
                   res.body.user.honors.should.have.lengthOf(count);

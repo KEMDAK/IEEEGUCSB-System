@@ -110,7 +110,7 @@ module.exports.show = function(req, res, next) {
             if(attendees[i].profilePicture) {
                cur.profile_picture = {
                   type: attendees[i].profilePicture.type,
-                  url: attendees[i].profilePicture.url
+                  url: 'http://' + process.env.DOMAIN + ':' + process.env.PORT + attendees[i].profilePicture.url
                };
             }
 
@@ -134,7 +134,7 @@ module.exports.show = function(req, res, next) {
             if(supervisor.profilePicture) {
                result.supervisor.profile_picture = {
                   type: attendees[i].profilePicture.type,
-                  url: attendees[i].profilePicture.url
+                  url: 'http://' + process.env.DOMAIN + ':' + process.env.PORT + attendees[i].profilePicture.url
                };
             }
 

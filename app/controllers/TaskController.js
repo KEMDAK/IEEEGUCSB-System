@@ -94,7 +94,7 @@ module.exports.show = function(req, res, next)
                   pfp =
                   {
                     type: supervisor.profilePicture.type,
-                    url: supervisor.profilePicture.url
+                    url: 'http://' + process.env.DOMAIN + ':' + process.env.PORT + supervisor.profilePicture.url
                   };
                 result.supervisor.profile_picture = pfp;
 
@@ -119,7 +119,7 @@ module.exports.show = function(req, res, next)
                             pfp =
                             {
                               type: assigned_user.profilePicture.type,
-                              url: assigned_user.profilePicture.url
+                              url: 'http://' + process.env.DOMAIN + ':' + process.env.PORT + assigned_user.profilePicture.url
                             };
 
                           result.assigned_to[i].profile_picture = pfp;
