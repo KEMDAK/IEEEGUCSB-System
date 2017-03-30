@@ -209,7 +209,7 @@ module.exports = function() {
    for (i = 0; i < 15; i++) {
       var profile_picture = {
          type: "Image",
-         url: "url " + (i + 1),
+         url: "/url " + (i + 1),
          user_id: (i + 1)
       };
 
