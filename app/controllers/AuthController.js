@@ -37,7 +37,7 @@ module.exports.login = function(req, res, next) {
         /* input validation failed */
         res.status(400).json({
             status: 'failed',
-            error: errors
+            errors: errors
         });
 
         req.err = 'AuthController.js, 43\nSome validation errors occured.\n' + JSON.stringify(errors);
@@ -263,7 +263,7 @@ module.exports.forgotPassword = function (req, res, next) {
         /* input validation failed */
         res.status(400).json({
             status: 'failed',
-            error: errors
+            errors: errors
         });
 
         req.err = 'AuthController.js, 272\nSome validation errors occured.\n' + JSON.stringify(errors);
@@ -385,7 +385,7 @@ module.exports.resetPassword = function (req, res, next) {
         /* input validation failed */
         res.status(400).json({
             status: 'failed',
-            error: errors
+            errors: errors
         });
 
         req.err = 'AuthController.js, 394\nSome validation errors occured.\n' + JSON.stringify(errors);

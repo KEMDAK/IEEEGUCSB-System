@@ -28,7 +28,7 @@ module.exports = function(app) {
     *        },
     *        profile_picture:{                            [if found]
     *          url:the user's profile pic url
-    *          type:the media type 
+    *          type:the media type
     *        }
     *     }, {...}, ...
     *  ]
@@ -62,12 +62,12 @@ module.exports = function(app) {
     *       first_name: the user's first name,
     *       last_name: the user's last name,
     *       email: the user's email,
-    *       gender: the user's gender,       [for detailed view only]
-    *       phone_number: the user's phone number,       [for detailed view only]
-    *       birthdate: the user's birthdate,        [for detailed view only]
-    *       IEEE_membership_ID: the user's membership id in IEEE,       
-    *       settings: {  the user's profile settings  
-    *             public: {                                         [public settings only for basic view]
+    *       gender: the user's gender,       [for detailed or mine views only]
+    *       phone_number: the user's phone number,       [for detailed or mine views only]
+    *       birthdate: the user's birthdate,        [for detailed or mine views only]
+    *       IEEE_membership_ID: the user's membership id in IEEE,
+    *       settings: {  the user's profile settings
+    *             public: {
     *               background: "The background of the profile"
     *             },
     *             private: {                                         [private settings only for mine view]
@@ -83,9 +83,9 @@ module.exports = function(app) {
     *                }
     *              }
     *            },
-    *       profilePicture:{                           
+    *       profilePicture:{
     *          url:the user's profile pic url
-    *          type:the media type 
+    *          type:the media type
     *        },
     *        committee: {                       [if found]
     *          id: the users's committee id,

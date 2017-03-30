@@ -34,7 +34,7 @@ module.exports.show = function(req, res, next)
             errors: errors
          });
 
-      req.err = 'TaskController.js, Line: 29\nSome validation errors occurred.\n' + JSON.stringify(errors);
+      req.err = 'TaskController.js, Line: 37\nSome validation errors occurred.\n' + JSON.stringify(errors);
       next();
       return;
    }
@@ -54,7 +54,7 @@ module.exports.show = function(req, res, next)
                   message: 'The requested route was not found.'
                });
 
-            req.err = 'TaskController.js, Line: 43\nThe requested task was not found in the database.';
+            req.err = 'TaskController.js, Line: 57\nThe requested task was not found in the database.';
             next();
             return;
          }
@@ -94,7 +94,7 @@ module.exports.show = function(req, res, next)
                   pfp =
                   {
                     type: supervisor.profilePicture.type,
-                    url: supervisor.profilePicture.url
+                    url: 'http://' + process.env.DOMAIN + ':' + process.env.PORT + supervisor.profilePicture.url
                   };
                 result.supervisor.profile_picture = pfp;
 
@@ -119,7 +119,7 @@ module.exports.show = function(req, res, next)
                             pfp =
                             {
                               type: assigned_user.profilePicture.type,
-                              url: assigned_user.profilePicture.url
+                              url: 'http://' + process.env.DOMAIN + ':' + process.env.PORT + assigned_user.profilePicture.url
                             };
 
                           result.assigned_to[i].profile_picture = pfp;
@@ -153,7 +153,7 @@ module.exports.show = function(req, res, next)
                              message: 'Access denied.'
                           });
 
-                       req.err = 'TaskController.js, Line: 43\nthe requesting user has no authority to show the task.';
+                       req.err = 'TaskController.js, Line: 156\nthe requesting user has no authority to show the task.';
                        next();
                        return;
                      }
@@ -207,7 +207,7 @@ module.exports.show = function(req, res, next)
                                message: 'Internal server error'
                             });
 
-                            req.err = 'TaskController.js, Line: 111\nfailed to get the comments from the database.\n' + String(err);
+                            req.err = 'TaskController.js, Line: 210\nfailed to get the comments from the database.\n' + String(err);
                             next();
                             return;
                          });
@@ -220,7 +220,7 @@ module.exports.show = function(req, res, next)
                          message: 'Internal server error'
                       });
 
-                      req.err = 'TaskController.js, Line: 111\nfailed to get the assigned users from the database.\n' + String(err);
+                      req.err = 'TaskController.js, Line: 223\nfailed to get the assigned users from the database.\n' + String(err);
                       next();
                    });
                })
@@ -232,7 +232,7 @@ module.exports.show = function(req, res, next)
                      message: 'Internal server error'
                   });
 
-                  req.err = 'TaskController.js, Line: 111\nfailed to get the supervisor from the database.\n' + String(err);
+                  req.err = 'TaskController.js, Line: 235\nfailed to get the supervisor from the database.\n' + String(err);
                   next();
                });
              })
@@ -244,7 +244,7 @@ module.exports.show = function(req, res, next)
                    message: 'Internal server error'
                 });
 
-                req.err = 'TaskController.js, Line: 111\nfailed to get the task from the database.\n' + String(err);
+                req.err = 'TaskController.js, Line: 247\nfailed to get the task from the database.\n' + String(err);
                 next();
              });
 };
@@ -313,7 +313,7 @@ module.exports.store = function(req, res, next) {
             errors: errors
          });
 
-         req.err = 'TaskController.js, Line: 238\nSome validation errors occurred.\n' + JSON.stringify(errors);
+         req.err = 'TaskController.js, Line: 316\nSome validation errors occurred.\n' + JSON.stringify(errors);
          next();
          return;
       }
@@ -347,7 +347,7 @@ module.exports.store = function(req, res, next) {
             });
 
             task.destroy();
-            req.err = 'TaskController.js, Line: 470\nfailed to update the task assigned_to in the database.\n' + String(err);
+            req.err = 'TaskController.js, Line: 350\nfailed to update the task assigned_to in the database.\n' + String(err);
             next();
             return;
          });
@@ -359,7 +359,7 @@ module.exports.store = function(req, res, next) {
             message: 'Internal server error'
          });
 
-         req.err = 'TaskController.js, Line: 301\nCouldn\'t save the task in the database.\n' + String(err);
+         req.err = 'TaskController.js, Line: 362\nCouldn\'t save the task in the database.\n' + String(err);
          next();
          return;
       });
@@ -409,7 +409,7 @@ module.exports.store = function(req, res, next) {
               message: 'Internal server error'
            });
 
-           req.err = 'TaskController.js, Line: 338\nfailed to validate the assigned_to in the database.\n' + String(err);
+           req.err = 'TaskController.js, Line: 412\nfailed to validate the assigned_to in the database.\n' + String(err);
            next();
            return;
         });
@@ -510,7 +510,7 @@ module.exports.update = function(req, res, next)
             errors: errors
          });
 
-         req.err = 'TaskController.js, Line: 238\nSome validation errors occurred.\n' + JSON.stringify(errors);
+         req.err = 'TaskController.js, Line: 513\nSome validation errors occurred.\n' + JSON.stringify(errors);
          next();
          return;
       }
@@ -522,7 +522,7 @@ module.exports.update = function(req, res, next)
                message: 'The requested route was not found.'
             });
 
-            req.err = 'TaskController.js, Line: 438\nThe requested task was not found in the database or the user has no authority to edit it.';
+            req.err = 'TaskController.js, Line: 525\nThe requested task was not found in the database or the user has no authority to edit it.';
             next();
          }
          else
@@ -535,7 +535,7 @@ module.exports.update = function(req, res, next)
                message: 'Access denied'
             });
 
-            req.err = 'TaskController.js, Line: 449\nThe requesting user has no authority to update the task.';
+            req.err = 'TaskController.js, Line: 538\nThe requesting user has no authority to update the task.';
             next();
           }
           else
@@ -561,7 +561,7 @@ module.exports.update = function(req, res, next)
                       message: 'Internal server error'
                    });
 
-                   req.err = 'TaskController.js, Line: 470\nfailed to update the task assigned_to in the database.\n' + String(err);
+                   req.err = 'TaskController.js, Line: 564\nfailed to update the task assigned_to in the database.\n' + String(err);
                    next();
                    return;
                 });
@@ -583,7 +583,7 @@ module.exports.update = function(req, res, next)
                   message: 'Internal server error'
                });
 
-               req.err = 'TaskController.js, Line: 489\nCouldn\'t update the task in the database.\n' + String(err);
+               req.err = 'TaskController.js, Line: 586\nCouldn\'t update the task in the database.\n' + String(err);
                next();
             });
          }
@@ -595,7 +595,7 @@ module.exports.update = function(req, res, next)
             message: 'Internal server error'
          });
 
-         req.err = 'TaskController.js, Line: 501\nCouldn\'t find the task in the database.\n' + String(err);
+         req.err = 'TaskController.js, Line: 598\nCouldn\'t find the task in the database.\n' + String(err);
          next();
       });
 
@@ -645,7 +645,7 @@ module.exports.update = function(req, res, next)
               message: 'Internal server error'
            });
 
-           req.err = 'TaskController.js, Line: 338\nfailed to validate the assigned_to in the database.\n' + String(err);
+           req.err = 'TaskController.js, Line: 648\nfailed to validate the assigned_to in the database.\n' + String(err);
            next();
            return;
         });
@@ -682,7 +682,7 @@ module.exports.delete = function(req, res, next)
          status: 'failed',
          errors: errors
       });
-      req.err = 'TaskController.js, Line: 32\nSome validation errors occured.\n' + JSON.stringify(errors);
+      req.err = 'TaskController.js, Line: 685\nSome validation errors occured.\n' + JSON.stringify(errors);
       next();
       return;
    }
@@ -696,7 +696,7 @@ module.exports.delete = function(req, res, next)
            message: 'The requested route was not found.'
         });
 
-        req.err = 'TaskController.js, Line: 438\nThe requested task was not found in the database or the user has no authority to edit it.';
+        req.err = 'TaskController.js, Line: 699\nThe requested task was not found in the database or the user has no authority to edit it.';
         next();
         return;
       }
@@ -708,7 +708,7 @@ module.exports.delete = function(req, res, next)
          status:'failed',
          message: 'Access denied.'
        });
-       req.err = 'TaskController.js, Line: 46\nThe user has no authority to delete the task.';
+       req.err = 'TaskController.js, Line: 711\nThe user has no authority to delete the task.';
        next();
      }
      else
@@ -730,7 +730,7 @@ module.exports.delete = function(req, res, next)
           message: 'Internal server error'
        });
 
-       req.err = 'TaskController.js, Line: 79\nCouldn\'t retreive the task from the database.\n' + String(err);
+       req.err = 'TaskController.js, Line: 733\nCouldn\'t retreive the task from the database.\n' + String(err);
        next();
     });
 };

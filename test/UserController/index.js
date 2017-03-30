@@ -3,10 +3,10 @@ module.exports = function(args) {
 
    describe('GET /api/user', function() {
       this.timeout(500);
-      
+
       before(function(done) {
          this.timeout(40000);
-         
+
          app = args.app;
          fn = args.fn;
          data = args.data;
@@ -58,7 +58,7 @@ module.exports = function(args) {
                         last_name: data.users[i].last_name,
                         profile_picture: {
                            type: "Image",
-                           url: "url " + (i + 1)
+                           url: 'http://' + process.env.DOMAIN + ':' + process.env.PORT + 'url ' + (i + 1)
                         }
                      };
 
@@ -95,7 +95,7 @@ module.exports = function(args) {
                         last_name: data.users[i].last_name,
                         profile_picture: {
                            type: "Image",
-                           url: "url " + (i + 1)
+                           url: 'http://' + process.env.DOMAIN + ':' + process.env.PORT + 'url ' + (i + 1)
                         }
                      };
 
@@ -132,7 +132,7 @@ module.exports = function(args) {
                         last_name: data.users[i].last_name,
                         profile_picture: {
                            type: "Image",
-                           url: "url " + (i + 1)
+                           url: 'http://' + process.env.DOMAIN + ':' + process.env.PORT + 'url ' + (i + 1)
                         }
                      };
 
@@ -167,7 +167,7 @@ module.exports = function(args) {
                         last_name: data.users[i].last_name,
                         profile_picture: {
                            type: "Image",
-                           url: "url " + (i + 1)
+                           url: 'http://' + process.env.DOMAIN + ':' + process.env.PORT + 'url ' + (i + 1)
                         }
                      };
 
