@@ -128,15 +128,15 @@ module.exports.defineUser = function(sequelize) {
         var type = 'Basic' ;
 
 
-         
-        
+
+
         if(mine==true){
               type = 'Mine';
            }else{
-              delete settings.private ;  
-              if(detailed==true )           
+              delete settings.private ;
+              if(detailed==true )
                 type = 'Detailed';
-               }  
+               }
 
           res.profile_type       = type;
           res.id                 = this.id;
@@ -153,7 +153,7 @@ module.exports.defineUser = function(sequelize) {
           res.profile_picture    = this.profilePicture;
           res.honors             = this.Honors ;
           res.tasks              = this.Tasks ;
-          
+
           if(this.Meetings){
            var meetings = [];
            for (var i = this.Meetings.length - 1; i >= 0; i--) {
@@ -164,7 +164,7 @@ module.exports.defineUser = function(sequelize) {
               end_date: currM.end_date,
               location: currM.location,
               created_at: currM.created_at,
-              updated_at: currM.updated_at 
+              updated_at: currM.updated_at
             };
             meetings.push(currRes);
           }
@@ -173,7 +173,7 @@ module.exports.defineUser = function(sequelize) {
          res.meetings = this.Meetings
        }
 
-       
+
         return res;
       }
 

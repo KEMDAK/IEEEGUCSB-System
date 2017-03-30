@@ -15,8 +15,8 @@ User.hasMany(Identity, { as: 'Identities', foreignKey: { allowNull: false }, onD
 Identity.belongsTo(User, { as: 'User', foreignKey: { allowNull: false }, onDelete: 'NO ACTION' });
 
 /* Media_User relation */
-User.hasOne(Media, { as: 'profilePicture', foreignKey: { allowNull: true }, onDelete: 'CASCADE' });
-Media.belongsTo(User, { as: 'User', foreignKey: { allowNull: true }, onDelete: 'NO ACTION' });
+User.hasOne(Media, { as: 'profilePicture', foreignKey: { allowNull: true, unique: true }, onDelete: 'CASCADE' });
+Media.belongsTo(User, { as: 'User', foreignKey: { allowNull: true, unique: true }, onDelete: 'NO ACTION' });
 
 /* Task_User relation */
 User.hasMany(Task, { as: 'SupervisedTasks', foreignKey: { name: 'supervisor', allowNull: false }, onDelete: 'CASCADE' });
