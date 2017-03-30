@@ -37,6 +37,20 @@ module.exports = function(args) {
          });
       });
 
+      beforeEach(function() {
+         var ids = [1, 5];
+         for (var i = 0; i < ids.length; i++) {
+            fse.ensureDirSync('./public/images/' + ids[i]);
+         }
+      });
+
+      after(function() {
+         var ids = [1, 5];
+         for (var i = 0; i < ids.length; i++) {
+            fse.removeSync('./public/images/' + ids[i]);
+         }
+      });
+
       /***********************
       * Authentication Tests *
       ************************/
@@ -53,7 +67,7 @@ module.exports = function(args) {
                   res.body.should.have.property('status').and.equal('failed');
                   should.exist(err);
                   models.Media.findOne({ where : { user_id : user_id } }).then(function(record) {
-                     if(record.updated_at.getTime() !== record.created_at.getTime()){
+                     if(record && record.updated_at.getTime() !== record.created_at.getTime()){
                         throw new Error("The Media has been updated in the database.");
                      }
 
@@ -80,7 +94,7 @@ module.exports = function(args) {
                   res.body.should.have.property('status').and.equal('failed');
                   should.exist(err);
                   models.Media.findOne({ where : { user_id : user_id } }).then(function(record) {
-                     if(record.updated_at.getTime() !== record.created_at.getTime()){
+                     if(record && record.updated_at.getTime() !== record.created_at.getTime()){
                         throw new Error("The Media has been updated in the database.");
                      }
 
@@ -113,9 +127,9 @@ module.exports = function(args) {
                   res.body.should.have.property('status').and.equal('failed');
                   res.body.should.have.property('errors');  // TODO: Test the errors themselves
                   should.exist(err);
-                  (fse.existsSync('./public/images/' + user_id)).should.be.false;
+                  (fse.existsSync('./public/images/' + user_id)).should.be.true;
                   models.Media.findOne({ where : { user_id : user_id } }).then(function(record) {
-                     if(record.updated_at.getTime() !== record.created_at.getTime()){
+                     if(record && record.updated_at.getTime() !== record.created_at.getTime()){
                         throw new Error("The Media has been updated in the database.");
                      }
 
@@ -143,9 +157,9 @@ module.exports = function(args) {
                   res.body.should.have.property('status').and.equal('failed');
                   res.body.should.have.property('errors');  // TODO: Test the errors themselves
                   should.exist(err);
-                  (fse.existsSync('./public/images/' + user_id)).should.be.false;
+                  (fse.existsSync('./public/images/' + user_id)).should.be.true;
                   models.Media.findOne({ where : { user_id : user_id } }).then(function(record) {
-                     if(record.updated_at.getTime() !== record.created_at.getTime()){
+                     if(record && record.updated_at.getTime() !== record.created_at.getTime()){
                         throw new Error("The Media has been updated in the database.");
                      }
 
@@ -188,14 +202,14 @@ module.exports = function(args) {
                         throw new Error("The user doesn't have a profile picture.");
                      }
 
-                     theUser.phone_number.should.equal((user.phone_number || data.users[user_id - 1].phone_number));
+                     theUser.phone_number.should.equal((data.users[user_id - 1].phone_number));
                      if(theUser.IEEE_membership_ID){
-                        theUser.IEEE_membership_ID.should.equal((user.IEEE_membership_ID || data.users[user_id - 1].IEEE_membership_ID));
+                        theUser.IEEE_membership_ID.should.equal((data.users[user_id - 1].IEEE_membership_ID));
                      }
 
-                     data.users[user_id - 1].phone_number = user.phone_number || data.users[user_id - 1].phone_number;
-                     data.users[user_id - 1].IEEE_membership_ID = user.IEEE_membership_ID || data.users[user_id - 1].IEEE_membership_ID;
-                     data.users[user_id - 1].password = user.new_password || data.users[user_id - 1].password;
+                     data.users[user_id - 1].phone_number = data.users[user_id - 1].phone_number;
+                     data.users[user_id - 1].IEEE_membership_ID = data.users[user_id - 1].IEEE_membership_ID;
+                     data.users[user_id - 1].password = data.users[user_id - 1].password;
 
                      theUser.type.should.equal(data.users[user_id - 1].type);
                      theUser.email.should.equal(data.users[user_id - 1].email);
@@ -223,11 +237,11 @@ module.exports = function(args) {
                      should.equal(theUser.reset_token, null);
 
                      /* validating password */
-                     if(!theUser.validPassword((user.new_password || data.users[user_id - 1].password))){
+                     if(!theUser.validPassword((data.users[user_id - 1].password))){
                         throw new Error("The user's password is incorrect.");
                      }
 
-                     data.users[user_id - 1].password = user.new_password || data.users[user_id - 1].password;
+                     data.users[user_id - 1].password = data.users[user_id - 1].password;
 
                      /* Checking media */
                      theUser.profilePicture = theUser.profilePicture.toJSON();
@@ -238,7 +252,7 @@ module.exports = function(args) {
                      delete theUser.profilePicture.id;
                      theUser.profilePicture.should.eql({
                         type: "Image",
-                        url: 'http://' + proccess.env.DOMAIN + ':' + proccess.env.PORT + '/' + user_id + '/' + 'Image.png'
+                        url: '/' + user_id + '/' + 'Image.png'
                      });
                      (fse.existsSync('./public/images/' + user_id + '/Image.png')).should.be.true;
 
@@ -276,14 +290,14 @@ module.exports = function(args) {
                         throw new Error("The user doesn't have a profile picture.");
                      }
 
-                     theUser.phone_number.should.equal((user.phone_number || data.users[user_id - 1].phone_number));
+                     theUser.phone_number.should.equal((data.users[user_id - 1].phone_number));
                      if(theUser.IEEE_membership_ID){
-                        theUser.IEEE_membership_ID.should.equal((user.IEEE_membership_ID || data.users[user_id - 1].IEEE_membership_ID));
+                        theUser.IEEE_membership_ID.should.equal((data.users[user_id - 1].IEEE_membership_ID));
                      }
 
-                     data.users[user_id - 1].phone_number = user.phone_number || data.users[user_id - 1].phone_number;
-                     data.users[user_id - 1].IEEE_membership_ID = user.IEEE_membership_ID || data.users[user_id - 1].IEEE_membership_ID;
-                     data.users[user_id - 1].password = user.new_password || data.users[user_id - 1].password;
+                     data.users[user_id - 1].phone_number = data.users[user_id - 1].phone_number;
+                     data.users[user_id - 1].IEEE_membership_ID = data.users[user_id - 1].IEEE_membership_ID;
+                     data.users[user_id - 1].password = data.users[user_id - 1].password;
 
                      theUser.type.should.equal(data.users[user_id - 1].type);
                      theUser.email.should.equal(data.users[user_id - 1].email);
@@ -311,11 +325,11 @@ module.exports = function(args) {
                      should.equal(theUser.reset_token, null);
 
                      /* validating password */
-                     if(!theUser.validPassword((user.new_password || data.users[user_id - 1].password))){
+                     if(!theUser.validPassword((data.users[user_id - 1].password))){
                         throw new Error("The user's password is incorrect.");
                      }
 
-                     data.users[user_id - 1].password = user.new_password || data.users[user_id - 1].password;
+                     data.users[user_id - 1].password = data.users[user_id - 1].password;
 
                      /* Checking media */
                      var defaultURL;
