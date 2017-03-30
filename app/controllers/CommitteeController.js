@@ -507,7 +507,7 @@ module.exports.delete = function(req, res, next) {
       if(destroyedRowsNum == 0){
        res.status(404).json({
          status: 'failed',
-         errors: 'Committee not Found'
+         errors: 'The requested route was not found.'
       });
 
        req.err = 'CommitteeController.js, Line: 513\nThe specified Committee is not found in the database.\n' + JSON.stringify(errors);
