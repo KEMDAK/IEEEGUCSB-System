@@ -250,7 +250,7 @@ module.exports.show = function(req, res, next) {
       /* failed to find the user in the database */
       res.status(500).json({
          status:'failed',
-         message: err.message
+         message: 'Internal server error'
       });
 
       req.err = 'UserController.js, Line: 261\nCouldn\'t retreive the user from the database.\n' + String(err);

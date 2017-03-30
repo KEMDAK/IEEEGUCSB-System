@@ -43,7 +43,7 @@ module.exports.index = function(req, res, next){
       /* failed to retrieve the committes from the database */
       res.status(500).json({
          status:'failed',
-         message: 'Internal Server Error'
+         message: 'Internal server error'
       });
 
       req.err = 'CommitteeController.js, Line: 49\nCouldn\'t retreive the committees from the database.\n' + String(err);
@@ -360,7 +360,7 @@ module.exports.store = function(req, res, next){
        if(!committee){
        	    res.status(404).json({
             status:'failed',
-            message: 'The requested route was not founds'
+            message: 'The requested route was not found.'
          });
 
          req.err = 'CommitteeController.js, Line: 366\nCouldn\'t find the committee in the database.\n' ;
@@ -507,7 +507,7 @@ module.exports.delete = function(req, res, next) {
       if(destroyedRowsNum == 0){
        res.status(404).json({
          status: 'failed',
-         errors: 'Committee not Found'
+         errors: 'The requested route was not found.'
       });
 
        req.err = 'CommitteeController.js, Line: 513\nThe specified Committee is not found in the database.\n' + JSON.stringify(errors);
