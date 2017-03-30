@@ -492,6 +492,65 @@ module.exports.store = function(req, res, next) {
 * @param  {HTTP}   res  The response object
 * @param  {Function} next Callback function that is called once done with handling the request
 */
+module.exports.upload = function(req, res, next) {
+         var id  =  req.user.id ;
+         var newExt ;
+         var newURL ;
+      if(req.file){
+          newExt = path.extname(req.file.filename);
+          newURL = path.resolve('/'+id,req.file.filename);
+       }else{
+        var defaultURL ;
+        if(req.user.gender == 'Male'){
+          defaultURL = '/general/male.jpg';
+        }else
+        {
+          defaultURL = '/general/female.jpg';  
+        }
+        newExt = '.jpg';
+        newURL = path.resolve(defaultURL);
+      }
+
+      Media.findOne({where :{user_id :id,type:'Image'}}).then(function(profilePicture){
+         
+         if(profilePicture){
+         var oldExt = path.extname(profilePicture.url);
+          
+         if(oldExt != newExt || (!req.file && (defaultURL != profilePicture.url))){           
+             var deletePath = path.resolve( '../IEEEGUCSB-System/public/images'+profilePicture.url);
+             fse.remove(deletePath,function(err){
+             });
+         }
+       }
+        
+          profilePicture.update({url:newURL},
+            {where :{user_id :id,type:'Image'}}).then(function(Upicture){
+                res.status(200).json({
+                  status: 'succeeded',
+                  message: 'user successfully updated'
+               });
+                next();
+              }).catch(function(err){
+                 /* failed to update the user in the database */
+                  res.status(500).json({
+                     status:'failed',
+                     message: 'Internal server error'
+                  });
+
+                  req.err = 'UserController.js, Line: 453\nCouldn\'t update the user in the database.\n' + String(err);
+
+                  next(); 
+              }); 
+        });
+    
+    
+};
+/**
+* This function updates a user's information in the database
+* @param  {HTTP}   req  The request object
+* @param  {HTTP}   res  The response object
+* @param  {Function} next Callback function that is called once done with handling the request
+*/
 module.exports.update = function(req, res, next) {
    // /*Validate Old Password Input*/
    req.checkBody('old_password', 'required').notEmpty();
@@ -505,6 +564,7 @@ module.exports.update = function(req, res, next) {
 
    /*Sanitizing IEEE membership ID Input*/
    if (req.body.IEEE_membership_ID) {
+      req.checkBody('IEEE_membership_ID', 'validity').isString();
       req.sanitizeBody('IEEE_membership_ID').escape();
       req.sanitizeBody('IEEE_membership_ID').trim();
       obj.IEEE_membership_ID = req.body.IEEE_membership_ID;
@@ -525,7 +585,7 @@ module.exports.update = function(req, res, next) {
       /* input validation failed */
       res.status(400).json({
          status: 'failed',
-         error: errors
+         errors: errors
       });
 
       req.err = 'UserController.js, Line: 412\nSome validation errors occured.\n' + JSON.stringify(errors);
@@ -552,64 +612,7 @@ module.exports.update = function(req, res, next) {
 
       var id  =  req.user.id ;
 
-    if(req.file){
-      Media.findOne({where :{user_id :id,type:'Image'}}).then(function(profilePicture){
-         
-         var oldExt = path.basename(profilePicture.url);
-         var newExt = req.file.filename;
 
-         if(oldExt != newExt){
-             var deletePath = path.resolve( '../IEEEGUCSB-System/public/images'+profilePicture.url);
-             fse.remove(deletePath,function(err){
-             });
-         }
-        
-
-         var newURL = path.resolve('/'+id,req.file.filename);
-         var sequelize = require('../../config/database/Database').Seq;
-
-         sequelize.transaction(function (t) {
-
-          return sequelize.Promise.all([
-
-           User.update(obj, 
-            { where      : { id : req.user.id } },
-            { transaction: t }), 
-           profilePicture.update({url:newURL},
-            {where :{user_id :id,type:'Image'}},
-            { transaction: t }) 
-
-           ]).then(function(affected,newPic){
-              if (affected[0] == 1)   {
-               res.status(200).json({
-                  status: 'succeeded',
-                  message: 'user successfully updated'
-               });
-            }else{
-
-               res.status(404).json({
-                  status:'failed',
-                  message: 'The requested route was not found.'
-               });
-
-               req.err = 'UserController.js, Line: 442\nThe requested user was not found in the database.';
-
-            }
-            next();
-         }).catch(function(err){
-                /* failed to update the user in the database */
-                  res.status(500).json({
-                     status:'failed',
-                     message: 'Internal server error'
-                  });
-
-                  req.err = 'UserController.js, Line: 453\nCouldn\'t update the user in the database.\n' + String(err);
-
-                  next(); 
-               });
-         });
-      });
-    }else{
            User.update(obj, { where : { id : req.user.id } }).then(function(affected) {
             if (affected[0] == 1) {
                res.status(200).json({
@@ -623,7 +626,7 @@ module.exports.update = function(req, res, next) {
                   message: 'The requested route was not found.'
                });
 
-               req.err = 'UserController.js, Line: 442\nThe requested user was not found in the database.';
+               req.err = 'UserController.js, Line: 442\nThe requested user was not found in the database.\n'+ String(err);
             }
 
             next();
@@ -638,8 +641,8 @@ module.exports.update = function(req, res, next) {
 
             next();
          });
-    }
-};
+    
+ };
 
 /**
 * This function deletes a user from the database
@@ -675,10 +678,10 @@ module.exports.delete = function(req, res, next) {
       if(!user ){
        res.status(400).json({
          status: 'failed',
-         errors: 'User not Found'
+         message: 'The request route was not Found'
       });
 
-       req.err = 'UserController.js, Line: 678\nThe specified User is not found in the database.\n' + JSON.stringify(errors);
+       req.err = 'UserController.js, Line: 678\nThe specified User is not found in the database.\n' + String(err);
 
        next();
     }else{
@@ -710,10 +713,10 @@ module.exports.delete = function(req, res, next) {
 		    }else{
 		       res.status(403).json({
 		          status:'failed',
-		          message: 'can not delete this user'
+		          message: 'Access Denied'
 		       });
 
-		       req.err = 'UserController.js, Line: 662\nSome validation errors occurred.\n' + JSON.stringify(errors);
+		       req.err = 'UserController.js, Line: 662\ncan not delete an admin or (upper board if req.user is upperboard)\n' + String(err);
 
 		       next();
 		       return ;
@@ -789,12 +792,12 @@ module.exports.updateAuth = function(req, res, next) {
     var id = req.params.id ;
    User.findById(id).then(function(user){
       if(!user ){
-       res.status(400).json({
+       res.status(404).json({
          status: 'failed',
-         errors: 'User not Found'
+         message: 'The requested route was not found.'
       });
 
-       req.err = 'UserController.js, Line: 678\nThe specified User is not found in the database.\n' + JSON.stringify(errors);
+       req.err = 'UserController.js, Line: 678\nThe specified User is not found in the database.\n'+String(err);
 
        next();
     }else{
@@ -805,11 +808,12 @@ module.exports.updateAuth = function(req, res, next) {
                   status: 'succeeded',
                   message: 'user successfully updated'
                });
+                  next();
            }).catch(function(err){
               /* failed to update the user  */
               res.status(400).json({
                status:'failed',
-               errors: 'committee not found'
+               message: 'Committee not found'
               });
 
               req.err = 'UserController.js, Line: 697\nCan not update the User .\n' + String(err);
@@ -821,10 +825,10 @@ module.exports.updateAuth = function(req, res, next) {
             /* can't update an admin or (upper board if req.user is upperboard) */
            res.status(403).json({
               status:'failed',
-              message: 'can not update this user'
+              message: 'Access Denied'
            });
 
-           req.err = 'UserController.js, Line: 662\nSome validation errors occurred.\n' + JSON.stringify(errors);
+           req.err = 'UserController.js, Line: 662\ncan not update an admin or (upper board if req.user is upperboard) \n'+String(err) ;
 
            next();
            return ;

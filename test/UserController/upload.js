@@ -3,7 +3,7 @@ module.exports = function(args) {
    var fs = require('fs');
    var fse = require('fs-extra');
 
-   describe('PUT /api/user/upload/upload', function() {
+   describe('POST /api/user/upload', function() {
       this.timeout(1000);
 
       before(function(done) {
@@ -45,7 +45,7 @@ module.exports = function(args) {
             var user_id = 1;
 
             chai.request(app)
-            .put('/api/user/upload')
+            .post('/api/user/upload')
             .set('Authorization', data.identities[user_id - 1].token)
             .end(function(err, res) {
                try {
@@ -71,7 +71,7 @@ module.exports = function(args) {
             var user_id = 1;
 
             chai.request(app)
-            .put('/api/user/upload')
+            .post('/api/user/upload')
             .set('User_Agent', 'Windows Phone')
             .set('Authorization', data.identities[user_id - 1].token)
             .end(function(err, res) {
@@ -103,7 +103,7 @@ module.exports = function(args) {
             var user_id = 1;
 
             chai.request(app)
-            .put('/api/user/upload')
+            .post('/api/user/upload')
             .set('User_Agent', 'Web')
             .set('Authorization', data.identities[user_id - 1].token)
             .attach('picture', fs.readFileSync('./test/UserController/grass.jpg'), 'grass.jpg')
@@ -133,7 +133,7 @@ module.exports = function(args) {
             var user_id = 1;
 
             chai.request(app)
-            .put('/api/user/upload')
+            .post('/api/user/upload')
             .set('User_Agent', 'Web')
             .set('Authorization', data.identities[user_id - 1].token)
             .attach('picture', fs.readFileSync('./test/UserController/gif.gif'), 'gif.gif')
@@ -167,7 +167,7 @@ module.exports = function(args) {
             var user_id = 5;
 
             chai.request(app)
-            .put('/api/user/upload')
+            .post('/api/user/upload')
             .set('User_Agent', 'Web')
             .set('Authorization', data.identities[user_id - 1].token)
             .attach('picture', fs.readFileSync('./test/UserController/profile_picture.png'), 'profile_picture.png')
@@ -256,7 +256,7 @@ module.exports = function(args) {
             var user_id = 5;
 
             chai.request(app)
-            .put('/api/user/upload')
+            .post('/api/user/upload')
             .set('User_Agent', 'Web')
             .set('Authorization', data.identities[user_id - 1].token)
             .end(function(err, res) {
