@@ -137,6 +137,8 @@ module.exports.defineUser = function(sequelize) {
               if(detailed==true )
                 type = 'Detailed';
                }
+          if(this.profilePicture)
+          this.profilePicture.url = 'http://' + process.env.DOMAIN + ':' + process.env.PORT+this.profilePicture.url;
 
           res.profile_type       = type;
           res.id                 = this.id;

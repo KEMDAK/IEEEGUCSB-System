@@ -62,7 +62,7 @@ module.exports.index = function(req, res, next) {
                   var image = media;
 
                   if(image){
-                     curUser.profile_picture = { url : image.url,type : 'Image' };
+                     curUser.profile_picture = { url :'http://' + process.env.DOMAIN + ':' + process.env.PORT+image.url,type : 'Image' };
                   }
                   result.push(curUser);
                   addUsers(i+1, callback);
