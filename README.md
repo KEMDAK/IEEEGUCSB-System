@@ -1,4 +1,4 @@
-# Back
+# Backend [![Build Status](https://travis-ci.org/KEMDAK/IEEEGUCSB-System.svg?branch=master)](https://travis-ci.org/KEMDAK/IEEEGUCSB-System)
 
 Backend API for IEEE GUC SB online system to manage interactions with all related applications and includes the API required to all main application functionalities and Database management.
 
