@@ -33,7 +33,7 @@
 			<li class="dropdown">
 				<a href="controllers.list.html" class="dropdown-toggle" data-toggle="dropdown">Controllers<b class="caret"></b></a>
 				<ul class="dropdown-menu inline">
-					<li><a href="controller-Auth%2520Controller.html">Auth Controller</a></li><li><a href="controller-Committee%2520Controller.html">Committee Controller</a></li><li><a href="controller-Meeting%2520Controller.html">Meeting Controller</a></li><li><a href="controller-User%2520Controller.html">User Controller</a></li>
+					<li><a href="controller-Auth%2520Controller.html">Auth Controller</a></li><li><a href="controller-Committee%2520Controller.html">Committee Controller</a></li><li><a href="controller-Meeting%2520Controller.html">Meeting Controller</a></li><li><a href="controller-Task%2520Controller.html">Task Controller</a></li><li><a href="controller-User%2520Controller.html">User Controller</a></li>
 				</ul>
 			</li>
 			
@@ -47,7 +47,7 @@
 			<li class="dropdown">
 				<a href="routes.html" class="dropdown-toggle" data-toggle="dropdown">Routes<b class="caret"></b></a>
 				<ul class="dropdown-menu inline">
-					<li><a href="routes.html#/api/committeeGET">/api/committee GET</a></li><li><a href="routes.html#/api/committeePOST">/api/committee POST</a></li><li><a href="routes.html#/api/committee/%257Bid%257DGET">/api/committee/{id} GET</a></li><li><a href="routes.html#/api/committee/%257Bid%257DPUT">/api/committee/{id} PUT</a></li><li><a href="routes.html#/api/forgotPasswordPOST">/api/forgotPassword POST</a></li><li><a href="routes.html#/api/loginPOST">/api/login POST</a></li><li><a href="routes.html#/api/logoutGET">/api/logout GET</a></li><li><a href="routes.html#/api/meetingPOST">/api/meeting POST</a></li><li><a href="routes.html#/api/meeting/%257Bid%257DDELETE">/api/meeting/{id} DELETE</a></li><li><a href="routes.html#/api/meeting/%257Bid%257DGET">/api/meeting/{id} GET</a></li><li><a href="routes.html#/api/meeting/%257Bid%257DPUT">/api/meeting/{id} PUT</a></li><li><a href="routes.html#/api/meeting/%257Bid%257D/ratePOST">/api/meeting/{id}/rate POST</a></li><li><a href="routes.html#/api/resetPasswordPOST">/api/resetPassword POST</a></li><li><a href="routes.html#/api/userGET">/api/user GET</a></li><li><a href="routes.html#/api/userPOST">/api/user POST</a></li><li><a href="routes.html#/api/userPUT">/api/user PUT</a></li><li><a href="routes.html#/api/user/%257Bid%257DGET">/api/user/{id} GET</a></li>
+					<li><a href="routes.html#/api/committeeGET">/api/committee GET</a></li><li><a href="routes.html#/api/committeePOST">/api/committee POST</a></li><li><a href="routes.html#/api/committee/%257Bid%257DDELETE">/api/committee/{id} DELETE</a></li><li><a href="routes.html#/api/committee/%257Bid%257DGET">/api/committee/{id} GET</a></li><li><a href="routes.html#/api/committee/%257Bid%257DPUT">/api/committee/{id} PUT</a></li><li><a href="routes.html#/api/forgotPasswordPOST">/api/forgotPassword POST</a></li><li><a href="routes.html#/api/loginPOST">/api/login POST</a></li><li><a href="routes.html#/api/logoutGET">/api/logout GET</a></li><li><a href="routes.html#/api/meetingPOST">/api/meeting POST</a></li><li><a href="routes.html#/api/meeting/%257Bid%257DDELETE">/api/meeting/{id} DELETE</a></li><li><a href="routes.html#/api/meeting/%257Bid%257DGET">/api/meeting/{id} GET</a></li><li><a href="routes.html#/api/meeting/%257Bid%257DPUT">/api/meeting/{id} PUT</a></li><li><a href="routes.html#/api/meeting/%257Bid%257D/ratePOST">/api/meeting/{id}/rate POST</a></li><li><a href="routes.html#/api/resetPasswordPOST">/api/resetPassword POST</a></li><li><a href="routes.html#/api/taskPOST">/api/task POST</a></li><li><a href="routes.html#/api/task/%257Bid%257DGET">/api/task/{id} GET</a></li><li><a href="routes.html#/api/task/%257Bid%257DPUT">/api/task/{id} PUT</a></li><li><a href="routes.html#/api/userGET">/api/user GET</a></li><li><a href="routes.html#/api/userPOST">/api/user POST</a></li><li><a href="routes.html#/api/userPUT">/api/user PUT</a></li><li><a href="routes.html#/api/user/%257Bid%257DDELETE">/api/user/{id} DELETE</a></li><li><a href="routes.html#/api/user/%257Bid%257DGET">/api/user/{id} GET</a></li><li><a href="routes.html#/api/user/%257Bid%257DPUT">/api/user/{id} PUT</a></li>
 				</ul>
 			</li>
 			
@@ -308,6 +308,7 @@
 {
   name: String, [required]
   description: String [required]
+  members:  Array of Integers  (members&#x27; IDs) [required] 
 }</pre>
 
     <pre class="sunlight-highlight-javascript">The route returns as a response an object in the following format
@@ -321,6 +322,101 @@
 	     value: the value that was provided for that field,
 	     type: the type of error that was caused [&#x27;required&#x27;, &#x27;validity&#x27;, &#x27;unique violation&#x27;]
 	 }, {...}, ...
+  ]
+}</pre>
+
+
+    
+</dd>
+
+        
+            
+<hr>
+<dt class="name" id="/api/committee/%7Bid%7DDELETE">
+    <h4 id="/api/committee/%7Bid%7DDELETE"><span class="type-signature"></span>/api/committee/{id} DELETE<span class="type-signature"> :id</span></h4>
+
+    
+</dt>
+<dd>
+    
+    <div class="description">
+        A DELETE route responsible for deleting committee from the database
+    </div>
+    
+
+    
+        <h5>Type:</h5>
+        <ul>
+            <li>
+                
+<span class="param-type">id</span>
+
+
+
+            </li>
+        </ul>
+    
+
+    
+<dl class="details">
+    
+
+	
+
+	
+
+	
+
+    
+
+    
+
+    
+
+    
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+
+	
+
+	
+
+	
+</dl>
+
+
+    
+        <h5>Examples</h5>
+        
+    <pre class="sunlight-highlight-javascript">The committee requesting the route has to be of type &#x27;Upper Board&#x27; at least.</pre>
+
+    <pre class="sunlight-highlight-javascript">the route expects the access token as &#x27;Authorization&#x27; and the user agent as &#x27;user_agent&#x27; in the request headers with one of the following values [&#x27;Web&#x27;, &#x27;IOS&#x27;, &#x27;Android&#x27;]</pre>
+
+    <pre class="sunlight-highlight-javascript">The route expects the id of the desired committee in the URL in replace of &#x27;{id}&#x27;</pre>
+
+    <pre class="sunlight-highlight-javascript">The route responds with an object having the following format
+{
+  status: succeeded/failed,
+  message: String showing a descriptive text,
+  error:
+  [
+    {
+       param: the field that caused the error,
+       value: the value that was provided for that field,
+       type: the type of error that was caused [&#x27;required&#x27;, &#x27;validity&#x27;, &#x27;unique violation&#x27;]
+    }, {...}, ...
   ]
 }</pre>
 
@@ -410,6 +506,7 @@
          id: the committee id,
          name: the committee name,
          description: the committee description
+               members : the committee members [{id, first_name, last_name, profile_picture}]
      },
 	error:
 	[
@@ -506,6 +603,8 @@
 {
   name: String, [optional]
   description: String [optional]
+  members:  Array of Integers  (members&#x27; IDs) [optional] 
+  head_id:  integer [optional]
 }</pre>
 
     <pre class="sunlight-highlight-javascript">The route returns as a response an object in the following format
@@ -879,7 +978,7 @@
 {
 	status: succeeded/failed,
 	message: String showing a descriptive text,
-	error:
+	errors:
 	[
 	    {
 	        param: the field that caused the error,
@@ -968,11 +1067,13 @@
 
     <pre class="sunlight-highlight-javascript">the route expects the access token as &#x27;Authorization&#x27; and the user agent as &#x27;user_agent&#x27; in the request headers with one of the following values [&#x27;Web&#x27;, &#x27;IOS&#x27;, &#x27;Android&#x27;]</pre>
 
+    <pre class="sunlight-highlight-javascript">The route expects the id of the desired meeting in the URL in replace of &#x27;{id}&#x27;</pre>
+
     <pre class="sunlight-highlight-javascript">The route returns as a response an object in the following format
 {
   status: succeeded/failed,
   message: String showing a descriptive text,
-  error:
+  errors:
   [
       {
           param: the field that caused the error,
@@ -1067,7 +1168,7 @@
 {
 	status: succeeded/failed,
 	message: String showing a descriptive text,
-  meeting:
+   meeting:
       {
           id: the meeting&#x27;s id,
           description: The meeting description,
@@ -1195,6 +1296,8 @@
 
     <pre class="sunlight-highlight-javascript">the route expects the access token as &#x27;Authorization&#x27; and the user agent as &#x27;user_agent&#x27; in the request headers with one of the following values [&#x27;Web&#x27;, &#x27;IOS&#x27;, &#x27;Android&#x27;]</pre>
 
+    <pre class="sunlight-highlight-javascript">The route expects the id of the desired meeting in the URL in replace of &#x27;{id}&#x27;</pre>
+
     <pre class="sunlight-highlight-javascript">The route expects a body Object in the following format
 {
     start_date: the meeting&#x27;s start date and time &quot;YYYY-MM-DD HH:MM:SS&quot; [optional],
@@ -1209,7 +1312,7 @@
 {
   status: succeeded/failed,
   message: String showing a descriptive text,
-  error:
+  errors:
   [
       {
           param: the field that caused the error,
@@ -1298,6 +1401,8 @@
 
     <pre class="sunlight-highlight-javascript">the route expects the access token as &#x27;Authorization&#x27; and the user agent as &#x27;user_agent&#x27; in the request headers with one of the following values [&#x27;Web&#x27;, &#x27;IOS&#x27;, &#x27;Android&#x27;]</pre>
 
+    <pre class="sunlight-highlight-javascript">The route expects the id of the desired meeting in the URL in replace of &#x27;{id}&#x27;</pre>
+
     <pre class="sunlight-highlight-javascript">The route expects a body Object in the following format
 {
     evaluation: Integer the meeting evaluation [1...5] [required],
@@ -1314,7 +1419,7 @@
 {
   status: succeeded/failed,
   message: String showing a descriptive text,
-  error:
+  errors:
   [
       {
           param: the field that caused the error,
@@ -1416,6 +1521,423 @@
         
             
 <hr>
+<dt class="name" id="/api/taskPOST">
+    <h4 id="/api/taskPOST"><span class="type-signature"></span>/api/task POST<span class="type-signature"></span></h4>
+
+    
+</dt>
+<dd>
+    
+    <div class="description">
+        A POST route responsible for creating a task.
+    </div>
+    
+
+    
+
+    
+<dl class="details">
+    
+
+	
+
+	
+
+	
+
+    
+
+    
+
+    
+
+    
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+
+	
+
+	
+
+	
+</dl>
+
+
+    
+        <h5>Examples</h5>
+        
+    <pre class="sunlight-highlight-javascript">The user requesting the route has to be of type &#x27;High Board&#x27; at least.</pre>
+
+    <pre class="sunlight-highlight-javascript">the route expects the access token as &#x27;Authorization&#x27; and the user agent as &#x27;user_agent&#x27; in the request headers with one of the following values [&#x27;Web&#x27;, &#x27;IOS&#x27;, &#x27;Android&#x27;]</pre>
+
+    <pre class="sunlight-highlight-javascript">The route expects a body Object in the following format
+{
+    title: the task&#x27;s title (String) [required],
+    description: the task&#x27;s description (String) [optional|null],
+    deadline: the task&#x27;s end date and time (&quot;YYYY-MM-DD HH:MM:SS&quot;)[required],
+    priority: the task&#x27;s priority (Integer, one of these: 1, 3, 5, 8) [required],
+    evaluation: task&#x27;s evaluation [optional|null],
+    assigned_to: The task&#x27;s assignees (Array of Integers: user ids) [optional|[]]
+}</pre>
+
+    <pre class="sunlight-highlight-javascript">The route returns as a response an object in the following format
+{
+  status: succeeded/failed,
+  message: String showing a descriptive text,
+  errors:
+  [
+    {
+        param: the field that caused the error,
+	     value: the value that was provided for that field,
+	     type: the type of error that was caused [&#x27;required&#x27;, &#x27;validity&#x27;, &#x27;unique violation&#x27;]
+	 }, {...}, ...
+  ]
+}</pre>
+
+
+    
+</dd>
+
+        
+            
+<hr>
+<dt class="name" id="/api/task/%7Bid%7DGET">
+    <h4 id="/api/task/%7Bid%7DGET"><span class="type-signature"></span>/api/task/{id} GET<span class="type-signature"> :id</span></h4>
+
+    
+</dt>
+<dd>
+    
+    <div class="description">
+        A GET route to show a specific task
+    </div>
+    
+
+    
+        <h5>Type:</h5>
+        <ul>
+            <li>
+                
+<span class="param-type">id</span>
+
+
+
+            </li>
+        </ul>
+    
+
+    
+<dl class="details">
+    
+
+	
+
+	
+
+	
+
+    
+
+    
+
+    
+
+    
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+
+	
+
+	
+
+	
+</dl>
+
+
+    
+        <h5>Examples</h5>
+        
+    <pre class="sunlight-highlight-javascript">The route expects a task id for the desired task in the URL in replace of &#x27;{id}&#x27;</pre>
+
+    <pre class="sunlight-highlight-javascript">the route expects the access token as &#x27;Authorization&#x27; and the user agent as &#x27;user_agent&#x27; in the request headers with one of the following values [&#x27;Web&#x27;, &#x27;IOS&#x27;, &#x27;Android&#x27;]</pre>
+
+    <pre class="sunlight-highlight-javascript">The route returns as a response an object in the following format
+{
+  status: succeeded/failed,
+  message: String showing a descriptive text,
+  task:
+     {
+        id: task identifier,
+        title: task title,
+        description: task description,
+        deadline: task deadline date and time*,
+        priority: task priority,
+        status: task status,
+        evaluation: task evaluation,
+        created_at: task creation date and time,
+        updated_at: task update date and time,
+        supervisor: task supervisor,
+        assigned_to: task assignees
+        [ {
+             id: user identifier,
+             first_name: user first name,
+             last_name: user last name,
+             profile_picture: user profile picture { type: &quot;Image&quot;, url: picture url } }
+          }, ... ],
+        comments: task comments [
+                { id: comment identifier,
+                  content: comment content,
+                  created_at: comment creation date and time,
+                  updated_at: comment upadte date and time,
+                  user:
+                  {
+                    id: user identifier,
+                    first_name: user first name,
+                    last_name: user last name,
+                    profile_picture: user profile picture { type: &quot;Image&quot;, url: picture url }
+                  }
+                } , ... ]
+     },
+	errors:
+	[
+	  {
+	     param: the field that caused the error,
+	     value: the value that was provided for that field,
+	     type: the type of error that was caused [&#x27;required&#x27;, &#x27;validity&#x27;, &#x27;unique violation&#x27;]
+	  }, {...}, ...
+	]
+}</pre>
+
+
+    
+</dd>
+
+        
+            
+<hr>
+<dt class="name" id="/api/task/%7Bid%7DGET">
+    <h4 id="/api/task/%7Bid%7DGET"><span class="type-signature"></span>/api/task/{id} GET<span class="type-signature"> :id</span></h4>
+
+    
+</dt>
+<dd>
+    
+    <div class="description">
+        A DELETE route to delete a specific task
+    </div>
+    
+
+    
+        <h5>Type:</h5>
+        <ul>
+            <li>
+                
+<span class="param-type">id</span>
+
+
+
+            </li>
+        </ul>
+    
+
+    
+<dl class="details">
+    
+
+	
+
+	
+
+	
+
+    
+
+    
+
+    
+
+    
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+
+	
+
+	
+
+	
+</dl>
+
+
+    
+        <h5>Examples</h5>
+        
+    <pre class="sunlight-highlight-javascript">The route expects a task id for the desired task in the URL in replace of &#x27;{id}&#x27;</pre>
+
+    <pre class="sunlight-highlight-javascript">the route expects the access token as &#x27;Authorization&#x27; and the user agent as &#x27;user_agent&#x27; in the request headers with one of the following values [&#x27;Web&#x27;, &#x27;IOS&#x27;, &#x27;Android&#x27;]</pre>
+
+    <pre class="sunlight-highlight-javascript">The route returns as a response an object in the following format
+{
+  status: succeeded/failed,
+  message: String showing a descriptive text,
+  errors:
+	[
+	  {
+	     param: the field that caused the error,
+	     value: the value that was provided for that field,
+	     type: the type of error that was caused [&#x27;required&#x27;, &#x27;validity&#x27;, &#x27;unique violation&#x27;]
+	  }, {...}, ...
+	]
+}</pre>
+
+
+    
+</dd>
+
+        
+            
+<hr>
+<dt class="name" id="/api/task/%7Bid%7DPUT">
+    <h4 id="/api/task/%7Bid%7DPUT"><span class="type-signature"></span>/api/task/{id} PUT<span class="type-signature"> :id</span></h4>
+
+    
+</dt>
+<dd>
+    
+    <div class="description">
+        A PUT route responsible for updating a task.
+    </div>
+    
+
+    
+        <h5>Type:</h5>
+        <ul>
+            <li>
+                
+<span class="param-type">id</span>
+
+
+
+            </li>
+        </ul>
+    
+
+    
+<dl class="details">
+    
+
+	
+
+	
+
+	
+
+    
+
+    
+
+    
+
+    
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+
+	
+
+	
+
+	
+</dl>
+
+
+    
+        <h5>Examples</h5>
+        
+    <pre class="sunlight-highlight-javascript">The user requesting the route has to be of type &#x27;High Board&#x27; at least.</pre>
+
+    <pre class="sunlight-highlight-javascript">The route expects a task id for the desired task in the URL in replace of &#x27;{id}&#x27;</pre>
+
+    <pre class="sunlight-highlight-javascript">the route expects the access token as &#x27;Authorization&#x27; and the user agent as &#x27;user_agent&#x27; in the request headers with one of the following values [&#x27;Web&#x27;, &#x27;IOS&#x27;, &#x27;Android&#x27;]</pre>
+
+    <pre class="sunlight-highlight-javascript">The route expects a body Object in the following format
+{
+    title: the task&#x27;s title (String) [optional],
+    description: the task&#x27;s description (String) [optional],
+    deadline: the task&#x27;s end date and time (&quot;YYYY-MM-DD HH:MM:SS&quot;) [optional],
+    priority: the task&#x27;s priority (Integer, one of these: 1, 3, 5, 8) [optional],
+    status: the task&#x27;s status (String, one of these: &quot;New&quot;, &quot;Done&quot;, &quot;In Progress&quot;, &quot;Ready&quot;) [optional],
+    evaluation: task&#x27;s evaluation (Integer)[optional],
+    assigned_to: The task&#x27;s assignees (Array of Integers: user ids) [optional]
+}</pre>
+
+    <pre class="sunlight-highlight-javascript">The route returns as a response an object in the following format
+{
+  status: succeeded/failed,
+  message: String showing a descriptive text,
+  errors:
+  [
+    {
+        param: the field that caused the error,
+	     value: the value that was provided for that field,
+	     type: the type of error that was caused [&#x27;required&#x27;, &#x27;validity&#x27;, &#x27;unique violation&#x27;]
+	 }, {...}, ...
+  ]
+}</pre>
+
+
+    
+</dd>
+
+        
+            
+<hr>
 <dt class="name" id="/api/userGET">
     <h4 id="/api/userGET"><span class="type-signature"></span>/api/user GET<span class="type-signature"></span></h4>
 
@@ -1475,28 +1997,32 @@
         
     <pre class="sunlight-highlight-javascript">The route returns as a response an object in the following format
 {
-	status: succeeded/failed,
-	message: String showing a descriptive text,
-	users:
-	[
-	   {
+ status: succeeded/failed,
+ message: String showing a descriptive text,
+ users:
+ [
+    {
        id: the user&#x27;s id,
        first_name: the user&#x27;s first name,
        last_name: the user&#x27;s last name,
        committee: {                       [if found]
          id: the users&#x27;s committee id,
          name: the user&#x27;s committee name
+       },
+       profile_picture:{                            [if found]
+         url:the user&#x27;s profile pic url
+         type:the media type
        }
-	   }, {...}, ...
-	]
-	error:
-	[
-	  {
-	     param: the field that caused the error,
-	     value: the value that was provided for that field,
-	     type: the type of error that was caused [&#x27;required&#x27;, &#x27;validity&#x27;, &#x27;unique violation&#x27;]
-	  }, {...}, ...
-	]
+    }, {...}, ...
+ ]
+ error:
+ [
+   {
+      param: the field that caused the error,
+      value: the value that was provided for that field,
+      type: the type of error that was caused [&#x27;required&#x27;, &#x27;validity&#x27;, &#x27;unique violation&#x27;]
+   }, {...}, ...
+ ]
 }</pre>
 
 
@@ -1569,9 +2095,8 @@
 
     <pre class="sunlight-highlight-javascript">The route expects a body Object in the following format
 {
-   type: String [&#x27;Admin&#x27;, &#x27;Upper Board&#x27;, &#x27;High Board&#x27;, &#x27;Member&#x27;], [required]
+   type: String [&#x27;Upper Board&#x27;, &#x27;High Board&#x27;, &#x27;Member&#x27;], [required]
    email: String, [required]
-   password: String (6 to 20 charecters), [required]
    first_name: String, [required]
    last_name: String, [required]
    birthdate: String (YYYY-MM-DD), [required]
@@ -1582,16 +2107,16 @@
 
     <pre class="sunlight-highlight-javascript">The route returns as a response an object in the following format
 {
-	status: succeeded/failed,
-	message: String showing a descriptive text,
-	error:
-	[
-	  {
-	     param: the field that caused the error,
-	     value: the value that was provided for that field,
-	     type: the type of error that was caused [&#x27;required&#x27;, &#x27;validity&#x27;, &#x27;unique violation&#x27;]
-	  }, {...}, ...
-	]
+ status: succeeded/failed,
+ message: String showing a descriptive text,
+ error:
+ [
+   {
+      param: the field that caused the error,
+      value: the value that was provided for that field,
+      type: the type of error that was caused [&#x27;required&#x27;, &#x27;validity&#x27;, &#x27;unique violation&#x27;]
+   }, {...}, ...
+ ]
 }</pre>
 
 
@@ -1672,16 +2197,199 @@
 
     <pre class="sunlight-highlight-javascript">The route responds with an object having the following format
 {
-	status: succeeded/failed,
-	message: String showing a descriptive text,
-	error:
-	[
-	  {
-	     param: the field that caused the error,
-	     value: the value that was provided for that field,
-	     type: the type of error that was caused [&#x27;required&#x27;, &#x27;validity&#x27;, &#x27;unique violation&#x27;]
-	  }, {...}, ...
-	]
+ status: succeeded/failed,
+ message: String showing a descriptive text,
+ error:
+ [
+   {
+      param: the field that caused the error,
+      value: the value that was provided for that field,
+      type: the type of error that was caused [&#x27;required&#x27;, &#x27;validity&#x27;, &#x27;unique violation&#x27;]
+   }, {...}, ...
+ ]
+}</pre>
+
+
+    
+</dd>
+
+        
+            
+<hr>
+<dt class="name" id="/api/userPUT">
+    <h4 id="/api/userPUT"><span class="type-signature"></span>/api/user PUT<span class="type-signature"></span></h4>
+
+    
+</dt>
+<dd>
+    
+    <div class="description">
+        A PUT route responsible for updating the information of authenticated user
+    </div>
+    
+
+    
+
+    
+<dl class="details">
+    
+
+	
+
+	
+
+	
+
+    
+
+    
+
+    
+
+    
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+
+	
+
+	
+
+	
+</dl>
+
+
+    
+        <h5>Examples</h5>
+        
+    <pre class="sunlight-highlight-javascript">The user requesting the route has to be of type &#x27;Member&#x27; at least.</pre>
+
+    <pre class="sunlight-highlight-javascript">the route expects the access token as &#x27;Authorization&#x27; and the user agent as &#x27;user_agent&#x27; in the request headers with one of the following values [&#x27;Web&#x27;, &#x27;IOS&#x27;, &#x27;Android&#x27;]</pre>
+
+    <pre class="sunlight-highlight-javascript">The route expects a file in the following format
+{
+   enctype    =&quot;multipart/form-data&quot;
+   field name =&#x27;picture&#x27;
+}</pre>
+
+    <pre class="sunlight-highlight-javascript">The route responds with an object having the following format
+{
+ status: succeeded/failed,
+ message: String showing a descriptive text,
+ error:
+ [
+   {
+      param: the field that caused the error,
+      value: the value that was provided for that field,
+      type: the type of error that was caused [&#x27;required&#x27;, &#x27;validity&#x27;, &#x27;unique violation&#x27;]
+   }, {...}, ...
+ ]
+}</pre>
+
+
+    
+</dd>
+
+        
+            
+<hr>
+<dt class="name" id="/api/user/%7Bid%7DDELETE">
+    <h4 id="/api/user/%7Bid%7DDELETE"><span class="type-signature"></span>/api/user/{id} DELETE<span class="type-signature"> :id</span></h4>
+
+    
+</dt>
+<dd>
+    
+    <div class="description">
+        A DELETE route responsible for deleting user from the database and deleting his folder
+    </div>
+    
+
+    
+        <h5>Type:</h5>
+        <ul>
+            <li>
+                
+<span class="param-type">id</span>
+
+
+
+            </li>
+        </ul>
+    
+
+    
+<dl class="details">
+    
+
+	
+
+	
+
+	
+
+    
+
+    
+
+    
+
+    
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+
+	
+
+	
+
+	
+</dl>
+
+
+    
+        <h5>Examples</h5>
+        
+    <pre class="sunlight-highlight-javascript">The user requesting the route has to be of type &#x27;Upper Board&#x27; at least.</pre>
+
+    <pre class="sunlight-highlight-javascript">the route expects the access token as &#x27;Authorization&#x27; and the user agent as &#x27;user_agent&#x27; in the request headers with one of the following values [&#x27;Web&#x27;, &#x27;IOS&#x27;, &#x27;Android&#x27;]</pre>
+
+    <pre class="sunlight-highlight-javascript">The route expects the id of the desired user in the URL in replace of &#x27;{id}&#x27;</pre>
+
+    <pre class="sunlight-highlight-javascript">The route responds with an object having the following format
+{
+  status: succeeded/failed,
+  message: String showing a descriptive text,
+  error:
+  [
+    {
+       param: the field that caused the error,
+       value: the value that was provided for that field,
+       type: the type of error that was caused [&#x27;required&#x27;, &#x27;validity&#x27;, &#x27;unique violation&#x27;]
+    }, {...}, ...
+  ]
 }</pre>
 
 
@@ -1767,8 +2475,8 @@
 
     <pre class="sunlight-highlight-javascript">The route returns as a response an object in the following format
 {
-	status: succeeded/failed,
-	message: String showing a descriptive text,
+ status: succeeded/failed,
+ message: String showing a descriptive text,
    result:
    {
       id: the user&#x27;s id,
@@ -1776,20 +2484,174 @@
       first_name: the user&#x27;s first name,
       last_name: the user&#x27;s last name,
       email: the user&#x27;s email,
-      gender: the user&#x27;s gender,       [for detailed view only]
-      phone_number: the user&#x27;s phone number,       [for detailed view only]
-      birthdate: the user&#x27;s birthdate,        [for detailed view only]
+      gender: the user&#x27;s gender,       [for detailed or mine views only]
+      phone_number: the user&#x27;s phone number,       [for detailed or mine views only]
+      birthdate: the user&#x27;s birthdate,        [for detailed or mine views only]
       IEEE_membership_ID: the user&#x27;s membership id in IEEE,
-      settings: the user&#x27;s profile settings        [public settings only for basic view]
+      settings: {  the user&#x27;s profile settings
+            public: {
+              background: &quot;The background of the profile&quot;
+            },
+            private: {                                         [private settings only for mine view]
+                   notifications: {
+                   email: {
+                   comment: &quot;boolean sent email on comments&quot;,
+                   lastSent: &quot;timestamp&quot;,
+                   meetingDay: &quot;boolean sent email on meeting day&quot;,
+                   taskDeadline: &quot;boolean sent a reminder email before the task deadline&quot;,
+                   taskAssignment: &quot;boolean sent email on task assignment&quot;,
+                   meetingAssignment: &quot;boolean sent email on meetings&quot;
+                 }
+               }
+             }
+           },
+      profilePicture:{
+         url:the user&#x27;s profile pic url
+         type:the media type
+       },
+       committee: {                       [if found]
+         id: the users&#x27;s committee id,
+         name: the user&#x27;s committee name
+       },
+       honors: [{
+          id: the honor&#x27;s id,
+          name: the honor title
+           }, {...}, ...
+         ],
+       tasks: [{                     [for detailed view only]
+           id: the task&#x27;s id,
+           title: the task&#x27;s title,
+           deadline: the task&#x27;s deadline,
+           priority: the task&#x27;s priority,
+           status:  the task&#x27;s status ,
+           evaluation:  the task&#x27;s evaluation,
+           created_at:  the task&#x27;s creation time,
+           updated_at:  the task&#x27;s updated time,
+           supervisor:   the task&#x27;s supervisor
+           }, {...}, ...
+         ],
+        meetings: [{               [for detailed view only]
+           id: the meeting&#x27;s id,
+           duration: the meeting&#x27;s duration,
+           start_date: the meeting&#x27;s start date,
+           end_date: the meeting&#x27;s end date,
+           goals:  the meeting&#x27;s gools ,
+           location :the meeting&#x27;s location
+           evaluation:  the meeting&#x27;s evaluation,
+           created_at:  the meeting&#x27;s creation time,
+           updated_at:  the meeting&#x27;s updated time,
+           supervisor:   the meeting&#x27;s supervisor
+           }, {...}, ...
+         ],
     }
-	error:
-	[
-	  {
-	     param: the field that caused the error,
-	     value: the value that was provided for that field,
-	     type: the type of error that was caused [&#x27;required&#x27;, &#x27;validity&#x27;, &#x27;unique violation&#x27;]
-	  }, {...}, ...
-	]
+ error:
+ [
+   {
+      param: the field that caused the error,
+      value: the value that was provided for that field,
+      type: the type of error that was caused [&#x27;required&#x27;, &#x27;validity&#x27;, &#x27;unique violation&#x27;]
+   }, {...}, ...
+ ]
+}</pre>
+
+
+    
+</dd>
+
+        
+            
+<hr>
+<dt class="name" id="/api/user/%7Bid%7DPUT">
+    <h4 id="/api/user/%7Bid%7DPUT"><span class="type-signature"></span>/api/user/{id} PUT<span class="type-signature"> :id</span></h4>
+
+    
+</dt>
+<dd>
+    
+    <div class="description">
+        A PUT route responsible for updating the information of a specified authenticated user
+    </div>
+    
+
+    
+        <h5>Type:</h5>
+        <ul>
+            <li>
+                
+<span class="param-type">id</span>
+
+
+
+            </li>
+        </ul>
+    
+
+    
+<dl class="details">
+    
+
+	
+
+	
+
+	
+
+    
+
+    
+
+    
+
+    
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+
+	
+
+	
+
+	
+</dl>
+
+
+    
+        <h5>Examples</h5>
+        
+    <pre class="sunlight-highlight-javascript">The user requesting the route has to be of type &#x27;Upper Board&#x27; at least.</pre>
+
+    <pre class="sunlight-highlight-javascript">the route expects the access token as &#x27;Authorization&#x27; and the user agent as &#x27;user_agent&#x27; in the request headers with one of the following values [&#x27;Web&#x27;, &#x27;IOS&#x27;, &#x27;Android&#x27;]</pre>
+
+    <pre class="sunlight-highlight-javascript">The route expects a body Object in the following format
+{
+   committee_id: String ,[optional]
+   type: String [&#x27;Upper Board&#x27;, &#x27;High Board&#x27;, &#x27;Member&#x27;], [optional]
+   email: String, [optional]
+}</pre>
+
+    <pre class="sunlight-highlight-javascript">The route responds with an object having the following format
+{
+  status: succeeded/failed,
+  message: String showing a descriptive text,
+  error:
+  [
+    {
+       param: the field that caused the error,
+       value: the value that was provided for that field,
+       type: the type of error that was caused [&#x27;required&#x27;, &#x27;validity&#x27;, &#x27;unique violation&#x27;]
+    }, {...}, ...
+  ]
 }</pre>
 
 
