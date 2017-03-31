@@ -46,12 +46,12 @@ describe('User Controller', function() {
 });
 
 describe('Meeting Controller', function() {
-   require('./MeetingController/store')(args);
-   require('./MeetingController/show')(args);
-   require('./MeetingController/update')(args);
-   require('./MeetingController/delete')(args);
-   require('./MeetingController/rate')(args);
-});
+    require('./MeetingController/store')(args);
+    require('./MeetingController/show')(args);
+    require('./MeetingController/update')(args);
+    require('./MeetingController/delete')(args);
+    require('./MeetingController/rate')(args);
+ });
 
 describe('Task Controller', function() {
    require('./TaskController/store')(args);

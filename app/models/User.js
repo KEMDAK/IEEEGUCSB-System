@@ -121,15 +121,26 @@ module.exports.defineUser = function(sequelize) {
       * @param {boolean} mine true if the returned attributes are requested by thier owner.
       * @return {Object} The user object.
       */
-      toJSON: function(detailed, mine) {
+      toJSON: function(detailed,mine) {
         var res = {};
+       // if(this.settings)
         var settings = JSON.parse(this.settings);
+        var type = 'Basic' ;
 
-        // TODO
-        if(detailed) {
-          if(!mine) delete settings.private;
 
-          res.profile_type       = 'Detailed';
+
+
+        if(mine==true){
+              type = 'Mine';
+           }else{
+              delete settings.private ;
+              if(detailed==true )
+                type = 'Detailed';
+               }
+          if(this.profilePicture)
+          this.profilePicture.url = 'http://' + process.env.DOMAIN + ':' + process.env.PORT+this.profilePicture.url;
+
+          res.profile_type       = type;
           res.id                 = this.id;
           res.type               = this.type;
           res.first_name         = this.first_name;
@@ -140,22 +151,34 @@ module.exports.defineUser = function(sequelize) {
           res.birthdate          = this.birthdate;
           res.IEEE_membership_ID = this.IEEE_membership_ID;
           res.settings           = settings;
-        }
-        else {
-          delete settings.private;
+          res.committee          = this.Committee;
+          res.profile_picture    = this.profilePicture;
+          res.honors             = this.Honors ;
+          res.tasks              = this.Tasks ;
 
-          res.profile_type       = 'Basic';
-          res.id                 = this.id;
-          res.type               = this.type;
-          res.first_name         = this.first_name;
-          res.last_name          = this.last_name;
-          res.email              = this.email;
-          res.IEEE_membership_ID = this.IEEE_membership_ID;
-          res.settings           = settings;
-        }
+          if(this.Meetings){
+           var meetings = [];
+           for (var i = this.Meetings.length - 1; i >= 0; i--) {
+            var currM= this.Meetings[i];
+            var currRes = {
+              id : currM.id ,
+              start_date: currM.start_date,
+              end_date: currM.end_date,
+              location: currM.location,
+              created_at: currM.created_at,
+              updated_at: currM.updated_at
+            };
+            meetings.push(currRes);
+          }
+          res.meetings = meetings
+        }else{
+         res.meetings = this.Meetings
+       }
+
 
         return res;
       }
+
     }
   });
 };

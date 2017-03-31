@@ -37,7 +37,7 @@ module.exports.login = function(req, res, next) {
         /* input validation failed */
         res.status(400).json({
             status: 'failed',
-            error: errors
+            errors: errors
         });
 
         req.err = 'AuthController.js, 43\nSome validation errors occured.\n' + JSON.stringify(errors);
@@ -113,7 +113,6 @@ module.exports.login = function(req, res, next) {
 
                             user.getCommittee().then(function(committee) {
                                 var curUser = user.toJSON(true, true);
-
                                 if(committee){
                                     curUser.committee = { id: committee.id, name: committee.name };
                                 }
@@ -159,11 +158,9 @@ module.exports.login = function(req, res, next) {
 
                         user.getCommittee().then(function(committee) {
                             var curUser = user.toJSON(true, true);
-
                             if(committee){
                                 curUser.committee = { id: committee.id, name: committee.name };
                             }
-
                             res.status(200).json({
                                 status: 'succeeded',
                                 token: identity.token,
@@ -266,7 +263,7 @@ module.exports.forgotPassword = function (req, res, next) {
         /* input validation failed */
         res.status(400).json({
             status: 'failed',
-            error: errors
+            errors: errors
         });
 
         req.err = 'AuthController.js, 272\nSome validation errors occured.\n' + JSON.stringify(errors);
@@ -388,7 +385,7 @@ module.exports.resetPassword = function (req, res, next) {
         /* input validation failed */
         res.status(400).json({
             status: 'failed',
-            error: errors
+            errors: errors
         });
 
         req.err = 'AuthController.js, 394\nSome validation errors occured.\n' + JSON.stringify(errors);

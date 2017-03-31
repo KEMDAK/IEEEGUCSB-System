@@ -4,10 +4,10 @@ module.exports = function(args) {
    var fse = require('fs-extra');
 
    describe('POST /api/user/upload', function() {
-      this.timeout(1000);
+      this.timeout(1000000);
 
       before(function(done) {
-         this.timeout(40000);
+         this.timeout(60000);
 
          app = args.app;
          fn = args.fn;

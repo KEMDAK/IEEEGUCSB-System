@@ -17,7 +17,7 @@ var sequelize = new Sequelize(db_name, process.env.DB_USER, process.env.DB_PASS,
       charset: 'utf8'
    }
 });
-
+module.exports.Seq = sequelize ;
 module.exports.initialize = function(callback) {
 
    /* define the models */
