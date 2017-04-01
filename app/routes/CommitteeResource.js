@@ -49,6 +49,7 @@ module.exports = function(app) {
     *          id: the committee id,
     *          name: the committee name,
     *          description: the committee description
+               members : the committee members [{id, first_name, last_name, profile_picture}]
     *      },
     * 	error:
     * 	[
@@ -72,6 +73,7 @@ module.exports = function(app) {
     * {
     *   name: String, [required]
     *   description: String [required]
+    *   members:  Array of Integers  (members' IDs) [required] 
     * }
     * @example The route returns as a response an object in the following format
     * {
@@ -100,6 +102,8 @@ module.exports = function(app) {
     * {
     *   name: String, [optional]
     *   description: String [optional]
+    *   members:  Array of Integers  (members' IDs) [optional] 
+    *   head_id:  integer [optional]
     * }
     * @example The route returns as a response an object in the following format
     * {
@@ -116,4 +120,26 @@ module.exports = function(app) {
     * }
     */
     app.put('/api/committee/:id', auth, upper, CommitteeController.update);
+       /**
+    * A DELETE route responsible for deleting committee from the database 
+    * @var /api/committee/{id} DELETE
+    * @name /api/committee/{id} DELETE
+    * @example The committee requesting the route has to be of type 'Upper Board' at least.
+    * @example the route expects the access token as 'Authorization' and the user agent as 'user_agent' in the request headers with one of the following values ['Web', 'IOS', 'Android']
+    * @example The route expects the id of the desired committee in the URL in replace of '{id}'
+    * @example The route responds with an object having the following format
+    * {
+    *   status: succeeded/failed,
+    *   message: String showing a descriptive text,
+    *   error:
+    *   [
+    *     {
+    *        param: the field that caused the error,
+    *        value: the value that was provided for that field,
+    *        type: the type of error that was caused ['required', 'validity', 'unique violation']
+    *     }, {...}, ...
+    *   ]
+    * }
+    */
+    app.delete('/api/committee/:id', auth,upper,CommitteeController.delete);
 };

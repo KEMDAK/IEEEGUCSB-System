@@ -11,7 +11,6 @@ module.exports = function(req, res, next) {
     var log      = require('./LogMiddleware');
     var User = require('../models/User').User;
 
-
     /* getting the token from the http headers */
     var token = req.headers.authorization;
     /* getting the JWT seacret from the environment variables */

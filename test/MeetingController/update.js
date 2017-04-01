@@ -2,8 +2,11 @@ module.exports = function(args) {
    var app, fn, data, models, chai, should;
 
    describe('PUT /api/meeting/:id', function() {
+      this.timeout(500);
+      
       before(function(done) {
-         this.timeout(10000);
+         this.timeout(40000);
+         
          app = args.app;
          fn = args.fn;
          data = args.data;
@@ -804,6 +807,26 @@ module.exports = function(args) {
                   }).catch(function(error) {
                      done(error);
                   });
+               } catch(error) {
+                  done(error);
+               }
+            });
+         });
+
+         it('Should not update a non-existing meeting.', function(done) {
+            var meeting_id = 10;
+            chai.request(app)
+            .put('/api/meeting/' + meeting_id)
+            .set('User_Agent', 'Web')
+            .set('Authorization', data.identities[0].token)
+            .send({ location: "Updated Location" })
+            .end(function(err, res) {
+               try {
+                  res.should.have.status(404);
+                  res.body.should.have.property('status').and.equal('failed');
+                  res.body.should.not.have.property('meeting');
+                  should.exist(err);
+                  done();
                } catch(error) {
                   done(error);
                }
